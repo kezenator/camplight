@@ -30,6 +30,9 @@
     <ClCompile Include="camplight\factory\PatternFactory.cpp">
       <Filter>camplight\factory</Filter>
     </ClCompile>
+    <ClCompile Include="camplight\factory\SequenceFactory.cpp">
+      <Filter>camplight\factory</Filter>
+    </ClCompile>
     <ClCompile Include="camplight\factory\TransitionFactory.cpp">
       <Filter>camplight\factory</Filter>
     </ClCompile>
@@ -66,6 +69,12 @@
     <ClCompile Include="camplight\render\Renderer.cpp">
       <Filter>camplight\render</Filter>
     </ClCompile>
+    <ClCompile Include="camplight\render\Sequence.cpp">
+      <Filter>camplight\render</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\render\SequenceEntry.cpp">
+      <Filter>camplight\render</Filter>
+    </ClCompile>
     <ClCompile Include="camplight\render\Transition.cpp">
       <Filter>camplight\render</Filter>
     </ClCompile>
@@ -78,12 +87,18 @@
     <ClCompile Include="camplight\transition\RandomDither.cpp">
       <Filter>camplight\transition</Filter>
     </ClCompile>
+    <ClCompile Include="camplight\transition\Swipe.cpp">
+      <Filter>camplight\transition</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camplight\Resources.h">
       <Filter>camplight</Filter>
     </ClInclude>
     <ClInclude Include="camplight\factory\PatternFactory.h">
+      <Filter>camplight\factory</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\factory\SequenceFactory.h">
       <Filter>camplight\factory</Filter>
     </ClInclude>
     <ClInclude Include="camplight\factory\TransitionFactory.h">
@@ -119,6 +134,12 @@
     <ClInclude Include="camplight\render\Renderer.h">
       <Filter>camplight\render</Filter>
     </ClInclude>
+    <ClInclude Include="camplight\render\Sequence.h">
+      <Filter>camplight\render</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\render\SequenceEntry.h">
+      <Filter>camplight\render</Filter>
+    </ClInclude>
     <ClInclude Include="camplight\render\Timestamp.h">
       <Filter>camplight\render</Filter>
     </ClInclude>
@@ -132,6 +153,9 @@
       <Filter>camplight\transition</Filter>
     </ClInclude>
     <ClInclude Include="camplight\transition\RandomDither.h">
+      <Filter>camplight\transition</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\transition\Swipe.h">
       <Filter>camplight\transition</Filter>
     </ClInclude>
   </ItemGroup>

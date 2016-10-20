@@ -673,6 +673,7 @@ SRCS_DIRECT_CampLight := $(sort \
         Applications/CampLight/camplight/Application.cpp \
         Applications/CampLight/camplight/Resources.cpp \
         Applications/CampLight/camplight/factory/PatternFactory.cpp \
+        Applications/CampLight/camplight/factory/SequenceFactory.cpp \
         Applications/CampLight/camplight/factory/TransitionFactory.cpp \
         Applications/CampLight/camplight/font/Jdpage_8x8.cpp \
         Applications/CampLight/camplight/pattern/DiagonalRainbow.cpp \
@@ -685,10 +686,13 @@ SRCS_DIRECT_CampLight := $(sort \
         Applications/CampLight/camplight/render/HsvColor.cpp \
         Applications/CampLight/camplight/render/Pattern.cpp \
         Applications/CampLight/camplight/render/Renderer.cpp \
+        Applications/CampLight/camplight/render/Sequence.cpp \
+        Applications/CampLight/camplight/render/SequenceEntry.cpp \
         Applications/CampLight/camplight/render/Transition.cpp \
         Applications/CampLight/camplight/transition/Immediate.cpp \
         Applications/CampLight/camplight/transition/LinearFade.cpp \
         Applications/CampLight/camplight/transition/RandomDither.cpp \
+        Applications/CampLight/camplight/transition/Swipe.cpp \
     )
     # End SRCS_DIRECT_CampLight
 

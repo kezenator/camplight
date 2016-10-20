@@ -165,6 +165,7 @@
     <ClCompile Include="camplight\Application.cpp" />
     <ClCompile Include="camplight\Resources.cpp" />
     <ClCompile Include="camplight\factory\PatternFactory.cpp" />
+    <ClCompile Include="camplight\factory\SequenceFactory.cpp" />
     <ClCompile Include="camplight\factory\TransitionFactory.cpp" />
     <ClCompile Include="camplight\font\Jdpage_8x8.cpp" />
     <ClCompile Include="camplight\pattern\DiagonalRainbow.cpp" />
@@ -177,10 +178,13 @@
     <ClCompile Include="camplight\render\HsvColor.cpp" />
     <ClCompile Include="camplight\render\Pattern.cpp" />
     <ClCompile Include="camplight\render\Renderer.cpp" />
+    <ClCompile Include="camplight\render\Sequence.cpp" />
+    <ClCompile Include="camplight\render\SequenceEntry.cpp" />
     <ClCompile Include="camplight\render\Transition.cpp" />
     <ClCompile Include="camplight\transition\Immediate.cpp" />
     <ClCompile Include="camplight\transition\LinearFade.cpp" />
     <ClCompile Include="camplight\transition\RandomDither.cpp" />
+    <ClCompile Include="camplight\transition\Swipe.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BBoxEnc\BBoxEnc.vcxproj">
@@ -211,6 +215,7 @@
   <ItemGroup>
     <ClInclude Include="camplight\Resources.h" />
     <ClInclude Include="camplight\factory\PatternFactory.h" />
+    <ClInclude Include="camplight\factory\SequenceFactory.h" />
     <ClInclude Include="camplight\factory\TransitionFactory.h" />
     <ClInclude Include="camplight\pattern\DiagonalRainbow.h" />
     <ClInclude Include="camplight\pattern\Solid.h" />
@@ -222,11 +227,14 @@
     <ClInclude Include="camplight\render\HsvColor.h" />
     <ClInclude Include="camplight\render\Pattern.h" />
     <ClInclude Include="camplight\render\Renderer.h" />
+    <ClInclude Include="camplight\render\Sequence.h" />
+    <ClInclude Include="camplight\render\SequenceEntry.h" />
     <ClInclude Include="camplight\render\Timestamp.h" />
     <ClInclude Include="camplight\render\Transition.h" />
     <ClInclude Include="camplight\transition\Immediate.h" />
     <ClInclude Include="camplight\transition\LinearFade.h" />
     <ClInclude Include="camplight\transition\RandomDither.h" />
+    <ClInclude Include="camplight\transition\Swipe.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CampLight.bbmake" />

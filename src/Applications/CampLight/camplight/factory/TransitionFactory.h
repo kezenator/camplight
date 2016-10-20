@@ -30,10 +30,10 @@ namespace camplight
             ~TransitionFactory();
 
             std::vector<std::string> GetNames() const;
-            std::unique_ptr<render::Transition> CreateTransition(const std::string &name, bbox::rt::TimeSpan duration) const;
+            std::unique_ptr<render::Transition> CreateTransition(const std::string &name) const;
 
         private:
-            std::map<std::string, std::function<std::unique_ptr<render::Transition>(bbox::rt::TimeSpan duration)>> m_constructors;
+            std::map<std::string, std::function<std::unique_ptr<render::Transition>()>> m_constructors;
         };
 
     } // namespace camplight::factory

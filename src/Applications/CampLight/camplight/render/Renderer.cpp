@@ -88,9 +88,11 @@ namespace camplight
         Renderer::Renderer(const std::string &name, bbox::rt::Service &parent)
             : bbox::rt::Service(name, parent)
             , m_timer("timer", *this)
+            , m_pattern_factory()
+            , m_transition_factory()
+            , m_sequence_factory()
             , m_timestamp()
-            , m_main_pattern_ptr()
-            , m_top_pattern_ptr()
+            , m_sequence(m_pattern_factory, m_transition_factory)
             , m_hardware_ptr()
             , m_main_rendered()
             , m_top_rendered()
@@ -105,16 +107,9 @@ namespace camplight
         {
             m_timestamp = Timestamp();
 
-            m_main_pattern_ptr = std::make_unique<pattern::TransitionPattern>();
-            m_top_pattern_ptr = std::make_unique<pattern::TransitionPattern>();
             m_hardware_ptr = std::make_unique<Hardware>();
 
-            m_main_pattern_ptr->ChangeTo(
-                std::make_unique<pattern::TestPattern>(),
-                std::make_unique<transition::Immediate>());
-            m_top_pattern_ptr->ChangeTo(
-                std::make_unique<pattern::TestPattern>(),
-                std::make_unique<transition::Immediate>());
+            m_sequence.ChangeTo(m_sequence_factory.CreateDefaultSequenceEntries());
 
 #ifndef WIN32
             ws2811_t &ws2811 = m_hardware_ptr->ws2811;
@@ -153,8 +148,7 @@ namespace camplight
         {
             m_timer.Cancel();
 
-            m_main_pattern_ptr->ChangeToImmediate(std::make_unique<pattern::Solid>(render::Color(0, 0, 0)));
-            m_top_pattern_ptr->ChangeToImmediate(std::make_unique<pattern::Solid>(render::Color(0, 0, 0)));
+            m_sequence.ChangeToBlackImmediate();
 
             Render(m_timestamp, true);
 
@@ -163,8 +157,6 @@ namespace camplight
             ws2811_fini(&m_hardware_ptr->ws2811);
 #endif // !WIN32
 
-            m_main_pattern_ptr.reset();
-            m_top_pattern_ptr.reset();
             m_hardware_ptr.reset();
 
             RequestStopAllChildren();
@@ -186,14 +178,9 @@ namespace camplight
             m_top_rendered.GetLedsForWebDisplay(top_leds, true);
         }
 
-        void Renderer::ChangeMainPattern(std::unique_ptr<Pattern> &&pattern, std::unique_ptr<Transition> &&transition)
+        void Renderer::ChangeToSequence(const std::string &sequence_name)
         {
-            m_main_pattern_ptr->ChangeTo(std::move(pattern), std::move(transition));
-        }
-
-        void Renderer::ChangeTopPattern(std::unique_ptr<Pattern> &&pattern, std::unique_ptr<Transition> &&transition)
-        {
-            m_top_pattern_ptr->ChangeTo(std::move(pattern), std::move(transition));
+            m_sequence.ChangeTo(m_sequence_factory.CreateSequenceEntries(sequence_name));
         }
 
         void Renderer::HandleTimeout()
@@ -212,8 +199,7 @@ namespace camplight
 #endif // !WIN32
             }
 
-            m_main_pattern_ptr->RenderTo(m_main_rendered, m_timestamp);
-            m_top_pattern_ptr->RenderTo(m_top_rendered, m_timestamp);
+            m_sequence.RenderTo(m_top_rendered, m_main_rendered, m_timestamp);
 
 #ifndef WIN32
 

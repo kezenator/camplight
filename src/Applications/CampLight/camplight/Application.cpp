@@ -83,29 +83,29 @@ public:
                     bbox::enc::api::describe::Param<
                         std::vector<std::string>,
                         bbox::enc::api::describe::Output>(
+                        "sequences",
+                        "The list of sequences that can be displayed"),
+                    bbox::enc::api::describe::Param<
+                        std::vector<std::string>,
+                        bbox::enc::api::describe::Output>(
                         "patterns",
-                        "The list of patterns that can be displayed"),
+                        "The list of patterns that can be used in sequences"),
                     bbox::enc::api::describe::Param<
                         std::vector<std::string>,
                         bbox::enc::api::describe::Output>(
                         "transitions",
-                        "The list of transitions that can be used")),
+                        "The list of transitions that can be used in sequences")),
                 this,
                 &ApplicationService::Api_GetFactories),
             bbox::enc::api::describe::Method(
                 "apply",
-                "Applies a pattern and transition",
+                "Applies a sequence",
                 bbox::enc::api::describe::ParamPack(
                     bbox::enc::api::describe::Param<
-                        std::string,
-                        bbox::enc::api::describe::Input>(
-                        "pattern",
-                        "The pattern to display"),
-                    bbox::enc::api::describe::Param<
-                        std::string,
-                        bbox::enc::api::describe::Input>(
-                        "transition",
-                        "The transition to use")),
+                    std::string,
+                    bbox::enc::api::describe::Input>(
+                    "sequence",
+                    "The sequence to display")),
                 this,
                 &ApplicationService::Api_Apply)
             );
@@ -120,26 +120,26 @@ private:
         return bbox::Error();
     }
 
-    bbox::Error Api_GetFactories(std::vector<std::string> &patterns, std::vector<std::string> &transitions)
+    bbox::Error Api_GetFactories(std::vector<std::string> &sequences, std::vector<std::string> &patterns, std::vector<std::string> &transitions)
     {
-        patterns = m_pattern_factory.GetNames();
-        transitions = m_transition_factory.GetNames();
+        sequences = m_renderer.GetSequenceFactory().GetNames();
+        patterns = m_renderer.GetPatternFactory().GetNames();
+        transitions = m_renderer.GetTransitionFactory().GetNames();
 
         return bbox::Error();
     }
 
-    bbox::Error Api_Apply(const std::string &pattern, const std::string &transition)
+    bbox::Error Api_Apply(const std::string &sequence)
     {
-        bbox::rt::TimeSpan duration = bbox::rt::TimeSpan::Seconds(2);
-
-        m_renderer.ChangeMainPattern(m_pattern_factory.CreatePattern(pattern), m_transition_factory.CreateTransition(transition, duration));
-        m_renderer.ChangeTopPattern(m_pattern_factory.CreatePattern(pattern), m_transition_factory.CreateTransition(transition, duration));
+        m_renderer.ChangeToSequence(sequence);
 
         return bbox::Error();
     }
 
     void HandleStarting() override
     {
+        srand(unsigned(time(0)));
+
         m_http_server.AddServer(
             m_http_listen_endpoint.GetAddress(),
             m_http_listen_endpoint.GetPort(),

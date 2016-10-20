@@ -24,8 +24,10 @@ div.combobox button.selected {
 }
 
 div.lightdisplay {
-  margin: 1em;
+  margin: 0em;
   background: black;
+  border-radius: 0.7em;
+  text-align: center;
 }
 
 div.ledmatrix {
@@ -34,7 +36,7 @@ div.ledmatrix {
 }
 
 div.ledmatrix div span {
-  width: 1.5em;
+  width: 1.2em;
   height: 1.5em;
   display: inline-block;
 }

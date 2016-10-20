@@ -25,6 +25,8 @@ namespace camplight
             m_constructors["Cyan"] = []() { return std::make_unique<pattern::Solid>(render::Color(0, 255, 255)); };
             m_constructors["Yellow"] = []() { return std::make_unique<pattern::Solid>(render::Color(255, 255, 0)); };
             m_constructors["Magenta"] = []() { return std::make_unique<pattern::Solid>(render::Color(255, 0, 255)); };
+            m_constructors["Orange"] = []() { return std::make_unique<pattern::Solid>(render::Color(255, 128, 0)); };
+            m_constructors["Indigo"] = []() { return std::make_unique<pattern::Solid>(render::Color(75, 0, 130)); };
             m_constructors["White"] = []() { return std::make_unique<pattern::Solid>(render::Color(255, 255, 255)); };
 
             m_constructors["Rainbow"] = []() { return std::make_unique<pattern::DiagonalRainbox>(); };

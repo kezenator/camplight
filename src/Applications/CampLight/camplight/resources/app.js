@@ -1274,10 +1274,12 @@ var camplight;
     (function (api) {
         var GetFactoriesResponse = (function () {
             function GetFactoriesResponse() {
+                this.sequences = new bbox.ds.Deque();
                 this.patterns = new bbox.ds.Deque();
                 this.transitions = new bbox.ds.Deque();
             }
             GetFactoriesResponse.type = bbox.enc.TypeLibrary.simpleStructure("camplight::api::GetFactoriesResponse", GetFactoriesResponse)
+                .addMemberByType("sequences", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"))
                 .addMemberByType("patterns", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"))
                 .addMemberByType("transitions", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"));
             return GetFactoriesResponse;
@@ -1449,6 +1451,7 @@ var camplight;
                 _super.call(this, div);
                 this.main_div = div;
                 this.items = items;
+                this.on_changed = null;
                 this.main_div.classList.add("combobox");
                 for (var i = 0; i < items.size(); ++i) {
                     var button = new bbox.ui.Button(items.at(i));
@@ -1461,6 +1464,9 @@ var camplight;
                     }
                 }
             }
+            ComboBox.prototype.onChanged = function (handler) {
+                this.on_changed = handler;
+            };
             ComboBox.prototype.getCurrentItem = function () {
                 return this.cur_item;
             };
@@ -1469,6 +1475,9 @@ var camplight;
                 button.htmlElement().classList.add("selected");
                 this.cur_button = button;
                 this.cur_item = this.items.at(index);
+                if (this.on_changed) {
+                    this.on_changed();
+                }
             };
             return ComboBox;
         }(bbox.ui.Control));
@@ -1502,21 +1511,16 @@ var camplight;
         Application.prototype.displayUx = function (factories) {
             var _this = this;
             this.display = new camplight.ui.LightDisplay(this.api_base);
-            this.pattern_combo = new camplight.ui.ComboBox(factories.patterns);
-            this.transition_combo = new camplight.ui.ComboBox(factories.transitions);
-            this.button = new bbox.ui.Button("Apply");
+            this.sequence_combo = new camplight.ui.ComboBox(factories.sequences);
             var body = this.body();
             body.add(this.display);
-            body.add(this.pattern_combo);
-            body.add(this.transition_combo);
-            body.add(this.button);
-            this.button.onClick(function () {
+            body.add(this.sequence_combo);
+            this.sequence_combo.onChanged(function () {
                 var req = new bbox.net.BboxRpcRequest(_this.api_base, "apply", camplight.api.ApplyRequest, camplight.api.ApplyResponse, function (req) {
                     // Ignore for now
                 });
                 var input = new camplight.api.ApplyRequest();
-                input.pattern = _this.pattern_combo.getCurrentItem();
-                input.transition = _this.transition_combo.getCurrentItem();
+                input.sequence = _this.sequence_combo.getCurrentItem();
                 req.sendAsync(input);
             });
             this.display.start();
@@ -1551,12 +1555,10 @@ var camplight;
     (function (api) {
         var ApplyRequest = (function () {
             function ApplyRequest() {
-                this.pattern = "";
-                this.transition = "";
+                this.sequence = "";
             }
             ApplyRequest.type = bbox.enc.TypeLibrary.simpleStructure("camplight::api::ApplyRequest", ApplyRequest)
-                .addMember("pattern", "std::string")
-                .addMember("transition", "std::string");
+                .addMember("sequence", "std::string");
             return ApplyRequest;
         }());
         api.ApplyRequest = ApplyRequest;

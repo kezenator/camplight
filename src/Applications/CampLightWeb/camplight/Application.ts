@@ -5,9 +5,7 @@
         private api_base: string;
 
         private display: ui.LightDisplay;
-        private pattern_combo: ui.ComboBox;
-        private transition_combo: ui.ComboBox;
-        private button: bbox.ui.Button;
+        private sequence_combo: ui.ComboBox;
 
         constructor(api_base: string)
         {
@@ -48,17 +46,13 @@
         private displayUx(factories: api.GetFactoriesResponse)
         {
             this.display = new ui.LightDisplay(this.api_base);
-            this.pattern_combo = new ui.ComboBox(factories.patterns);
-            this.transition_combo = new ui.ComboBox(factories.transitions);
-            this.button = new bbox.ui.Button("Apply");
+            this.sequence_combo = new ui.ComboBox(factories.sequences);
 
             var body = this.body();
             body.add(this.display);
-            body.add(this.pattern_combo);
-            body.add(this.transition_combo);
-            body.add(this.button);
+            body.add(this.sequence_combo);
 
-            this.button.onClick(() =>
+            this.sequence_combo.onChanged(() =>
             {
                 var req = new bbox.net.BboxRpcRequest<api.ApplyRequest, api.ApplyResponse>(
                     this.api_base,
@@ -71,8 +65,7 @@
                     });
 
                 var input = new api.ApplyRequest();
-                input.pattern = this.pattern_combo.getCurrentItem();
-                input.transition = this.transition_combo.getCurrentItem();
+                input.sequence = this.sequence_combo.getCurrentItem();
 
                 req.sendAsync(input);
             });

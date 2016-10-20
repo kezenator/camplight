@@ -1,5 +1,10 @@
 namespace camplight.ui
 {
+    export interface ComboBoxOnChangedCallback
+    {
+        (): void;
+    }
+
     export class ComboBox extends bbox.ui.Control
     {
         private main_div: HTMLDivElement;
@@ -7,6 +12,7 @@ namespace camplight.ui
         private spans: bbox.ds.Deque<bbox.ds.Deque<HTMLSpanElement>>;
         private cur_button: bbox.ui.Button;
         private cur_item: string;
+        private on_changed: ComboBoxOnChangedCallback;
 
         constructor(items: bbox.ds.Deque<string>)
         {
@@ -16,6 +22,7 @@ namespace camplight.ui
 
             this.main_div = div;
             this.items = items;
+            this.on_changed = null;
 
             this.main_div.classList.add("combobox");
 
@@ -35,6 +42,11 @@ namespace camplight.ui
             }
         }
 
+        onChanged(handler: ComboBoxOnChangedCallback)
+        {
+            this.on_changed = handler;
+        }
+
         getCurrentItem(): string
         {
             return this.cur_item;
@@ -46,6 +58,11 @@ namespace camplight.ui
             button.htmlElement().classList.add("selected");
             this.cur_button = button;
             this.cur_item = this.items.at(index);
+
+            if (this.on_changed)
+            {
+                this.on_changed();
+            }
         }
     }
 }
