@@ -12,8 +12,11 @@ to be tested quickly and easily on any Windows PC.
 
 To build, Visual Studio 2015 is required.
 
-First extract the ThirdParty/boost/boost_1_59_0.7z
-as described in ThirdParty/boost/README.txt
+First extract the src/ThirdParty/boost/boost_1_59_0.7z
+as described in src/ThirdParty/boost/README.txt
+
+Then, open the src/CampLight.sln file and build in either
+Win32 or x64 mode.
 
 # Building on the Raspberry Pi
 The software builds on the Raspberry Pi in Raspberian Jessie. It requires g++ 4.9.
@@ -21,3 +24,12 @@ The software builds on the Raspberry Pi in Raspberian Jessie. It requires g++ 4.
 The following libraries are required to build the software on the Raspberry Pi:
 
 sudo apt-get install uuid-dev libssl-dev
+
+Then:
+
+cd src
+make boost
+make run_test_all
+make
+
+Make can be run in parallel using the -j option.
