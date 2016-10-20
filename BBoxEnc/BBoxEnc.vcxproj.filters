@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="bbox">
+      <UniqueIdentifier>{E6EB22E3-F373-519E-ACE5-12F478F93916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\enc">
+      <UniqueIdentifier>{5F304A6C-65B0-5A17-9A1F-5342E8CE8B3D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\enc\api">
+      <UniqueIdentifier>{FE714A9B-124E-586E-92E9-AE36115F2CD7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\enc\api\describe">
+      <UniqueIdentifier>{F1BA2C0B-E124-5871-A49C-6D2F7E27A5C8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\enc\api\describe\details">
+      <UniqueIdentifier>{676F134A-A6D5-5249-8C43-5AC3C9464CC2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\enc\details">
+      <UniqueIdentifier>{B28ED771-B93A-538E-BA72-73CB45B263C2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bbox\enc\FromBinary.cpp">
+      <Filter>bbox\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\FromJson.cpp">
+      <Filter>bbox\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\FromTextFormat.cpp">
+      <Filter>bbox\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\FromXml.cpp">
+      <Filter>bbox\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\ToBinary.cpp">
+      <Filter>bbox\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\ToJson.cpp">
+      <Filter>bbox\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\ToTextFormat.cpp">
+      <Filter>bbox\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\ToXml.cpp">
+      <Filter>bbox\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\api\Method.cpp">
+      <Filter>bbox\enc\api</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\api\MethodSet.cpp">
+      <Filter>bbox\enc\api</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\api\Param.cpp">
+      <Filter>bbox\enc\api</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\api\ParamPack.cpp">
+      <Filter>bbox\enc\api</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bbox\enc\FromBinary.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\FromJson.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\FromTextFormat.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\FromXml.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\ToBinary.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\ToDebugString.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\ToJson.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\ToTextFormat.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\ToXml.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\api\Describe.h">
+      <Filter>bbox\enc\api</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\api\Method.h">
+      <Filter>bbox\enc\api</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\api\MethodSet.h">
+      <Filter>bbox\enc\api</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\api\Param.h">
+      <Filter>bbox\enc\api</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\api\ParamPack.h">
+      <Filter>bbox\enc\api</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\api\describe\Directions.h">
+      <Filter>bbox\enc\api\describe</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\api\describe\details\MethodImpl.h">
+      <Filter>bbox\enc\api\describe\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\api\describe\details\ParamImpl.h">
+      <Filter>bbox\enc\api\describe\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\api\describe\details\ParamPackImpl.h">
+      <Filter>bbox\enc\api\describe\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\api\describe\details\TypeTraits.h">
+      <Filter>bbox\enc\api\describe\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\details\FromBinaryAction.h">
+      <Filter>bbox\enc\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\details\FromTextFormatAction.h">
+      <Filter>bbox\enc\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\details\MarshalActions.h">
+      <Filter>bbox\enc\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\details\MarshalStrategy.h">
+      <Filter>bbox\enc\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\details\MethodDetection.h">
+      <Filter>bbox\enc\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\details\ToBinaryAction.h">
+      <Filter>bbox\enc\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\details\ToTextFormatAction.h">
+      <Filter>bbox\enc\details</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BBoxEnc.bbmake" />
+  </ItemGroup>
+</Project>

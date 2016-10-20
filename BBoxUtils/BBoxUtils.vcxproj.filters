@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="bbox">
+      <UniqueIdentifier>{ABC9570C-AD73-5CA7-8A36-116313DB8272}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\crypto">
+      <UniqueIdentifier>{8844D3AB-F74E-590A-B087-2F2BF0A1EFB2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\debug">
+      <UniqueIdentifier>{54B85EE2-A78E-54C3-BEF7-F6910F05796B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bbox\Base16.cpp">
+      <Filter>bbox</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\Base64.cpp">
+      <Filter>bbox</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\DebugOutput.cpp">
+      <Filter>bbox</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\Error.cpp">
+      <Filter>bbox</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\Exception.cpp">
+      <Filter>bbox</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\FileInfo.cpp">
+      <Filter>bbox</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\FileUtils.cpp">
+      <Filter>bbox</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\Format.cpp">
+      <Filter>bbox</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\MainWrapper.cpp">
+      <Filter>bbox</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\TextCoding.cpp">
+      <Filter>bbox</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\Uuid.cpp">
+      <Filter>bbox</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\crypto\Hash.cpp">
+      <Filter>bbox\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\crypto\HashStream.cpp">
+      <Filter>bbox\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\debug\CoutDebugTarget.cpp">
+      <Filter>bbox\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\debug\DebugProvider.cpp">
+      <Filter>bbox\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\debug\DebugQuery.cpp">
+      <Filter>bbox\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\debug\DebugRoot.cpp">
+      <Filter>bbox\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\debug\DebugStream.cpp">
+      <Filter>bbox\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\debug\DebugTarget.cpp">
+      <Filter>bbox\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\debug\DebugVisitor.cpp">
+      <Filter>bbox\debug</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bbox\Assert.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\Base16.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\Base64.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\DebugOutput.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\Error.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\Exception.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\FileInfo.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\FileUtils.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\Format.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\FromString.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\MainWrapper.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\ScopedDebugIndent.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\TextCoding.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\ToString.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\TypeInfo.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\Uuid.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\crypto\Hash.h">
+      <Filter>bbox\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\crypto\HashStream.h">
+      <Filter>bbox\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\debug\CoutDebugTarget.h">
+      <Filter>bbox\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\debug\DebugProvider.h">
+      <Filter>bbox\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\debug\DebugQuery.h">
+      <Filter>bbox\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\debug\DebugQueryResult.h">
+      <Filter>bbox\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\debug\DebugReport.h">
+      <Filter>bbox\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\debug\DebugRoot.h">
+      <Filter>bbox\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\debug\DebugStream.h">
+      <Filter>bbox\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\debug\DebugTarget.h">
+      <Filter>bbox\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\debug\DebugVisitor.h">
+      <Filter>bbox\debug</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BBoxUtils.bbmake" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,12 @@
+
+if (platform() ~= "Win32") then
+
+    project("PiLightTest", "Application");
+
+    reference("LibWS281x");
+
+    include(".");
+
+    sources(find_recursive("*.cpp"));
+
+end

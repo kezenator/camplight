@@ -1,0 +1,9 @@
+
+project("TinyXml2", "StaticLibrary");
+
+reference("BBoxUtils");
+
+include(".");
+
+sources(find_recursive("*.cpp"));
+headers(find_recursive("*.h"));

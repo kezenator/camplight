@@ -1,0 +1,11 @@
+
+project("BBoxEnc_UnitTests", "UnitTests");
+
+reference("BBoxEnc");
+reference("UnitTest");
+
+include(".");
+
+sources(find_recursive("*.cpp"));
+headers(find_recursive("*.h"));
+

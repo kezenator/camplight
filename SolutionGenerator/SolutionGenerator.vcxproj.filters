@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="bbox">
+      <UniqueIdentifier>{EEC0FD62-E84B-5532-B107-1F28E8133639}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\make">
+      <UniqueIdentifier>{65929BF8-EF94-5347-80E3-2E71F7460644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\make\mf">
+      <UniqueIdentifier>{A04C3704-A195-5628-8541-EF546F6C9649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\make\vs">
+      <UniqueIdentifier>{27737D60-4BAB-5288-BF2B-127C5BC5BC63}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SolutionGenerator.cpp" />
+    <ClCompile Include="bbox\make\Generator.cpp">
+      <Filter>bbox\make</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\make\Project.cpp">
+      <Filter>bbox\make</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\make\ProjectType.cpp">
+      <Filter>bbox\make</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\make\Solution.cpp">
+      <Filter>bbox\make</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\make\mf\MakefileGenerator.cpp">
+      <Filter>bbox\make\mf</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\make\vs\DodgyXmlGenerator.cpp">
+      <Filter>bbox\make\vs</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\make\vs\VisualStudioGenerator.cpp">
+      <Filter>bbox\make\vs</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bbox\make\Generator.h">
+      <Filter>bbox\make</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\make\Project.h">
+      <Filter>bbox\make</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\make\ProjectType.h">
+      <Filter>bbox\make</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\make\Solution.h">
+      <Filter>bbox\make</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\make\mf\MakefileGenerator.h">
+      <Filter>bbox\make\mf</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\make\vs\DodgyXmlGenerator.h">
+      <Filter>bbox\make\vs</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\make\vs\VisualStudioGenerator.h">
+      <Filter>bbox\make\vs</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SolutionGenerator.bbmake" />
+  </ItemGroup>
+</Project>

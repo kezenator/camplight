@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="bbox">
+      <UniqueIdentifier>{C8CA0E20-B05F-5393-AA83-E9854BF0E1CB}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bbox\LuaState.cpp">
+      <Filter>bbox</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bbox\LuaException.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\LuaState.h">
+      <Filter>bbox</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LuaCpp.bbmake" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{05D8A9E1-B3E5-5FE8-ABD6-7F3DF94BE627}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\unittest">
+      <UniqueIdentifier>{ED8052CE-A52E-580F-A780-01D3B809FA4D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="windows">
+      <UniqueIdentifier>{63EFBB9F-4F72-5523-A3B7-DEB496A0ADB1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="windows\unittest">
+      <UniqueIdentifier>{7BC1ACF2-25E8-5653-955A-B3365DAC60C3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="windows\unittest\UnitTest.cpp">
+      <Filter>windows\unittest</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common\unittest\Assert.h">
+      <Filter>common\unittest</Filter>
+    </ClInclude>
+    <ClInclude Include="windows\unittest\UnitTest.h">
+      <Filter>windows\unittest</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UnitTest.bbmake" />
+  </ItemGroup>
+</Project>

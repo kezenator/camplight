@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B2CED24E-13FA-5837-B34E-2D40869FD491}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>CampLight</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_59_0;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
+      <UseFullPaths>true</UseFullPaths>
+      <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_59_0;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
+      <UseFullPaths>true</UseFullPaths>
+      <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_59_0;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
+      <UseFullPaths>true</UseFullPaths>
+      <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_59_0;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
+      <UseFullPaths>true</UseFullPaths>
+      <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="camplight\Application.cpp" />
+    <ClCompile Include="camplight\Resources.cpp" />
+    <ClCompile Include="camplight\factory\PatternFactory.cpp" />
+    <ClCompile Include="camplight\factory\TransitionFactory.cpp" />
+    <ClCompile Include="camplight\font\Jdpage_8x8.cpp" />
+    <ClCompile Include="camplight\pattern\DiagonalRainbow.cpp" />
+    <ClCompile Include="camplight\pattern\Solid.cpp" />
+    <ClCompile Include="camplight\pattern\TestPattern.cpp" />
+    <ClCompile Include="camplight\pattern\Text.cpp" />
+    <ClCompile Include="camplight\pattern\TransitionPattern.cpp" />
+    <ClCompile Include="camplight\render\Color.cpp" />
+    <ClCompile Include="camplight\render\ColorGrid.cpp" />
+    <ClCompile Include="camplight\render\HsvColor.cpp" />
+    <ClCompile Include="camplight\render\Pattern.cpp" />
+    <ClCompile Include="camplight\render\Renderer.cpp" />
+    <ClCompile Include="camplight\render\Transition.cpp" />
+    <ClCompile Include="camplight\transition\Immediate.cpp" />
+    <ClCompile Include="camplight\transition\LinearFade.cpp" />
+    <ClCompile Include="camplight\transition\RandomDither.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BBoxEnc\BBoxEnc.vcxproj">
+      <Project>{FD7C126F-E433-5228-B563-110342C677E8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BBoxHttp\BBoxHttp.vcxproj">
+      <Project>{94E68944-90D0-543B-9A4D-2BAE05CC7972}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BBoxRt\BBoxRt.vcxproj">
+      <Project>{F6D25D50-21C7-5DFC-A148-444BAC7B011E}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BBoxUtils\BBoxUtils.vcxproj">
+      <Project>{20DD0248-AD74-5731-8E99-0786A8D4A61E}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ThirdParty\TinyXml2\TinyXml2.vcxproj">
+      <Project>{BB30376C-3E29-569C-93A6-4982CAF78C9D}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ThirdParty\boost\boost.vcxproj">
+      <Project>{0CB72908-1FF3-5AB9-952F-59DA60B7B782}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ThirdParty\json\json.vcxproj">
+      <Project>{4F72EBAD-7B47-5980-B03C-E9690122F135}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ThirdParty\pion\pion.vcxproj">
+      <Project>{75C301C4-B167-5E13-B6A7-E2A6791572E0}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="camplight\Resources.h" />
+    <ClInclude Include="camplight\factory\PatternFactory.h" />
+    <ClInclude Include="camplight\factory\TransitionFactory.h" />
+    <ClInclude Include="camplight\pattern\DiagonalRainbow.h" />
+    <ClInclude Include="camplight\pattern\Solid.h" />
+    <ClInclude Include="camplight\pattern\TestPattern.h" />
+    <ClInclude Include="camplight\pattern\Text.h" />
+    <ClInclude Include="camplight\pattern\TransitionPattern.h" />
+    <ClInclude Include="camplight\render\Color.h" />
+    <ClInclude Include="camplight\render\ColorGrid.h" />
+    <ClInclude Include="camplight\render\HsvColor.h" />
+    <ClInclude Include="camplight\render\Pattern.h" />
+    <ClInclude Include="camplight\render\Renderer.h" />
+    <ClInclude Include="camplight\render\Timestamp.h" />
+    <ClInclude Include="camplight\render\Transition.h" />
+    <ClInclude Include="camplight\transition\Immediate.h" />
+    <ClInclude Include="camplight\transition\LinearFade.h" />
+    <ClInclude Include="camplight\transition\RandomDither.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CampLight.bbmake" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)'=='Win32'">
+    <CustomBuild Include="camplight\resources\app.css;camplight\resources\app.js;camplight\resources\apple-touch-icon-120x120.png;camplight\resources\apple-touch-icon-152x152.png;camplight\resources\apple-touch-icon-180x180.png;camplight\resources\apple-touch-icon-192x192.png;camplight\resources\favicon.ico;camplight\resources\index.html">
+      <Command>..\..\$(Configuration)\ResourceBuilder.exe -i camplight\resources\app.css;camplight\resources\app.js;camplight\resources\apple-touch-icon-120x120.png;camplight\resources\apple-touch-icon-152x152.png;camplight\resources\apple-touch-icon-180x180.png;camplight\resources\apple-touch-icon-192x192.png;camplight\resources\favicon.ico;camplight\resources\index.html -o camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.path -n "camplight" -r "camplight\resources"</Command>
+      <Outputs>camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.path</Outputs>
+      <AdditionalInputs>..\..\$(Configuration)\ResourceBuilder.exe</AdditionalInputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)'=='x64'">
+    <CustomBuild Include="camplight\resources\app.css;camplight\resources\app.js;camplight\resources\apple-touch-icon-120x120.png;camplight\resources\apple-touch-icon-152x152.png;camplight\resources\apple-touch-icon-180x180.png;camplight\resources\apple-touch-icon-192x192.png;camplight\resources\favicon.ico;camplight\resources\index.html">
+      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i camplight\resources\app.css;camplight\resources\app.js;camplight\resources\apple-touch-icon-120x120.png;camplight\resources\apple-touch-icon-152x152.png;camplight\resources\apple-touch-icon-180x180.png;camplight\resources\apple-touch-icon-192x192.png;camplight\resources\favicon.ico;camplight\resources\index.html -o camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.path -n "camplight" -r "camplight\resources"</Command>
+      <Outputs>camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.path</Outputs>
+      <AdditionalInputs>..\..\x64\$(Configuration)\ResourceBuilder.exe</AdditionalInputs>
+    </CustomBuild>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

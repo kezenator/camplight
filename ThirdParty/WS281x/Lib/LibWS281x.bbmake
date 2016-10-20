@@ -1,0 +1,11 @@
+
+if (platform() ~= "Win32") then
+
+    project("LibWS281x", "StaticLibrary");
+
+    include("src");
+
+    sources(find_recursive("*.c"));
+    headers(find_recursive("*.h"));
+
+end

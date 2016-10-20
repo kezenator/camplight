@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="camplight">
+      <UniqueIdentifier>{1DC752C5-BAA4-5F27-9051-CC47C2A4A053}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="camplight\factory">
+      <UniqueIdentifier>{DA2F7C93-3967-527C-AB8D-5B3828615B0B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="camplight\font">
+      <UniqueIdentifier>{7DE83552-7872-55D5-87E0-3437E51ECEB1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="camplight\pattern">
+      <UniqueIdentifier>{CC8F0FD1-BE08-5138-BFC8-1D02724A7EF5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="camplight\render">
+      <UniqueIdentifier>{D001DACB-69FE-564F-AC68-C1A6048A3BBE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="camplight\transition">
+      <UniqueIdentifier>{B21750D8-87CE-556D-A3F8-0385D9D3E157}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="camplight\Application.cpp">
+      <Filter>camplight</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\Resources.cpp">
+      <Filter>camplight</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\factory\PatternFactory.cpp">
+      <Filter>camplight\factory</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\factory\TransitionFactory.cpp">
+      <Filter>camplight\factory</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\font\Jdpage_8x8.cpp">
+      <Filter>camplight\font</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\pattern\DiagonalRainbow.cpp">
+      <Filter>camplight\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\pattern\Solid.cpp">
+      <Filter>camplight\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\pattern\TestPattern.cpp">
+      <Filter>camplight\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\pattern\Text.cpp">
+      <Filter>camplight\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\pattern\TransitionPattern.cpp">
+      <Filter>camplight\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\render\Color.cpp">
+      <Filter>camplight\render</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\render\ColorGrid.cpp">
+      <Filter>camplight\render</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\render\HsvColor.cpp">
+      <Filter>camplight\render</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\render\Pattern.cpp">
+      <Filter>camplight\render</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\render\Renderer.cpp">
+      <Filter>camplight\render</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\render\Transition.cpp">
+      <Filter>camplight\render</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\transition\Immediate.cpp">
+      <Filter>camplight\transition</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\transition\LinearFade.cpp">
+      <Filter>camplight\transition</Filter>
+    </ClCompile>
+    <ClCompile Include="camplight\transition\RandomDither.cpp">
+      <Filter>camplight\transition</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="camplight\Resources.h">
+      <Filter>camplight</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\factory\PatternFactory.h">
+      <Filter>camplight\factory</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\factory\TransitionFactory.h">
+      <Filter>camplight\factory</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\pattern\DiagonalRainbow.h">
+      <Filter>camplight\pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\pattern\Solid.h">
+      <Filter>camplight\pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\pattern\TestPattern.h">
+      <Filter>camplight\pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\pattern\Text.h">
+      <Filter>camplight\pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\pattern\TransitionPattern.h">
+      <Filter>camplight\pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\render\Color.h">
+      <Filter>camplight\render</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\render\ColorGrid.h">
+      <Filter>camplight\render</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\render\HsvColor.h">
+      <Filter>camplight\render</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\render\Pattern.h">
+      <Filter>camplight\render</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\render\Renderer.h">
+      <Filter>camplight\render</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\render\Timestamp.h">
+      <Filter>camplight\render</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\render\Transition.h">
+      <Filter>camplight\render</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\transition\Immediate.h">
+      <Filter>camplight\transition</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\transition\LinearFade.h">
+      <Filter>camplight\transition</Filter>
+    </ClInclude>
+    <ClInclude Include="camplight\transition\RandomDither.h">
+      <Filter>camplight\transition</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="camplight\resources\app.css">
+      <Filter>camplight\resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="camplight\resources\app.js">
+      <Filter>camplight\resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="camplight\resources\apple-touch-icon-120x120.png">
+      <Filter>camplight\resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="camplight\resources\apple-touch-icon-152x152.png">
+      <Filter>camplight\resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="camplight\resources\apple-touch-icon-180x180.png">
+      <Filter>camplight\resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="camplight\resources\apple-touch-icon-192x192.png">
+      <Filter>camplight\resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="camplight\resources\favicon.ico">
+      <Filter>camplight\resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="camplight\resources\index.html">
+      <Filter>camplight\resources</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CampLight.bbmake" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="bbox">
+      <UniqueIdentifier>{B342AFB2-A0E8-5B60-B1D2-59406512B0DD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\xml">
+      <UniqueIdentifier>{566D48EA-9056-5C4E-9424-DCBAEC2BA3B9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tinyxml2">
+      <UniqueIdentifier>{DE7EEE03-04C2-54BF-85DC-578256C254DF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bbox\xml\Error.cpp">
+      <Filter>bbox\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\xml\NSAwareContext.cpp">
+      <Filter>bbox\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\xml\NSAwareElement.cpp">
+      <Filter>bbox\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml2\tinyxml2.cpp">
+      <Filter>tinyxml2</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bbox\xml\ElementBuilder.h">
+      <Filter>bbox\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\xml\Error.h">
+      <Filter>bbox\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\xml\NSAwareContext.h">
+      <Filter>bbox\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\xml\NSAwareElement.h">
+      <Filter>bbox\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml2\tinyxml2.h">
+      <Filter>tinyxml2</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TinyXml2.bbmake" />
+  </ItemGroup>
+</Project>

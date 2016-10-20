@@ -1,0 +1,12 @@
+
+project("BBoxEnc", "StaticLibrary");
+
+reference("boost");
+reference("BBoxUtils");
+reference("TinyXml2");
+reference("json");
+
+include(".");
+
+sources(find_recursive("*.cpp"));
+headers(find_recursive("*.h"));

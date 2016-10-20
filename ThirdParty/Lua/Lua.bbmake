@@ -1,0 +1,17 @@
+
+project("Lua", "StaticLibrary");
+
+include("src");
+
+define_if("Debug", "LUA_USE_APICHECK");
+
+all_sources = find_recursive("*.c");
+actual_sources = {};
+for i,v in ipairs(all_sources) do
+    if ((v ~= "src\\lua.c") and (v ~= "src\\luac.c")) then
+        table.insert(actual_sources, v)
+    end
+end
+
+sources(actual_sources);
+headers(find_recursive("*.h"));

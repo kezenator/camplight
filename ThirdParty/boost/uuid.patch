@@ -1,0 +1,11 @@
+--- boost/uuid/seed_rng.hpp	2015-11-29 10:23:57.254153185 +1000
++++ boost/uuid/seed_rng.hpp	2015-11-29 10:43:35.670522835 +1000
+@@ -216,7 +216,7 @@
+ 
+             const seed_rng* this_ptr = this;
+             sha.process_bytes( (unsigned char const*)&this_ptr, sizeof( this_ptr ) );
+-            sha.process_bytes( (unsigned char const*)&std::rand, sizeof( void(*)() ) );
++            sha.process_bytes( __extension__ (unsigned char const*)&std::rand, sizeof( void(*)() ) );
+         }
+ 
+         sha.process_bytes( (unsigned char const*)rd_, sizeof( rd_ ) );

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{75C301C4-B167-5E13-B6A7-E2A6791572E0}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>pion</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>$(ProjectDir)\pion-5.0.5\include;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_59_0</AdditionalIncludeDirectories>
+      <UseFullPaths>true</UseFullPaths>
+      <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>$(ProjectDir)\pion-5.0.5\include;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_59_0</AdditionalIncludeDirectories>
+      <UseFullPaths>true</UseFullPaths>
+      <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>$(ProjectDir)\pion-5.0.5\include;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_59_0</AdditionalIncludeDirectories>
+      <UseFullPaths>true</UseFullPaths>
+      <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>$(ProjectDir)\pion-5.0.5\include;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_59_0</AdditionalIncludeDirectories>
+      <UseFullPaths>true</UseFullPaths>
+      <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="pion-5.0.5\src\admin_rights.cpp" />
+    <ClCompile Include="pion-5.0.5\src\algorithm.cpp" />
+    <ClCompile Include="pion-5.0.5\src\http_auth.cpp" />
+    <ClCompile Include="pion-5.0.5\src\http_basic_auth.cpp" />
+    <ClCompile Include="pion-5.0.5\src\http_cookie_auth.cpp" />
+    <ClCompile Include="pion-5.0.5\src\http_message.cpp" />
+    <ClCompile Include="pion-5.0.5\src\http_parser.cpp" />
+    <ClCompile Include="pion-5.0.5\src\http_reader.cpp" />
+    <ClCompile Include="pion-5.0.5\src\http_server.cpp" />
+    <ClCompile Include="pion-5.0.5\src\http_types.cpp" />
+    <ClCompile Include="pion-5.0.5\src\http_writer.cpp" />
+    <ClCompile Include="pion-5.0.5\src\scheduler.cpp" />
+    <ClCompile Include="pion-5.0.5\src\tcp_server.cpp" />
+    <ClCompile Include="pion-5.0.5\src\tcp_timer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pion-5.0.5\include\pion\admin_rights.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\algorithm.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\config.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\error.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\hash_map.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\auth.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\basic_auth.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\cookie_auth.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\message.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\parser.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\plugin_server.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\plugin_service.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\reader.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\request.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\request_reader.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\request_writer.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\response.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\response_reader.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\response_writer.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\server.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\types.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\http\writer.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\logger.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\plugin.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\plugin_manager.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\process.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\scheduler.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\spdy\decompressor.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\spdy\parser.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\spdy\types.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\tcp\connection.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\tcp\server.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\tcp\stream.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\tcp\timer.hpp" />
+    <ClInclude Include="pion-5.0.5\include\pion\user.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="pion.bbmake" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

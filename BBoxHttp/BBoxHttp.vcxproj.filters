@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="bbox">
+      <UniqueIdentifier>{867035E1-FAEC-54D1-8A3D-CA08C6F5CA20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\http">
+      <UniqueIdentifier>{CD4F19F9-6216-59E2-99E2-D180EFEEC01A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\http\client">
+      <UniqueIdentifier>{4B25575C-C4B6-5D4F-ABC6-8809A88C7035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\http\pionhlp">
+      <UniqueIdentifier>{17589FCE-F3BB-5557-B5C4-46C0067D9A24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\http\server">
+      <UniqueIdentifier>{41FCA30A-B339-5E49-A17E-65235337BE2F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bbox\http\DebugAccess.cpp">
+      <Filter>bbox\http</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\Request.cpp">
+      <Filter>bbox\http</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\ResourceFile.cpp">
+      <Filter>bbox\http</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\ResourceFileSet.cpp">
+      <Filter>bbox\http</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\Response.cpp">
+      <Filter>bbox\http</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\client\ClientRequest.cpp">
+      <Filter>bbox\http\client</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\client\ClientResponse.cpp">
+      <Filter>bbox\http\client</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\client\HttpClient.cpp">
+      <Filter>bbox\http\client</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\pionhlp\Scheduler.cpp">
+      <Filter>bbox\http\pionhlp</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\server\HttpServer.cpp">
+      <Filter>bbox\http\server</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bbox\http\DebugAccess.h">
+      <Filter>bbox\http</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\Request.h">
+      <Filter>bbox\http</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\ResourceFile.h">
+      <Filter>bbox\http</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\ResourceFileSet.h">
+      <Filter>bbox\http</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\Response.h">
+      <Filter>bbox\http</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\client\ClientRequest.h">
+      <Filter>bbox\http\client</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\client\ClientResponse.h">
+      <Filter>bbox\http\client</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\client\HttpClient.h">
+      <Filter>bbox\http\client</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\pionhlp\Scheduler.h">
+      <Filter>bbox\http\pionhlp</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\server\HttpServer.h">
+      <Filter>bbox\http\server</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BBoxHttp.bbmake" />
+  </ItemGroup>
+</Project>

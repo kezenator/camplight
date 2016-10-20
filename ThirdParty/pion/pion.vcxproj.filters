@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="pion-5.0.5">
+      <UniqueIdentifier>{072B0BFE-9732-5EA8-966F-5EA638709664}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pion-5.0.5\include">
+      <UniqueIdentifier>{2446CBC1-6584-5882-BAFC-364839021A26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pion-5.0.5\include\pion">
+      <UniqueIdentifier>{0F133EF6-E5B7-5067-AB5F-49F50C378C96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pion-5.0.5\include\pion\http">
+      <UniqueIdentifier>{7C251928-EDE9-5A6D-B0D8-D79C0A0E027A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pion-5.0.5\include\pion\spdy">
+      <UniqueIdentifier>{0AF994C0-4E5F-5C53-9CEC-F4BA3389C273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pion-5.0.5\include\pion\tcp">
+      <UniqueIdentifier>{83283437-C9D3-5D29-905C-46355503551D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pion-5.0.5\src">
+      <UniqueIdentifier>{8416D848-2A6E-5277-B7B0-6D9DCAF02FCD}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pion-5.0.5\src\admin_rights.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+    <ClCompile Include="pion-5.0.5\src\algorithm.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+    <ClCompile Include="pion-5.0.5\src\http_auth.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+    <ClCompile Include="pion-5.0.5\src\http_basic_auth.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+    <ClCompile Include="pion-5.0.5\src\http_cookie_auth.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+    <ClCompile Include="pion-5.0.5\src\http_message.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+    <ClCompile Include="pion-5.0.5\src\http_parser.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+    <ClCompile Include="pion-5.0.5\src\http_reader.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+    <ClCompile Include="pion-5.0.5\src\http_server.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+    <ClCompile Include="pion-5.0.5\src\http_types.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+    <ClCompile Include="pion-5.0.5\src\http_writer.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+    <ClCompile Include="pion-5.0.5\src\scheduler.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+    <ClCompile Include="pion-5.0.5\src\tcp_server.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+    <ClCompile Include="pion-5.0.5\src\tcp_timer.cpp">
+      <Filter>pion-5.0.5\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pion-5.0.5\include\pion\admin_rights.hpp">
+      <Filter>pion-5.0.5\include\pion</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\algorithm.hpp">
+      <Filter>pion-5.0.5\include\pion</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\config.hpp">
+      <Filter>pion-5.0.5\include\pion</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\error.hpp">
+      <Filter>pion-5.0.5\include\pion</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\hash_map.hpp">
+      <Filter>pion-5.0.5\include\pion</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\auth.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\basic_auth.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\cookie_auth.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\message.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\parser.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\plugin_server.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\plugin_service.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\reader.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\request.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\request_reader.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\request_writer.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\response.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\response_reader.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\response_writer.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\server.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\types.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\http\writer.hpp">
+      <Filter>pion-5.0.5\include\pion\http</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\logger.hpp">
+      <Filter>pion-5.0.5\include\pion</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\plugin.hpp">
+      <Filter>pion-5.0.5\include\pion</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\plugin_manager.hpp">
+      <Filter>pion-5.0.5\include\pion</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\process.hpp">
+      <Filter>pion-5.0.5\include\pion</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\scheduler.hpp">
+      <Filter>pion-5.0.5\include\pion</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\spdy\decompressor.hpp">
+      <Filter>pion-5.0.5\include\pion\spdy</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\spdy\parser.hpp">
+      <Filter>pion-5.0.5\include\pion\spdy</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\spdy\types.hpp">
+      <Filter>pion-5.0.5\include\pion\spdy</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\tcp\connection.hpp">
+      <Filter>pion-5.0.5\include\pion\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\tcp\server.hpp">
+      <Filter>pion-5.0.5\include\pion\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\tcp\stream.hpp">
+      <Filter>pion-5.0.5\include\pion\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\tcp\timer.hpp">
+      <Filter>pion-5.0.5\include\pion\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="pion-5.0.5\include\pion\user.hpp">
+      <Filter>pion-5.0.5\include\pion</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="pion.bbmake" />
+  </ItemGroup>
+</Project>

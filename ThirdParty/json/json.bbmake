@@ -1,0 +1,6 @@
+project("json", "StaticLibrary");
+
+include(".");
+
+headers(find_recursive("json/*.hpp"));
+sources(find_recursive("json/*.cpp"));

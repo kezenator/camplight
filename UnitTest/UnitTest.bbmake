@@ -1,0 +1,31 @@
+if (platform() == "Win32") then
+
+    project("UnitTest", "StaticLibrary");
+
+    reference("boost");
+    reference("BBoxUtils");
+
+    include("windows");
+    include("common");
+
+    sources(find_recursive("windows/*.cpp"));
+    headers(find_recursive("windows/*.h"));
+    sources(find_recursive("common/*.cpp"));
+    headers(find_recursive("common/*.h"));
+
+else
+
+    project("UnitTest", "StaticLibrary");
+
+    reference("boost");
+    reference("BBoxUtils");
+
+    include("linux");
+    include("common");
+
+    sources(find_recursive("linux/*.cpp"));
+    headers(find_recursive("linux/*.h"));
+    sources(find_recursive("common/*.cpp"));
+    headers(find_recursive("common/*.h"));
+
+end

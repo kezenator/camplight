@@ -1,0 +1,7 @@
+
+project("Snappy", "StaticLibrary");
+
+include(".");
+
+sources(find_recursive("snappy/*.cc"));
+headers(find_recursive("snappy/*.h"));

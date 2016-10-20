@@ -1,0 +1,10 @@
+
+project("BBoxHttp", "StaticLibrary");
+
+reference("BBoxRt");
+reference("pion");
+
+include(".");
+
+sources(find_recursive("*.cpp"));
+headers(find_recursive("*.h"));

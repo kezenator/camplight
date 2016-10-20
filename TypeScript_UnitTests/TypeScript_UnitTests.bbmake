@@ -1,0 +1,12 @@
+
+if (platform() == "Win32") then
+
+    project("TypeScript_UnitTests", "TypeScriptApplication");
+    
+    reference("TypeScriptClientLib");
+
+    sources(find_recursive("*.ts"));
+    resources(find_recursive("*.css"));
+    resources(find_recursive("*.html"));
+
+end

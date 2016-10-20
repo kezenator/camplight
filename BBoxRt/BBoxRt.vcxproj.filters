@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="bbox">
+      <UniqueIdentifier>{6B7FD752-C13D-52A2-A271-9745C5A402E8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\rt">
+      <UniqueIdentifier>{81D2AC04-7F02-5297-98F6-FFA9D53A1AE0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\rt\details">
+      <UniqueIdentifier>{2E483E2D-AB4A-55BE-B0B7-2CF1F70EB7B9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\rt\net">
+      <UniqueIdentifier>{DB270935-E6D1-5F60-85C8-ACA4680FC5AA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\rt\win32">
+      <UniqueIdentifier>{F661B8E0-B7E2-58CB-BF1C-5BD7FFE72A2F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bbox\rt\ConsoleShutdownService.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\NetworkChangeRef.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\OneShotWork.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\Proactor.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\Resource.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\RunLevel.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\Service.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\ServiceFolder.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\ThreadPool.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\ThreadPoolRef.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\TimeSpan.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\Timer.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\WallClock.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\details\GenericServiceReference.cpp">
+      <Filter>bbox\rt\details</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\details\ResourceBase.cpp">
+      <Filter>bbox\rt\details</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\net\AdapterInfo.cpp">
+      <Filter>bbox\rt\net</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\net\IpAddress.cpp">
+      <Filter>bbox\rt\net</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\net\UdpEndpoint.cpp">
+      <Filter>bbox\rt\net</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\net\UdpSocket.cpp">
+      <Filter>bbox\rt\net</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\win32\IpHelperAccess.cpp">
+      <Filter>bbox\rt\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\win32\NetworkChangeService.cpp">
+      <Filter>bbox\rt\win32</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bbox\rt\ConsoleShutdownService.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\NetworkChangeRef.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\OneShotWork.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\Proactor.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\Resource.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\RunLevel.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\Service.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\ServiceFolder.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\ServiceReference.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\ThreadPool.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\ThreadPoolRef.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\TimeSpan.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\Timer.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\WallClock.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\details\GenericServiceReference.h">
+      <Filter>bbox\rt\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\details\ResourceBase.h">
+      <Filter>bbox\rt\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\net\AdapterInfo.h">
+      <Filter>bbox\rt\net</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\net\IpAddress.h">
+      <Filter>bbox\rt\net</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\net\UdpEndpoint.h">
+      <Filter>bbox\rt\net</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\net\UdpSocket.h">
+      <Filter>bbox\rt\net</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\win32\IpHelperAccess.h">
+      <Filter>bbox\rt\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\win32\NetworkChangeService.h">
+      <Filter>bbox\rt\win32</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BBoxRt.bbmake" />
+  </ItemGroup>
+</Project>

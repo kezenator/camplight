@@ -1,0 +1,9 @@
+
+if (platform() == "Win32") then
+
+    project("TypeScriptClientLib", "TypeScriptLibrary");
+
+    sources(find_recursive("*.ts"));
+    
+
+end

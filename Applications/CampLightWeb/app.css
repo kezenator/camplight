@@ -1,0 +1,40 @@
+﻿body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+div.combobox button {
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 0.5em;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+  border: solid 1px #CDCDCD;
+  color: black;
+  background-color: #EDEDED;
+  padding: 0.5em;
+  margin: 0.5em;
+  margin-left: 0em;
+  margin-right: 0em;
+  width: 100%;
+}
+
+div.combobox button.selected {
+  color: white;
+  background: #3388CC;
+}
+
+div.lightdisplay {
+  margin: 1em;
+  background: black;
+}
+
+div.ledmatrix {
+  display: inline-block;
+  margin: 0.5em;
+}
+
+div.ledmatrix div span {
+  width: 1.5em;
+  height: 1.5em;
+  display: inline-block;
+}

@@ -1,0 +1,23 @@
+
+project("CampLight", "Application");
+
+reference("BBoxHttp");
+reference("BBoxEnc");
+
+if (platform() ~= "Win32") then
+    reference("LibWS281x");
+end
+
+tool_reference("ResourceBuilder");
+
+include(".");
+
+sources(find_recursive("*.cpp"));
+headers(find_recursive("*.h"));
+resources(find_recursive("camplight/resources/*.*"));
+
+custom_build(
+    "ResourceBuilder",
+    find_recursive("camplight/resources/*.*"),
+    { "camplight/Resources.cpp", "camplight/Resources.h", "camplight/Resources.path" },
+    "-n \"camplight\" -r \"camplight\\resources\"");

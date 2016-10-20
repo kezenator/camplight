@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="bbox">
+      <UniqueIdentifier>{20A22552-BD9F-527D-A100-8582E7F18A7A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\enc">
+      <UniqueIdentifier>{182F9FCE-F589-5A51-9918-F73EE93DE07D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\enc\unittest">
+      <UniqueIdentifier>{097DE522-F90C-55E7-941B-D33ADE40691E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bbox\enc\unittest\TestEnc.cpp">
+      <Filter>bbox\enc\unittest</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BBoxEnc_UnitTests.bbmake" />
+  </ItemGroup>
+</Project>

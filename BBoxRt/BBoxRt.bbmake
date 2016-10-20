@@ -1,0 +1,10 @@
+
+project("BBoxRt", "StaticLibrary");
+
+reference("boost");
+reference("BBoxUtils");
+
+include(".");
+
+sources(find_recursive("*.cpp"));
+headers(find_recursive("*.h"));
