@@ -23,6 +23,7 @@
 #include <pion/http/types.hpp>
 
 #include <leds/FadecandyClient.h>
+#include <leds/GpioClient.h>
 
 #include <gaysign/RenderService.h>
 
@@ -42,7 +43,8 @@ public:
         , m_http_server("http-server", *this)
         , m_http_debug_website("http-debug-website", *this, m_http_server)
         , m_fadecandy_client("fadecandy-client", *this, fadecandy_remote_endpoint)
-        , m_render_service("render-service", *this, m_fadecandy_client)
+        , m_gpio_client("gpio-client", *this)
+        , m_render_service("render-service", *this, m_fadecandy_client, m_gpio_client)
     {
     }
 
@@ -71,6 +73,7 @@ public:
     bbox::http::server::HttpServer m_http_server;
     bbox::http::debug::HttpDebugWebsite m_http_debug_website;
     leds::FadecandyClient m_fadecandy_client;
+    leds::GpioClient m_gpio_client;
     RenderService m_render_service;
 
 }; // class ApplicationService

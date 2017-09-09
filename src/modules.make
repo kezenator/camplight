@@ -727,6 +727,7 @@ MODULES += LibLeds
 SRCS_DIRECT_LibLeds := $(sort \
         Applications/LibLeds/leds/Color.cpp \
         Applications/LibLeds/leds/FadecandyClient.cpp \
+        Applications/LibLeds/leds/GpioClient.cpp \
         Applications/LibLeds/leds/HsvColor.cpp \
     )
     # End SRCS_DIRECT_LibLeds

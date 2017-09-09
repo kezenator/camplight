@@ -13,14 +13,17 @@ namespace gaysign
 
     RenderService::RenderService(const std::string &name,
                                     bbox::rt::Service &parent,
-                                    leds::FadecandyClient &fadecandy_client)
+                                    leds::FadecandyClient &fadecandy_client,
+                                    leds::GpioClient &gpio_client)
         : bbox::rt::Service(name, parent)
         , m_fadecandy_client(fadecandy_client)
+        , m_gpio_client(gpio_client)
         , m_frame_timer("frame-timer", *this)
     {
         m_frame_timer.SetHandler(std::bind(&RenderService::HandleFrameTimeout, this));
 
         SetThisDependantOn(fadecandy_client);
+        SetThisDependantOn(gpio_client);
     }
 
     void RenderService::HandleStarting()
@@ -47,6 +50,8 @@ namespace gaysign
 
     void RenderService::HandleFrameTimeout()
     {
+        m_gpio_client.SetOutput(BUTTON_OUTPUT, !m_gpio_client.GetInput(BUTTON_INPUT));
+
         using Pattern = std::function<std::vector<leds::Color>(uint64_t)>;
 
         static uint64_t time_ms = 0;

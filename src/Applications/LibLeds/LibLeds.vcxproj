@@ -152,11 +152,13 @@
   <ItemGroup>
     <ClCompile Include="leds\Color.cpp" />
     <ClCompile Include="leds\FadecandyClient.cpp" />
+    <ClCompile Include="leds\GpioClient.cpp" />
     <ClCompile Include="leds\HsvColor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="leds\Color.h" />
     <ClInclude Include="leds\FadecandyClient.h" />
+    <ClInclude Include="leds\GpioClient.h" />
     <ClInclude Include="leds\HsvColor.h" />
   </ItemGroup>
   <ItemGroup>

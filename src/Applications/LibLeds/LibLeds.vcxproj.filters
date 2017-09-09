@@ -12,6 +12,9 @@
     <ClCompile Include="leds\FadecandyClient.cpp">
       <Filter>leds</Filter>
     </ClCompile>
+    <ClCompile Include="leds\GpioClient.cpp">
+      <Filter>leds</Filter>
+    </ClCompile>
     <ClCompile Include="leds\HsvColor.cpp">
       <Filter>leds</Filter>
     </ClCompile>
@@ -21,6 +24,9 @@
       <Filter>leds</Filter>
     </ClInclude>
     <ClInclude Include="leds\FadecandyClient.h">
+      <Filter>leds</Filter>
+    </ClInclude>
+    <ClInclude Include="leds\GpioClient.h">
       <Filter>leds</Filter>
     </ClInclude>
     <ClInclude Include="leds\HsvColor.h">
