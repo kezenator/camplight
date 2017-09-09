@@ -30,9 +30,12 @@ namespace bbox {
             private:
                 void PrintIncludes(std::ostream &stream, const Project *proj);
                 void PrintSources(std::ostream &stream, const Project *proj);
+                void PrintLibs(std::ostream &stream, const Project *proj);
                 void PrintCustomBuildSteps(std::ostream &stream, const Project *proj);
                 std::string UnixPath(std::string path);
                 std::string PrefixJoinToUnix(const std::string prefix, const std::set<std::string> &files, const std::string &sep);
+
+                struct project_sorter;
             };
 
         } // namespace bbox::make::mf

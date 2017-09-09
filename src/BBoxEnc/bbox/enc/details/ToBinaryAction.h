@@ -88,10 +88,10 @@ namespace bbox
                 }
             };
 
-            template <typename Type>
-            struct ToBinaryAction<MarshalStrategy::AsStdVector, std::vector<Type>>
+            template <typename Type, typename Allocator>
+            struct ToBinaryAction<MarshalStrategy::AsStdVector, std::vector<Type, Allocator>>
             {
-                static void Impl(ToBinary &m, const std::vector<Type> &value)
+                static void Impl(ToBinary &m, const std::vector<Type, Allocator> &value)
                 {
                     size_t count = value.size();
 
@@ -100,6 +100,22 @@ namespace bbox
                     for (size_t index = 0; index < count; ++index)
                     {
                         m.Write(value[index]);
+                    }
+                }
+            };
+
+            template <typename Type, typename Comparator, typename Allocator>
+            struct ToBinaryAction<MarshalStrategy::AsStdSet, std::set<Type, Comparator, Allocator>>
+            {
+                static void Impl(ToBinary &m, const std::set<Type, Comparator, Allocator> &value)
+                {
+                    size_t count = value.size();
+
+                    m.WriteSizeT(count);
+
+                    for (const auto &entry : value)
+                    {
+                        m.Write(entry);
                     }
                 }
             };

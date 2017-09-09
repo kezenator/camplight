@@ -164,20 +164,21 @@ namespace bbox.enc
                         + element.firstElementChild.nodeName + "\"");
                     return undefined;
                 }
-                else if (element.textContent != "")
+                else if ((element.textContent != "")
+                    && element.hasAttribute("value"))
                 {
                     this.raiseError("Expected value but found element \"" + element.nodeName
-                        + "\" containing unexpected text content");
+                        + "\" containing both text content and a value attribute");
                     return undefined;
                 }
-                else if (!element.hasAttribute("value"))
+                else if (element.hasAttribute("value"))
                 {
-                    this.raiseError("Expected value but found element \"" + element.nodeName
-                        + "\" without \"value\" attribute");
-                    return undefined;
+                    result = element.getAttribute("value");
                 }
-
-                result = element.getAttribute("value");
+                else
+                {
+                    result = element.textContent;
+                }
 
                 if (this.state == "Constructed")
                     this.state = "Complete";

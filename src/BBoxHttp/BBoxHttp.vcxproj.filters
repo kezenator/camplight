@@ -18,9 +18,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bbox\http\DebugAccess.cpp">
-      <Filter>bbox\http</Filter>
-    </ClCompile>
     <ClCompile Include="bbox\http\Request.cpp">
       <Filter>bbox\http</Filter>
     </ClCompile>
@@ -48,11 +45,11 @@
     <ClCompile Include="bbox\http\server\HttpServer.cpp">
       <Filter>bbox\http\server</Filter>
     </ClCompile>
+    <ClCompile Include="bbox\http\server\RequestHandler.cpp">
+      <Filter>bbox\http\server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bbox\http\DebugAccess.h">
-      <Filter>bbox\http</Filter>
-    </ClInclude>
     <ClInclude Include="bbox\http\Request.h">
       <Filter>bbox\http</Filter>
     </ClInclude>
@@ -78,6 +75,9 @@
       <Filter>bbox\http\pionhlp</Filter>
     </ClInclude>
     <ClInclude Include="bbox\http\server\HttpServer.h">
+      <Filter>bbox\http\server</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\server\RequestHandler.h">
       <Filter>bbox\http\server</Filter>
     </ClInclude>
   </ItemGroup>

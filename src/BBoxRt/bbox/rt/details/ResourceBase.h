@@ -76,6 +76,7 @@ namespace bbox {
 
 				const std::string &GetResourceName() const { return m_name; }
 				const std::string &GetResourceFullPath() const { return m_full_path; }
+                void PrintResourcePathLink(bbox::DebugOutput &out) const;
 
                 virtual void HandleStarting() = 0;
                 virtual void HandleStopping() = 0;

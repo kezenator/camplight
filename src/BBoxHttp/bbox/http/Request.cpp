@@ -7,7 +7,6 @@
 #include <bbox/http/Request.h>
 #include <bbox/http/Response.h>
 #include <bbox/http/ResourceFileSet.h>
-#include <bbox/http/DebugAccess.h>
 #include <bbox/http/server/HttpServer.h>
 
 #include <bbox/Assert.h>
@@ -112,6 +111,13 @@ namespace bbox {
                 m_auto_failure = std::move(other.m_auto_failure);
             }
             return *this;
+        }
+
+        bbox::rt::net::IpAddress Request::GetRemoteIpAddress() const
+        {
+            BBOX_ASSERT(*this);
+
+            return m_auto_failure->m_request->get_remote_ip();
         }
 
         std::string Request::GetRootUrl() const
@@ -223,10 +229,15 @@ namespace bbox {
 
         bool Request::RespondWithResource(const ResourceFileSet &resources)
         {
+            return RespondWithResource(resources, m_request->get_resource());
+        }
+
+        bool Request::RespondWithResource(const ResourceFileSet &resources, const std::string &resource_path)
+        {
             BBOX_ASSERT(*this);
             BBOX_ASSERT(m_auto_failure->NotHandled());
 
-            const ResourceFile *file_ptr = resources.FindFile(m_request->get_resource());
+            const ResourceFile *file_ptr = resources.FindFile(resource_path);
 
             if (file_ptr)
             {
@@ -305,6 +316,14 @@ namespace bbox {
             }
         }
 
+        void Request::RespondWithResourceOrNotFoundError(const ResourceFileSet &resources, const std::string &resource_path)
+        {
+            if (!RespondWithResource(resources, resource_path))
+            {
+                RespondWithNotFoundError();
+            }
+        }
+
         void Request::RespondWithNotFoundError()
         {
             BBOX_ASSERT(*this);
@@ -366,14 +385,6 @@ namespace bbox {
                 .SetHeader_ContentType("text/plain")
                 .SetContent(bbox::Format("405 Method Not Allowed: Allowed methods - \"%s\"", allowed_methods))
                 .Send();
-        }
-
-		void Request::RespondWithDebugPage(const std::string &debug_root_path)
-		{
-            BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
-
-            DebugAccess::HandleDebugRequest(*this, debug_root_path);
         }
 
     } // namespace bbox::http

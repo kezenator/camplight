@@ -1,8 +1,8 @@
 Getting started in Windows
 ==========================
 
-Extract the boost_1_59_0.7z file into this directory so there
-is a boost_1_59_0\boost folder inside this folder that contains
+Extract the boost_1_65_1.7z file into this directory so there
+is a boost_1_65_1\boost folder inside this folder that contains
 all the .hpp files.
 
 Getting started in Linux

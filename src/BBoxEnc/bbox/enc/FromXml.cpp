@@ -252,13 +252,30 @@ namespace bbox
             {
                 const char *attr_ptr = m_cur_element->Attribute("value");
 
-                if (!attr_ptr)
+                tinyxml2::XMLNode *first_node_ptr = m_cur_element->FirstChild();
+                tinyxml2::XMLText *text_ptr = nullptr;
+                if (first_node_ptr)
+                    text_ptr = first_node_ptr->ToText();
+
+                if (attr_ptr && first_node_ptr)
                 {
-                    SetError("No value attribute for value element");
+                    SetError("Expect either value attribute or text content");
+                }
+                else if (first_node_ptr && !text_ptr)
+                {
+                    SetError("Expect either value attribute or text content");
+                }
+                else if (first_node_ptr && first_node_ptr->NextSibling())
+                {
+                    SetError("Expect either value attribute or text content");
+                }
+                else if (attr_ptr)
+                {
+                    result = attr_ptr;
                 }
                 else
                 {
-                    result = attr_ptr;
+                    result = text_ptr->Value();
                 }
             }
 

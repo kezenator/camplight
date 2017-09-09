@@ -14,16 +14,36 @@ namespace bbox
 	{
 
 		DebugTarget::DebugTarget()
+            : m_provider_ptr(nullptr)
 		{
 			BBOX_ASSERT(DebugProvider::t_provider_ptr);
-			DebugProvider::t_provider_ptr->LoginTarget(this);
+
+            m_provider_ptr = DebugProvider::t_provider_ptr;
+			m_provider_ptr->LoginTarget(this);
 		}
 
 		DebugTarget::~DebugTarget()
 		{
-			BBOX_ASSERT(DebugProvider::t_provider_ptr);
-			DebugProvider::t_provider_ptr->LogoutTarget(this);
+            BBOX_ASSERT(DebugProvider::t_provider_ptr);
+            BBOX_ASSERT(m_provider_ptr);
+            BBOX_ASSERT(m_provider_ptr == DebugProvider::t_provider_ptr);
+
+            m_provider_ptr = nullptr;
+            DebugProvider::t_provider_ptr->LogoutTarget(this);
 		}
+
+        void DebugTarget::UpdateDebugEnables(std::set<std::string> &&debug_enables)
+        {
+            if (debug_enables != m_debug_enables)
+            {
+                m_debug_enables = std::move(debug_enables);
+
+                if (m_provider_ptr)
+                {
+                    m_provider_ptr->TargetDebugEnablesUpdated();
+                }
+            }
+        }
 
 	}
 }

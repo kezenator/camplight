@@ -14,6 +14,7 @@
 #include <bbox/rt/ConsoleShutdownService.h>
 #include <bbox/http/server/HttpServer.h>
 #include <bbox/http/Response.h>
+#include <bbox/http/debug/HttpDebugWebsite.h>
 #include <bbox/Format.h>
 #include <bbox/Assert.h>
 
@@ -39,6 +40,7 @@ public:
         , m_http_listen_endpoint(http_listen_endpoint)
         , m_console_shutdown_service("console-shutdown-service", *this)
         , m_http_server("http-server", *this)
+        , m_http_debug_website("http-debug-website", *this, m_http_server)
         , m_fadecandy_client("fadecandy-client", *this, fadecandy_remote_endpoint)
         , m_render_service("render-service", *this, m_fadecandy_client)
     {
@@ -48,9 +50,7 @@ public:
     {
         srand(unsigned(time(0)));
 
-        m_http_server.AddServer(
-            m_http_listen_endpoint,
-            boost::bind(&ApplicationService::HttpRequestHandler, this, _1));
+        m_http_server.AddServer(m_http_listen_endpoint);
 
         NotifyStarted();
     }
@@ -66,20 +66,10 @@ public:
         out.Format("HTTP Listen Endpoint: %s\n", m_http_listen_endpoint.ToString());
     }
 
-    void HttpRequestHandler(bbox::http::Request &request)
-    {
-        if (request.GetResource().substr(0, 6) == "/debug")
-        {
-            request.RespondWithDebugPage("/debug");
-            return;
-        }
-
-        request.RespondWithNotFoundError();
-    }
-
     bbox::rt::net::TcpEndpoint m_http_listen_endpoint;
     bbox::rt::ConsoleShutdownService m_console_shutdown_service;
     bbox::http::server::HttpServer m_http_server;
+    bbox::http::debug::HttpDebugWebsite m_http_debug_website;
     leds::FadecandyClient m_fadecandy_client;
     RenderService m_render_service;
 

@@ -131,6 +131,9 @@
     <ClInclude Include="bbox\debug\CoutDebugTarget.h">
       <Filter>bbox\debug</Filter>
     </ClInclude>
+    <ClInclude Include="bbox\debug\DebugChildEntry.h">
+      <Filter>bbox\debug</Filter>
+    </ClInclude>
     <ClInclude Include="bbox\debug\DebugProvider.h">
       <Filter>bbox\debug</Filter>
     </ClInclude>

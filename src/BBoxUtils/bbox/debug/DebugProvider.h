@@ -23,6 +23,7 @@ namespace bbox
 		class DebugRoot;
         class DebugStream;
 		class DebugTarget;
+        class DebugVisitor;
 
         /**
          * A RAII that sets up a thread-local provided for debug output.
@@ -43,6 +44,9 @@ namespace bbox
 
         private:
 
+            void RootQuery(DebugVisitor &&visitor);
+            void PrintState(DebugOutput &out) const;
+
             DebugStream *AllocateStream(const char *func, DebugReport *user_report_ptr, std::string &&reason);
             DebugStream *AllocateStream(const char *func, DebugStream *parent_ptr, DebugOutput::E_MIME_TYPE mime_type);
             void DestroyStream(DebugStream *stream);
@@ -50,10 +54,9 @@ namespace bbox
 			void LoginRoot(DebugRoot *root_ptr);
 			void LogoutRoot(DebugRoot *root_ptr);
 
-			std::map<std::string, DebugRoot *> &GetRootMap();
-
 			void LoginTarget(DebugTarget *target_ptr);
 			void LogoutTarget(DebugTarget *target_ptr);
+            void TargetDebugEnablesUpdated();
 
             static thread_local DebugProvider *t_provider_ptr;
 

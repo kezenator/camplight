@@ -112,31 +112,31 @@ INCS_RECURSIVE_Snappy := $(sort \
 MODULES += boost
 
 SRCS_DIRECT_boost := $(sort \
-        ThirdParty/boost/boost_1_59_0/libs/chrono/src/chrono.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/chrono/src/process_cpu_clocks.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/chrono/src/thread_clock.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/c_regex_traits.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/cpp_regex_traits.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/cregex.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/fileiter.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/icu.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/instances.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/posix_api.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/regex.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/regex_debug.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/regex_raw_buffer.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/regex_traits_defaults.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/static_mutex.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/usinstances.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/w32_regex_traits.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/wc_regex_traits.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/wide_posix_api.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/regex/src/winstances.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/system/src/error_code.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/thread/src/future.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/thread/src/pthread/once.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/thread/src/pthread/thread.cpp \
-        ThirdParty/boost/boost_1_59_0/libs/thread/src/tss_null.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/chrono/src/chrono.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/chrono/src/process_cpu_clocks.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/chrono/src/thread_clock.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/c_regex_traits.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/cpp_regex_traits.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/cregex.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/fileiter.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/icu.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/instances.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/posix_api.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/regex.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/regex_debug.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/regex_raw_buffer.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/regex_traits_defaults.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/static_mutex.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/usinstances.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/w32_regex_traits.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/wc_regex_traits.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/wide_posix_api.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/regex/src/winstances.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/system/src/error_code.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/thread/src/future.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/thread/src/pthread/once.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/thread/src/pthread/thread.cpp \
+        ThirdParty/boost/boost_1_65_1/libs/thread/src/tss_null.cpp \
     )
     # End SRCS_DIRECT_boost
 
@@ -146,7 +146,7 @@ SRCS_RECURSIVE_boost := $(sort \
     # End SRCS_RECURSIVE_boost
 
 INCS_DIRECT_boost := $(sort \
-        ThirdParty/boost/boost_1_59_0 \
+        ThirdParty/boost/boost_1_65_1 \
     )
     # End INCS_DIRECT_boost
 
@@ -250,6 +250,9 @@ INCS_RECURSIVE_PiLightTest := $(sort \
     )
     # End INCS_RECURSIVE_PiLightTest
 
+LIBS_RECURSIVE_PiLightTest := \
+    # End LIBS_RECURSIVE_PiLightTest
+
 APPS += PiLightTest
 
 # Project pion (type StaticLibrary)
@@ -297,6 +300,7 @@ MODULES += BBoxRt
 
 SRCS_DIRECT_BBoxRt := $(sort \
         BBoxRt/bbox/rt/ConsoleShutdownService.cpp \
+        BBoxRt/bbox/rt/DebugEnable.cpp \
         BBoxRt/bbox/rt/NetworkChangeRef.cpp \
         BBoxRt/bbox/rt/OneShotWork.cpp \
         BBoxRt/bbox/rt/Proactor.cpp \
@@ -395,6 +399,9 @@ INCS_RECURSIVE_ResourceBuilder := $(sort \
         $(INCS_RECURSIVE_BBoxUtils) \
     )
     # End INCS_RECURSIVE_ResourceBuilder
+
+LIBS_RECURSIVE_ResourceBuilder := \
+    # End LIBS_RECURSIVE_ResourceBuilder
 
 APPS += ResourceBuilder
 
@@ -504,7 +511,6 @@ INCS_RECURSIVE_BBoxEnc := $(sort \
 MODULES += BBoxHttp
 
 SRCS_DIRECT_BBoxHttp := $(sort \
-        BBoxHttp/bbox/http/DebugAccess.cpp \
         BBoxHttp/bbox/http/Request.cpp \
         BBoxHttp/bbox/http/ResourceFile.cpp \
         BBoxHttp/bbox/http/ResourceFileSet.cpp \
@@ -514,6 +520,7 @@ SRCS_DIRECT_BBoxHttp := $(sort \
         BBoxHttp/bbox/http/client/HttpClient.cpp \
         BBoxHttp/bbox/http/pionhlp/Scheduler.cpp \
         BBoxHttp/bbox/http/server/HttpServer.cpp \
+        BBoxHttp/bbox/http/server/RequestHandler.cpp \
     )
     # End SRCS_DIRECT_BBoxHttp
 
@@ -565,6 +572,9 @@ INCS_RECURSIVE_BBoxRt_UnitTests := $(sort \
     )
     # End INCS_RECURSIVE_BBoxRt_UnitTests
 
+LIBS_RECURSIVE_BBoxRt_UnitTests := \
+    # End LIBS_RECURSIVE_BBoxRt_UnitTests
+
 TESTS += BBoxRt_UnitTests
 
 # Project BBoxUtils_UnitTests (type UnitTests)
@@ -596,6 +606,9 @@ INCS_RECURSIVE_BBoxUtils_UnitTests := $(sort \
         $(INCS_RECURSIVE_UnitTest) \
     )
     # End INCS_RECURSIVE_BBoxUtils_UnitTests
+
+LIBS_RECURSIVE_BBoxUtils_UnitTests := \
+    # End LIBS_RECURSIVE_BBoxUtils_UnitTests
 
 TESTS += BBoxUtils_UnitTests
 
@@ -634,6 +647,9 @@ INCS_RECURSIVE_SolutionGenerator := $(sort \
     )
     # End INCS_RECURSIVE_SolutionGenerator
 
+LIBS_RECURSIVE_SolutionGenerator := \
+    # End LIBS_RECURSIVE_SolutionGenerator
+
 APPS += SolutionGenerator
 
 # Project BBoxEnc_UnitTests (type UnitTests)
@@ -664,7 +680,77 @@ INCS_RECURSIVE_BBoxEnc_UnitTests := $(sort \
     )
     # End INCS_RECURSIVE_BBoxEnc_UnitTests
 
+LIBS_RECURSIVE_BBoxEnc_UnitTests := \
+    # End LIBS_RECURSIVE_BBoxEnc_UnitTests
+
 TESTS += BBoxEnc_UnitTests
+
+# Project BBoxHttpDebug (type StaticLibrary)
+
+MODULES += BBoxHttpDebug
+
+SRCS_DIRECT_BBoxHttpDebug := $(sort \
+        BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugWebsite.cpp \
+        BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp \
+        BBoxHttpDebug/Lib/bbox/http/debug/api/ChildEntry.cpp \
+        BBoxHttpDebug/Lib/bbox/http/debug/api/DebugReport.cpp \
+        BBoxHttpDebug/Lib/bbox/http/debug/api/QueryResultEntry.cpp \
+    )
+    # End SRCS_DIRECT_BBoxHttpDebug
+
+SRCS_RECURSIVE_BBoxHttpDebug := $(sort \
+        $(SRCS_DIRECT_BBoxHttpDebug) \
+        $(SRCS_RECURSIVE_BBoxEnc) \
+        $(SRCS_RECURSIVE_BBoxHttp) \
+    )
+    # End SRCS_RECURSIVE_BBoxHttpDebug
+
+INCS_DIRECT_BBoxHttpDebug := $(sort \
+        BBoxHttpDebug/Lib/. \
+    )
+    # End INCS_DIRECT_BBoxHttpDebug
+
+INCS_RECURSIVE_BBoxHttpDebug := $(sort \
+        $(INCS_DIRECT_BBoxHttpDebug) \
+        $(INCS_RECURSIVE_BBoxEnc) \
+        $(INCS_RECURSIVE_BBoxHttp) \
+    )
+    # End INCS_RECURSIVE_BBoxHttpDebug
+
+BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp BBoxHttpDebug/Lib/bbox/http/debug/Resources.h BBoxHttpDebug/Lib/bbox/http/debug/Resources.path: build/resourcebuilder BBoxHttpDebug/Lib/bbox/http/debug/resources/debug/app.css BBoxHttpDebug/Lib/bbox/http/debug/resources/debug/app.js BBoxHttpDebug/Lib/bbox/http/debug/resources/debug/index.html
+	cd BBoxHttpDebug/Lib && ../../build/resourcebuilder -i "bbox/http/debug/resources/debug/app.css;bbox/http/debug/resources/debug/app.js;bbox/http/debug/resources/debug/index.html" -o "bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h;bbox/http/debug/Resources.path" -n "bbox::http::debug" -r "bbox/http/debug/resources"
+
+# Project LibLeds (type StaticLibrary)
+
+MODULES += LibLeds
+
+SRCS_DIRECT_LibLeds := $(sort \
+        Applications/LibLeds/leds/Color.cpp \
+        Applications/LibLeds/leds/FadecandyClient.cpp \
+        Applications/LibLeds/leds/HsvColor.cpp \
+    )
+    # End SRCS_DIRECT_LibLeds
+
+SRCS_RECURSIVE_LibLeds := $(sort \
+        $(SRCS_DIRECT_LibLeds) \
+        $(SRCS_RECURSIVE_BBoxEnc) \
+        $(SRCS_RECURSIVE_BBoxRt) \
+        $(SRCS_RECURSIVE_LibWS281x) \
+    )
+    # End SRCS_RECURSIVE_LibLeds
+
+INCS_DIRECT_LibLeds := $(sort \
+        Applications/LibLeds/. \
+    )
+    # End INCS_DIRECT_LibLeds
+
+INCS_RECURSIVE_LibLeds := $(sort \
+        $(INCS_DIRECT_LibLeds) \
+        $(INCS_RECURSIVE_BBoxEnc) \
+        $(INCS_RECURSIVE_BBoxRt) \
+        $(INCS_RECURSIVE_LibWS281x) \
+    )
+    # End INCS_RECURSIVE_LibLeds
 
 # Project CampLight (type Application)
 
@@ -701,6 +787,7 @@ SRCS_RECURSIVE_CampLight := $(sort \
         $(SRCS_DIRECT_CampLight) \
         $(SRCS_RECURSIVE_BBoxEnc) \
         $(SRCS_RECURSIVE_BBoxHttp) \
+        $(SRCS_RECURSIVE_BBoxHttpDebug) \
         $(SRCS_RECURSIVE_LibWS281x) \
     )
     # End SRCS_RECURSIVE_CampLight
@@ -714,46 +801,18 @@ INCS_RECURSIVE_CampLight := $(sort \
         $(INCS_DIRECT_CampLight) \
         $(INCS_RECURSIVE_BBoxEnc) \
         $(INCS_RECURSIVE_BBoxHttp) \
+        $(INCS_RECURSIVE_BBoxHttpDebug) \
         $(INCS_RECURSIVE_LibWS281x) \
     )
     # End INCS_RECURSIVE_CampLight
+
+LIBS_RECURSIVE_CampLight := \
+    # End LIBS_RECURSIVE_CampLight
 
 Applications/CampLight/camplight/Resources.cpp Applications/CampLight/camplight/Resources.h Applications/CampLight/camplight/Resources.path: build/resourcebuilder Applications/CampLight/camplight/resources/app.css Applications/CampLight/camplight/resources/app.js Applications/CampLight/camplight/resources/apple-touch-icon-120x120.png Applications/CampLight/camplight/resources/apple-touch-icon-152x152.png Applications/CampLight/camplight/resources/apple-touch-icon-180x180.png Applications/CampLight/camplight/resources/apple-touch-icon-192x192.png Applications/CampLight/camplight/resources/favicon.ico Applications/CampLight/camplight/resources/index.html
 	cd Applications/CampLight && ../../build/resourcebuilder -i "camplight/resources/app.css;camplight/resources/app.js;camplight/resources/apple-touch-icon-120x120.png;camplight/resources/apple-touch-icon-152x152.png;camplight/resources/apple-touch-icon-180x180.png;camplight/resources/apple-touch-icon-192x192.png;camplight/resources/favicon.ico;camplight/resources/index.html" -o "camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.path" -n "camplight" -r "camplight\resources"
 
 APPS += CampLight
-
-# Project LibLeds (type StaticLibrary)
-
-MODULES += LibLeds
-
-SRCS_DIRECT_LibLeds := $(sort \
-        Applications/LibLeds/leds/Color.cpp \
-        Applications/LibLeds/leds/FadecandyClient.cpp \
-        Applications/LibLeds/leds/HsvColor.cpp \
-    )
-    # End SRCS_DIRECT_LibLeds
-
-SRCS_RECURSIVE_LibLeds := $(sort \
-        $(SRCS_DIRECT_LibLeds) \
-        $(SRCS_RECURSIVE_BBoxEnc) \
-        $(SRCS_RECURSIVE_BBoxRt) \
-        $(SRCS_RECURSIVE_LibWS281x) \
-    )
-    # End SRCS_RECURSIVE_LibLeds
-
-INCS_DIRECT_LibLeds := $(sort \
-        Applications/LibLeds/. \
-    )
-    # End INCS_DIRECT_LibLeds
-
-INCS_RECURSIVE_LibLeds := $(sort \
-        $(INCS_DIRECT_LibLeds) \
-        $(INCS_RECURSIVE_BBoxEnc) \
-        $(INCS_RECURSIVE_BBoxRt) \
-        $(INCS_RECURSIVE_LibWS281x) \
-    )
-    # End INCS_RECURSIVE_LibLeds
 
 # Project GaySign (type Application)
 
@@ -769,6 +828,7 @@ SRCS_DIRECT_GaySign := $(sort \
 SRCS_RECURSIVE_GaySign := $(sort \
         $(SRCS_DIRECT_GaySign) \
         $(SRCS_RECURSIVE_BBoxHttp) \
+        $(SRCS_RECURSIVE_BBoxHttpDebug) \
         $(SRCS_RECURSIVE_LibLeds) \
     )
     # End SRCS_RECURSIVE_GaySign
@@ -781,9 +841,13 @@ INCS_DIRECT_GaySign := $(sort \
 INCS_RECURSIVE_GaySign := $(sort \
         $(INCS_DIRECT_GaySign) \
         $(INCS_RECURSIVE_BBoxHttp) \
+        $(INCS_RECURSIVE_BBoxHttpDebug) \
         $(INCS_RECURSIVE_LibLeds) \
     )
     # End INCS_RECURSIVE_GaySign
+
+LIBS_RECURSIVE_GaySign := \
+    # End LIBS_RECURSIVE_GaySign
 
 APPS += GaySign
 

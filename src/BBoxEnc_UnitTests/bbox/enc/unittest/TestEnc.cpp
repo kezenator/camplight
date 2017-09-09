@@ -328,6 +328,65 @@ namespace bbox
                 BBOX_ASSERT(value == rt_from_xml);
             }
 
+            template <typename Type>
+            static void round_trip_xml(const Type &value, const char *expected_xml_no_dec)
+            {
+                std::string expected_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+                expected_xml += expected_xml_no_dec;
+
+                // ::unittest::Log(bbox::Format("Testing round_trip_xml<%s>...", bbox::TypeInfo::Of<Type>().pretty_name()));
+
+                // Convert the original value to a debug string, and see
+                // that it matches the expected format
+
+                std::string orig_to_xml;
+
+                {
+                    tinyxml2::XMLDocument doc;
+                    bbox::enc::ToXml to_xml(doc, "round-trip", bbox::enc::ToTextFormat::MACHINE_ROUND_TRIP);
+                    to_xml.SetValue(value);
+
+                    tinyxml2::XMLPrinter printer(nullptr, true);
+                    doc.Print(&printer);
+
+                    orig_to_xml = printer.CStr();
+                }
+
+                if (orig_to_xml != expected_xml)
+                {
+                    ::unittest::Log(bbox::Format("Failed orig_to_xml for type %s", bbox::TypeInfo::Of<Type>().pretty_name()));
+                    ::unittest::Log(bbox::Format("Expected: %s", expected_xml));
+                    ::unittest::Log(bbox::Format("Got:      %s", orig_to_xml));
+                }
+
+                BBOX_ASSERT(orig_to_xml == expected_xml);
+
+                Type rt_from_xml;
+
+                {
+                    bbox::enc::FromXml convert_from_xml(expected_xml);
+
+                    convert_from_xml.StartNamedItem("round-trip");
+                    convert_from_xml.DecodeValue(rt_from_xml);
+                    convert_from_xml.CompleteNamedItem();
+
+                    if (convert_from_xml.HasError())
+                    {
+                        ::unittest::Log(bbox::Format("Failed convert_from_xml for type %s", bbox::TypeInfo::Of<Type>().pretty_name()));
+                        ::unittest::Log(bbox::Format("Error: %s", convert_from_xml.GetErrorString()));
+                    }
+
+                    BBOX_ASSERT(!convert_from_xml.HasError());
+                }
+
+                if (!(value == rt_from_xml))
+                {
+                    ::unittest::Log(bbox::Format("Failed (value == rt_from_xml) for type %s", bbox::TypeInfo::Of<Type>().pretty_name()));
+                }
+
+                BBOX_ASSERT(value == rt_from_xml);
+            }
+
             UT_TEST_CLASS(TestEnc)
             {
             public:
@@ -423,6 +482,11 @@ namespace bbox
                     round_trip<enc_types::HasAll>(enc_types::HasAll("Mary", 32),
                                                   "{\"name\":\"Mary\",\"age\":\"32\"}",
                                                   "{name:\"Mary\", age:\"32\"}");
+
+                    round_trip_xml<enc_types::HasAll>(enc_types::HasAll("simple", 32),
+                        "<round-trip><name value=\"simple\"/><age value=\"32\"/></round-trip>");
+                    round_trip_xml<enc_types::HasAll>(enc_types::HasAll("with\nnewlines", 32),
+                        "<round-trip><name><![CDATA[with\nnewlines]]></name><age value=\"32\"/></round-trip>");
                 }
 
                 UT_TEST_METHOD(Test_bbox_enc_api_Describe)
@@ -625,7 +689,7 @@ namespace bbox
 
                     test_method_call(
                         "{\"method\":\"ReturnErrorIfNameNot\",\"params\":{\"name\":\"Joe\"}}",
-                        "{\"error\":{\"description\":\"Invalid argument (category generic value 22/0x16)\"}}");
+                        "{\"error\":{\"description\":\"[\\\"Invalid argument\\\"/generic/22(0x00000016)]\"}}");
 
                     test_method_call(
                         "{\"method\":\"ReturnErrorIfNameNot\",\"params\":{\"name\":\"\"}}",
@@ -657,7 +721,7 @@ namespace bbox
 
                     test_method_call(
                         "{\"method\":\"ReturnErrorIfNameNot\",\"params\":{\"name\":\"\"}}",
-                        "{\"error\":{\"description\":\"Invalid argument (category generic value 22/0x16)\"}}");
+                        "{\"error\":{\"description\":\"[\\\"Invalid argument\\\"/generic/22(0x00000016)]\"}}");
 
                     // Also a quick test than named methods work
 

@@ -74,6 +74,16 @@ var bbox;
                 console.assert(this.array.length > 0, "bbox.ds.Deque.pop_front() called but empty");
                 return this.array.shift();
             };
+            Deque.prototype.clear = function () {
+                this.array = [];
+            };
+            Deque.prototype.shallowClone = function () {
+                var result = new Deque();
+                for (var i = 0; i < this.array.length; ++i) {
+                    result.array.push(this.array[i]);
+                }
+                return result;
+            };
             return Deque;
         }());
         ds.Deque = Deque;
@@ -143,6 +153,12 @@ var bbox;
             Control.prototype.htmlElement = function () {
                 return this.m_control_element;
             };
+            Control.prototype.addClass = function (class_name) {
+                this.m_control_element.classList.add(class_name);
+            };
+            Control.prototype.removeClass = function (class_name) {
+                this.m_control_element.classList.remove(class_name);
+            };
             return Control;
         }());
         ui.Control = Control;
@@ -179,16 +195,80 @@ var bbox;
             return BodyContainer;
         }(ui.Container));
         var Application = (function () {
-            function Application() {
+            function Application(state_prototype) {
                 var _this = this;
+                this.m_type_prototype = state_prototype;
                 window.bbox_ui_application = this;
                 this.m_body = new BodyContainer();
                 window.onload = function (ev) {
-                    _this.onload();
+                    var state = null;
+                    if (history.state
+                        && (typeof (history.state) === "string")) {
+                        state = _this.xmlToState(history.state);
+                    }
+                    if (state === null) {
+                        state = _this.decodeUrlToState(window.location.pathname);
+                    }
+                    if (state === null) {
+                        state = new _this.m_type_prototype();
+                    }
+                    _this.onLoad(state);
+                };
+                window.onpopstate = function (ev) {
+                    var state = null;
+                    if (ev.state
+                        && (typeof (ev.state) === "string")) {
+                        state = _this.xmlToState(ev.state);
+                    }
+                    if (state === null) {
+                        state = _this.decodeUrlToState(window.location.pathname);
+                    }
+                    if (state === null) {
+                        state = new _this.m_type_prototype();
+                    }
+                    _this.onPopState(state);
                 };
             }
             Application.prototype.body = function () {
                 return this.m_body;
+            };
+            Application.prototype.pushState = function (url, state) {
+                var xml = this.stateToXml(state);
+                history.pushState(xml, "", url);
+                this.onPopState(state);
+            };
+            Application.prototype.replaceState = function (url, state) {
+                var xml = this.stateToXml(state);
+                history.replaceState(xml, "", url);
+                this.onPopState(state);
+            };
+            Application.prototype.stateToXml = function (state) {
+                if ((state === null)
+                    || (state === undefined)) {
+                    return null;
+                }
+                var enc = new bbox.enc.ToXml("state");
+                this.m_type_prototype.type.toXml(state, enc);
+                if (enc.hasError()) {
+                    console.log("Could not encode state: " + enc.getErrorString());
+                    return null;
+                }
+                return enc.getXmlString();
+            };
+            Application.prototype.xmlToState = function (xml) {
+                if ((xml === null)
+                    || (xml === undefined)
+                    || (typeof (xml) != "string")
+                    || (xml == "")) {
+                    return null;
+                }
+                var enc = new bbox.enc.FromXml(xml, "state");
+                var state = this.m_type_prototype.type.fromXml(enc);
+                if (enc.hasError()) {
+                    console.log("Could nto decode state: " + enc.getErrorString());
+                    return null;
+                }
+                return state;
             };
             return Application;
         }());
@@ -211,6 +291,44 @@ var bbox;
             return TextControl;
         }(ui.Control));
         ui.TextControl = TextControl;
+    })(ui = bbox.ui || (bbox.ui = {}));
+})(bbox || (bbox = {}));
+var bbox;
+(function (bbox) {
+    var ui;
+    (function (ui) {
+        var EditBox = (function (_super) {
+            __extends(EditBox, _super);
+            function EditBox(text) {
+                var _this = this;
+                var input = document.createElement("input");
+                input.value = text;
+                input.type = 'text';
+                _super.call(this, input);
+                this.m_input_element = input;
+                this.m_on_change = null;
+                input.oninput = function () {
+                    _this.handleChange();
+                };
+            }
+            EditBox.prototype.onChanged = function (handler) {
+                this.m_on_change = handler;
+                return this;
+            };
+            EditBox.prototype.getValue = function () {
+                return this.m_input_element.value;
+            };
+            EditBox.prototype.setValue = function (new_value) {
+                this.m_input_element.value = new_value;
+            };
+            EditBox.prototype.handleChange = function () {
+                if (this.m_on_change) {
+                    this.m_on_change();
+                }
+            };
+            return EditBox;
+        }(ui.TextControl));
+        ui.EditBox = EditBox;
     })(ui = bbox.ui || (bbox.ui = {}));
 })(bbox || (bbox = {}));
 var bbox;
@@ -715,6 +833,7 @@ var bbox;
             };
             FromXml.prototype.decodeTypedValue = function (type_name) {
                 if (this.has_error) {
+                    // No-op
                     return undefined;
                 }
                 else {
@@ -746,17 +865,18 @@ var bbox;
                             + element.firstElementChild.nodeName + "\"");
                         return undefined;
                     }
-                    else if (element.textContent != "") {
+                    else if ((element.textContent != "")
+                        && element.hasAttribute("value")) {
                         this.raiseError("Expected value but found element \"" + element.nodeName
-                            + "\" containing unexpected text content");
+                            + "\" containing both text content and a value attribute");
                         return undefined;
                     }
-                    else if (!element.hasAttribute("value")) {
-                        this.raiseError("Expected value but found element \"" + element.nodeName
-                            + "\" without \"value\" attribute");
-                        return undefined;
+                    else if (element.hasAttribute("value")) {
+                        result = element.getAttribute("value");
                     }
-                    result = element.getAttribute("value");
+                    else {
+                        result = element.textContent;
+                    }
                     if (this.state == "Constructed")
                         this.state = "Complete";
                     else
@@ -771,6 +891,8 @@ var bbox;
                     return undefined;
                 }
                 else if (typeof result == "number") {
+                    // Javascript automatically converts strings which are valid numbers -
+                    // just convert back to a string
                     return (result).toString();
                 }
                 else if (typeof result != "string") {
@@ -784,6 +906,7 @@ var bbox;
             FromXml.prototype.startObject = function () {
                 var cur_progress;
                 if (this.has_error) {
+                    // No-op
                     return;
                 }
                 else if (this.state == "Constructed") {
@@ -812,9 +935,11 @@ var bbox;
                         return;
                     }
                     if (this.parent_stack.empty()) {
+                        // Finished root object
                         this.state = "Complete";
                     }
                     else {
+                        // Finished sub-object
                         this.cur_obj_progress = this.parent_stack.pop_back();
                         this.state = "Completed-Named-Value";
                     }
@@ -1202,6 +1327,8 @@ var bbox;
                 var type_name = "std::vector<" + member_type_name + ">";
                 if (this.by_name.has(type_name))
                     return this.by_name.get(type_name);
+                // First time it was called - create and
+                // add a new type for this vector type
                 var result = new enc.details.DequeType(this, type_name, this.findType(member_type_name));
                 this.addType(result);
                 return result;
@@ -1224,6 +1351,30 @@ var bbox;
         enc.TypeLibrary = TypeLibrary;
     })(enc = bbox.enc || (bbox.enc = {}));
 })(bbox || (bbox = {}));
+/// <reference path="bbox/ds/Map.ts" />
+/// <reference path="bbox/ds/Deque.ts" />
+/// <reference path="bbox/ui/Timer.ts" />
+/// <reference path="bbox/ui/Control.ts" />
+/// <reference path="bbox/ui/Container.ts" />
+/// <reference path="bbox/ui/Application.ts" />
+/// <reference path="bbox/ui/TextControl.ts" />
+/// <reference path="bbox/ui/EditBox.ts" />
+/// <reference path="bbox/ui/Button.ts" />
+/// <reference path="bbox/ui/Span.ts" />
+/// <reference path="bbox/ui/Div.ts" />
+/// <reference path="bbox/ui/Pre.ts" />
+/// <reference path="bbox/net/AjaxRequest.ts" />
+/// <reference path="bbox/net/BboxRpcRequest.ts" />
+/// <reference path="bbox/enc/Type.ts" />
+/// <reference path="bbox/enc/TypePrototype.ts" />
+/// <reference path="bbox/enc/ToString.ts" />
+/// <reference path="bbox/enc/ToXml.ts" />
+/// <reference path="bbox/enc/FromXml.ts" />
+/// <reference path="bbox/enc/details/IntType.ts" />
+/// <reference path="bbox/enc/details/StringType.ts" />
+/// <reference path="bbox/enc/details/SimpleStructureType.ts" />
+/// <reference path="bbox/enc/details/DequeType.ts" />
+/// <reference path="bbox/enc/TypeLibrary.ts" />
 var SimpleType = (function () {
     function SimpleType() {
         this.name = "";
@@ -1239,14 +1390,19 @@ var SimpleType = (function () {
 var MyApplication = (function (_super) {
     __extends(MyApplication, _super);
     function MyApplication() {
-        _super.call(this);
+        _super.call(this, SimpleType);
         this.timer = new bbox.ui.Timer(this.testTimeout.bind(this));
         this.tests = new bbox.ds.Deque();
         this.tests.push_back("testtoxml");
         this.tests.push_back("testfromxml");
     }
-    MyApplication.prototype.onload = function () {
+    MyApplication.prototype.onLoad = function (state) {
         this.timer.startPeriodic(100, 100);
+    };
+    MyApplication.prototype.onPopState = function (state) {
+    };
+    MyApplication.prototype.decodeUrlToState = function (url) {
+        return new SimpleType();
     };
     MyApplication.prototype.testTimeout = function () {
         if (this.tests.size() == 0) {
@@ -1262,6 +1418,7 @@ var MyApplication = (function (_super) {
             this.body().add(div);
             this.cur_test_success = true;
             this.cur_test_pre = pre;
+            // Run the test
             try {
                 this[name](this);
             }
@@ -1380,4 +1537,6 @@ var MyApplication = (function (_super) {
     };
     return MyApplication;
 }(bbox.ui.Application));
+/// <reference path="../TypeScriptClientLib/lib_references.ts" />
+/// <reference path="app.ts" />
 //# sourceMappingURL=app.js.map

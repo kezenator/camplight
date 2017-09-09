@@ -8,8 +8,9 @@
 #ifndef __BBOX__DEBUG__DEBUG_VISITOR_H__
 #define __BBOX__DEBUG__DEBUG_VISITOR_H__
 
-#include <string>
 #include <memory>
+#include <set>
+#include <string>
 #include <vector>
 #include <bbox/debug/DebugReport.h>
 
@@ -41,11 +42,15 @@ namespace bbox
 			~DebugVisitor();
 
 			bool WantVisitChildren();
+            bool WantEnumerateChildren();
 			bool WantReport();
+            bool WantControlDebugEnable();
 
 			DebugVisitor ChildVisitor(const std::string &child_name);
 
-			void SetReport(DebugReport report);
+            void EnumerateChild(const std::string &name, std::string &&short_description);
+            void SetReport(DebugReport report);
+            bool GetDebugEnableState();
 
 		private:
 
@@ -56,6 +61,7 @@ namespace bbox
 			DebugVisitor(std::unique_ptr<Pimpl> &&pimpl);
 
 			DebugVisitor(std::vector<DebugQueryResult> &results, const std::string &query);
+            DebugVisitor(const std::set<std::string> &debug_enables);
 		};
 
 	} // namespace bbox::debug

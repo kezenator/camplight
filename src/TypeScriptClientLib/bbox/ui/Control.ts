@@ -13,5 +13,15 @@ namespace bbox.ui
         {
             return this.m_control_element;
         }
+
+        public addClass(class_name: string): void
+        {
+            this.m_control_element.classList.add(class_name);
+        }
+
+        public removeClass(class_name: string): void
+        {
+            this.m_control_element.classList.remove(class_name);
+        }
     }
 }

@@ -128,10 +128,10 @@ namespace bbox
                 }
             };
 
-            template <typename Type>
-            struct FromTextFormatAction<MarshalStrategy::AsStdVector, std::vector<Type>>
+            template <typename Type, typename Allocator>
+            struct FromTextFormatAction<MarshalStrategy::AsStdVector, std::vector<Type, Allocator>>
             {
-                static void Impl(FromTextFormat &m, std::vector<Type> &value)
+                static void Impl(FromTextFormat &m, std::vector<Type, Allocator> &value)
                 {
                     value.clear();
 
@@ -145,6 +145,35 @@ namespace bbox
                     for (size_t i = 0; i < size; ++i)
                     {
                         m.DecodeNamedValue("entry", value[i]);
+                    }
+
+                    m.CompleteStructure();
+                }
+            };
+
+            template <typename Type, typename Comparator, typename Allocator>
+            struct FromTextFormatAction<MarshalStrategy::AsStdSet, std::set<Type, Comparator, Allocator>>
+            {
+                static void Impl(FromTextFormat &m, std::set<Type, Comparator, Allocator> &value)
+                {
+                    value.clear();
+
+                    m.StartStructure();
+
+                    size_t size;
+                    m.DecodeNamedSizeT("size", size);
+
+                    for (size_t i = 0; i < size; ++i)
+                    {
+                        Type new_value;
+                        m.DecodeNamedValue("entry", new_value);
+
+                        auto insert_result = value.insert(std::move(new_value));
+
+                        if (!insert_result.second)
+                        {
+                            m.SetError("Duplicate value in std::set");
+                        }
                     }
 
                     m.CompleteStructure();

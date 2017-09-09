@@ -5,6 +5,7 @@
 */
 
 #include <bbox/rt/net/UdpSocket.h>
+#include <bbox/ScopedDebugIndent.h>
 
 #include <sstream>
 
@@ -32,6 +33,7 @@ namespace bbox {
 				, m_setup_err()
 			    , m_send_last_err()
 				, m_recv_last_err()
+                , m_debug("debug", *this)
 			{
             }
 
@@ -53,7 +55,8 @@ namespace bbox {
 				, m_setup_err()
 				, m_send_last_err()
 				, m_recv_last_err()
-			{
+                , m_debug("debug", *this)
+            {
             }
 
             UdpSocket::~UdpSocket()
@@ -170,6 +173,14 @@ namespace bbox {
                     0,
                     ec);
 
+                bbox::DebugOutput out(BBOX_FUNC, m_debug);
+                if (out)
+                {
+                    out.Format("%s: Send %d bytes to %s => %s\n", GetResourceFullPath(), length, destination.ToString(), Error(ec).ToString());
+                    bbox::ScopedDebugIndent indent(out, 4);
+                    out.PrintData(data, length);
+                }
+
 				if (ec)
 				{
 					m_send_errs += 1;
@@ -188,35 +199,49 @@ namespace bbox {
             {
                 --m_pending_reads;
 
-				if (ec)
-				{
-					m_recv_errs += 1;
-					m_recv_last_err = ec;
-				}
-				else
-				{
-					m_recv_packets += 1;
-					m_recv_bytes += bytes_recevied;
-				}
-
-                if (m_user_read_callback)
+                if (GetLocalRunLevel() != RunLevel::STOPPING)
                 {
-                    m_user_read_callback(
-                        ec,
-                        (bytes_recevied && !ec) ? m_read_buffer_ptr->data : nullptr,
-                        bytes_recevied,
-                        m_read_from_endpoint);
-                }
+                    if (ec)
+                    {
+                        m_recv_errs += 1;
+                        m_recv_last_err = ec;
+                    }
+                    else
+                    {
+                        m_recv_packets += 1;
+                        m_recv_bytes += bytes_recevied;
+                    }
 
-                if (m_user_read_callback
-					&& (m_pending_reads == 0))
-                {
-                    ++m_pending_reads;
+                    bbox::DebugOutput out(BBOX_FUNC, m_debug);
+                    if (out)
+                    {
+                        out.Format("%s: Received %d bytes from %s => %s\n", GetResourceFullPath(), bytes_recevied, UdpEndpoint(m_read_from_endpoint).ToString(), Error(ec).ToString());
+                        if (bytes_recevied)
+                        {
+                            bbox::ScopedDebugIndent indent(out, 4);
+                            out.PrintData(m_read_buffer_ptr->data, bytes_recevied);
+                        }
+                    }
 
-                    m_socket.async_receive_from(
-                        boost::asio::buffer(m_read_buffer_ptr->data, sizeof(m_read_buffer_ptr->data)),
-                        boost::ref(m_read_from_endpoint),
-                        m_internal_read_callback);
+                    if (m_user_read_callback)
+                    {
+                        m_user_read_callback(
+                            ec,
+                            (bytes_recevied && !ec) ? m_read_buffer_ptr->data : nullptr,
+                            bytes_recevied,
+                            m_read_from_endpoint);
+                    }
+
+                    if (m_user_read_callback
+                        && (m_pending_reads == 0))
+                    {
+                        ++m_pending_reads;
+
+                        m_socket.async_receive_from(
+                            boost::asio::buffer(m_read_buffer_ptr->data, sizeof(m_read_buffer_ptr->data)),
+                            boost::ref(m_read_from_endpoint),
+                            m_internal_read_callback);
+                    }
                 }
 
                 CheckShutdown();

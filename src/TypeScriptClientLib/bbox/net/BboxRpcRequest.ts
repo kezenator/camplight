@@ -1,11 +1,5 @@
 namespace bbox.net
 {
-    interface TypedClass<T>
-    {
-        type: enc.Type;
-        new (): T;
-    }
-
     export interface BboxRpcRequestCompleteHandler<InputStruct, OutputStruct>
     {
         (request: BboxRpcRequest<InputStruct, OutputStruct>): void;
@@ -16,8 +10,8 @@ namespace bbox.net
         constructor(
             url: string,
             method: string,
-            input_type: TypedClass<InputStruct>,
-            output_type: TypedClass<OutputStruct>,
+            input_type: bbox.enc.TypePrototype<InputStruct>,
+            output_type: bbox.enc.TypePrototype<OutputStruct>,
             handler: BboxRpcRequestCompleteHandler<InputStruct, OutputStruct>)
         {
             this.m_url = url;

@@ -11,6 +11,7 @@
 #include <bbox/Assert.h>
 #include <bbox/Format.h>
 
+#include <bbox/DebugOutput.h>
 #include <bbox/debug/DebugReport.h>
 #include <bbox/rt/Proactor.h>
 #include <bbox/rt/Service.h>
@@ -29,8 +30,8 @@ namespace bbox {
                     // TODO - conditional enable
                     if (false)
                     {
-                        std::cout
-                            << resource.m_full_path
+                        bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Testing);
+                        out << resource.m_full_path
                             << " : "
                             << method
                             << " ["
@@ -132,6 +133,15 @@ namespace bbox {
                 }
             }
 
+            void ResourceBase::PrintResourcePathLink(bbox::DebugOutput &out) const
+            {
+                bbox::DebugOutput link_out(BBOX_FUNC, out, bbox::DebugOutput::Mime_Text_Debug_Full_Path);
+                if (link_out)
+                {
+                    link_out << m_full_path;
+                }
+            }
+
 			void ResourceBase::DebugVisit(bbox::debug::DebugVisitor &&visitor)
 			{
 				if (visitor.WantVisitChildren())
@@ -142,7 +152,15 @@ namespace bbox {
 					}
 				}
 
-				if (visitor.WantReport())
+                if (visitor.WantEnumerateChildren())
+                {
+                    for (auto &entry : m_children)
+                    {
+                        visitor.EnumerateChild(entry.first, bbox::TypeInfo(typeid(*entry.second)).pretty_name());
+                    }
+                }
+
+                if (visitor.WantReport())
 				{
 					debug::DebugReport report;
 
@@ -500,8 +518,8 @@ namespace bbox {
                 // TODO - conditional enable
                 if ((this == &m_proactor) && (&level == &m_overall_level))
                 {
-                    std::cout
-                        << m_full_path
+                    bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Activity);
+                    out << m_full_path
                         << " : Update "
                         << ((&level == &m_overall_level)
                             ? "Overall"

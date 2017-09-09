@@ -10,6 +10,7 @@
 #pragma once
 
 #include <pion/http/server.hpp>
+#include <bbox/rt/net/IpAddress.h>
 
 namespace bbox {
     namespace http {
@@ -76,6 +77,8 @@ namespace bbox {
                 return !m_auto_failure;
             }
 
+            bbox::rt::net::IpAddress GetRemoteIpAddress() const;
+
             std::string GetRootUrl() const;
 
             std::string GetResource() const;
@@ -96,7 +99,10 @@ namespace bbox {
             std::string GetContent();
 
             bool RespondWithResource(const ResourceFileSet &resources);
+            bool RespondWithResource(const ResourceFileSet &resources, const std::string &resource_path);
+
             void RespondWithResourceOrNotFoundError(const ResourceFileSet &resources);
+            void RespondWithResourceOrNotFoundError(const ResourceFileSet &resources, const std::string &resource_path);
 
             void RespondWithNotFoundError();
             void RespondWithBadRequestError();
@@ -105,8 +111,6 @@ namespace bbox {
 
             void RespondWithServerError(const std::string &message);
             void RespondWithMethodNotAllowedError(const std::string &allowed_methods);
-
-			void RespondWithDebugPage(const std::string &debug_root_path);
 
         private:
             server::HttpServer *m_server_service;

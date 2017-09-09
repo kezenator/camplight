@@ -12,6 +12,7 @@
 #include <bbox/rt/Service.h>
 #include <bbox/rt/ConsoleShutdownService.h>
 #include <bbox/http/server/HttpServer.h>
+#include <bbox/http/debug/HttpDebugWebsite.h>
 #include <bbox/http/Response.h>
 #include <bbox/Format.h>
 #include <bbox/Assert.h>
@@ -44,6 +45,7 @@ public:
         , m_http_listen_endpoint(http_listen_endpoint)
         , m_console_shutdown_service("console-shutdown-service", *this)
         , m_http_server("http-server", *this)
+        , m_http_debug_website("http-debug-website", *this, m_http_server)
         , m_renderer("renderer", *this)
     {
         m_http_server.SetThisDependantOn(m_renderer);
@@ -170,12 +172,6 @@ private:
             return;
         }
 
-        if (request.GetResource().substr(0, 6) == "/debug")
-        {
-            request.RespondWithDebugPage("/debug");
-            return;
-        }
-
         if (request.GetResource().substr(0, 5) == "/api/")
         {
             HandleApiRequest(request);
@@ -251,6 +247,7 @@ private:
     bbox::rt::net::TcpEndpoint m_http_listen_endpoint;
     bbox::rt::ConsoleShutdownService m_console_shutdown_service;
     bbox::http::server::HttpServer m_http_server;
+    bbox::http::debug::HttpDebugWebsite m_http_debug_website;
     bbox::enc::api::MethodSet m_method_set;
 
     render::Renderer m_renderer;

@@ -5,12 +5,36 @@
 */
 
 #include <bbox/http/server/HttpServer.h>
+#include <bbox/http/server/RequestHandler.h>
 #include <bbox/Assert.h>
 #include <bbox/DebugOutput.h>
+
+#ifdef WIN32
+#include <bbox/TextCoding.h>
+#include <shellapi.h>
+#endif // WIN32
 
 namespace bbox {
     namespace http {
         namespace server {
+
+            bool HttpServer::RequestHandlerOrder::operator()(RequestHandler *a, RequestHandler *b) const
+            {
+                // Longer prefixes first, then order by prefix
+
+                if (a->m_prefix.size() > b->m_prefix.size())
+                {
+                    return true;
+                }
+                else if (a->m_prefix.size() < b->m_prefix.size())
+                {
+                    return false;
+                }
+                else
+                {
+                    return a->m_prefix < b->m_prefix;
+                }
+            }
 
             HttpServer::HttpServer(const std::string &name, rt::Service &parent)
                 : rt::Service(name, parent)
@@ -18,6 +42,8 @@ namespace bbox {
                 , m_scheduler("scheduler", *this)
 				, m_num_requests_received(0)
                 , m_num_outstanding_requests(0)
+                , m_request_handlers()
+                , m_default_debug_enable("default-handler-debug", *this)
             {
             }
 
@@ -25,17 +51,21 @@ namespace bbox {
             {
                 BBOX_ASSERT(m_servers.empty());
                 BBOX_ASSERT(m_num_outstanding_requests == 0);
+                BBOX_ASSERT(m_request_handlers.empty());
             }
 
             void HttpServer::HandleStarting()
             {
                 BBOX_ASSERT(m_num_outstanding_requests == 0);
+                BBOX_ASSERT(m_request_handlers.empty());
 
                 NotifyStarted();
             }
 
             void HttpServer::HandleStopping()
             {
+                BBOX_ASSERT(m_request_handlers.empty());
+
                 for (pion::http::server_ptr &server : m_servers)
                     server->async_stop(false, boost::bind(&HttpServer::ServerStopped, this, server));
 
@@ -61,7 +91,7 @@ namespace bbox {
 				out.Format("Num endpoints: %d\n", m_servers.size());
 				for (const auto &server_ptr : m_servers)
 				{
-                    out.Format("Endpoint: ");
+                    out.Format("    Endpoint: ");
                     {
                         bbox::DebugOutput url_out(BBOX_FUNC, out, DebugOutput::Mime_Text_Url);
                         url_out.Format(
@@ -69,7 +99,16 @@ namespace bbox {
                             server_ptr->get_endpoint().address().to_string(),
                             server_ptr->get_endpoint().port());
                     }
+                    out << std::endl;
 				}
+
+                out.Format("Num request handlers: %s\n", m_request_handlers.size());
+                for (const auto &handler_ptr : m_request_handlers)
+                {
+                    out.Format("    Handler: %s @ ", handler_ptr->m_prefix);
+                    handler_ptr->PrintResourcePathLink(out);
+                    out << std::endl;
+                }
 			}
 
             void HttpServer::ServerStopped(pion::http::server_ptr &server)
@@ -104,7 +143,7 @@ namespace bbox {
             }
 
             bool HttpServer::AddServer(const rt::net::TcpEndpoint &tcp_endpoint,
-                                       RequestHandler handler)
+                                       HandlerFunc handler /* = HandlerFunc() */)
             {
                 BBOX_ASSERT(GetOverallRunLevel() == rt::RunLevel::RUNNING);
 
@@ -124,7 +163,7 @@ namespace bbox {
             }
 
             unsigned short HttpServer::AddUnassignedPortServer(const rt::net::IpAddress &ip_address,
-                                                               RequestHandler handler)
+                                                               HandlerFunc handler /* = HandlerFunc() */)
             {
                 BBOX_ASSERT(GetOverallRunLevel() == rt::RunLevel::RUNNING);
 
@@ -145,24 +184,43 @@ namespace bbox {
                 return server->get_endpoint().port();
             }
 
+            void HttpServer::TryAndOpenWebBrowserToServer(const std::string &path)
+            {
+#ifdef WIN32
+                if (!m_servers.empty())
+                {
+                    // Determine the address of the first server
+
+                    pion::http::server_ptr server_ptr = m_servers.front();
+
+                    bbox::rt::net::TcpEndpoint endpoint(server_ptr->get_endpoint());
+
+                    // If it's 0.0.0.0 then convert it to localhost
+
+                    if (endpoint.GetAddress().is_v4()
+                        && (endpoint.GetAddress().to_v4().is_unspecified()))
+                    {
+                        bbox::rt::net::TcpEndpoint::FromString(bbox::Format("127.0.0.1:%d", endpoint.GetPort()), endpoint);
+                    }
+
+                    // Try and open a browser window
+
+                    ::ShellExecuteW(
+                        nullptr,
+                        nullptr,
+                        bbox::TextCoding::Win32_UTF8_to_UTF16(bbox::Format("http://%s%s", endpoint.ToString(), path)).c_str(),
+                        nullptr,
+                        nullptr,
+                        0);
+                }
+#endif // WIN32
+            }
+
             void HttpServer::HandleRequest(const pion::http::server_ptr &server,
                                            const pion::http::request_ptr &http_request_ptr,
                                            const pion::tcp::connection_ptr &tcp_conn,
-                                           const RequestHandler &user_handler)
+                                           const HandlerFunc &user_handler)
             {
-                DebugOutput out(BBOX_FUNC, DebugOutput::Activity);
-                out << "HTTP Request: " 
-                    << tcp_conn->get_remote_endpoint()
-                    << " => "
-                    << server->get_endpoint()
-                    << " "
-                    << http_request_ptr->get_method()
-                    << " "
-                    << http_request_ptr->get_resource()
-                    << (http_request_ptr->get_query_string().empty() ? "" : "?")
-                    << http_request_ptr->get_query_string()
-                    << std::endl;
-
                 // Mark that one more request is pending
 
 				m_num_requests_received += 1;
@@ -172,13 +230,77 @@ namespace bbox {
 
                 Request request(*this, server, http_request_ptr, tcp_conn);
 
-                // Pass the response on to the user handler.
+                // See if there is a registered handler
+                // with a prefix that matches
+                // the request path
+
+                const std::string resource = request.GetResource();
+                for (RequestHandler *handler_ptr : m_request_handlers)
+                {
+                    if ((resource.size() >= handler_ptr->m_prefix.size())
+                        && (resource.substr(0, handler_ptr->m_prefix.size()) == handler_ptr->m_prefix))
+                    {
+                        DebugOutput out(BBOX_FUNC, handler_ptr->m_debug_enable);
+                        if (out)
+                        {
+                            out << "HTTP Request (via default handler): "
+                                << tcp_conn->get_remote_endpoint()
+                                << " => "
+                                << server->get_endpoint()
+                                << " "
+                                << http_request_ptr->get_method()
+                                << " "
+                                << http_request_ptr->get_resource()
+                                << (http_request_ptr->get_query_string().empty() ? "" : "?")
+                                << http_request_ptr->get_query_string()
+                                << std::endl;
+                        }
+
+                        handler_ptr->m_handler_func(request);
+                        return;
+                    }
+                }
+
+                // Pass the request on to the default handler.
                 // If it's not set the auto-cleardown of the
                 // request will send a failure response
 
                 if (user_handler)
                 {
+                    DebugOutput out(BBOX_FUNC, m_default_debug_enable);
+                    if (out)
+                    {
+                        out << "HTTP Request (via default handler): "
+                            << tcp_conn->get_remote_endpoint()
+                            << " => "
+                            << server->get_endpoint()
+                            << " "
+                            << http_request_ptr->get_method()
+                            << " "
+                            << http_request_ptr->get_resource()
+                            << (http_request_ptr->get_query_string().empty() ? "" : "?")
+                            << http_request_ptr->get_query_string()
+                            << std::endl;
+                    }
+
                     user_handler(request);
+                    return;
+                }
+
+                DebugOutput out(BBOX_FUNC, DebugOutput::Error);
+                if (out)
+                {
+                    out << "HTTP Request (Unhandled): "
+                        << tcp_conn->get_remote_endpoint()
+                        << " => "
+                        << server->get_endpoint()
+                        << " "
+                        << http_request_ptr->get_method()
+                        << " "
+                        << http_request_ptr->get_resource()
+                        << (http_request_ptr->get_query_string().empty() ? "" : "?")
+                        << http_request_ptr->get_query_string()
+                        << std::endl;
                 }
             }
 

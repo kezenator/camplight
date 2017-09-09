@@ -17,7 +17,7 @@
     public list: bbox.ds.Deque<string>;
 }
 
-class MyApplication extends bbox.ui.Application
+class MyApplication extends bbox.ui.Application<SimpleType>
 {
     private timer: bbox.ui.Timer;
     private tests: bbox.ds.Deque<string>;
@@ -26,7 +26,7 @@ class MyApplication extends bbox.ui.Application
 
     constructor()
     {
-        super();
+        super(SimpleType);
 
         this.timer = new bbox.ui.Timer(this.testTimeout.bind(this));
 
@@ -35,9 +35,18 @@ class MyApplication extends bbox.ui.Application
         this.tests.push_back("testfromxml");
     }        
 
-    onload(): void
+    onLoad(state: SimpleType): void
     {
         this.timer.startPeriodic(100, 100);
+    }
+
+    onPopState(state: SimpleType): void
+    {
+    }
+
+    decodeUrlToState(url: string): SimpleType
+    {
+        return new SimpleType();
     }
 
     private testTimeout(): void

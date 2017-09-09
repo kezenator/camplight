@@ -98,7 +98,7 @@ $(1) : $(OUTPUT_DIR)/$$(shell echo $(1) | tr [:upper:] [:lower:])
 
 $(OUTPUT_DIR)/$$(shell echo $(1) | tr [:upper:] [:lower:]): $$(call SRC_TO_OBJ,$$(SRCS_RECURSIVE_$(1))) | $(OUTPUT_DIR)
 	@echo "Linking $$@"
-	g++ -o $$@ $$^ -lssl -lcrypto -luuid -pthread -lrt
+	g++ -o $$@ $$^ $$(patsubst %,-l%,$$(LIBS_RECURSIVE_$(1)))
 
 endef
 
@@ -112,7 +112,7 @@ run_$(1): $(1)
 
 $(OUTPUT_DIR)/$$(shell echo $(1) | tr [:upper:] [:lower:]): $$(call SRC_TO_OBJ,$$(SRCS_RECURSIVE_$(1))) | $(OUTPUT_DIR)
 	@echo "Linking $$@"
-	g++ -o $$@ $$^ -lssl -lcrypto -luuid -pthread -lrt
+	g++ -o $$@ $$^ $$(patsubst %,-l%,$$(LIBS_RECURSIVE_$(1)))
 
 endef
 

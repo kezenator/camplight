@@ -19,7 +19,8 @@ namespace bbox
 
 		struct DebugVisitor::Pimpl
 		{
-			std::vector<DebugQueryResult> &results;
+			std::vector<DebugQueryResult> *results_ptr;
+            const std::set<std::string> *debug_enables_ptr;
 			std::deque<std::string> current_path;
 			std::deque<std::string> remaining_query;
 			DebugQueryResult this_result;
@@ -27,9 +28,11 @@ namespace bbox
 			bool want_visit_children;
 			bool want_report;
 			bool set_report;
+            bool want_control_debug_enable;
 
 			Pimpl(std::vector<DebugQueryResult> &_results, const std::string &_query)
-				: results(_results)
+				: results_ptr(&_results)
+                , debug_enables_ptr(nullptr)
 				, current_path()
 				, remaining_query()
 			{
@@ -50,16 +53,38 @@ namespace bbox
 				SetupWantAndEmptyThisResult();
 			}
 
-			Pimpl(Pimpl &parent, const std::string &child_name)
-				: results(parent.results)
+            Pimpl(const std::set<std::string> &_debug_enables)
+                : results_ptr(nullptr)
+                , debug_enables_ptr(&_debug_enables)
+                , current_path()
+                , remaining_query()
+            {
+                SetupWantAndEmptyThisResult();
+            }
+
+            Pimpl(Pimpl &parent, const std::string &child_name)
+				: results_ptr(parent.results_ptr)
+                , debug_enables_ptr(parent.debug_enables_ptr)
 				, current_path(parent.current_path)
 				, remaining_query(parent.remaining_query)
 			{
-				BBOX_ASSERT(!remaining_query.empty());
-				BBOX_ASSERT(remaining_query.front() == child_name);
+                if (results_ptr)
+                {
+                    // Ensure we have some query remaining and the child names
+                    // matches the next part of the query
 
-				current_path.push_back(std::move(remaining_query.front()));
-				remaining_query.pop_front();
+                    BBOX_ASSERT(!remaining_query.empty());
+                    BBOX_ASSERT(remaining_query.front() == child_name);
+
+                    current_path.push_back(std::move(remaining_query.front()));
+                    remaining_query.pop_front();
+                }
+                else
+                {
+                    // Just update the current path
+
+                    current_path.push_back(child_name);
+                }
 
 				SetupWantAndEmptyThisResult();
 			}
@@ -67,12 +92,18 @@ namespace bbox
 			void SetupWantAndEmptyThisResult()
 			{
 				want_visit_children = true;
-				want_report = remaining_query.empty();
+				want_report = results_ptr && remaining_query.empty();
 				set_report = false;
+                want_control_debug_enable = (debug_enables_ptr != nullptr);
 
 				if (want_report)
 				{
-					// Setup the result full path
+                    // If we're reporting, then we don't need
+                    // to visit any more children
+
+                    want_visit_children = false;
+
+                    // Setup the result full path
 
 					if (current_path.empty())
 					{
@@ -82,6 +113,25 @@ namespace bbox
 					{
 						this_result.full_path = std::string("/") + boost::join(current_path, "/");
 					}
+
+                    // Determine the parent path
+
+                    if (current_path.empty())
+                    {
+                        this_result.parent_path.clear();
+                    }
+                    else if (current_path.size() == 1)
+                    {
+                        this_result.parent_path = "/";
+                    }
+                    else
+                    {
+                        auto parent_path = current_path;
+
+                        parent_path.pop_back();
+                        
+                        this_result.parent_path = std::string("/") + boost::join(parent_path, "/");
+                    }
 				}
 			}
 
@@ -89,7 +139,7 @@ namespace bbox
 			{
 				if (want_report)
 				{
-					results.push_back(this_result);
+					results_ptr->push_back(this_result);
 				}
 			}
 		};
@@ -104,6 +154,11 @@ namespace bbox
 		{
 		}
 
+        DebugVisitor::DebugVisitor(const std::set<std::string> &debug_enables)
+            : m_pimpl(std::make_unique<Pimpl>(debug_enables))
+        {
+        }
+
 		DebugVisitor::~DebugVisitor()
 		{
 		}
@@ -116,6 +171,14 @@ namespace bbox
 			return m_pimpl->want_visit_children;
 		}
 
+        bool DebugVisitor::WantEnumerateChildren()
+        {
+            if (!m_pimpl)
+                return false;
+
+            return m_pimpl->want_report;
+        }
+
 		bool DebugVisitor::WantReport()
 		{
 			if (!m_pimpl)
@@ -123,6 +186,14 @@ namespace bbox
 
 			return m_pimpl->want_report;
 		}
+
+        bool DebugVisitor::WantControlDebugEnable()
+        {
+            if (!m_pimpl)
+                return false;
+
+            return m_pimpl->want_control_debug_enable;
+        }
 
 		DebugVisitor DebugVisitor::ChildVisitor(const std::string &child_name)
 		{
@@ -135,27 +206,40 @@ namespace bbox
 			{
 				// Invalid - don't return a valid visitor
 			}
-			else
-			{
-				// Always record this child
+            else if (m_pimpl->debug_enables_ptr)
+            {
+                // When controlling debug enables we need to visit EVERY item
 
-				if (m_pimpl->want_report)
-				{
-					m_pimpl->this_result.children.insert(child_name);
-				}
+                result.m_pimpl = std::make_unique<Pimpl>(*m_pimpl, child_name);
+            }
+            else if (!m_pimpl->remaining_query.empty()
+                && (child_name == m_pimpl->remaining_query.front()))
+            {
+                // When doing a query only return child visitor if the child
+                // name exactly matches the next part of the remaining query
 
-				// Only return a real visitor for the actual
-				// child that we want
-
-				if (!m_pimpl->remaining_query.empty()
-					&& (child_name == m_pimpl->remaining_query.front()))
-				{
-					result.m_pimpl = std::make_unique<Pimpl>(*m_pimpl, child_name);
-				}
-			}
+                result.m_pimpl = std::make_unique<Pimpl>(*m_pimpl, child_name);
+            }
 
 			return result;
 		}
+
+        void DebugVisitor::EnumerateChild(const std::string &name, std::string &&short_description)
+        {
+            BBOX_ASSERT(m_pimpl && m_pimpl->want_report);
+
+            if (m_pimpl
+                && m_pimpl->want_report)
+            {
+                std::deque<std::string> child_path(m_pimpl->current_path);
+                child_path.push_back(name);
+
+                m_pimpl->this_result.children.emplace_back(
+                    name,
+                    std::string("/") + boost::join(child_path, "/"),
+                    std::move(short_description));
+            }
+        }
 
 		void DebugVisitor::SetReport(DebugReport report)
 		{
@@ -170,6 +254,31 @@ namespace bbox
 				m_pimpl->set_report = true;
 			}
 		}
+
+        bool DebugVisitor::GetDebugEnableState()
+        {
+            BBOX_ASSERT(m_pimpl && m_pimpl->want_control_debug_enable);
+
+            bool result = false;
+
+            if (m_pimpl
+                && m_pimpl->want_control_debug_enable)
+            {
+                std::string path = std::string("/") + boost::join(m_pimpl->current_path, "/");
+
+                for (const std::string &enable : *m_pimpl->debug_enables_ptr)
+                {
+                    if ((path.size() >= enable.size())
+                        && (path.substr(path.size() - enable.size()) == enable))
+                    {
+                        // This enable is a matching suffix for the current visitor path
+                        result = true;
+                    }
+                }
+            }
+
+            return result;
+        }
 
 	} // namespace bbox::debug
 } // namespace bbox

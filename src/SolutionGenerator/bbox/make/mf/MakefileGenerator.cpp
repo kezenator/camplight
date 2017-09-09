@@ -22,6 +22,37 @@ namespace bbox {
     namespace make {
         namespace mf {
 
+            struct MakefileGenerator::project_sorter
+            {
+                size_t Depth(const Project *p) const
+                {
+                    size_t result = 1;
+
+                    for (const std::string &ref_name : p->GetReferences())
+                    {
+                        const Project *ref = p->GetSolution().GetProject(ref_name);
+                        size_t d = 1 + Depth(ref);
+                        if (d > result)
+                            result = d;
+                    }
+
+                    return result;
+                }
+
+                bool operator()(const Project *p1, const Project *p2) const
+                {
+                    size_t d1 = Depth(p1);
+                    size_t d2 = Depth(p2);
+
+                    if (d1 < d2)
+                        return true;
+                    else if (d1 > d2)
+                        return false;
+                    else
+                        return p1->GetName() < p2->GetName();
+                }
+            };
+
             MakefileGenerator::MakefileGenerator(const Solution &solution)
                 : Generator(solution)
             {
@@ -36,37 +67,6 @@ namespace bbox {
             {
                 // Sort the projects, putting the low level ones
                 // first then the big applications
-
-                struct project_sorter
-                {
-                    size_t Depth(const Project *p) const
-                    {
-                        size_t result = 1;
-
-                        for (const std::string &ref_name : p->GetReferences())
-                        {
-                            const Project *ref = p->GetSolution().GetProject(ref_name);
-                            size_t d = 1 + Depth(ref);
-                            if (d > result)
-                                result = d;
-                        }
-
-                        return result;
-                    }
-
-                    bool operator()(const Project *p1, const Project *p2) const
-                    {
-                        size_t d1 = Depth(p1);
-                        size_t d2 = Depth(p2);
-
-                        if (d1 < d2)
-                            return true;
-                        else if (d1 > d2)
-                            return false;
-                        else
-                            return p1->GetName() < p2->GetName();
-                    }
-                };
 
                 std::vector<const Project *> projects = GetSolution().GetProjects();
                 std::set<const Project *, project_sorter> sorted_projects(
@@ -91,6 +91,7 @@ namespace bbox {
                         {
                             PrintSources(stream, proj);
                             PrintIncludes(stream, proj);
+                            PrintLibs(stream, proj);
                             PrintCustomBuildSteps(stream, proj);
 
                             stream << "APPS += " << proj->GetName() << std::endl;
@@ -115,6 +116,7 @@ namespace bbox {
                         {
                             PrintSources(stream, proj);
                             PrintIncludes(stream, proj);
+                            PrintLibs(stream, proj);
                             PrintCustomBuildSteps(stream, proj);
 
                             stream << "TESTS += " << proj->GetName() << std::endl;
@@ -180,6 +182,47 @@ namespace bbox {
 
                 stream << "    )" << std::endl;
                 stream << "    # End INCS_RECURSIVE_" << proj->GetName() << std::endl;
+                stream << std::endl;
+            }
+
+            void MakefileGenerator::PrintLibs(std::ostream &stream, const Project *proj)
+            {
+                // Get the set of projects we include libraries from,
+                // sorted so that libraries with no dependencies are at the front
+
+                std::set<const Project *, project_sorter> ref_project_ptrs;
+
+                for (const std::string &proj_name : proj->GetSelfPlusReferencesRecursive())
+                {
+                    ref_project_ptrs.insert(GetSolution().GetProject(proj_name));
+                }
+
+                // Create the list of libraries from each project, with libraries
+                // from less dependant projects at the back
+
+                std::deque<std::string> lib_names;
+                std::set<std::string> already_added;
+
+                for (const Project *ref_ptr : ref_project_ptrs)
+                {
+                    for (const std::string lib_name : ref_ptr->GetAdditionalDependencies())
+                    {
+                        if (already_added.count(lib_name) == 0)
+                        {
+                            lib_names.push_front(lib_name);
+                        }
+                    }
+                }
+
+                // Now print it all
+
+                stream << "LIBS_RECURSIVE_" << proj->GetName() << " := \\" << std::endl;
+
+                for (const std::string &lib : lib_names)
+                {
+                    stream << "        " << lib << " \\" << std::endl;
+                }
+                stream << "    # End LIBS_RECURSIVE_" << proj->GetName() << std::endl;
                 stream << std::endl;
             }
 

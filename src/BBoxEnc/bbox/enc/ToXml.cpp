@@ -51,7 +51,35 @@ namespace bbox
 
         void ToXml::SetStringValue(const std::string &canonical)
         {
-            m_cur_element->SetAttribute("value", canonical.c_str());
+            // Save as an attribute if it's less than
+            // 80 characters and doesn't have any control characters.
+
+            bool as_attribute = false;
+
+            if (canonical.size() < 80)
+            {
+                as_attribute = true;
+
+                for (char ch : canonical)
+                {
+                    if ((ch < ' ') || (ch > '~'))
+                    {
+                        as_attribute = false;
+                        break;
+                    }
+                }
+            }
+
+            if (as_attribute)
+            {
+                m_cur_element->SetAttribute("value", canonical.c_str());
+            }
+            else
+            {
+                tinyxml2::XMLText *text_ptr = m_doc.NewText(canonical.c_str());
+                text_ptr->SetCData(true);
+                m_cur_element->InsertFirstChild(text_ptr);
+            }
         }
 
     } // namespace bbox::enc

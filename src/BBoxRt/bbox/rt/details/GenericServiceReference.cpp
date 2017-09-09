@@ -61,7 +61,13 @@ namespace bbox {
 			{
 				out.Format("Referenced service name: %s\n", m_ref_name);
 				out.Format("Referenced service type: %s\n", m_type.pretty_name());
-				out.Format("Referenced service inst: %s\n", m_implementing_service ? m_implementing_service->GetResourceFullPath() : "<none>");
+                
+                out << "Referenced service inst: ";
+                if (m_implementing_service)
+                    m_implementing_service->PrintResourcePathLink(out);
+                else
+                    out << "<none>";
+                out << std::endl;
 			}
 
         } // namespace bbox::rt::details

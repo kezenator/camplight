@@ -118,7 +118,9 @@ namespace bbox {
 				
 				if (entry.second.implementing_service)
 				{
-					out.Format("Service Instance: %s\n", entry.second.implementing_service->GetResourceFullPath());
+                    out << "Service Instance: ";
+                    entry.second.implementing_service->PrintResourcePathLink(out);
+                    out << std::endl;
 				}
 				else
 				{
@@ -128,7 +130,10 @@ namespace bbox {
 
 			for (details::GenericServiceReference *ref_ptr : m_references)
 			{
-				out.Format("Reference: %s\n", ref_ptr->GetResourceFullPath());
+                out << "Reference: ";
+                ref_ptr->PrintResourcePathLink(out);
+                out << std::endl;
+
 				out.Format("    Name: %s Type: %s\n", ref_ptr->m_ref_name, ref_ptr->m_type.pretty_name());
 			}
 		}

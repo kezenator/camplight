@@ -21,6 +21,9 @@
     <ClCompile Include="bbox\rt\ConsoleShutdownService.cpp">
       <Filter>bbox\rt</Filter>
     </ClCompile>
+    <ClCompile Include="bbox\rt\DebugEnable.cpp">
+      <Filter>bbox\rt</Filter>
+    </ClCompile>
     <ClCompile Include="bbox\rt\NetworkChangeRef.cpp">
       <Filter>bbox\rt</Filter>
     </ClCompile>
@@ -87,6 +90,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bbox\rt\ConsoleShutdownService.h">
+      <Filter>bbox\rt</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\DebugEnable.h">
       <Filter>bbox\rt</Filter>
     </ClInclude>
     <ClInclude Include="bbox\rt\NetworkChangeRef.h">

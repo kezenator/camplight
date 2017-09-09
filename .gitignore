@@ -1,4 +1,4 @@
-/src/ThirdParty/boost/boost_1_59_0
+/src/ThirdParty/boost/boost_1_65_1
 /src/.vs
 x64
 Debug
@@ -9,3 +9,6 @@ bin
 /src/Applications/CampLightWeb/app.js
 /src/CampLight.VC.VC.opendb
 /src/CampLight.VC.db
+/src/BBoxHttpDebug/Web/app.js
+/src/BBoxHttpDebug/Web/app.js.map
+/src/BBoxHttpDebug/Lib/bbox/http/debug/Resources.path

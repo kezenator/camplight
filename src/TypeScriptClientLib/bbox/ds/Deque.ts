@@ -58,5 +58,20 @@ module bbox.ds
 
             return this.array.shift();
         }
+
+        clear(): void
+        {
+            this.array = [];
+        }
+
+        shallowClone(): Deque<Type>
+        {
+            var result = new Deque<Type>();
+            for (var i = 0; i < this.array.length; ++i)
+            {
+                result.array.push(this.array[i]);
+            }
+            return result;
+        }
     }
 }

@@ -90,16 +90,31 @@ namespace bbox
                 }
             };
 
-            template <typename Type>
-            struct ToTextFormatAction<MarshalStrategy::AsStdVector, std::vector<Type>>
+            template <typename Type, typename Allocator>
+            struct ToTextFormatAction<MarshalStrategy::AsStdVector, std::vector<Type, Allocator>>
             {
-                static void Impl(ToTextFormat &m, const std::vector<Type> &value)
+                static void Impl(ToTextFormat &m, const std::vector<Type, Allocator> &value)
                 {
                     m.StartStructure();
                     m.AddNamedValue("size", bbox::ToString(value.size()));
                     for (size_t index = 0; index < value.size(); ++index)
                     {
                         m.AddNamedValue("entry", value[index]);
+                    }
+                    m.CompleteStructure();
+                }
+            };
+
+            template <typename Type, typename Comparator, typename Allocator>
+            struct ToTextFormatAction<MarshalStrategy::AsStdSet, std::set<Type, Comparator, Allocator>>
+            {
+                static void Impl(ToTextFormat &m, const std::set<Type, Comparator, Allocator> &value)
+                {
+                    m.StartStructure();
+                    m.AddNamedValue("size", bbox::ToString(value.size()));
+                    for (const auto &entry : value)
+                    {
+                        m.AddNamedValue("entry", entry);
                     }
                     m.CompleteStructure();
                 }

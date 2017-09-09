@@ -1,6 +1,6 @@
 ﻿namespace camplight
 {
-    export class Application extends bbox.ui.Application
+    export class Application extends bbox.ui.Application<AppState>
     {
         private api_base: string;
 
@@ -9,14 +9,23 @@
 
         constructor(api_base: string)
         {
-            super();
+            super(AppState);
 
             this.api_base = api_base;
         }
 
-        onload(): void
+        onLoad(state: AppState): void
         {
             this.tryReload();
+        }
+
+        onPopState(state: AppState): void
+        {
+        }
+
+        decodeUrlToState(url: string): AppState
+        {
+            return new AppState();
         }
 
         private tryReload()

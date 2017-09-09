@@ -42,6 +42,7 @@ namespace bbox {
             using details::ResourceBase::GetLocalRunLevel;
 			using details::ResourceBase::GetResourceName;
 			using details::ResourceBase::GetResourceFullPath;
+            using details::ResourceBase::PrintResourcePathLink;
 			using details::ResourceBase::RequestStart;
             using details::ResourceBase::RequestStop;
             using details::ResourceBase::SetThisDependantOn;

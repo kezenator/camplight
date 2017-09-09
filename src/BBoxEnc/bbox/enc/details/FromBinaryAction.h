@@ -88,10 +88,10 @@ namespace bbox
                 }
             };
 
-            template <typename Type>
-            struct FromBinaryAction<MarshalStrategy::AsStdVector, std::vector<Type>>
+            template <typename Type, typename Allocator>
+            struct FromBinaryAction<MarshalStrategy::AsStdVector, std::vector<Type, Allocator>>
             {
-                static void Impl(FromBinary &m, std::vector<Type> &value)
+                static void Impl(FromBinary &m, std::vector<Type, Allocator> &value)
                 {
                     size_t count = m.ReadSizeT();
 
@@ -101,6 +101,30 @@ namespace bbox
                     for (size_t index = 0; index < count; ++index)
                     {
                         m.Read(value[index]);
+                    }
+                }
+            };
+
+            template <typename Type, typename Comparator, typename Allocator>
+            struct FromBinaryAction<MarshalStrategy::AsStdSet, std::set<Type, Comparator, Allocator>>
+            {
+                static void Impl(FromBinary &m, std::set<Type, Comparator, Allocator> &value)
+                {
+                    size_t count = m.ReadSizeT();
+
+                    value.clear();
+
+                    for (size_t i = 0; i < count; ++i)
+                    {
+                        Type new_value;
+                        m.Read(new_value);
+
+                        auto insert_result = value.insert(std::move(new_value));
+
+                        if (!insert_result.second)
+                        {
+                            m.SetError("Duplicate value in std::set");
+                        }
                     }
                 }
             };

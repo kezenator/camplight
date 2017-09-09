@@ -5,10 +5,13 @@
 */
 
 #include <bbox/debug/DebugProvider.h>
+#include <bbox/debug/DebugQuery.h>
 #include <bbox/debug/DebugRoot.h>
 #include <bbox/debug/DebugStream.h>
 #include <bbox/debug/DebugTarget.h>
+#include <bbox/debug/DebugVisitor.h>
 #include <bbox/Assert.h>
+#include <bbox/TypeInfo.h>
 #include <map>
 #include <set>
 #include <functional>
@@ -24,12 +27,15 @@ namespace bbox
 			Pimpl()
 				: m_active_stream_ptr(nullptr)
 				, m_target_ptrs()
+                , m_root_ptr_map()
+                , m_debug_enables()
 			{
 			}
 
 			DebugStream *m_active_stream_ptr;
 			std::set<DebugTarget *, std::less<DebugTarget *>> m_target_ptrs;
 			std::map<std::string, DebugRoot *> m_root_ptr_map;
+            std::set<std::string> m_debug_enables;
 		};
 
         DebugProvider::DebugProvider()
@@ -45,8 +51,64 @@ namespace bbox
 			BBOX_ASSERT(m_pimpl->m_active_stream_ptr == nullptr);
 			BBOX_ASSERT(m_pimpl->m_target_ptrs.empty());
 			BBOX_ASSERT(m_pimpl->m_root_ptr_map.empty());
+            BBOX_ASSERT(m_pimpl->m_debug_enables.empty());
 
             t_provider_ptr = nullptr;
+        }
+
+        void DebugProvider::RootQuery(DebugVisitor &&visitor)
+        {
+            BBOX_ASSERT(m_pimpl);
+
+            if (visitor.WantVisitChildren())
+            {
+                for (const auto &entry : m_pimpl->m_root_ptr_map)
+                {
+                    entry.second->VisitDebugRootEntry(visitor.ChildVisitor(entry.first));
+                }
+            }
+
+            if (visitor.WantEnumerateChildren())
+            {
+                for (const auto &entry : m_pimpl->m_root_ptr_map)
+                {
+                    visitor.EnumerateChild(entry.first, bbox::TypeInfo(typeid(*entry.second)).pretty_name());
+                }
+            }
+
+            if (visitor.WantReport())
+            {
+                bbox::debug::DebugReport report;
+
+                {
+                    bbox::DebugOutput out(BBOX_FUNC, report, "Root query");
+
+                    PrintState(out);
+                }
+
+                visitor.SetReport(report);
+            }
+        }
+
+        void DebugProvider::PrintState(DebugOutput &out) const
+        {
+            out.Format("DebugRoot entries:\n");
+            for (const auto &entry : m_pimpl->m_root_ptr_map)
+            {
+                out.Format("   %s => %s\n", entry.first, TypeInfo(typeid(*entry.second)).pretty_name());
+            }
+
+            out.Format("DebugTarget entries:\n");
+            for (const DebugTarget *target_ptr: m_pimpl->m_target_ptrs)
+            {
+                out.Format("   %s\n", TypeInfo(typeid(*target_ptr)).pretty_name());
+            }
+
+            out.Format("Active debug enables:\n");
+            for (const std::string &debug_enable : m_pimpl->m_debug_enables)
+            {
+                out.Format("   %s\n", debug_enable);
+            }
         }
 
 		DebugStream *DebugProvider::AllocateStream(const char *func, DebugReport *user_report_ptr, std::string &&reason)
@@ -220,13 +282,6 @@ namespace bbox
 			BBOX_ASSERT(erase_result == 1);
 		}
 
-		std::map<std::string, DebugRoot *> &DebugProvider::GetRootMap()
-		{
-			BBOX_ASSERT(t_provider_ptr == this);
-
-			return m_pimpl->m_root_ptr_map;
-		}
-
 		void DebugProvider::LoginTarget(DebugTarget *target_ptr)
 		{
 			BBOX_ASSERT(t_provider_ptr == this);
@@ -234,6 +289,8 @@ namespace bbox
 			auto insert_result = m_pimpl->m_target_ptrs.insert(target_ptr);
 
 			BBOX_ASSERT(insert_result.second);
+
+            TargetDebugEnablesUpdated();
 		}
 
 		void DebugProvider::LogoutTarget(DebugTarget *target_ptr)
@@ -243,7 +300,26 @@ namespace bbox
 			auto erase_result = m_pimpl->m_target_ptrs.erase(target_ptr);
 
 			BBOX_ASSERT(erase_result == 1);
+
+            TargetDebugEnablesUpdated();
 		}
+
+        void DebugProvider::TargetDebugEnablesUpdated()
+        {
+            std::set<std::string> new_debug_enables;
+
+            for (DebugTarget *target_ptr : m_pimpl->m_target_ptrs)
+            {
+                new_debug_enables.insert(target_ptr->m_debug_enables.begin(), target_ptr->m_debug_enables.end());
+            }
+
+            if (new_debug_enables != m_pimpl->m_debug_enables)
+            {
+                m_pimpl->m_debug_enables = std::move(new_debug_enables);
+
+                DebugQuery::DoDebugEnableQuery(m_pimpl->m_debug_enables);
+            }
+        }
 
     }
 }

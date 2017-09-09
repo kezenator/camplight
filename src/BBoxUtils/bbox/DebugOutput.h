@@ -90,6 +90,40 @@ namespace bbox
 			}
 		}
 
+        /**
+        * Creates a new stack-based DebugOutput for
+        * outputting (if enabled) async debug from
+        * the operation of the programme.
+        *
+        * It should be created on the stack local to a function, for example:
+        *
+        * @code
+        * bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Testing);
+        * @endcode
+        *
+        * All access must be checked to see if it's enabled:
+        *
+        * @code
+        * if (out)
+        * {
+        *     out.Format("foo=%d\n", 123);
+        *     out << "bar=" << 456 << std::endl;
+        * }
+        * @endcode
+        *
+        * The output of DebugOutputs like this is
+        * automatically sent to the registered targets.
+        */
+       template <typename EnableType>
+       DebugOutput(const char *func, const EnableType &enable)
+           : m_stream_ptr(nullptr)
+       {
+           if (enable.DebugOutputEnabled())
+           {
+               Enable(func, enable.DebugOutputReason());
+           }
+       }
+
 		/**
 		 * Creates a DebugOutput for collecting debug
 		 * as requested by the user.
@@ -174,7 +208,34 @@ namespace bbox
 		 *
 		 * Makes no change if the debug output is already enabled.
 		 */
-		void Enable(const char *func, E_ENABLE enable);
+        void Enable(const char *func, E_ENABLE enable)
+        {
+            if (!*this && (enable != Never))
+            {
+                Enable(func, std::string(c_str(enable)));
+            }
+        }
+
+        /**
+         * Enables the debug output, if the specified enable is active.
+         * 
+         * Makes no change if the debug output is already enabled.
+         */
+        void Enable(const char *func, std::string &&reason);
+
+        /**
+		 * Enables the debug output, if the specified enable is active.
+		 *
+		 * Makes no change if the debug output is already enabled.
+		 */
+        template <typename EnableType>
+        void Enable(const char *func, EnableType enable)
+        {
+            if (!*this && enable.DebugOutputEnabled())
+            {
+                Enable(func, enable.DebugOutputReason());
+            }
+        }
 
 		/**
          * Outputs text.
@@ -192,6 +253,11 @@ namespace bbox
         {
             bbox::Format(ostream(), format);
         }
+
+        /**
+         * Prints raw data in a human readable form.
+         */
+        void PrintData(const void *data, size_t length);
 
         std::ostream &ostream();
 

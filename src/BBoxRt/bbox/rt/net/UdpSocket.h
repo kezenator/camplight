@@ -16,6 +16,7 @@
 
 #include <bbox/Error.h>
 #include <bbox/rt/Resource.h>
+#include <bbox/rt/DebugEnable.h>
 #include <bbox/rt/net/UdpEndpoint.h>
 
 namespace bbox {
@@ -86,6 +87,8 @@ namespace bbox {
 				Error m_setup_err;
 				Error m_send_last_err;
 				Error m_recv_last_err;
+
+                DebugEnable m_debug;
             };
 
         } // namespace bbox::rt::net

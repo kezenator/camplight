@@ -2,6 +2,7 @@
 project("GaySign", "Application");
 
 reference("BBoxHttp");
+reference("BBoxHttpDebug");
 reference("LibLeds");
 
 include(".");

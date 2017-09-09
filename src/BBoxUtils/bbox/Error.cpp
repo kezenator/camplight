@@ -19,11 +19,22 @@ namespace bbox {
 
     std::string Error::ToString() const
     {
-        return Format("%s (category %s value %d/0x%0X)",
-                      m_err_code.message(),
-                      m_err_code.category().name(),
-                      m_err_code.value(),
-                      (unsigned int)m_err_code.value());
+        std::string result;
+
+        if (*this)
+        {
+            result = Format("[\"%s\"/%s/%d(0x%08X)]",
+                m_err_code.message(),
+                m_err_code.category().name(),
+                m_err_code.value(),
+                (unsigned int)m_err_code.value());
+        }
+        else
+        {
+            result = "[Success]";
+        }
+
+        return result;
     }
 
 #ifdef WIN32

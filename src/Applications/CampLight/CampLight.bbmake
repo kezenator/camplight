@@ -2,6 +2,7 @@
 project("CampLight", "Application");
 
 reference("BBoxHttp");
+reference("BBoxHttpDebug");
 reference("BBoxEnc");
 
 if (platform() ~= "Win32") then

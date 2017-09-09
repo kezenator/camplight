@@ -6,4 +6,5 @@
 /// <reference path="camplight/ui/LedMatrix.ts" />
 /// <reference path="camplight/ui/LightDisplay.ts" />
 /// <reference path="camplight/ui/ComboBox.ts" />
+/// <reference path="camplight/AppState.ts" />
 /// <reference path="camplight/Application.ts" />

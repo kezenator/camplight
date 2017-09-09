@@ -43,6 +43,7 @@ namespace bbox
                 struct AsBinaryVector {};
                 struct AsStdPair {};
                 struct AsStdVector {};
+                struct AsStdSet {};
                 struct AsStdMap {};
 
                 struct ViaCustomMethods {};
@@ -144,6 +145,12 @@ namespace bbox
             struct ChooseStrategy<std::vector<Value, Allocator>>
             {
                 using Strategy = MarshalStrategy::AsStdVector;
+            };
+
+            template <typename Value, typename Comparator, typename Allocator>
+            struct ChooseStrategy<std::set<Value, Comparator, Allocator>>
+            {
+                using Strategy = MarshalStrategy::AsStdSet;
             };
 
             template <typename Allocator>

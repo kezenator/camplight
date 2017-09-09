@@ -28,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="_references.ts" />
+    <TypeScriptCompile Include="camplight\AppState.ts" />
     <TypeScriptCompile Include="camplight\Application.ts" />
     <TypeScriptCompile Include="camplight\api\ApplyRequest.ts" />
     <TypeScriptCompile Include="camplight\api\ApplyResponse.ts" />
@@ -45,6 +46,7 @@
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\ToXml.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\Type.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\TypeLibrary.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\TypePrototype.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\details\DequeType.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\details\IntType.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\details\SimpleStructureType.ts" />
@@ -56,6 +58,7 @@
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Container.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Control.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Div.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\EditBox.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Pre.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Span.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\TextControl.ts" />
@@ -84,9 +87,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>54099</DevelopmentServerPort>
+          <DevelopmentServerPort>54100</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:54099/</IISUrl>
+          <IISUrl>http://localhost:54100/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl></CustomServerUrl>

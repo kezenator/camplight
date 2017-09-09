@@ -185,7 +185,14 @@ namespace bbox
 
             bool PrivateCanRead(size_t len)
             {
-                return (m_DataLength - (m_ReadPtr - m_Data)) >= len;
+                bool result = (m_DataLength - (m_ReadPtr - m_Data)) >= len;
+
+                if (!result && !m_HasError)
+                {
+                    SetError("No more data remaining");
+                }
+
+                return result;
             }
 
             const uint8_t *m_Data;
