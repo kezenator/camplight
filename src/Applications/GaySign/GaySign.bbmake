@@ -1,0 +1,10 @@
+
+project("GaySign", "Application");
+
+reference("BBoxHttp");
+reference("LibLeds");
+
+include(".");
+
+sources(find_recursive("*.cpp"));
+headers(find_recursive("*.h"));

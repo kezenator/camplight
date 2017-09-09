@@ -103,17 +103,14 @@ namespace bbox {
                 }
             }
 
-            bool HttpServer::AddServer(const rt::net::IpAddress &ip_address,
-                                       uint16_t port,
+            bool HttpServer::AddServer(const rt::net::TcpEndpoint &tcp_endpoint,
                                        RequestHandler handler)
             {
                 BBOX_ASSERT(GetOverallRunLevel() == rt::RunLevel::RUNNING);
 
                 boost::system::error_code ec;
 
-                boost::asio::ip::tcp::endpoint endpoint(ip_address, port);
-
-                pion::http::server_ptr server(new pion::http::server(m_scheduler, endpoint));
+                pion::http::server_ptr server(new pion::http::server(m_scheduler, tcp_endpoint));
 
                 server->add_resource("/", boost::bind(&HttpServer::HandleRequest, this, server, _1, _2, std::move(handler)));
                 server->start();
@@ -123,7 +120,7 @@ namespace bbox {
                 DebugOutput out(BBOX_FUNC, DebugOutput::Activity);
                 out << "Opened HTTP server " << server->get_endpoint() << std::endl;
 
-                return server->get_endpoint().port() == port;
+                return server->get_endpoint() == tcp_endpoint;
             }
 
             unsigned short HttpServer::AddUnassignedPortServer(const rt::net::IpAddress &ip_address,

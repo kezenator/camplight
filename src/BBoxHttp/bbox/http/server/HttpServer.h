@@ -10,7 +10,7 @@
 #pragma once
 
 #include <bbox/rt/Service.h>
-#include <bbox/rt/net/IpAddress.h>
+#include <bbox/rt/net/TcpEndpoint.h>
 #include <bbox/rt/OneShotWork.h>
 
 #include <bbox/http/Request.h>
@@ -40,8 +40,7 @@ namespace bbox {
                 HttpServer(const std::string &name, rt::Service &parent);
                 virtual ~HttpServer();
 
-                bool AddServer(const rt::net::IpAddress &ip_address,
-                               uint16_t port,
+                bool AddServer(const rt::net::TcpEndpoint &tcp_endpoint,
                                RequestHandler handler);
 
                 unsigned short AddUnassignedPortServer(const rt::net::IpAddress &ip_address,

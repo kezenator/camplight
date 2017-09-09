@@ -313,6 +313,7 @@ SRCS_DIRECT_BBoxRt := $(sort \
         BBoxRt/bbox/rt/details/ResourceBase.cpp \
         BBoxRt/bbox/rt/net/AdapterInfo.cpp \
         BBoxRt/bbox/rt/net/IpAddress.cpp \
+        BBoxRt/bbox/rt/net/TcpEndpoint.cpp \
         BBoxRt/bbox/rt/net/UdpEndpoint.cpp \
         BBoxRt/bbox/rt/net/UdpSocket.cpp \
         BBoxRt/bbox/rt/win32/IpHelperAccess.cpp \
@@ -721,4 +722,68 @@ Applications/CampLight/camplight/Resources.cpp Applications/CampLight/camplight/
 	cd Applications/CampLight && ../../build/resourcebuilder -i "camplight/resources/app.css;camplight/resources/app.js;camplight/resources/apple-touch-icon-120x120.png;camplight/resources/apple-touch-icon-152x152.png;camplight/resources/apple-touch-icon-180x180.png;camplight/resources/apple-touch-icon-192x192.png;camplight/resources/favicon.ico;camplight/resources/index.html" -o "camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.path" -n "camplight" -r "camplight\resources"
 
 APPS += CampLight
+
+# Project LibLeds (type StaticLibrary)
+
+MODULES += LibLeds
+
+SRCS_DIRECT_LibLeds := $(sort \
+        Applications/LibLeds/leds/Color.cpp \
+        Applications/LibLeds/leds/FadecandyClient.cpp \
+        Applications/LibLeds/leds/HsvColor.cpp \
+    )
+    # End SRCS_DIRECT_LibLeds
+
+SRCS_RECURSIVE_LibLeds := $(sort \
+        $(SRCS_DIRECT_LibLeds) \
+        $(SRCS_RECURSIVE_BBoxEnc) \
+        $(SRCS_RECURSIVE_BBoxRt) \
+        $(SRCS_RECURSIVE_LibWS281x) \
+    )
+    # End SRCS_RECURSIVE_LibLeds
+
+INCS_DIRECT_LibLeds := $(sort \
+        Applications/LibLeds/. \
+    )
+    # End INCS_DIRECT_LibLeds
+
+INCS_RECURSIVE_LibLeds := $(sort \
+        $(INCS_DIRECT_LibLeds) \
+        $(INCS_RECURSIVE_BBoxEnc) \
+        $(INCS_RECURSIVE_BBoxRt) \
+        $(INCS_RECURSIVE_LibWS281x) \
+    )
+    # End INCS_RECURSIVE_LibLeds
+
+# Project GaySign (type Application)
+
+MODULES += GaySign
+
+SRCS_DIRECT_GaySign := $(sort \
+        Applications/GaySign/gaysign/Application.cpp \
+        Applications/GaySign/gaysign/Layout.cpp \
+        Applications/GaySign/gaysign/RenderService.cpp \
+    )
+    # End SRCS_DIRECT_GaySign
+
+SRCS_RECURSIVE_GaySign := $(sort \
+        $(SRCS_DIRECT_GaySign) \
+        $(SRCS_RECURSIVE_BBoxHttp) \
+        $(SRCS_RECURSIVE_LibLeds) \
+    )
+    # End SRCS_RECURSIVE_GaySign
+
+INCS_DIRECT_GaySign := $(sort \
+        Applications/GaySign/. \
+    )
+    # End INCS_DIRECT_GaySign
+
+INCS_RECURSIVE_GaySign := $(sort \
+        $(INCS_DIRECT_GaySign) \
+        $(INCS_RECURSIVE_BBoxHttp) \
+        $(INCS_RECURSIVE_LibLeds) \
+    )
+    # End INCS_RECURSIVE_GaySign
+
+APPS += GaySign
 

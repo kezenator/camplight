@@ -108,6 +108,19 @@ namespace bbox
                 }
             }
 
+            /**
+            * Writes a 16-bit unsigned int in big-endian format.
+            */
+            void WriteUint16BE(uint16_t val)
+            {
+                if (PrivateTestForWrite(2))
+                {
+                    m_WritePtr[0] = uint8_t(val >> 8);
+                    m_WritePtr[1] = uint8_t(val);
+                    m_WritePtr += 2;
+                }
+            }
+
             static inline void UncheckedEncodeUint32(void *buffer, uint32_t val)
             {
                 uint8_t *dst = static_cast<uint8_t *>(buffer);

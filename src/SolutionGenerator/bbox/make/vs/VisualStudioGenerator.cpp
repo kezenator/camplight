@@ -838,9 +838,13 @@ namespace bbox {
 
                 // Write the document to the project file
 
+                std::string contents = doc.str();
+
+                boost::replace_all(contents, "\n", "\r\n");
+
                 WriteFile(
                     relative_path + "\\" + name + ".vcxproj",
-                    doc.str());
+                    contents);
             }
 
             void
@@ -1021,9 +1025,13 @@ namespace bbox {
                     }
                 }
 
+                std::string contents = doc.str();
+
+                boost::replace_all(contents, "\n", "\r\n");
+
                 WriteFile(
                     relative_path + "\\" + name + ".vcxproj.filters",
-                    doc.str());
+                    contents);
             }
 
             void VisualStudioGenerator::GenerateTypescriptCsproj(const Project *project_ptr)
@@ -1261,9 +1269,13 @@ namespace bbox {
                     }
                 }
 
+                std::string contents = doc.str();
+
+                boost::replace_all(contents, "\n", "\r\n");
+
                 WriteFile(
                     relative_path + "\\" + name + ".csproj",
-                    doc.str());
+                    contents);
             }
 
             void VisualStudioGenerator::GenerateTypescriptWebConfigs(const Project *project_ptr)
@@ -1291,9 +1303,13 @@ namespace bbox {
                         }
                     }
 
+                    std::string contents = doc.str();
+
+                    boost::replace_all(contents, "\n", "\r\n");
+
                     WriteFile(
                         relative_path + "\\web.config",
-                        doc.str());
+                        contents);
                 }
 
                 // web.X.config
@@ -1317,11 +1333,15 @@ namespace bbox {
                         }
                     }
 
+                    std::string contents = doc.str();
+
+                    boost::replace_all(contents, "\n", "\r\n");
+
                     WriteFile(
                         bbox::Format("%s\\web.%s.config",
                             relative_path,
                             mode),
-                        doc.str());
+                        contents);
                 }
             }
 

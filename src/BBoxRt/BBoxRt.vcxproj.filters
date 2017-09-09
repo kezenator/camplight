@@ -69,6 +69,9 @@
     <ClCompile Include="bbox\rt\net\IpAddress.cpp">
       <Filter>bbox\rt\net</Filter>
     </ClCompile>
+    <ClCompile Include="bbox\rt\net\TcpEndpoint.cpp">
+      <Filter>bbox\rt\net</Filter>
+    </ClCompile>
     <ClCompile Include="bbox\rt\net\UdpEndpoint.cpp">
       <Filter>bbox\rt\net</Filter>
     </ClCompile>
@@ -135,6 +138,9 @@
       <Filter>bbox\rt\net</Filter>
     </ClInclude>
     <ClInclude Include="bbox\rt\net\IpAddress.h">
+      <Filter>bbox\rt\net</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\net\TcpEndpoint.h">
       <Filter>bbox\rt\net</Filter>
     </ClInclude>
     <ClInclude Include="bbox\rt\net\UdpEndpoint.h">

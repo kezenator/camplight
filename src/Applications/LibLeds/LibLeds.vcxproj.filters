@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="leds">
+      <UniqueIdentifier>{104931E8-B3C1-5187-B82D-1D88C0C5EB58}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="leds\Color.cpp">
+      <Filter>leds</Filter>
+    </ClCompile>
+    <ClCompile Include="leds\FadecandyClient.cpp">
+      <Filter>leds</Filter>
+    </ClCompile>
+    <ClCompile Include="leds\HsvColor.cpp">
+      <Filter>leds</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="leds\Color.h">
+      <Filter>leds</Filter>
+    </ClInclude>
+    <ClInclude Include="leds\FadecandyClient.h">
+      <Filter>leds</Filter>
+    </ClInclude>
+    <ClInclude Include="leds\HsvColor.h">
+      <Filter>leds</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LibLeds.bbmake" />
+  </ItemGroup>
+</Project>

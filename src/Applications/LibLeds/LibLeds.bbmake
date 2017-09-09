@@ -1,0 +1,14 @@
+
+project("LibLeds", "StaticLibrary");
+
+reference("BBoxRt");
+reference("BBoxEnc");
+
+if (platform() ~= "Win32") then
+    reference("LibWS281x");
+end
+
+include(".");
+
+sources(find_recursive("*.cpp"));
+headers(find_recursive("*.h"));

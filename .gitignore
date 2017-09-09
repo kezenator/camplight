@@ -1,0 +1,11 @@
+/src/ThirdParty/boost/boost_1_59_0
+/src/.vs
+x64
+Debug
+Release
+bin
+/src/Applications/CampLight/camplight/Resources.path
+/src/Applications/CampLightWeb/app.js.map
+/src/Applications/CampLightWeb/app.js
+/src/CampLight.VC.VC.opendb
+/src/CampLight.VC.db

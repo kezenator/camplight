@@ -715,7 +715,6 @@ var bbox;
             };
             FromXml.prototype.decodeTypedValue = function (type_name) {
                 if (this.has_error) {
-                    // No-op
                     return undefined;
                 }
                 else {
@@ -772,8 +771,6 @@ var bbox;
                     return undefined;
                 }
                 else if (typeof result == "number") {
-                    // Javascript automatically converts strings which are valid numbers -
-                    // just convert back to a string
                     return (result).toString();
                 }
                 else if (typeof result != "string") {
@@ -787,7 +784,6 @@ var bbox;
             FromXml.prototype.startObject = function () {
                 var cur_progress;
                 if (this.has_error) {
-                    // No-op
                     return;
                 }
                 else if (this.state == "Constructed") {
@@ -816,11 +812,9 @@ var bbox;
                         return;
                     }
                     if (this.parent_stack.empty()) {
-                        // Finished root object
                         this.state = "Complete";
                     }
                     else {
-                        // Finished sub-object
                         this.cur_obj_progress = this.parent_stack.pop_back();
                         this.state = "Completed-Named-Value";
                     }
@@ -1208,8 +1202,6 @@ var bbox;
                 var type_name = "std::vector<" + member_type_name + ">";
                 if (this.by_name.has(type_name))
                     return this.by_name.get(type_name);
-                // First time it was called - create and
-                // add a new type for this vector type
                 var result = new enc.details.DequeType(this, type_name, this.findType(member_type_name));
                 this.addType(result);
                 return result;
@@ -1232,28 +1224,6 @@ var bbox;
         enc.TypeLibrary = TypeLibrary;
     })(enc = bbox.enc || (bbox.enc = {}));
 })(bbox || (bbox = {}));
-/// <reference path="bbox/ds/Map.ts" />
-/// <reference path="bbox/ds/Deque.ts" />
-/// <reference path="bbox/ui/Timer.ts" />
-/// <reference path="bbox/ui/Control.ts" />
-/// <reference path="bbox/ui/Container.ts" />
-/// <reference path="bbox/ui/Application.ts" />
-/// <reference path="bbox/ui/TextControl.ts" />
-/// <reference path="bbox/ui/Button.ts" />
-/// <reference path="bbox/ui/Span.ts" />
-/// <reference path="bbox/ui/Div.ts" />
-/// <reference path="bbox/ui/Pre.ts" />
-/// <reference path="bbox/net/AjaxRequest.ts" />
-/// <reference path="bbox/net/BboxRpcRequest.ts" />
-/// <reference path="bbox/enc/Type.ts" />
-/// <reference path="bbox/enc/ToString.ts" />
-/// <reference path="bbox/enc/ToXml.ts" />
-/// <reference path="bbox/enc/FromXml.ts" />
-/// <reference path="bbox/enc/details/IntType.ts" />
-/// <reference path="bbox/enc/details/StringType.ts" />
-/// <reference path="bbox/enc/details/SimpleStructureType.ts" />
-/// <reference path="bbox/enc/details/DequeType.ts" />
-/// <reference path="bbox/enc/TypeLibrary.ts" />
 var SimpleType = (function () {
     function SimpleType() {
         this.name = "";
@@ -1292,7 +1262,6 @@ var MyApplication = (function (_super) {
             this.body().add(div);
             this.cur_test_success = true;
             this.cur_test_pre = pre;
-            // Run the test
             try {
                 this[name](this);
             }
@@ -1411,6 +1380,4 @@ var MyApplication = (function (_super) {
     };
     return MyApplication;
 }(bbox.ui.Application));
-/// <reference path="../TypeScriptClientLib/lib_references.ts" />
-/// <reference path="app.ts" />
 //# sourceMappingURL=app.js.map

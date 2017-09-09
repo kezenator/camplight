@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F6D25D50-21C7-5DFC-A148-444BAC7B011E}</ProjectGuid>
+    <ProjectGuid>{EED14378-C54B-52B9-A476-2582BAA8C6E1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>BBoxRt</RootNamespace>
+    <RootNamespace>LibLeds</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -73,7 +73,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\ThirdParty\boost\boost_1_59_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_59_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -92,7 +92,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\ThirdParty\boost\boost_1_59_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_59_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -113,7 +113,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\ThirdParty\boost\boost_1_59_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_59_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -136,7 +136,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\ThirdParty\boost\boost_1_59_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_59_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -150,56 +150,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="bbox\rt\ConsoleShutdownService.cpp" />
-    <ClCompile Include="bbox\rt\NetworkChangeRef.cpp" />
-    <ClCompile Include="bbox\rt\OneShotWork.cpp" />
-    <ClCompile Include="bbox\rt\Proactor.cpp" />
-    <ClCompile Include="bbox\rt\Resource.cpp" />
-    <ClCompile Include="bbox\rt\RunLevel.cpp" />
-    <ClCompile Include="bbox\rt\Service.cpp" />
-    <ClCompile Include="bbox\rt\ServiceFolder.cpp" />
-    <ClCompile Include="bbox\rt\ThreadPool.cpp" />
-    <ClCompile Include="bbox\rt\ThreadPoolRef.cpp" />
-    <ClCompile Include="bbox\rt\TimeSpan.cpp" />
-    <ClCompile Include="bbox\rt\Timer.cpp" />
-    <ClCompile Include="bbox\rt\WallClock.cpp" />
-    <ClCompile Include="bbox\rt\details\GenericServiceReference.cpp" />
-    <ClCompile Include="bbox\rt\details\ResourceBase.cpp" />
-    <ClCompile Include="bbox\rt\net\AdapterInfo.cpp" />
-    <ClCompile Include="bbox\rt\net\IpAddress.cpp" />
-    <ClCompile Include="bbox\rt\net\TcpEndpoint.cpp" />
-    <ClCompile Include="bbox\rt\net\UdpEndpoint.cpp" />
-    <ClCompile Include="bbox\rt\net\UdpSocket.cpp" />
-    <ClCompile Include="bbox\rt\win32\IpHelperAccess.cpp" />
-    <ClCompile Include="bbox\rt\win32\NetworkChangeService.cpp" />
+    <ClCompile Include="leds\Color.cpp" />
+    <ClCompile Include="leds\FadecandyClient.cpp" />
+    <ClCompile Include="leds\HsvColor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bbox\rt\ConsoleShutdownService.h" />
-    <ClInclude Include="bbox\rt\NetworkChangeRef.h" />
-    <ClInclude Include="bbox\rt\OneShotWork.h" />
-    <ClInclude Include="bbox\rt\Proactor.h" />
-    <ClInclude Include="bbox\rt\Resource.h" />
-    <ClInclude Include="bbox\rt\RunLevel.h" />
-    <ClInclude Include="bbox\rt\Service.h" />
-    <ClInclude Include="bbox\rt\ServiceFolder.h" />
-    <ClInclude Include="bbox\rt\ServiceReference.h" />
-    <ClInclude Include="bbox\rt\ThreadPool.h" />
-    <ClInclude Include="bbox\rt\ThreadPoolRef.h" />
-    <ClInclude Include="bbox\rt\TimeSpan.h" />
-    <ClInclude Include="bbox\rt\Timer.h" />
-    <ClInclude Include="bbox\rt\WallClock.h" />
-    <ClInclude Include="bbox\rt\details\GenericServiceReference.h" />
-    <ClInclude Include="bbox\rt\details\ResourceBase.h" />
-    <ClInclude Include="bbox\rt\net\AdapterInfo.h" />
-    <ClInclude Include="bbox\rt\net\IpAddress.h" />
-    <ClInclude Include="bbox\rt\net\TcpEndpoint.h" />
-    <ClInclude Include="bbox\rt\net\UdpEndpoint.h" />
-    <ClInclude Include="bbox\rt\net\UdpSocket.h" />
-    <ClInclude Include="bbox\rt\win32\IpHelperAccess.h" />
-    <ClInclude Include="bbox\rt\win32\NetworkChangeService.h" />
+    <ClInclude Include="leds\Color.h" />
+    <ClInclude Include="leds\FadecandyClient.h" />
+    <ClInclude Include="leds\HsvColor.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BBoxRt.bbmake" />
+    <None Include="LibLeds.bbmake" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

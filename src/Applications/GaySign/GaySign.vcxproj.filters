@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="gaysign">
+      <UniqueIdentifier>{53B88022-644D-5E43-8608-06B10D3DF819}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="gaysign\Application.cpp">
+      <Filter>gaysign</Filter>
+    </ClCompile>
+    <ClCompile Include="gaysign\Layout.cpp">
+      <Filter>gaysign</Filter>
+    </ClCompile>
+    <ClCompile Include="gaysign\RenderService.cpp">
+      <Filter>gaysign</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gaysign\Layout.h">
+      <Filter>gaysign</Filter>
+    </ClInclude>
+    <ClInclude Include="gaysign\RenderService.h">
+      <Filter>gaysign</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GaySign.bbmake" />
+  </ItemGroup>
+</Project>
