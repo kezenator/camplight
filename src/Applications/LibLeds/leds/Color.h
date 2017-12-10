@@ -74,7 +74,15 @@ namespace leds {
         Color operator +(const Color &other) const { return Color(add_sat(m_red, other.m_red), add_sat(m_green, other.m_green), add_sat(m_blue, other.m_blue)); }
         const Color &operator +=(const Color &other) { m_red = add_sat(m_red, other.m_red); m_green = add_sat(m_green, other.m_green); m_blue = add_sat(m_blue, other.m_blue); return *this; }
 
+        Color Inverse() const { return Color(255 - m_red, 255 - m_green, 255 - m_blue); }
+
         Color Scale(uint8_t range) const { return Color(scale(m_red, range), scale(m_green, range), scale(m_blue, range)); }
+        Color Scale(const Color &range) const { return Color(scale(m_red, range.m_red), scale(m_green, range.m_green), scale(m_blue, range.m_blue)); }
+
+        Color Fade(const Color &dest, const Color &fade)
+        {
+            return Scale(fade.Inverse()) + dest.Scale(fade);
+        }
 
         bool operator ==(const Color &other) const { return (m_red == other.m_red) && (m_green == other.m_green) && (m_blue == other.m_blue); }
 

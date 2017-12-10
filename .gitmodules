@@ -1,0 +1,3 @@
+[submodule "external/fadecandy"]
+	path = external/fadecandy
+	url = https://github.com/scanlime/fadecandy.git

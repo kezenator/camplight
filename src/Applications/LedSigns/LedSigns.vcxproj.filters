@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ledsigns">
+      <UniqueIdentifier>{FAC14243-1BCC-5A9B-8D81-8B3249FB7543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ledsigns\casadelshade">
+      <UniqueIdentifier>{8C6B5804-2C9E-5B96-A62F-CDDB2120DEB2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ledsigns\common">
+      <UniqueIdentifier>{95FABC7C-0A6D-5F3A-8281-62E1491EE42C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ledsigns\gaysign">
+      <UniqueIdentifier>{23C44099-7E0F-5449-A83E-CE564F34F7DD}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ledsigns\Application.cpp">
+      <Filter>ledsigns</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\RenderService.cpp">
+      <Filter>ledsigns</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\casadelshade\CasaDelShadeLayout.cpp">
+      <Filter>ledsigns\casadelshade</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\casadelshade\FlickeringNeonPattern.cpp">
+      <Filter>ledsigns\casadelshade</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\casadelshade\StaggerPattern.cpp">
+      <Filter>ledsigns\casadelshade</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\common\CyclePattern.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\common\FadeTransition.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\common\Layout.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\common\Pattern.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\common\SolidPattern.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\common\TransitionPattern.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\gaysign\GaySignLayout.cpp">
+      <Filter>ledsigns\gaysign</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ledsigns\RenderService.h">
+      <Filter>ledsigns</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\casadelshade\CasaDelShadeLayout.h">
+      <Filter>ledsigns\casadelshade</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\casadelshade\FlickeringNeonPattern.h">
+      <Filter>ledsigns\casadelshade</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\casadelshade\StaggerPattern.h">
+      <Filter>ledsigns\casadelshade</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\CyclePattern.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\FadeTransition.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\Layout.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\Mask.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\Pattern.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\RenderState.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\SolidPattern.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\Transition.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\TransitionPattern.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\gaysign\GaySignLayout.h">
+      <Filter>ledsigns\gaysign</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LedSigns.bbmake" />
+  </ItemGroup>
+</Project>

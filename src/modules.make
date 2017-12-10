@@ -852,3 +852,49 @@ LIBS_RECURSIVE_GaySign := \
 
 APPS += GaySign
 
+# Project LedSigns (type Application)
+
+MODULES += LedSigns
+
+SRCS_DIRECT_LedSigns := $(sort \
+        Applications/LedSigns/ledsigns/Application.cpp \
+        Applications/LedSigns/ledsigns/RenderService.cpp \
+        Applications/LedSigns/ledsigns/casadelshade/CasaDelShadeLayout.cpp \
+        Applications/LedSigns/ledsigns/casadelshade/FlickeringNeonPattern.cpp \
+        Applications/LedSigns/ledsigns/casadelshade/StaggerPattern.cpp \
+        Applications/LedSigns/ledsigns/common/CyclePattern.cpp \
+        Applications/LedSigns/ledsigns/common/FadeTransition.cpp \
+        Applications/LedSigns/ledsigns/common/Layout.cpp \
+        Applications/LedSigns/ledsigns/common/Pattern.cpp \
+        Applications/LedSigns/ledsigns/common/SolidPattern.cpp \
+        Applications/LedSigns/ledsigns/common/TransitionPattern.cpp \
+        Applications/LedSigns/ledsigns/gaysign/GaySignLayout.cpp \
+    )
+    # End SRCS_DIRECT_LedSigns
+
+SRCS_RECURSIVE_LedSigns := $(sort \
+        $(SRCS_DIRECT_LedSigns) \
+        $(SRCS_RECURSIVE_BBoxHttp) \
+        $(SRCS_RECURSIVE_BBoxHttpDebug) \
+        $(SRCS_RECURSIVE_LibLeds) \
+    )
+    # End SRCS_RECURSIVE_LedSigns
+
+INCS_DIRECT_LedSigns := $(sort \
+        Applications/LedSigns/. \
+    )
+    # End INCS_DIRECT_LedSigns
+
+INCS_RECURSIVE_LedSigns := $(sort \
+        $(INCS_DIRECT_LedSigns) \
+        $(INCS_RECURSIVE_BBoxHttp) \
+        $(INCS_RECURSIVE_BBoxHttpDebug) \
+        $(INCS_RECURSIVE_LibLeds) \
+    )
+    # End INCS_RECURSIVE_LedSigns
+
+LIBS_RECURSIVE_LedSigns := \
+    # End LIBS_RECURSIVE_LedSigns
+
+APPS += LedSigns
+

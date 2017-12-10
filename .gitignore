@@ -12,3 +12,4 @@ bin
 /src/BBoxHttpDebug/Web/app.js
 /src/BBoxHttpDebug/Web/app.js.map
 /src/BBoxHttpDebug/Lib/bbox/http/debug/Resources.path
+*.vcxproj.user

@@ -1,0 +1,11 @@
+
+project("LedSigns", "Application");
+
+reference("BBoxHttp");
+reference("BBoxHttpDebug");
+reference("LibLeds");
+
+include(".");
+
+sources(find_recursive("*.cpp"));
+headers(find_recursive("*.h"));
