@@ -342,7 +342,6 @@ namespace bbox {
         // Check parameters are value
 
         BBOX_ASSERT(function);
-        BBOX_ASSERT(this);
         BBOX_ASSERT(m_state);
         BBOX_ASSERT(m_details);
 
@@ -391,7 +390,6 @@ namespace bbox {
     void
     LuaState::RegisterGlobalFunction(const std::string &name, boost::function<int(LuaState &)> &&function)
     {
-        BBOX_ASSERT(this);
         BBOX_ASSERT(m_state);
         BBOX_ASSERT(m_details);
 

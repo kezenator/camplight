@@ -7,3 +7,10 @@ include(".");
 
 sources(find_recursive("*.cpp"));
 headers(find_recursive("*.h"));
+
+if (platform() ~= "Win32") then
+  library_reference("crypto");
+  library_reference("uuid");
+  library_reference("pthread");
+  library_reference("rt");
+end

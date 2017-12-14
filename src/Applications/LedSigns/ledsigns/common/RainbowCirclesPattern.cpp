@@ -7,6 +7,8 @@
 #include <ledsigns/common/RainbowCirclesPattern.h>
 #include <leds/HsvColor.h>
 
+#include <cmath>
+
 namespace ledsigns
 {
     namespace common

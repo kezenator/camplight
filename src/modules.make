@@ -401,6 +401,10 @@ INCS_RECURSIVE_ResourceBuilder := $(sort \
     # End INCS_RECURSIVE_ResourceBuilder
 
 LIBS_RECURSIVE_ResourceBuilder := \
+        uuid \
+        rt \
+        pthread \
+        crypto \
     # End LIBS_RECURSIVE_ResourceBuilder
 
 APPS += ResourceBuilder
@@ -573,6 +577,10 @@ INCS_RECURSIVE_BBoxRt_UnitTests := $(sort \
     # End INCS_RECURSIVE_BBoxRt_UnitTests
 
 LIBS_RECURSIVE_BBoxRt_UnitTests := \
+        uuid \
+        rt \
+        pthread \
+        crypto \
     # End LIBS_RECURSIVE_BBoxRt_UnitTests
 
 TESTS += BBoxRt_UnitTests
@@ -608,6 +616,10 @@ INCS_RECURSIVE_BBoxUtils_UnitTests := $(sort \
     # End INCS_RECURSIVE_BBoxUtils_UnitTests
 
 LIBS_RECURSIVE_BBoxUtils_UnitTests := \
+        uuid \
+        rt \
+        pthread \
+        crypto \
     # End LIBS_RECURSIVE_BBoxUtils_UnitTests
 
 TESTS += BBoxUtils_UnitTests
@@ -648,6 +660,10 @@ INCS_RECURSIVE_SolutionGenerator := $(sort \
     # End INCS_RECURSIVE_SolutionGenerator
 
 LIBS_RECURSIVE_SolutionGenerator := \
+        uuid \
+        rt \
+        pthread \
+        crypto \
     # End LIBS_RECURSIVE_SolutionGenerator
 
 APPS += SolutionGenerator
@@ -681,6 +697,10 @@ INCS_RECURSIVE_BBoxEnc_UnitTests := $(sort \
     # End INCS_RECURSIVE_BBoxEnc_UnitTests
 
 LIBS_RECURSIVE_BBoxEnc_UnitTests := \
+        uuid \
+        rt \
+        pthread \
+        crypto \
     # End LIBS_RECURSIVE_BBoxEnc_UnitTests
 
 TESTS += BBoxEnc_UnitTests
@@ -808,6 +828,11 @@ INCS_RECURSIVE_CampLight := $(sort \
     # End INCS_RECURSIVE_CampLight
 
 LIBS_RECURSIVE_CampLight := \
+        ssl \
+        uuid \
+        rt \
+        pthread \
+        crypto \
     # End LIBS_RECURSIVE_CampLight
 
 Applications/CampLight/camplight/Resources.cpp Applications/CampLight/camplight/Resources.h Applications/CampLight/camplight/Resources.path: build/resourcebuilder Applications/CampLight/camplight/resources/app.css Applications/CampLight/camplight/resources/app.js Applications/CampLight/camplight/resources/apple-touch-icon-120x120.png Applications/CampLight/camplight/resources/apple-touch-icon-152x152.png Applications/CampLight/camplight/resources/apple-touch-icon-180x180.png Applications/CampLight/camplight/resources/apple-touch-icon-192x192.png Applications/CampLight/camplight/resources/favicon.ico Applications/CampLight/camplight/resources/index.html
@@ -863,6 +888,11 @@ INCS_RECURSIVE_LedSigns := $(sort \
     # End INCS_RECURSIVE_LedSigns
 
 LIBS_RECURSIVE_LedSigns := \
+        ssl \
+        uuid \
+        rt \
+        pthread \
+        crypto \
     # End LIBS_RECURSIVE_LedSigns
 
 APPS += LedSigns

@@ -6,6 +6,8 @@
 
 #include <ledsigns/common/SwipeTransition.h>
 
+#include <cmath>
+
 namespace ledsigns
 {
     namespace common

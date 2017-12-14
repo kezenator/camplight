@@ -78,7 +78,6 @@ namespace bbox {
             {
                 MethodEntry entry(*this, "Constructor");
 
-                BBOX_ASSERT(&parent);
                 BBOX_ASSERT(&parent != this);
                 BBOX_ASSERT((m_local_level == RunLevel::CONSTRUCTED) || (m_local_level == RunLevel::RUNNING));
                 if (m_local_level == RunLevel::CONSTRUCTED)

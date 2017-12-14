@@ -26,3 +26,7 @@ sources({
         "pion-5.0.5\\src\\tcp_server.cpp",
         "pion-5.0.5\\src\\tcp_timer.cpp"
     });
+
+if (platform() ~= "Win32") then
+  library_reference("ssl");
+end

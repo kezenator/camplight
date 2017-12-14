@@ -148,7 +148,7 @@ namespace bbox {
         public:
             inline State(E_TYPE type)
             {
-                EVP_MD_CTX_init(&m_context);
+                m_context_ptr = EVP_MD_CTX_create();
 
                 const EVP_MD *evp_type = nullptr;
 
@@ -160,17 +160,17 @@ namespace bbox {
                 case SHA1:      evp_type = EVP_sha1(); break;
                 default:        BBOX_ASSERT(false);
                 }
-
-                int init_result = EVP_DigestInit(&m_context, evp_type);
+                
+                int init_result = EVP_DigestInit(m_context_ptr, evp_type);
                 BBOX_ASSERT(init_result == 1);
             }
 
             inline ~State()
             {
-                EVP_MD_CTX_cleanup(&m_context);
+                EVP_MD_CTX_destroy(m_context_ptr);
             }
 
-            EVP_MD_CTX m_context;
+            EVP_MD_CTX *m_context_ptr;
         };
 
         HashStream::HashStream(E_TYPE type)
@@ -202,7 +202,7 @@ namespace bbox {
         {
             BBOX_ASSERT(m_state);
 
-            int update_result = EVP_DigestUpdate(&m_state->m_context, data, length);
+            int update_result = EVP_DigestUpdate(m_state->m_context_ptr, data, length);
             BBOX_ASSERT(update_result == 1);
         }
 
@@ -214,7 +214,7 @@ namespace bbox {
             unsigned int out_size;
 
             int final_result = EVP_DigestFinal(
-                                    &m_state->m_context,
+                                    m_state->m_context_ptr,
                                     out_buffer,
                                     &out_size);
 

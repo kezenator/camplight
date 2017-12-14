@@ -31,16 +31,12 @@ namespace bbox
 
 		BBOX_ASSERT(provider_ptr);
 
-		BBOX_ASSERT(&report != nullptr);
-
 		m_stream_ptr = provider_ptr->AllocateStream(func, &report, std::move(reason));
 	}
 
     DebugOutput::DebugOutput(const char *func, DebugOutput &parent, E_MIME_TYPE mime_type)
         : m_stream_ptr(nullptr)
     {
-        BBOX_ASSERT(&parent != nullptr);
-
         if (parent)
         {
             debug::DebugProvider *provider_ptr = debug::DebugProvider::t_provider_ptr;

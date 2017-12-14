@@ -33,7 +33,7 @@ $(patsubst %.cc,$(OUTPUT_DIR)/%.o,$(SRCS_DIRECT_Snappy)): CXXFLAGS += -Wno-error
 ## END TODO
 ###################################################
 
-BOOST_VER := 1_59_0
+BOOST_VER := 1_65_1
 
 all: app_all test_all
 app_all: $(APPS)
