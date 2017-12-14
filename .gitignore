@@ -1,5 +1,6 @@
 /src/ThirdParty/boost/boost_1_65_1
 /src/.vs
+/src/build
 x64
 Debug
 Release
