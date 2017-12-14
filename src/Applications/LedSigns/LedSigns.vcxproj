@@ -167,13 +167,19 @@
     <ClCompile Include="ledsigns\casadelshade\CasaDelShadeLayout.cpp" />
     <ClCompile Include="ledsigns\casadelshade\FlickeringNeonPattern.cpp" />
     <ClCompile Include="ledsigns\casadelshade\StaggerPattern.cpp" />
+    <ClCompile Include="ledsigns\common\CountPattern.cpp" />
     <ClCompile Include="ledsigns\common\CyclePattern.cpp" />
     <ClCompile Include="ledsigns\common\FadeTransition.cpp" />
     <ClCompile Include="ledsigns\common\Layout.cpp" />
     <ClCompile Include="ledsigns\common\Pattern.cpp" />
+    <ClCompile Include="ledsigns\common\RainbowCirclesPattern.cpp" />
+    <ClCompile Include="ledsigns\common\RainbowWavePattern.cpp" />
     <ClCompile Include="ledsigns\common\SolidPattern.cpp" />
+    <ClCompile Include="ledsigns\common\SwipeTestPattern.cpp" />
+    <ClCompile Include="ledsigns\common\SwipeTransition.cpp" />
     <ClCompile Include="ledsigns\common\TransitionPattern.cpp" />
     <ClCompile Include="ledsigns\gaysign\GaySignLayout.cpp" />
+    <ClCompile Include="ledsigns\gaysign\GaySignPattern.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BBoxEnc\BBoxEnc.vcxproj">
@@ -212,16 +218,21 @@
     <ClInclude Include="ledsigns\casadelshade\CasaDelShadeLayout.h" />
     <ClInclude Include="ledsigns\casadelshade\FlickeringNeonPattern.h" />
     <ClInclude Include="ledsigns\casadelshade\StaggerPattern.h" />
+    <ClInclude Include="ledsigns\common\CountPattern.h" />
     <ClInclude Include="ledsigns\common\CyclePattern.h" />
     <ClInclude Include="ledsigns\common\FadeTransition.h" />
     <ClInclude Include="ledsigns\common\Layout.h" />
-    <ClInclude Include="ledsigns\common\Mask.h" />
     <ClInclude Include="ledsigns\common\Pattern.h" />
+    <ClInclude Include="ledsigns\common\RainbowCirclesPattern.h" />
+    <ClInclude Include="ledsigns\common\RainbowWavePattern.h" />
     <ClInclude Include="ledsigns\common\RenderState.h" />
     <ClInclude Include="ledsigns\common\SolidPattern.h" />
+    <ClInclude Include="ledsigns\common\SwipeTestPattern.h" />
+    <ClInclude Include="ledsigns\common\SwipeTransition.h" />
     <ClInclude Include="ledsigns\common\Transition.h" />
     <ClInclude Include="ledsigns\common\TransitionPattern.h" />
     <ClInclude Include="ledsigns\gaysign\GaySignLayout.h" />
+    <ClInclude Include="ledsigns\gaysign\GaySignPattern.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LedSigns.bbmake" />

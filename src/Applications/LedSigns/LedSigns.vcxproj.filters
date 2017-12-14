@@ -30,6 +30,9 @@
     <ClCompile Include="ledsigns\casadelshade\StaggerPattern.cpp">
       <Filter>ledsigns\casadelshade</Filter>
     </ClCompile>
+    <ClCompile Include="ledsigns\common\CountPattern.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
     <ClCompile Include="ledsigns\common\CyclePattern.cpp">
       <Filter>ledsigns\common</Filter>
     </ClCompile>
@@ -42,13 +45,28 @@
     <ClCompile Include="ledsigns\common\Pattern.cpp">
       <Filter>ledsigns\common</Filter>
     </ClCompile>
+    <ClCompile Include="ledsigns\common\RainbowCirclesPattern.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\common\RainbowWavePattern.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
     <ClCompile Include="ledsigns\common\SolidPattern.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\common\SwipeTestPattern.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\common\SwipeTransition.cpp">
       <Filter>ledsigns\common</Filter>
     </ClCompile>
     <ClCompile Include="ledsigns\common\TransitionPattern.cpp">
       <Filter>ledsigns\common</Filter>
     </ClCompile>
     <ClCompile Include="ledsigns\gaysign\GaySignLayout.cpp">
+      <Filter>ledsigns\gaysign</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\gaysign\GaySignPattern.cpp">
       <Filter>ledsigns\gaysign</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,6 +83,9 @@
     <ClInclude Include="ledsigns\casadelshade\StaggerPattern.h">
       <Filter>ledsigns\casadelshade</Filter>
     </ClInclude>
+    <ClInclude Include="ledsigns\common\CountPattern.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
     <ClInclude Include="ledsigns\common\CyclePattern.h">
       <Filter>ledsigns\common</Filter>
     </ClInclude>
@@ -74,16 +95,25 @@
     <ClInclude Include="ledsigns\common\Layout.h">
       <Filter>ledsigns\common</Filter>
     </ClInclude>
-    <ClInclude Include="ledsigns\common\Mask.h">
+    <ClInclude Include="ledsigns\common\Pattern.h">
       <Filter>ledsigns\common</Filter>
     </ClInclude>
-    <ClInclude Include="ledsigns\common\Pattern.h">
+    <ClInclude Include="ledsigns\common\RainbowCirclesPattern.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\RainbowWavePattern.h">
       <Filter>ledsigns\common</Filter>
     </ClInclude>
     <ClInclude Include="ledsigns\common\RenderState.h">
       <Filter>ledsigns\common</Filter>
     </ClInclude>
     <ClInclude Include="ledsigns\common\SolidPattern.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\SwipeTestPattern.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\SwipeTransition.h">
       <Filter>ledsigns\common</Filter>
     </ClInclude>
     <ClInclude Include="ledsigns\common\Transition.h">
@@ -93,6 +123,9 @@
       <Filter>ledsigns\common</Filter>
     </ClInclude>
     <ClInclude Include="ledsigns\gaysign\GaySignLayout.h">
+      <Filter>ledsigns\gaysign</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\gaysign\GaySignPattern.h">
       <Filter>ledsigns\gaysign</Filter>
     </ClInclude>
   </ItemGroup>

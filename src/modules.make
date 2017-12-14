@@ -815,43 +815,6 @@ Applications/CampLight/camplight/Resources.cpp Applications/CampLight/camplight/
 
 APPS += CampLight
 
-# Project GaySign (type Application)
-
-MODULES += GaySign
-
-SRCS_DIRECT_GaySign := $(sort \
-        Applications/GaySign/gaysign/Application.cpp \
-        Applications/GaySign/gaysign/Layout.cpp \
-        Applications/GaySign/gaysign/RenderService.cpp \
-    )
-    # End SRCS_DIRECT_GaySign
-
-SRCS_RECURSIVE_GaySign := $(sort \
-        $(SRCS_DIRECT_GaySign) \
-        $(SRCS_RECURSIVE_BBoxHttp) \
-        $(SRCS_RECURSIVE_BBoxHttpDebug) \
-        $(SRCS_RECURSIVE_LibLeds) \
-    )
-    # End SRCS_RECURSIVE_GaySign
-
-INCS_DIRECT_GaySign := $(sort \
-        Applications/GaySign/. \
-    )
-    # End INCS_DIRECT_GaySign
-
-INCS_RECURSIVE_GaySign := $(sort \
-        $(INCS_DIRECT_GaySign) \
-        $(INCS_RECURSIVE_BBoxHttp) \
-        $(INCS_RECURSIVE_BBoxHttpDebug) \
-        $(INCS_RECURSIVE_LibLeds) \
-    )
-    # End INCS_RECURSIVE_GaySign
-
-LIBS_RECURSIVE_GaySign := \
-    # End LIBS_RECURSIVE_GaySign
-
-APPS += GaySign
-
 # Project LedSigns (type Application)
 
 MODULES += LedSigns
@@ -862,13 +825,19 @@ SRCS_DIRECT_LedSigns := $(sort \
         Applications/LedSigns/ledsigns/casadelshade/CasaDelShadeLayout.cpp \
         Applications/LedSigns/ledsigns/casadelshade/FlickeringNeonPattern.cpp \
         Applications/LedSigns/ledsigns/casadelshade/StaggerPattern.cpp \
+        Applications/LedSigns/ledsigns/common/CountPattern.cpp \
         Applications/LedSigns/ledsigns/common/CyclePattern.cpp \
         Applications/LedSigns/ledsigns/common/FadeTransition.cpp \
         Applications/LedSigns/ledsigns/common/Layout.cpp \
         Applications/LedSigns/ledsigns/common/Pattern.cpp \
+        Applications/LedSigns/ledsigns/common/RainbowCirclesPattern.cpp \
+        Applications/LedSigns/ledsigns/common/RainbowWavePattern.cpp \
         Applications/LedSigns/ledsigns/common/SolidPattern.cpp \
+        Applications/LedSigns/ledsigns/common/SwipeTestPattern.cpp \
+        Applications/LedSigns/ledsigns/common/SwipeTransition.cpp \
         Applications/LedSigns/ledsigns/common/TransitionPattern.cpp \
         Applications/LedSigns/ledsigns/gaysign/GaySignLayout.cpp \
+        Applications/LedSigns/ledsigns/gaysign/GaySignPattern.cpp \
     )
     # End SRCS_DIRECT_LedSigns
 

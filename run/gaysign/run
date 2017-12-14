@@ -7,5 +7,5 @@ gpio -g mode 17 up
 echo out > /sys/class/gpio/gpio27/direction
 echo 0 > /sys/class/gpio/gpio27/value
 
-./fcserver config.json &
-./gaysign 127.0.0.1:8080 &
+../../external/fadecandy/bin/fcserver-rpi config.json &
+../src/build/ledsigns gaysign 127.0.0.1:8080 127.0.0.1:7890 &

@@ -23,6 +23,7 @@ namespace ledsigns
 
         RenderService(const std::string &name,
             bbox::rt::Service &parent,
+            const std::string &mode,
             leds::FadecandyClient &fadecandy_client,
             leds::GpioClient &gpio_client);
 
@@ -37,6 +38,7 @@ namespace ledsigns
 
         void HandleFrameTimeout();
 
+        const std::string m_mode;
         leds::FadecandyClient &m_fadecandy_client;
         leds::GpioClient &m_gpio_client;
         bbox::rt::Timer m_frame_timer;
