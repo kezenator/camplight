@@ -22,6 +22,7 @@
 #include <bbox/FileUtils.h>
 #include <bbox/Format.h>
 #include <bbox/MainWrapper.h>
+#include <bbox/TextCoding.h>
 
 #include <bbox/crypto/HashStream.h>
 
@@ -215,18 +216,24 @@ int resource_builder_main(int argc, char *argv[])
 
         // Setup the MIME type table
 
-        std::map<std::string, std::string> extension_lookup = {
+        struct ExtensionDetails
+        {
+            std::string mime_type;
+            bool text_format;
+        };
+
+        std::map<std::string, ExtensionDetails> extension_lookup = {
             // Text formats
-            { ".txt",       "text/plain" },
-            { ".htm",       "text/html" },
-            { ".html",      "text/html" },
-            { ".css",       "text/css" },
-            { ".js",        "application/javascript" },
+            { ".txt",  { "text/plain", true } },
+            { ".htm",  { "text/html", true } },
+            { ".html", { "text/html", true } },
+            { ".css",  { "text/css", true } },
+            { ".js",   { "application/javascript", true } },
             // Image formats
-            { ".png",       "image/png" },
-            { ".jpg",       "image/jpeg" },
-            { ".jpeg",      "image/jpeg" },
-            { ".gif",       "image/gif" },
+            { ".png",{ "image/png", false } },
+            { ".jpg",{ "image/jpeg", false } },
+            { ".jpeg",{ "image/jpeg", false } },
+            { ".gif",{ "image/gif", false } },
         };
 
         // Generate the source
@@ -260,7 +267,25 @@ int resource_builder_main(int argc, char *argv[])
             {
                 count++;
 
+                bool text_format = false;
+
+                size_t dot_pos = input.rfind('.');
+                if (dot_pos != std::string::npos)
+                {
+                    std::string extension = input.substr(dot_pos);
+                    auto it = extension_lookup.find(extension);
+                    if (it != extension_lookup.end())
+                    {
+                        text_format = it->second.text_format;
+                    }
+                }
+
                 std::string contents = bbox::FileUtils::ReadTextFileOrThrow(input);
+
+                if (text_format)
+                {
+                    contents = bbox::TextCoding::Newlines_DOS_to_UNIX(contents);
+                }
 
                 file_lengths.push_back(contents.size());
 
@@ -316,7 +341,9 @@ int resource_builder_main(int argc, char *argv[])
                     std::string extension = input.substr(dot_pos);
                     auto it = extension_lookup.find(extension);
                     if (it != extension_lookup.end())
-                        mime_type = it->second;
+                    {
+                        mime_type = it->second.mime_type;
+                    }
                 }
 
                 if (FixFileName(input.substr(0, prefix.size())) != FixFileName(prefix))

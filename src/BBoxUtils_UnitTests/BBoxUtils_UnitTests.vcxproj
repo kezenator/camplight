@@ -170,6 +170,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BboxUtilsTextCoding.cpp" />
     <ClCompile Include="BboxUtilsToFromString.cpp" />
     <ClCompile Include="BboxUtilsUuid.cpp" />
     <ClCompile Include="TestBboxUtilsCryptoHashStream.cpp" />

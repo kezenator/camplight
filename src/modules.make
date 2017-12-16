@@ -590,6 +590,7 @@ TESTS += BBoxRt_UnitTests
 MODULES += BBoxUtils_UnitTests
 
 SRCS_DIRECT_BBoxUtils_UnitTests := $(sort \
+        BBoxUtils_UnitTests/BboxUtilsTextCoding.cpp \
         BBoxUtils_UnitTests/BboxUtilsToFromString.cpp \
         BBoxUtils_UnitTests/BboxUtilsUuid.cpp \
         BBoxUtils_UnitTests/TestBboxUtilsCryptoHashStream.cpp \

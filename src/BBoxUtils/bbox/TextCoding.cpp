@@ -12,6 +12,8 @@
 
 #include <cstring>
 
+#include <boost/algorithm/string.hpp>
+
 #ifdef WIN32
 #include <Windows.h>
 #endif // WIN32
@@ -50,6 +52,19 @@ namespace bbox {
         memcpy(&to[0], &from[0], from.size());
 
         return Error::Success;
+    }
+
+    std::string TextCoding::Newlines_DOS_to_UNIX(const std::string &from)
+    {
+        return boost::algorithm::replace_all_copy(from, "\r\n", "\n");
+    }
+
+    std::string TextCoding::Newlines_UNIX_to_DOS(const std::string &from)
+    {
+        return boost::algorithm::replace_all_copy(
+            boost::algorithm::replace_all_copy(from, "\r\n", "\n"),
+            "\n",
+            "\r\n");
     }
 
 #ifdef WIN32

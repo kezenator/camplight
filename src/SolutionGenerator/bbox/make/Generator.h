@@ -35,7 +35,8 @@ namespace bbox {
         protected:
             const Solution &GetSolution() { return m_solution; }
 
-            void WriteFile(const std::string &relative_path, const std::string &contents);
+            void WriteFile_UnixNewline(const std::string &relative_path, const std::string &contents);
+            void WriteFile_DosNewline(const std::string &relative_path, const std::string &contents);
 
         private:
             const Solution &m_solution;

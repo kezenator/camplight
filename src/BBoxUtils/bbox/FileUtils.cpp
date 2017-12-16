@@ -408,7 +408,15 @@ namespace bbox {
         if (error)
             return error;
 
-        return TextCoding::ExternalBytes_to_UTF8(bytes, contents);
+        error = TextCoding::ExternalBytes_to_UTF8(bytes, contents);
+        if (error)
+            return error;
+
+#ifdef WIN32
+        contents = TextCoding::Newlines_DOS_to_UNIX(contents);
+#endif
+
+        return Error();
     }
 
     void
@@ -424,6 +432,34 @@ namespace bbox {
 
     Error
     FileUtils::WriteTextFile(const std::string &file_name, const std::string &contents)
+    {
+        std::vector<uint8_t> bytes;
+
+#ifdef WIN32
+        std::string dos_format = TextCoding::Newlines_UNIX_to_DOS(contents);
+
+        Error error = TextCoding::UTF8_to_ExternalBytes(dos_format, bytes);
+#else
+        Error error = TextCoding::UTF8_to_ExternalBytes(contents, bytes);
+#endif
+
+        if (error)
+            return error;
+
+        return WriteBinaryFile(file_name, bytes);
+    }
+
+    void FileUtils::WriteBinaryFileOrThrow(const std::string &file_name, const std::vector<uint8_t> &contents)
+    {
+        Error error = WriteBinaryFile(file_name, contents);
+
+        if (error)
+        {
+            throw Exception(error, Format("Error writing binary file \"%s\"", file_name));
+        }
+    }
+
+    Error FileUtils::WriteBinaryFile(const std::string &file_name, const std::vector<uint8_t> &contents)
     {
 #ifdef WIN32
 
@@ -494,8 +530,8 @@ namespace bbox {
         return Error();
 #else
         int fd = open(ToUnixPath(file_name).c_str(),
-                      O_RDWR | O_CREAT | O_TRUNC,
-                      S_IRWXU | S_IRWXG | S_IRWXO);
+            O_RDWR | O_CREAT | O_TRUNC,
+            S_IRWXU | S_IRWXG | S_IRWXO);
         if (fd == -1)
         {
             return Error::posix_errno();
@@ -514,31 +550,6 @@ namespace bbox {
 
         return Error::Success;
 #endif
-    }
-
-    void FileUtils::WriteBinaryFileOrThrow(const std::string &file_name, const std::vector<uint8_t> &contents)
-    {
-        Error error = WriteBinaryFile(file_name, contents);
-
-        if (error)
-        {
-            throw Exception(error, Format("Error writing binary file \"%s\"", file_name));
-        }
-    }
-
-    Error FileUtils::WriteBinaryFile(const std::string &file_name, const std::vector<uint8_t> &contents)
-    {
-        static_assert(sizeof(contents[0]) == 1, "std::string characters are not size 1");
-
-        std::string contents_as_str;
-        contents_as_str.resize(contents.size());
-
-        if (contents_as_str.size() != 0)
-        {
-            memcpy(&contents_as_str[0], &contents[0], contents.size());
-        }
-
-        return WriteTextFile(file_name, contents_as_str);
     }
 
     std::list<FileInfo> FileUtils::ListFolderOrThrow(const std::string &search, FileInfo::EFileType file_type)

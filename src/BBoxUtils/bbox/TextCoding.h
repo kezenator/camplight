@@ -44,18 +44,28 @@ namespace bbox {
         static Error ExternalBytes_to_UTF8(const std::vector<std::uint8_t> &from, std::string &to);
 
         /**
-        * Converts an internal UTF-8 string into a byte-sequence
-        * that can be saved to disk on the local system. This should be
-        * a Unicode format - indicated either by a UTF-16 BE or LE mark,
-        * or is encoded in some system-specific form. The algorithm
-        * used to determin this is indeterminaite - a best effort
-        * attempt is made.
-        *
-        * @param from the external byte-sequence.
-        * @param to the result.
-        * @return an error, or success.
-        */
+         * Converts an internal UTF-8 string into a byte-sequence
+         * that can be saved to disk on the local system. This should be
+         * a Unicode format - indicated either by a UTF-16 BE or LE mark,
+         * or is encoded in some system-specific form. The algorithm
+         * used to determin this is indeterminaite - a best effort
+         * attempt is made.
+         *
+         * @param from the external byte-sequence.
+         * @param to the result.
+         * @return an error, or success.
+         */
         static Error UTF8_to_ExternalBytes(const std::string &from, std::vector<std::uint8_t> &to);
+
+        /**
+         * Converts text from DOS format to UNIX/internal format - i.e. "\r\n" is changed to "\n".
+         */
+        static std::string Newlines_DOS_to_UNIX(const std::string &from);
+
+        /**
+         * Converts text from UNIX/internal format to DOS format - i.e. "\n" is changed to "\r\n".
+         */
+        static std::string Newlines_UNIX_to_DOS(const std::string &from);
 
 #ifdef WIN32
         /**

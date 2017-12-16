@@ -296,7 +296,7 @@ namespace bbox {
 
                 boost::replace_all(contents, "\n", "\r\n");
 
-                WriteFile(GetSolution().GetName() + ".sln", contents);
+                WriteFile_DosNewline(GetSolution().GetName() + ".sln", contents);
             }
 
             void
@@ -842,7 +842,7 @@ namespace bbox {
 
                 boost::replace_all(contents, "\n", "\r\n");
 
-                WriteFile(
+                WriteFile_DosNewline(
                     relative_path + "\\" + name + ".vcxproj",
                     contents);
             }
@@ -1029,7 +1029,7 @@ namespace bbox {
 
                 boost::replace_all(contents, "\n", "\r\n");
 
-                WriteFile(
+                WriteFile_DosNewline(
                     relative_path + "\\" + name + ".vcxproj.filters",
                     contents);
             }
@@ -1273,7 +1273,7 @@ namespace bbox {
 
                 boost::replace_all(contents, "\n", "\r\n");
 
-                WriteFile(
+                WriteFile_DosNewline(
                     relative_path + "\\" + name + ".csproj",
                     contents);
             }
@@ -1307,7 +1307,7 @@ namespace bbox {
 
                     boost::replace_all(contents, "\n", "\r\n");
 
-                    WriteFile(
+                    WriteFile_DosNewline(
                         relative_path + "\\web.config",
                         contents);
                 }
@@ -1337,7 +1337,7 @@ namespace bbox {
 
                     boost::replace_all(contents, "\n", "\r\n");
 
-                    WriteFile(
+                    WriteFile_DosNewline(
                         bbox::Format("%s\\web.%s.config",
                             relative_path,
                             mode),

@@ -126,7 +126,7 @@ namespace bbox {
                     }
                 }
 
-                WriteFile("modules.make", stream.str());
+                WriteFile_UnixNewline("modules.make", stream.str());
             }
 
             void MakefileGenerator::PrintSources(std::ostream &stream, const Project *proj)
