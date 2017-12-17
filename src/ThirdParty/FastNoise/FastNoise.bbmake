@@ -1,0 +1,6 @@
+project("FastNoise", "StaticLibrary");
+
+include("../../../external/FastNoise");
+
+headers({"../../../external/FastNoise/FastNoise.h"});
+sources({"../../../external/FastNoise/FastNoise.cpp"});

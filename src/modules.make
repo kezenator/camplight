@@ -1,3 +1,27 @@
+# Project FastNoise (type StaticLibrary)
+
+MODULES += FastNoise
+
+SRCS_DIRECT_FastNoise := $(sort \
+        ThirdParty/FastNoise/../../../external/FastNoise/FastNoise.cpp \
+    )
+    # End SRCS_DIRECT_FastNoise
+
+SRCS_RECURSIVE_FastNoise := $(sort \
+        $(SRCS_DIRECT_FastNoise) \
+    )
+    # End SRCS_RECURSIVE_FastNoise
+
+INCS_DIRECT_FastNoise := $(sort \
+        ThirdParty/FastNoise/../../../external/FastNoise \
+    )
+    # End INCS_DIRECT_FastNoise
+
+INCS_RECURSIVE_FastNoise := $(sort \
+        $(INCS_DIRECT_FastNoise) \
+    )
+    # End INCS_RECURSIVE_FastNoise
+
 # Project LibWS281x (type StaticLibrary)
 
 MODULES += LibWS281x
@@ -850,11 +874,14 @@ SRCS_DIRECT_LedSigns := $(sort \
         Applications/LedSigns/ledsigns/RenderService.cpp \
         Applications/LedSigns/ledsigns/casadelshade/CasaDelShadeLayout.cpp \
         Applications/LedSigns/ledsigns/casadelshade/FlickeringNeonPattern.cpp \
+        Applications/LedSigns/ledsigns/casadelshade/PulsePattern.cpp \
         Applications/LedSigns/ledsigns/casadelshade/StaggerPattern.cpp \
         Applications/LedSigns/ledsigns/common/CountPattern.cpp \
         Applications/LedSigns/ledsigns/common/CyclePattern.cpp \
         Applications/LedSigns/ledsigns/common/FadeTransition.cpp \
+        Applications/LedSigns/ledsigns/common/Gradient.cpp \
         Applications/LedSigns/ledsigns/common/Layout.cpp \
+        Applications/LedSigns/ledsigns/common/NoisePattern.cpp \
         Applications/LedSigns/ledsigns/common/Pattern.cpp \
         Applications/LedSigns/ledsigns/common/RainbowCirclesPattern.cpp \
         Applications/LedSigns/ledsigns/common/RainbowWavePattern.cpp \
@@ -862,6 +889,7 @@ SRCS_DIRECT_LedSigns := $(sort \
         Applications/LedSigns/ledsigns/common/SwipeTestPattern.cpp \
         Applications/LedSigns/ledsigns/common/SwipeTransition.cpp \
         Applications/LedSigns/ledsigns/common/TransitionPattern.cpp \
+        Applications/LedSigns/ledsigns/common/VectorGradient.cpp \
         Applications/LedSigns/ledsigns/gaysign/GaySignLayout.cpp \
         Applications/LedSigns/ledsigns/gaysign/GaySignPattern.cpp \
     )
@@ -871,6 +899,7 @@ SRCS_RECURSIVE_LedSigns := $(sort \
         $(SRCS_DIRECT_LedSigns) \
         $(SRCS_RECURSIVE_BBoxHttp) \
         $(SRCS_RECURSIVE_BBoxHttpDebug) \
+        $(SRCS_RECURSIVE_FastNoise) \
         $(SRCS_RECURSIVE_LibLeds) \
     )
     # End SRCS_RECURSIVE_LedSigns
@@ -884,6 +913,7 @@ INCS_RECURSIVE_LedSigns := $(sort \
         $(INCS_DIRECT_LedSigns) \
         $(INCS_RECURSIVE_BBoxHttp) \
         $(INCS_RECURSIVE_BBoxHttpDebug) \
+        $(INCS_RECURSIVE_FastNoise) \
         $(INCS_RECURSIVE_LibLeds) \
     )
     # End INCS_RECURSIVE_LedSigns

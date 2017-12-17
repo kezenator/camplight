@@ -85,7 +85,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\Applications\LibLeds;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_65_1;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\FastNoise\..\..\..\external\FastNoise;$(ProjectDir)\..\..\Applications\LibLeds;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_65_1;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -104,7 +104,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\Applications\LibLeds;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_65_1;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\FastNoise\..\..\..\external\FastNoise;$(ProjectDir)\..\..\Applications\LibLeds;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_65_1;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -125,7 +125,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\Applications\LibLeds;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_65_1;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\FastNoise\..\..\..\external\FastNoise;$(ProjectDir)\..\..\Applications\LibLeds;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_65_1;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -148,7 +148,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\Applications\LibLeds;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_65_1;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\FastNoise\..\..\..\external\FastNoise;$(ProjectDir)\..\..\Applications\LibLeds;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_65_1;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -166,11 +166,14 @@
     <ClCompile Include="ledsigns\RenderService.cpp" />
     <ClCompile Include="ledsigns\casadelshade\CasaDelShadeLayout.cpp" />
     <ClCompile Include="ledsigns\casadelshade\FlickeringNeonPattern.cpp" />
+    <ClCompile Include="ledsigns\casadelshade\PulsePattern.cpp" />
     <ClCompile Include="ledsigns\casadelshade\StaggerPattern.cpp" />
     <ClCompile Include="ledsigns\common\CountPattern.cpp" />
     <ClCompile Include="ledsigns\common\CyclePattern.cpp" />
     <ClCompile Include="ledsigns\common\FadeTransition.cpp" />
+    <ClCompile Include="ledsigns\common\Gradient.cpp" />
     <ClCompile Include="ledsigns\common\Layout.cpp" />
+    <ClCompile Include="ledsigns\common\NoisePattern.cpp" />
     <ClCompile Include="ledsigns\common\Pattern.cpp" />
     <ClCompile Include="ledsigns\common\RainbowCirclesPattern.cpp" />
     <ClCompile Include="ledsigns\common\RainbowWavePattern.cpp" />
@@ -178,6 +181,7 @@
     <ClCompile Include="ledsigns\common\SwipeTestPattern.cpp" />
     <ClCompile Include="ledsigns\common\SwipeTransition.cpp" />
     <ClCompile Include="ledsigns\common\TransitionPattern.cpp" />
+    <ClCompile Include="ledsigns\common\VectorGradient.cpp" />
     <ClCompile Include="ledsigns\gaysign\GaySignLayout.cpp" />
     <ClCompile Include="ledsigns\gaysign\GaySignPattern.cpp" />
   </ItemGroup>
@@ -196,6 +200,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\BBoxUtils\BBoxUtils.vcxproj">
       <Project>{20DD0248-AD74-5731-8E99-0786A8D4A61E}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ThirdParty\FastNoise\FastNoise.vcxproj">
+      <Project>{B12833EB-8D29-5A2B-A4C6-562B12291609}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Applications\LibLeds\LibLeds.vcxproj">
       <Project>{EED14378-C54B-52B9-A476-2582BAA8C6E1}</Project>
@@ -217,11 +224,14 @@
     <ClInclude Include="ledsigns\RenderService.h" />
     <ClInclude Include="ledsigns\casadelshade\CasaDelShadeLayout.h" />
     <ClInclude Include="ledsigns\casadelshade\FlickeringNeonPattern.h" />
+    <ClInclude Include="ledsigns\casadelshade\PulsePattern.h" />
     <ClInclude Include="ledsigns\casadelshade\StaggerPattern.h" />
     <ClInclude Include="ledsigns\common\CountPattern.h" />
     <ClInclude Include="ledsigns\common\CyclePattern.h" />
     <ClInclude Include="ledsigns\common\FadeTransition.h" />
+    <ClInclude Include="ledsigns\common\Gradient.h" />
     <ClInclude Include="ledsigns\common\Layout.h" />
+    <ClInclude Include="ledsigns\common\NoisePattern.h" />
     <ClInclude Include="ledsigns\common\Pattern.h" />
     <ClInclude Include="ledsigns\common\RainbowCirclesPattern.h" />
     <ClInclude Include="ledsigns\common\RainbowWavePattern.h" />
@@ -231,6 +241,7 @@
     <ClInclude Include="ledsigns\common\SwipeTransition.h" />
     <ClInclude Include="ledsigns\common\Transition.h" />
     <ClInclude Include="ledsigns\common\TransitionPattern.h" />
+    <ClInclude Include="ledsigns\common\VectorGradient.h" />
     <ClInclude Include="ledsigns\gaysign\GaySignLayout.h" />
     <ClInclude Include="ledsigns\gaysign\GaySignPattern.h" />
   </ItemGroup>

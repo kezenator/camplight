@@ -4,6 +4,7 @@ project("LedSigns", "Application");
 reference("BBoxHttp");
 reference("BBoxHttpDebug");
 reference("LibLeds");
+reference("FastNoise");
 
 include(".");
 

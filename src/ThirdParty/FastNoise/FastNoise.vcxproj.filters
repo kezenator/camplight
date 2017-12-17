@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="..">
+      <UniqueIdentifier>{1A70545E-7AB7-5E3E-AA47-E9734E1F9285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..">
+      <UniqueIdentifier>{EA212AE1-96EA-531D-8998-B3E9F9C496F0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..">
+      <UniqueIdentifier>{CA91B67D-E223-5761-A52D-C95F605BC5E7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\external">
+      <UniqueIdentifier>{45E1C381-234D-518B-99CB-8CA81EEE52A4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\external\FastNoise">
+      <UniqueIdentifier>{A36D997A-5309-52BE-AC8D-6637CA2CA047}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\external\FastNoise\FastNoise.cpp">
+      <Filter>..\..\..\external\FastNoise</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\external\FastNoise\FastNoise.h">
+      <Filter>..\..\..\external\FastNoise</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FastNoise.bbmake" />
+  </ItemGroup>
+</Project>

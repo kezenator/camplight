@@ -84,6 +84,11 @@ namespace leds {
             return Scale(fade.Inverse()) + dest.Scale(fade);
         }
 
+        Color Fade(const Color &dest, uint8_t fade)
+        {
+            return Fade(dest, Color(fade, fade, fade));
+        }
+
         bool operator ==(const Color &other) const { return (m_red == other.m_red) && (m_green == other.m_green) && (m_blue == other.m_blue); }
 
     private:

@@ -2,6 +2,5 @@
 	path = external/fadecandy
 	url = https://github.com/scanlime/fadecandy.git
 [submodule "external/FastNoise"]
-	path = external/FaseNoise
+	path = external/FastNoise
 	url = https://github.com/Auburns/FastNoise.git
-	
