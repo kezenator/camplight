@@ -29,6 +29,7 @@ OUTPUT_DIR := build
 
 $(patsubst %.c,$(OUTPUT_DIR)/%.o,$(SRCS_DIRECT_Lua)): CFLAGS += -x c++ $(CXXFLAGS)
 $(patsubst %.cc,$(OUTPUT_DIR)/%.o,$(SRCS_DIRECT_Snappy)): CXXFLAGS += -Wno-error=unknown-pragmas -Wno-error=sign-compare
+$(patsubst %.cpp,$(OUTPUT_DIR)/%.o,$(SRCS_DIRECT_FastNoise)): CXXFLAGS += -Wno-error=unused-function
 
 ## END TODO
 ###################################################
