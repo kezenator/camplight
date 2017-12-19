@@ -880,16 +880,16 @@ SRCS_DIRECT_LedSigns := $(sort \
         Applications/LedSigns/ledsigns/common/CyclePattern.cpp \
         Applications/LedSigns/ledsigns/common/FadeTransition.cpp \
         Applications/LedSigns/ledsigns/common/Gradient.cpp \
+        Applications/LedSigns/ledsigns/common/GrowingCirclesPattern.cpp \
         Applications/LedSigns/ledsigns/common/Layout.cpp \
         Applications/LedSigns/ledsigns/common/NoisePattern.cpp \
         Applications/LedSigns/ledsigns/common/Pattern.cpp \
-        Applications/LedSigns/ledsigns/common/RainbowCirclesPattern.cpp \
-        Applications/LedSigns/ledsigns/common/RainbowWavePattern.cpp \
         Applications/LedSigns/ledsigns/common/SolidPattern.cpp \
         Applications/LedSigns/ledsigns/common/SwipeTestPattern.cpp \
         Applications/LedSigns/ledsigns/common/SwipeTransition.cpp \
         Applications/LedSigns/ledsigns/common/TransitionPattern.cpp \
         Applications/LedSigns/ledsigns/common/VectorGradient.cpp \
+        Applications/LedSigns/ledsigns/common/WavePattern.cpp \
         Applications/LedSigns/ledsigns/gaysign/GaySignLayout.cpp \
         Applications/LedSigns/ledsigns/gaysign/GaySignPattern.cpp \
     )

@@ -24,16 +24,25 @@ namespace ledsigns
         public:
 
             NoisePattern(const common::RenderState &render,
-                         Gradient::Ptr &&gradient);
+                         Gradient::Ptr &&gradient,
+                         double patch_size,
+                         double change_rate_ms);
 
             ~NoisePattern();
 
-            static common::Pattern::Factory Factory(const Gradient::Ptr &gradient)
+            static common::Pattern::Factory Factory(
+                const Gradient::Ptr &gradient,
+                double patch_size,
+                double change_rate_ms)
             {
                 return [=](const common::RenderState &render)
                 {
                     Gradient::Ptr grad_copy(gradient);
-                    return std::make_unique<NoisePattern>(render, std::move(grad_copy));
+                    return std::make_unique<NoisePattern>(
+                        render,
+                        std::move(grad_copy),
+                        patch_size,
+                        change_rate_ms);
                 };
             }
 
@@ -44,7 +53,9 @@ namespace ledsigns
 
         private:
             const uint64_t m_start_time;
-            Gradient::Ptr m_gradient;
+            const Gradient::Ptr m_gradient;
+            double m_patch_size;
+            double m_change_rate_ms;
             FastNoise m_noise;
         };
 

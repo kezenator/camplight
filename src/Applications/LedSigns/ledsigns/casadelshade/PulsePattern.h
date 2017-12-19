@@ -8,6 +8,7 @@
 #define __LEDSIGNS__CASADELSHADE__PULSE_PATTERN_H__
 
 #include <ledsigns/common/Pattern.h>
+#include <ledsigns/common/Gradient.h>
 
 namespace ledsigns
 {
@@ -38,7 +39,10 @@ namespace ledsigns
             std::vector<leds::Color> Render(const common::RenderState &render) override;
 
         private:
-            uint64_t m_cycle_start_time;
+            const uint64_t m_cycle_start_time;
+            const uint64_t m_pulse_period;
+            common::Gradient::Ptr m_pulse_gradient;
+            common::Pattern::Ptr m_noise_pattern;
         };
 
     } // namespace ledsigns::casadelshade

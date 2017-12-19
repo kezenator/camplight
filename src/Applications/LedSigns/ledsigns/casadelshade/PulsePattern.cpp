@@ -5,6 +5,8 @@
 */
 
 #include <ledsigns/casadelshade/PulsePattern.h>
+#include <ledsigns/common/VectorGradient.h>
+#include <ledsigns/common/NoisePattern.h>
 
 namespace ledsigns
 {
@@ -13,7 +15,32 @@ namespace ledsigns
 
         PulsePattern::PulsePattern(const common::RenderState & render)
             : m_cycle_start_time(render.time_ms)
+            , m_pulse_period(3000)
+            , m_pulse_gradient()
+            , m_noise_pattern()
         {
+            m_pulse_gradient = std::make_shared<common::VectorGradient>(
+                "Pulse",
+                common::VectorGradient::Map({
+                    { 0.0, leds::Color(64, 64, 64) },
+                    { 0.1, leds::Color(255, 255, 255) },
+                    { 0.2, leds::Color(64, 64, 64) },
+                    { 0.3, leds::Color(255, 255, 255) },
+                }));
+
+            common::Gradient::Ptr noise_grad = std::make_shared<common::VectorGradient>(
+                "Reds-and-Oranges",
+                common::VectorGradient::Map({
+                    { 0.0, leds::Color(64, 0, 0) },
+                    { 0.3, leds::Color(255, 0, 0) },
+                    { 0.8, leds::Color(255, 128, 0) },
+                    { 1.0, leds::Color(200, 200, 200) },
+            }));
+
+            m_noise_pattern = common::NoisePattern::Factory(
+                noise_grad,
+                0.2,
+                350.0)(render);
         }
 
         PulsePattern::~PulsePattern()
@@ -28,44 +55,28 @@ namespace ledsigns
         void PulsePattern::PrintInformation(bbox::DebugOutput &out) const
         {
             out.Format("Cycle start time (ms): %d\n", m_cycle_start_time);
+            out.Format("Pulse period (ms):     %d\n", m_pulse_period);
+            out.Format("Pulse Gradient:        %s\n", m_pulse_gradient->GetName());
+            m_pulse_gradient->PrintInformation(out);
+            out.Format("\n");
+            out.Format("Noise Pattern: %s\n", m_noise_pattern->GetName());
+            m_noise_pattern->PrintInformation(out);
         }
 
         std::vector<leds::Color> PulsePattern::Render(const common::RenderState &render)
         {
-            static const uint64_t PERIOD = 5000;
-            static const uint64_t SECOND_ON_TIME = 1500;
+            double pulse_progress = double((render.time_ms - m_cycle_start_time) % m_pulse_period) / double(m_pulse_period);
 
-            uint64_t delay = render.time_ms - m_cycle_start_time;
-            while (delay >= PERIOD)
+            leds::Color pulse = m_pulse_gradient->Convert(pulse_progress);
+
+            std::vector<leds::Color> result = m_noise_pattern->Render(render);
+
+            for (size_t i = 0; i < render.layout.num_leds; ++i)
             {
-                m_cycle_start_time += PERIOD;
-                delay = render.time_ms - m_cycle_start_time;
+                result[i] = result[i].Scale(pulse);
             }
 
-            uint64_t progress, limit;
-
-            if (delay < SECOND_ON_TIME)
-            {
-                limit = SECOND_ON_TIME / 3;
-
-                if (delay < (SECOND_ON_TIME / 3))
-                    progress = delay;
-                else if (delay < ((2 * SECOND_ON_TIME) / 3))
-                    progress = (SECOND_ON_TIME / 3) - (delay - (SECOND_ON_TIME / 3));
-                else
-                    progress = delay - ((2 * SECOND_ON_TIME) / 3);
-            }
-            else
-            {
-                progress = (PERIOD - SECOND_ON_TIME) - (delay - SECOND_ON_TIME);
-                limit = PERIOD - SECOND_ON_TIME;
-            }
-
-            uint8_t fade = uint8_t(255 * progress / limit);
-
-            return std::vector<leds::Color>(
-                render.layout.num_leds,
-                leds::Color(fade, 0, 0));
+            return result;
         }
 
     } // namespace ledsigns::casadelshade

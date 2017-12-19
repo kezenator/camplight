@@ -9,13 +9,13 @@
 
 #include <ledsigns/common/CountPattern.h>
 #include <ledsigns/common/CyclePattern.h>
+#include <ledsigns/common/GrowingCirclesPattern.h>
 #include <ledsigns/common/FadeTransition.h>
 #include <ledsigns/common/NoisePattern.h>
-#include <ledsigns/common/RainbowCirclesPattern.h>
-#include <ledsigns/common/RainbowWavePattern.h>
 #include <ledsigns/common/SolidPattern.h>
 #include <ledsigns/common/SwipeTestPattern.h>
 #include <ledsigns/common/SwipeTransition.h>
+#include <ledsigns/common/WavePattern.h>
 
 #include <ledsigns/casadelshade/CasaDelShadeLayout.h>
 #include <ledsigns/casadelshade/PulsePattern.h>
@@ -69,15 +69,16 @@ namespace ledsigns
                     casadelshade::PulsePattern::Factory(),
                     casadelshade::StaggerPattern::Factory(),
                     casadelshade::FlickeringNeonPattern::Factory(),
-                    common::RainbowCirclesPattern::Factory(6000, 3.0),
-                    common::RainbowWavePattern::Factory(3000, 3.0),
-                    common::NoisePattern::Factory(common::Gradient::GreensAndBlues()),
-                }),
+                    //common::GrowingCirclesPattern::Factory(6000, 3.0, common::Gradient::FullRainbow()),
+                    //common::WavePattern::Factory(3000, 3.0, common::Gradient::FullRainbow()),
+                    common::NoisePattern::Factory(common::Gradient::GreensAndBlues(), 0.13, 750.0),
+                    common::NoisePattern::Factory(common::Gradient::FullRainbow(), 0.5, 1000.0),
+            }),
                 std::vector<common::Transition::Factory>({
                     common::FadeTransition::Factory(500),
                     common::SwipeTransition::Factory(500),
                 }),
-                10000);
+                60 * 1000);
         }
         
         m_frame_timer.StartPeriodic(

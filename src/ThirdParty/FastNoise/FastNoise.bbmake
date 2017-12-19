@@ -1,5 +1,7 @@
 project("FastNoise", "StaticLibrary");
 
+define("FN_USE_DOUBLES");
+
 include("../../../external/FastNoise");
 
 headers({"../../../external/FastNoise/FastNoise.h"});

@@ -45,6 +45,9 @@
     <ClCompile Include="ledsigns\common\Gradient.cpp">
       <Filter>ledsigns\common</Filter>
     </ClCompile>
+    <ClCompile Include="ledsigns\common\GrowingCirclesPattern.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
     <ClCompile Include="ledsigns\common\Layout.cpp">
       <Filter>ledsigns\common</Filter>
     </ClCompile>
@@ -52,12 +55,6 @@
       <Filter>ledsigns\common</Filter>
     </ClCompile>
     <ClCompile Include="ledsigns\common\Pattern.cpp">
-      <Filter>ledsigns\common</Filter>
-    </ClCompile>
-    <ClCompile Include="ledsigns\common\RainbowCirclesPattern.cpp">
-      <Filter>ledsigns\common</Filter>
-    </ClCompile>
-    <ClCompile Include="ledsigns\common\RainbowWavePattern.cpp">
       <Filter>ledsigns\common</Filter>
     </ClCompile>
     <ClCompile Include="ledsigns\common\SolidPattern.cpp">
@@ -73,6 +70,9 @@
       <Filter>ledsigns\common</Filter>
     </ClCompile>
     <ClCompile Include="ledsigns\common\VectorGradient.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\common\WavePattern.cpp">
       <Filter>ledsigns\common</Filter>
     </ClCompile>
     <ClCompile Include="ledsigns\gaysign\GaySignLayout.cpp">
@@ -110,6 +110,9 @@
     <ClInclude Include="ledsigns\common\Gradient.h">
       <Filter>ledsigns\common</Filter>
     </ClInclude>
+    <ClInclude Include="ledsigns\common\GrowingCirclesPattern.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
     <ClInclude Include="ledsigns\common\Layout.h">
       <Filter>ledsigns\common</Filter>
     </ClInclude>
@@ -117,12 +120,6 @@
       <Filter>ledsigns\common</Filter>
     </ClInclude>
     <ClInclude Include="ledsigns\common\Pattern.h">
-      <Filter>ledsigns\common</Filter>
-    </ClInclude>
-    <ClInclude Include="ledsigns\common\RainbowCirclesPattern.h">
-      <Filter>ledsigns\common</Filter>
-    </ClInclude>
-    <ClInclude Include="ledsigns\common\RainbowWavePattern.h">
       <Filter>ledsigns\common</Filter>
     </ClInclude>
     <ClInclude Include="ledsigns\common\RenderState.h">
@@ -144,6 +141,9 @@
       <Filter>ledsigns\common</Filter>
     </ClInclude>
     <ClInclude Include="ledsigns\common\VectorGradient.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\WavePattern.h">
       <Filter>ledsigns\common</Filter>
     </ClInclude>
     <ClInclude Include="ledsigns\gaysign\GaySignLayout.h">

@@ -41,10 +41,10 @@ namespace ledsigns
             return std::make_unique<VectorGradient>(
                 "Greens-and-Blues",
                 VectorGradient::Map({
-                    { 0.0 / 4.0, leds::Color(0, 255, 0) },
+                    { 0.0 / 4.0, leds::Color(0, 196, 64) },
                     { 1.0 / 4.0, leds::Color(0, 255, 255) },
                     { 2.0 / 4.0, leds::Color(0, 0, 255) },
-                    { 3.0 / 4.0, leds::Color(128, 0, 255) },
+                    { 3.0 / 4.0, leds::Color(96, 0, 128) },
             }));
         }
 

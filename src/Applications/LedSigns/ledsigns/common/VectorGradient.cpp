@@ -100,6 +100,12 @@ namespace ledsigns
                 distance = (progress - prev_it->first) / (it->first - prev_it->first);
             }
 
+            // Apply the smoothstep S1(x) function 3x^3 - 2x^3
+
+            distance = distance * distance * (3.0 - 2.0 * distance);
+
+            // Fade smoothly
+
             return from.Fade(to, uint8_t(distance * 255.0));
         }
 
