@@ -78,7 +78,7 @@ namespace ledsigns
                     common::FadeTransition::Factory(500),
                     common::SwipeTransition::Factory(500),
                 }),
-                60 * 1000);
+                5 * 60 * 1000);
         }
         
         m_frame_timer.StartPeriodic(
