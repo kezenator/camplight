@@ -9,6 +9,7 @@
 #include <bbox/http/server/RequestHandler.h>
 #include <bbox/Assert.h>
 #include <bbox/DebugOutput.h>
+#include <bbox/Error.h>
 
 #ifdef WIN32
 #include <bbox/TextCoding.h>

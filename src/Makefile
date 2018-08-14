@@ -19,7 +19,7 @@ include modules.make
 # Default compiler flags
 
 CFLAGS := 
-CXXFLAGS := --std=c++14 -Werror -Wall -Wpedantic -Wno-error=unused-local-typedefs -Wno-unused-local-typedefs
+CXXFLAGS := --std=c++14 -Werror -Wall -Wpedantic -Wno-error=unused-local-typedefs -Wno-unused-local-typedefs -Wno-psabi
 OUTPUT_DIR := build
 
 ###################################################
@@ -34,7 +34,7 @@ $(patsubst %.cpp,$(OUTPUT_DIR)/%.o,$(SRCS_DIRECT_FastNoise)): CXXFLAGS += -Wno-e
 ## END TODO
 ###################################################
 
-BOOST_VER := 1_67_0
+BOOST_VER := 1_68_0
 
 all: app_all test_all
 app_all: $(APPS)
