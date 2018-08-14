@@ -237,7 +237,7 @@ namespace bbox {
                     response.SetHeader("ETag", file_ptr->GetStrongETag());
                     response.SetHeader("Cache-Control", "public, max-age=3600");
 
-                    if (m_request->get_header("If-None-Match") == file_ptr->GetStrongETag())
+                    if (GetHeader("If-None-Match") == file_ptr->GetStrongETag())
                     {
                         // It's not changed - just send back not modified
                         response.SetResponse_NotModified();
@@ -246,7 +246,7 @@ namespace bbox {
                     {
                         response.SetResponse_OK();
 
-                        if (m_request->get_method() == pion::http::types::REQUEST_METHOD_GET)
+                        if (method == Method::get)
                         {
                             response.SetContent_NoCopy(file_ptr->GetData(), file_ptr->GetSize());
                         }
