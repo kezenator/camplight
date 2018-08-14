@@ -17,10 +17,6 @@
 #include <bbox/Format.h>
 #include <bbox/Assert.h>
 
-#include <pion/http/response.hpp>
-#include <pion/http/response_writer.hpp>
-#include <pion/http/types.hpp>
-
 #include <bbox/enc/api/MethodSet.h>
 #include <bbox/enc/api/Describe.h>
 #include <bbox/enc/FromXml.h>
@@ -143,7 +139,7 @@ private:
 
         m_http_server.AddServer(
             m_http_listen_endpoint,
-            boost::bind(&ApplicationService::HttpRequestHandler, this, _1));
+            std::bind(&ApplicationService::HttpRequestHandler, this, std::placeholders::_1));
 
         NotifyStarted();
     }
@@ -183,7 +179,7 @@ private:
 
     void HandleApiRequest(bbox::http::Request &request)
     {
-        if (request.GetMethod() != "POST")
+        if (request.GetMethod() != bbox::http::Request::Method::post)
         {
             request.RespondWithMethodNotAllowedError("POST");
             return;

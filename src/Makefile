@@ -34,7 +34,7 @@ $(patsubst %.cpp,$(OUTPUT_DIR)/%.o,$(SRCS_DIRECT_FastNoise)): CXXFLAGS += -Wno-e
 ## END TODO
 ###################################################
 
-BOOST_VER := 1_65_1
+BOOST_VER := 1_67_0
 
 all: app_all test_all
 app_all: $(APPS)

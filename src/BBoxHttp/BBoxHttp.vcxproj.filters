@@ -10,9 +10,6 @@
     <Filter Include="bbox\http\client">
       <UniqueIdentifier>{4B25575C-C4B6-5D4F-ABC6-8809A88C7035}</UniqueIdentifier>
     </Filter>
-    <Filter Include="bbox\http\pionhlp">
-      <UniqueIdentifier>{17589FCE-F3BB-5557-B5C4-46C0067D9A24}</UniqueIdentifier>
-    </Filter>
     <Filter Include="bbox\http\server">
       <UniqueIdentifier>{41FCA30A-B339-5E49-A17E-65235337BE2F}</UniqueIdentifier>
     </Filter>
@@ -39,8 +36,8 @@
     <ClCompile Include="bbox\http\client\HttpClient.cpp">
       <Filter>bbox\http\client</Filter>
     </ClCompile>
-    <ClCompile Include="bbox\http\pionhlp\Scheduler.cpp">
-      <Filter>bbox\http\pionhlp</Filter>
+    <ClCompile Include="bbox\http\server\Connection.cpp">
+      <Filter>bbox\http\server</Filter>
     </ClCompile>
     <ClCompile Include="bbox\http\server\HttpServer.cpp">
       <Filter>bbox\http\server</Filter>
@@ -71,8 +68,8 @@
     <ClInclude Include="bbox\http\client\HttpClient.h">
       <Filter>bbox\http\client</Filter>
     </ClInclude>
-    <ClInclude Include="bbox\http\pionhlp\Scheduler.h">
-      <Filter>bbox\http\pionhlp</Filter>
+    <ClInclude Include="bbox\http\server\Connection.h">
+      <Filter>bbox\http\server</Filter>
     </ClInclude>
     <ClInclude Include="bbox\http\server\HttpServer.h">
       <Filter>bbox\http\server</Filter>

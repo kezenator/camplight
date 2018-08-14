@@ -1,7 +1,7 @@
 
 project("boost", "StaticLibrary");
 
-include("boost_1_65_1");
+include("boost_1_68_0");
 
 define("BOOST_THREAD_BUILD_LIB");
 define("BOOST_ALL_NO_LIB");
@@ -13,22 +13,22 @@ if (platform() == "Win32") then
 	define("BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT", "noexcept(true)");
 end
 
-headers(find_recursive("boost_1_65_1/boost/*.h"));
-headers(find_recursive("boost_1_65_1/boost/*.hpp"));
+headers(find_recursive("boost_1_68_0/boost/*.h"));
+headers(find_recursive("boost_1_68_0/boost/*.hpp"));
 
-sources(find_recursive("boost_1_65_1/libs/system/src/*.cpp"));
-headers(find_recursive("boost_1_65_1/libs/system/src/*.hpp"));
+sources(find_recursive("boost_1_68_0/libs/system/src/*.cpp"));
+headers(find_recursive("boost_1_68_0/libs/system/src/*.hpp"));
 
-sources(find("boost_1_65_1/libs/thread/src/*.cpp"));
+sources(find("boost_1_68_0/libs/thread/src/*.cpp"));
 
 if (platform() == "Win32") then
-  sources(find("boost_1_65_1/libs/thread/src/win32/*.cpp"));
+  sources(find("boost_1_68_0/libs/thread/src/win32/*.cpp"));
 else
-  sources({"boost_1_65_1/libs/thread/src/pthread/once.cpp",
-           "boost_1_65_1/libs/thread/src/pthread/thread.cpp"});
+  sources({"boost_1_68_0/libs/thread/src/pthread/once.cpp",
+           "boost_1_68_0/libs/thread/src/pthread/thread.cpp"});
 end
 
-sources(find_recursive("boost_1_65_1/libs/regex/src/*.cpp"));
-headers(find_recursive("boost_1_65_1/libs/regex/src/*.hpp"));
+sources(find_recursive("boost_1_68_0/libs/regex/src/*.cpp"));
+headers(find_recursive("boost_1_68_0/libs/regex/src/*.hpp"));
 
-sources(find_recursive("boost_1_65_1/libs/chrono/src/*.cpp"));
+sources(find_recursive("boost_1_68_0/libs/chrono/src/*.cpp"));

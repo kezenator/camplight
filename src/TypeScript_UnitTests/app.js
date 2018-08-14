@@ -1,13 +1,18 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var bbox;
 (function (bbox) {
     var ds;
     (function (ds) {
-        var Map = (function () {
+        var Map = /** @class */ (function () {
             function Map() {
                 this.map = {};
             }
@@ -41,7 +46,7 @@ var bbox;
 (function (bbox) {
     var ds;
     (function (ds) {
-        var Deque = (function () {
+        var Deque = /** @class */ (function () {
             function Deque() {
                 this.array = [];
             }
@@ -93,7 +98,7 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Timer = (function () {
+        var Timer = /** @class */ (function () {
             function Timer(handler) {
                 this.handler = handler;
                 this.is_started = false;
@@ -146,7 +151,7 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Control = (function () {
+        var Control = /** @class */ (function () {
             function Control(element) {
                 this.m_control_element = element;
             }
@@ -168,11 +173,12 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Container = (function (_super) {
+        var Container = /** @class */ (function (_super) {
             __extends(Container, _super);
             function Container(element) {
-                _super.call(this, element);
-                this.m_container_element = element;
+                var _this = _super.call(this, element) || this;
+                _this.m_container_element = element;
+                return _this;
             }
             Container.prototype.add = function (control) {
                 this.m_container_element.appendChild(control.htmlElement());
@@ -187,14 +193,14 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var BodyContainer = (function (_super) {
+        var BodyContainer = /** @class */ (function (_super) {
             __extends(BodyContainer, _super);
             function BodyContainer() {
-                _super.call(this, window.document.body);
+                return _super.call(this, window.document.body) || this;
             }
             return BodyContainer;
         }(ui.Container));
-        var Application = (function () {
+        var Application = /** @class */ (function () {
             function Application(state_prototype) {
                 var _this = this;
                 this.m_type_prototype = state_prototype;
@@ -279,10 +285,10 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var TextControl = (function (_super) {
+        var TextControl = /** @class */ (function (_super) {
             __extends(TextControl, _super);
             function TextControl(element) {
-                _super.call(this, element);
+                return _super.call(this, element) || this;
             }
             TextControl.prototype.setText = function (text) {
                 this.htmlElement().textContent = text;
@@ -297,19 +303,20 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var EditBox = (function (_super) {
+        var EditBox = /** @class */ (function (_super) {
             __extends(EditBox, _super);
             function EditBox(text) {
                 var _this = this;
                 var input = document.createElement("input");
                 input.value = text;
                 input.type = 'text';
-                _super.call(this, input);
-                this.m_input_element = input;
-                this.m_on_change = null;
+                _this = _super.call(this, input) || this;
+                _this.m_input_element = input;
+                _this.m_on_change = null;
                 input.oninput = function () {
                     _this.handleChange();
                 };
+                return _this;
             }
             EditBox.prototype.onChanged = function (handler) {
                 this.m_on_change = handler;
@@ -335,18 +342,19 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Button = (function (_super) {
+        var Button = /** @class */ (function (_super) {
             __extends(Button, _super);
             function Button(text) {
                 var _this = this;
                 var button = document.createElement("button");
                 button.textContent = text;
-                _super.call(this, button);
-                this.m_button_element = button;
-                this.m_on_click = null;
+                _this = _super.call(this, button) || this;
+                _this.m_button_element = button;
+                _this.m_on_click = null;
                 button.onclick = function () {
                     _this.handleClick();
                 };
+                return _this;
             }
             Button.prototype.onClick = function (handler) {
                 this.m_on_click = handler;
@@ -366,13 +374,15 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Span = (function (_super) {
+        var Span = /** @class */ (function (_super) {
             __extends(Span, _super);
             function Span(text) {
+                var _this = this;
                 var span = document.createElement("span");
                 span.textContent = text;
-                _super.call(this, span);
-                this.m_span_element = span;
+                _this = _super.call(this, span) || this;
+                _this.m_span_element = span;
+                return _this;
             }
             return Span;
         }(ui.TextControl));
@@ -383,12 +393,14 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Div = (function (_super) {
+        var Div = /** @class */ (function (_super) {
             __extends(Div, _super);
             function Div() {
+                var _this = this;
                 var div = document.createElement("div");
-                _super.call(this, div);
-                this.m_div_element = div;
+                _this = _super.call(this, div) || this;
+                _this.m_div_element = div;
+                return _this;
             }
             return Div;
         }(ui.Container));
@@ -399,13 +411,15 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Pre = (function (_super) {
+        var Pre = /** @class */ (function (_super) {
             __extends(Pre, _super);
             function Pre(text) {
+                var _this = this;
                 var pre = document.createElement("pre");
                 pre.textContent = text;
-                _super.call(this, pre);
-                this.m_pre_element = pre;
+                _this = _super.call(this, pre) || this;
+                _this.m_pre_element = pre;
+                return _this;
             }
             Pre.prototype.appendText = function (text) {
                 this.m_pre_element.appendChild(document.createTextNode(text));
@@ -419,7 +433,7 @@ var bbox;
 (function (bbox) {
     var net;
     (function (net) {
-        var AjaxRequest = (function () {
+        var AjaxRequest = /** @class */ (function () {
             function AjaxRequest(method, url, handler) {
                 var _this = this;
                 this.m_sent = false;
@@ -501,7 +515,7 @@ var bbox;
 (function (bbox) {
     var net;
     (function (net) {
-        var BboxRpcRequest = (function () {
+        var BboxRpcRequest = /** @class */ (function () {
             function BboxRpcRequest(url, method, input_type, output_type, handler) {
                 var _this = this;
                 this.m_url = url;
@@ -580,7 +594,7 @@ var bbox;
 (function (bbox) {
     var enc;
     (function (enc) {
-        var Type = (function () {
+        var Type = /** @class */ (function () {
             function Type(lib, name) {
                 this.type_lib = lib;
                 this.type_name = name;
@@ -600,7 +614,7 @@ var bbox;
 (function (bbox) {
     var enc;
     (function (enc) {
-        var ToString = (function () {
+        var ToString = /** @class */ (function () {
             function ToString() {
                 this.result = "";
                 this.has_error = false;
@@ -633,7 +647,7 @@ var bbox;
 (function (bbox) {
     var enc;
     (function (enc) {
-        var ToXml = (function () {
+        var ToXml = /** @class */ (function () {
             function ToXml(root_node_name) {
                 this.result = document.implementation.createDocument(null, root_node_name, null);
                 this.cur_element = this.result.documentElement;
@@ -659,6 +673,7 @@ var bbox;
             };
             ToXml.prototype.setValue = function (val) {
                 if (this.has_error) {
+                    // No-op
                 }
                 else {
                     if (val === null) {
@@ -682,6 +697,7 @@ var bbox;
             };
             ToXml.prototype.encodeTypedValue = function (val, type_name) {
                 if (this.has_error) {
+                    // No-op
                 }
                 else {
                     var type = enc.TypeLibrary.instance().findType(type_name);
@@ -695,6 +711,7 @@ var bbox;
             };
             ToXml.prototype.startObject = function () {
                 if (this.has_error) {
+                    // No-op
                 }
                 else if (this.state == "Constructed") {
                     this.state = "Started-Single-Object";
@@ -708,6 +725,7 @@ var bbox;
             };
             ToXml.prototype.endObject = function () {
                 if (this.has_error) {
+                    // No-op
                 }
                 else if (this.state == "Started-Single-Object") {
                     this.state = "Completed-Single-Value";
@@ -721,6 +739,7 @@ var bbox;
             };
             ToXml.prototype.startNamedValue = function (name) {
                 if (this.has_error) {
+                    // No-op
                 }
                 else if ((this.state == "Started-Single-Object")
                     || (this.state == "Started-Named-Object")) {
@@ -736,6 +755,7 @@ var bbox;
             };
             ToXml.prototype.endNamedValue = function () {
                 if (this.has_error) {
+                    // No-op
                 }
                 else if (this.state == "Completed-Named-Value") {
                     this.cur_element = this.element_stack.pop();
@@ -759,7 +779,7 @@ var bbox;
 (function (bbox) {
     var enc;
     (function (enc) {
-        var FromXml_ObjectProgress = (function () {
+        var FromXml_ObjectProgress = /** @class */ (function () {
             function FromXml_ObjectProgress(element) {
                 this.element = element;
                 this.at_start = true;
@@ -789,7 +809,7 @@ var bbox;
             return FromXml_ObjectProgress;
         }());
         ;
-        var FromXml = (function () {
+        var FromXml = /** @class */ (function () {
             function FromXml(json_str, root_element_name) {
                 this.document = null;
                 this.root_element = null;
@@ -826,6 +846,7 @@ var bbox;
             };
             FromXml.prototype.checkComplete = function () {
                 if (this.has_error) {
+                    // No-op
                 }
                 else if (this.state != "Complete") {
                     this.raiseError("checkComplete called but in state " + this.state);
@@ -925,6 +946,7 @@ var bbox;
             };
             FromXml.prototype.endObject = function () {
                 if (this.has_error) {
+                    // No-op
                 }
                 else if (this.state == "In-Object") {
                     var obj_element = this.cur_obj_progress.element;
@@ -951,6 +973,7 @@ var bbox;
             };
             FromXml.prototype.startNamedValue = function (name) {
                 if (this.has_error) {
+                    // No-op
                 }
                 else if (this.state == "In-Object") {
                     var parent = this.cur_obj_progress.element;
@@ -974,6 +997,7 @@ var bbox;
             };
             FromXml.prototype.endNamedValue = function () {
                 if (this.has_error) {
+                    // No-op
                 }
                 else if (this.state == "Completed-Named-Value") {
                     this.state = "In-Object";
@@ -994,12 +1018,13 @@ var bbox;
     (function (enc) {
         var details;
         (function (details) {
-            var IntType = (function (_super) {
+            var IntType = /** @class */ (function (_super) {
                 __extends(IntType, _super);
                 function IntType(lib, name, min, max) {
-                    _super.call(this, lib, name);
-                    this.min = min;
-                    this.max = max;
+                    var _this = _super.call(this, lib, name) || this;
+                    _this.min = min;
+                    _this.max = max;
+                    return _this;
                 }
                 IntType.prototype.isValue = function () {
                     return true;
@@ -1059,10 +1084,10 @@ var bbox;
     (function (enc) {
         var details;
         (function (details) {
-            var StringType = (function (_super) {
+            var StringType = /** @class */ (function (_super) {
                 __extends(StringType, _super);
                 function StringType(lib) {
-                    _super.call(this, lib, "std::string");
+                    return _super.call(this, lib, "std::string") || this;
                 }
                 StringType.prototype.isValue = function () {
                     return true;
@@ -1103,11 +1128,12 @@ var bbox;
     (function (enc) {
         var details;
         (function (details) {
-            var SimpleStructureType = (function (_super) {
+            var SimpleStructureType = /** @class */ (function (_super) {
                 __extends(SimpleStructureType, _super);
                 function SimpleStructureType(lib, name) {
-                    _super.call(this, lib, name);
-                    this.members = new bbox.ds.Map();
+                    var _this = _super.call(this, lib, name) || this;
+                    _this.members = new bbox.ds.Map();
+                    return _this;
                 }
                 SimpleStructureType.prototype.addMemberByType = function (member_name, member_type) {
                     if (this.members.has(member_name)) {
@@ -1194,11 +1220,12 @@ var bbox;
                 return SimpleStructureType;
             }(enc.Type));
             details.SimpleStructureType = SimpleStructureType;
-            var GenericSimpleStructureType = (function (_super) {
+            var GenericSimpleStructureType = /** @class */ (function (_super) {
                 __extends(GenericSimpleStructureType, _super);
                 function GenericSimpleStructureType(lib, name, default_constructor) {
-                    _super.call(this, lib, name);
-                    this.default_constructor = default_constructor;
+                    var _this = _super.call(this, lib, name) || this;
+                    _this.default_constructor = default_constructor;
+                    return _this;
                 }
                 GenericSimpleStructureType.prototype.constructDefaultValue = function () {
                     return new this.default_constructor();
@@ -1215,12 +1242,13 @@ var bbox;
     (function (enc) {
         var details;
         (function (details) {
-            var DequeType = (function (_super) {
+            var DequeType = /** @class */ (function (_super) {
                 __extends(DequeType, _super);
                 function DequeType(lib, name, member_type) {
-                    _super.call(this, lib, name);
-                    this.member_type = member_type;
-                    this.uint32_type = lib.findType("uint32_t");
+                    var _this = _super.call(this, lib, name) || this;
+                    _this.member_type = member_type;
+                    _this.uint32_type = lib.findType("uint32_t");
+                    return _this;
                 }
                 DequeType.prototype.isValue = function () {
                     return false;
@@ -1284,7 +1312,7 @@ var bbox;
 (function (bbox) {
     var enc;
     (function (enc) {
-        var TypeLibrary = (function () {
+        var TypeLibrary = /** @class */ (function () {
             function TypeLibrary() {
                 this.by_name = new bbox.ds.Map();
                 this.addType(new enc.details.StringType(this));
@@ -1375,7 +1403,7 @@ var bbox;
 /// <reference path="bbox/enc/details/SimpleStructureType.ts" />
 /// <reference path="bbox/enc/details/DequeType.ts" />
 /// <reference path="bbox/enc/TypeLibrary.ts" />
-var SimpleType = (function () {
+var SimpleType = /** @class */ (function () {
     function SimpleType() {
         this.name = "";
         this.id = 0;
@@ -1387,14 +1415,15 @@ var SimpleType = (function () {
         .addMemberByType("list", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"));
     return SimpleType;
 }());
-var MyApplication = (function (_super) {
+var MyApplication = /** @class */ (function (_super) {
     __extends(MyApplication, _super);
     function MyApplication() {
-        _super.call(this, SimpleType);
-        this.timer = new bbox.ui.Timer(this.testTimeout.bind(this));
-        this.tests = new bbox.ds.Deque();
-        this.tests.push_back("testtoxml");
-        this.tests.push_back("testfromxml");
+        var _this = _super.call(this, SimpleType) || this;
+        _this.timer = new bbox.ui.Timer(_this.testTimeout.bind(_this));
+        _this.tests = new bbox.ds.Deque();
+        _this.tests.push_back("testtoxml");
+        _this.tests.push_back("testfromxml");
+        return _this;
     }
     MyApplication.prototype.onLoad = function (state) {
         this.timer.startPeriodic(100, 100);

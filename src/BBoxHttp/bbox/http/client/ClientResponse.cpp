@@ -13,8 +13,8 @@ namespace bbox
         namespace client
         {
 
-            ClientResponse::ClientResponse(const pion::http::response_ptr &ptr)
-                : m_response_ptr(ptr)
+            ClientResponse::ClientResponse(std::unique_ptr<boost::beast::http::response<boost::beast::http::string_body>> &&ptr)
+                : m_response_ptr(std::move(ptr))
             {
             }
 

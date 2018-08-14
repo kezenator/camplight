@@ -18,10 +18,6 @@
 #include <bbox/Format.h>
 #include <bbox/Assert.h>
 
-#include <pion/http/response.hpp>
-#include <pion/http/response_writer.hpp>
-#include <pion/http/types.hpp>
-
 #include <leds/FadecandyClient.h>
 #include <leds/GpioClient.h>
 

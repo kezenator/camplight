@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -22,89 +14,46 @@
     <ProjectGuid>{B2CED24E-13FA-5837-B34E-2D40869FD491}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CampLight</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_65_1;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
-      <UseFullPaths>true</UseFullPaths>
-      <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MinimalRebuild>false</MinimalRebuild>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_65_1;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -113,29 +62,6 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_65_1;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
-      <UseFullPaths>true</UseFullPaths>
-      <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MinimalRebuild>false</MinimalRebuild>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,10 +71,10 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;PION_STATIC_LINKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_65_1;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\pion\pion-5.0.5\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -211,9 +137,6 @@
     <ProjectReference Include="..\..\ThirdParty\json\json.vcxproj">
       <Project>{4F72EBAD-7B47-5980-B03C-E9690122F135}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\ThirdParty\pion\pion.vcxproj">
-      <Project>{75C301C4-B167-5E13-B6A7-E2A6791572E0}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camplight\Resources.h" />
@@ -241,13 +164,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CampLight.bbmake" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(Platform)'=='Win32'">
-    <CustomBuild Include="camplight\resources\app.css;camplight\resources\app.js;camplight\resources\apple-touch-icon-120x120.png;camplight\resources\apple-touch-icon-152x152.png;camplight\resources\apple-touch-icon-180x180.png;camplight\resources\apple-touch-icon-192x192.png;camplight\resources\favicon.ico;camplight\resources\index.html">
-      <Command>..\..\$(Configuration)\ResourceBuilder.exe -i camplight\resources\app.css;camplight\resources\app.js;camplight\resources\apple-touch-icon-120x120.png;camplight\resources\apple-touch-icon-152x152.png;camplight\resources\apple-touch-icon-180x180.png;camplight\resources\apple-touch-icon-192x192.png;camplight\resources\favicon.ico;camplight\resources\index.html -o camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.path -n "camplight" -r "camplight\resources"</Command>
-      <Outputs>camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.path</Outputs>
-      <AdditionalInputs>..\..\$(Configuration)\ResourceBuilder.exe</AdditionalInputs>
-    </CustomBuild>
   </ItemGroup>
   <ItemGroup Condition="'$(Platform)'=='x64'">
     <CustomBuild Include="camplight\resources\app.css;camplight\resources\app.js;camplight\resources\apple-touch-icon-120x120.png;camplight\resources\apple-touch-icon-152x152.png;camplight\resources\apple-touch-icon-180x180.png;camplight\resources\apple-touch-icon-192x192.png;camplight\resources\favicon.ico;camplight\resources\index.html">

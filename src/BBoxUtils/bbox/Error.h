@@ -81,7 +81,7 @@ namespace bbox {
 
         explicit operator bool() const
         {
-            return m_err_code.operator boost::system::error_condition::unspecified_bool_type() != nullptr;
+            return bool(m_err_code);
         }
 
         std::string ToString() const;

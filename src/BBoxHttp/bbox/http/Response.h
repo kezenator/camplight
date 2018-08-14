@@ -7,11 +7,10 @@
 #ifndef __BBOX__RT__HTTP__RESPONSE_H__
 #define __BBOX__RT__HTTP__RESPONSE_H__
 
-#pragma once
-
 #include <bbox/http/Request.h>
 
-#include <pion/http/types.hpp>
+#include <boost/beast/core.hpp>
+#include <boost/beast/http.hpp>
 
 namespace bbox {
     namespace http {
@@ -21,6 +20,9 @@ namespace bbox {
          */
         class Response
         {
+			friend class server::Connection;
+			friend class Request;
+
             Response() = delete;
             Response(const Response &) = delete;
             Response(Response &&) = delete;
@@ -28,60 +30,47 @@ namespace bbox {
             Response &operator =(Response &&) = delete;
 
         public:
+
+			using Status = boost::beast::http::status;
+
             explicit Response(Request &request);
             ~Response();
 
-            Response &SetLifecycleForceClose();
-
-            Response &SetResponse(int code, const std::string &msg);
+            Response &SetResponse(Status status);
 
             Response &SetResponse_OK()
             {
-                return SetResponse(
-                    pion::http::types::RESPONSE_CODE_OK,
-                    pion::http::types::RESPONSE_MESSAGE_OK);
+				return SetResponse(Status::ok);
             }
 
             Response &SetResponse_NotModified()
             {
-                return SetResponse(
-                    pion::http::types::RESPONSE_CODE_NOT_MODIFIED,
-                    pion::http::types::RESPONSE_MESSAGE_NOT_MODIFIED);
+                return SetResponse(Status::not_modified);
             }
 
             Response &SetResponse_NotFound()
             {
-                return SetResponse(
-                    pion::http::types::RESPONSE_CODE_NOT_FOUND,
-                    pion::http::types::RESPONSE_MESSAGE_NOT_FOUND);
+                return SetResponse(Status::not_found);
             }
 
             Response &SetResponse_BadRequest()
             {
-                return SetResponse(
-                    pion::http::types::RESPONSE_CODE_BAD_REQUEST,
-                    pion::http::types::RESPONSE_MESSAGE_BAD_REQUEST);
+                return SetResponse(Status::bad_request);
             }
 
             Response &SetResponse_Found()
             {
-                return SetResponse(
-                    pion::http::types::RESPONSE_CODE_FOUND,
-                    pion::http::types::RESPONSE_MESSAGE_FOUND);
+                return SetResponse(Status::found);
             }
 
             Response &SetResponse_MethodNotAllowed()
             {
-                return SetResponse(
-                    pion::http::types::RESPONSE_CODE_METHOD_NOT_ALLOWED,
-                    pion::http::types::RESPONSE_MESSAGE_METHOD_NOT_ALLOWED);
+                return SetResponse(Status::method_not_allowed);
             }
 
             Response &SetResponse_ServerError()
             {
-                return SetResponse(
-                    pion::http::types::RESPONSE_CODE_SERVER_ERROR,
-                    pion::http::types::RESPONSE_MESSAGE_SERVER_ERROR);
+                return SetResponse(Status::internal_server_error);
             }
 
             Response &SetContent(const std::string &content);
@@ -96,9 +85,11 @@ namespace bbox {
 
         private:
 
-            struct Pimpl;
-            std::shared_ptr<Pimpl> m_pimpl;
+			using ResponseType = boost::beast::http::response<boost::beast::http::string_body>;
+			using ResponsePtr = std::unique_ptr<ResponseType>;
 
+			Request m_request;
+			ResponsePtr m_response_ptr;
         };
 
     } // namespace bbox::http

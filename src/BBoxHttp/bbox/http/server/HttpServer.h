@@ -14,33 +14,30 @@
 #include <bbox/rt/net/TcpEndpoint.h>
 #include <bbox/rt/OneShotWork.h>
 
-#include <bbox/http/Request.h>
-
-#include <bbox/http/pionhlp/Scheduler.h>
-#include <pion/http/server.hpp>
-
 namespace bbox {
     namespace http {
 
         // Forward declarations
+		class Request;
         class Response;
 
         namespace server {
 
             // Forward declarations
-            class RequestHandler;
+			class Connection;
+			class RequestHandler;
 
             /**
              * Implements a HTTP server.
              */
             class HttpServer : public rt::Service
             {
-                friend class ::bbox::http::Response;
                 friend class ::bbox::http::server::RequestHandler;
+				friend class ::bbox::http::server::Connection;
 
             public:
 
-                typedef boost::function<void(Request &request)> HandlerFunc;
+                using HandlerFunc = std::function<void(Request &request)>;
 
                 HttpServer(const std::string &name, rt::Service &parent);
                 virtual ~HttpServer();
@@ -54,29 +51,27 @@ namespace bbox {
                 void TryAndOpenWebBrowserToServer(const std::string &path = "/");
 
             private:
-                void HandleStarting() override;
+				struct RequestHandlerOrder
+				{
+					bool operator()(RequestHandler *a, RequestHandler *b) const;
+				};
+
+				struct Listener;
+				
+				void HandleStarting() override;
                 void HandleStopping() override;
 				void PrintState(bbox::DebugOutput &out) const override;
 
                 void CheckShutdown();
 
-                void ServerStopped(pion::http::server_ptr &server);
-                void HandleRequest(const pion::http::server_ptr &server,
-                                   const pion::http::request_ptr &http_request_ptr,
-                                   const pion::tcp::connection_ptr &tcp_conn,
-                                   const HandlerFunc &user_handler);
-                void NotifyRequestCompleted();
-
-                struct RequestHandlerOrder
-                {
-                    bool operator()(RequestHandler *a, RequestHandler *b) const;
-                };
+                void ListenerStopped(Listener *listener);
+				void ConnectionClosed(Connection *connection);
+                void HandleRequest(Request &&request, const HandlerFunc &server_handler);
 
                 rt::OneShotWork m_check_shutdown_work;
-                pionhlp::Scheduler m_scheduler;
-                std::list<pion::http::server_ptr> m_servers;
+				std::map<Listener *, std::unique_ptr<Listener>> m_listeners;
+				std::map<Connection *, std::unique_ptr<Connection>> m_connections;
 				uint64_t m_num_requests_received;
-                size_t m_num_outstanding_requests;
 
                 std::set<RequestHandler *, RequestHandlerOrder> m_request_handlers;
 

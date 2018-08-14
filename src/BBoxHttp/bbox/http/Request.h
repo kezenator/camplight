@@ -7,10 +7,10 @@
 #ifndef __BBOX__RT__HTTP__REQUEST_H__
 #define __BBOX__RT__HTTP__REQUEST_H__
 
-#pragma once
+#include <bbox/rt/net/TcpEndpoint.h>
 
-#include <pion/http/server.hpp>
-#include <bbox/rt/net/IpAddress.h>
+#include <boost/beast/core.hpp>
+#include <boost/beast/http.hpp>
 
 namespace bbox {
     namespace http {
@@ -20,6 +20,7 @@ namespace bbox {
         class Response;
         namespace server {
             class HttpServer;
+			class Connection;
         }
 
         /**
@@ -28,57 +29,60 @@ namespace bbox {
         class Request
         {
             friend class Response;
-            friend class server::HttpServer;
+            friend class server::Connection;
 
         private:
-            Request(server::HttpServer &server_service,
-                    const pion::http::server_ptr &server,
-                    const pion::http::request_ptr &request,
-                    const pion::tcp::connection_ptr &connection);
 
-            class AutoFailureHandler
+			using RequestType = boost::beast::http::request<boost::beast::http::string_body>;
+			using RequestPtr = std::shared_ptr<RequestType>;
+
+            class Pimpl
             {
             public:
-                AutoFailureHandler(const pion::http::server_ptr &server,
-                                   const pion::http::request_ptr &request,
-                                   const pion::tcp::connection_ptr &connection);
-                ~AutoFailureHandler();
+				Pimpl(server::HttpServer &server, server::Connection *connection_ptr, RequestPtr &&request_ptr);
+                ~Pimpl();
 
                 void SetHandled();
                 bool NotHandled() { return !m_handled; }
 
-                const pion::http::server_ptr m_server;
-                const pion::http::request_ptr m_request;
-                const pion::tcp::connection_ptr m_connection;
+				server::HttpServer &m_server;
+				server::Connection *m_connection_ptr;
+				RequestPtr m_request_ptr;
 
             private:
                 bool m_handled;
             };
 
-            typedef std::shared_ptr<AutoFailureHandler> AutoFailureHandlerPtr;
+            using PimplPtr = std::shared_ptr<Pimpl>;
 
-        public:
+			Request(server::HttpServer &server, server::Connection *connection_ptr, RequestPtr &&request_ptr);
 
-            Request();
-            Request(const Request &other);
-            Request(Request &&other);
-            ~Request();
+		public:
 
-            Request &operator =(const Request &other);
-            Request &operator =(Request &&other);
+			using Method = boost::beast::http::verb;
+			
+			Request() = default;
+            Request(const Request &other) = default;
+            Request(Request &&other) = default;
+            ~Request() = default;
+
+            Request &operator =(const Request &other) = default;
+            Request &operator =(Request &&other) = default;
 
             explicit operator bool() const
             {
-                return m_auto_failure.operator bool();
+                return m_pimpl_ptr.operator bool();
             }
 
             bool operator !() const
             {
-                return !m_auto_failure;
+                return !m_pimpl_ptr;
             }
 
-            bbox::rt::net::IpAddress GetRemoteIpAddress() const;
+			bbox::rt::net::TcpEndpoint GetLocalEndpoint() const;
+			bbox::rt::net::TcpEndpoint GetRemoteEndpoint() const;
 
+			std::string GetHost() const;
             std::string GetRootUrl() const;
 
             std::string GetResource() const;
@@ -90,11 +94,8 @@ namespace bbox {
             std::string GetQuery(const std::string &param);
             std::string GetFullQueryString();
 
-            std::string GetMethod();
-            bool IsMethod_GetOrHead();
-            bool IsMethod_Get();
-            bool IsMethod_Head();
-            bool IsMethod_Put();
+            Method GetMethod();
+			std::string GetMethodString();
 
             std::string GetContent();
 
@@ -113,11 +114,7 @@ namespace bbox {
             void RespondWithMethodNotAllowedError(const std::string &allowed_methods);
 
         private:
-            server::HttpServer *m_server_service;
-            pion::http::server_ptr m_server;
-            pion::http::request_ptr m_request;
-            pion::tcp::connection_ptr m_connection;
-            AutoFailureHandlerPtr m_auto_failure;
+            PimplPtr m_pimpl_ptr;
         };
 
     } // namespace bbox::http

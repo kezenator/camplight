@@ -205,10 +205,8 @@ namespace bbox {
                 stream << "Global" << std::endl;
                 stream << "\tGlobalSection(SolutionConfigurationPlatforms) = preSolution" << std::endl;   
                 stream << "\t\tDebug|Any CPU = Debug|Any CPU" << std::endl;
-                stream << "\t\tDebug|Win32 = Debug|Win32" << std::endl;
                 stream << "\t\tDebug|x64 = Debug|x64" << std::endl;
                 stream << "\t\tRelease|Any CPU = Release|Any CPU" << std::endl;
-                stream << "\t\tRelease|Win32 = Release|Win32" << std::endl;
                 stream << "\t\tRelease|x64 = Release|x64" << std::endl;
                 stream << "\tEndGlobalSection" << std::endl;
                 stream << "\tGlobalSection(ProjectConfigurationPlatforms) = postSolution" << std::endl;
@@ -225,7 +223,7 @@ namespace bbox {
 
                     for (std::string mode : { "Debug", "Release" })
                     {
-                        for (std::string platform : { "Any CPU", "Win32", "x64" })
+                        for (std::string platform : { "Any CPU", "x64" })
                         {
                             std::string active_platform = platform;
                             bool has_build = true;
@@ -233,12 +231,12 @@ namespace bbox {
                             if ((platform == "Any CPU")
                                 && (project_ptr->GetType() != ProjectType::TypeScriptApplication))
                             {
-                                // For C++ projects, chose Win32
+                                // For C++ projects, chose x64
                                 // as the active config in the
                                 // "Any CPU" platform, and don't add
                                 // a build entry
 
-                                active_platform = "Win32";
+                                active_platform = "x64";
                                 has_build = false;
                             }
                             else if (project_ptr->GetType() == ProjectType::TypeScriptApplication)
@@ -337,7 +335,7 @@ namespace bbox {
                     DodgyXmlGenerator::Element tle(doc, "Project");
 
                     doc.SetAttribute("DefaultTargets", "Build");
-                    doc.SetAttribute("ToolsVersion", "14.0");
+                    doc.SetAttribute("ToolsVersion", "15.0");
                     doc.SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
 
                     // ProjectConfigurations item group
@@ -349,7 +347,7 @@ namespace bbox {
 
                         for (std::string mode : { "Debug", "Release" })
                         {
-                            for (std::string platform : { "Win32", "x64" })
+                            for (std::string platform : { "x64" })
                             {
                                 DodgyXmlGenerator::Element pc(doc, "ProjectConfiguration");
 
@@ -387,11 +385,16 @@ namespace bbox {
                             doc.SetText("Win32Proj");
                         }
 
-                        {
-                            DodgyXmlGenerator::Element property_group(doc, "RootNamespace");
-                            doc.SetText(name);
-                        }
-                    }
+						{
+							DodgyXmlGenerator::Element property_group(doc, "RootNamespace");
+							doc.SetText(name);
+						}
+
+						{
+							DodgyXmlGenerator::Element property_group(doc, "WindowsTargetPlatformVersion");
+							doc.SetText("10.0.17134.0");
+						}
+					}
 
                     // Import default settings
 
@@ -407,7 +410,7 @@ namespace bbox {
 
                     for (std::string mode : { "Debug", "Release" })
                     {
-                        for (std::string platform : { "Win32", "x64" })
+                        for (std::string platform : { "x64" })
                         {
                             DodgyXmlGenerator::Element property_group(doc, "PropertyGroup");
 
@@ -433,7 +436,7 @@ namespace bbox {
                                 (mode == "Debug") ? "true" : "false");
                             doc.SetTextElement(
                                 "PlatformToolset",
-                                "v140");
+                                "v141");
 
                             if (mode == "Release")
                             {
@@ -475,7 +478,7 @@ namespace bbox {
 
                     for (std::string mode : { "Debug", "Release" })
                     {
-                        for (std::string platform : { "Win32", "x64" })
+                        for (std::string platform : { "x64" })
                         {
                             DodgyXmlGenerator::Element import_group(doc, "ImportGroup");
 
@@ -507,7 +510,7 @@ namespace bbox {
                     {
                         for (std::string mode : { "Debug", "Release" })
                         {
-                            for (std::string platform : { "Win32", "x64" })
+                            for (std::string platform : { "x64" })
                             {
                                 DodgyXmlGenerator::Element property_group(doc, "PropertyGroup");
                                 doc.SetAttribute("Condition",
@@ -581,7 +584,7 @@ namespace bbox {
 
                     for (std::string mode : { "Debug", "Release" })
                     {
-                        for (std::string platform : {"Win32", "x64"})
+                        for (std::string platform : { "x64" })
                         {
                             // Calculate the pre-processor defines for this mode
 
@@ -796,7 +799,7 @@ namespace bbox {
 
                     for (const Project::CustomBuild &custom_build : project_ptr->GetCustomBuilds())
                     {
-                        for (std::string platform : {"Win32", "x64"})
+                        for (std::string platform : {"x64"})
                         {
                             std::string exe = Format("%s%s\\$(Configuration)\\%s.exe",
                                                      path_to_solution_folder,
@@ -1093,7 +1096,7 @@ namespace bbox {
                             "true");
                         doc.SetTextElement(
                             "TypeScriptToolsVersion",
-                            "1.8");
+                            "2.8");
                         doc.SetTextElement(
                             "UseIISExpress",
                             "true");
@@ -1102,8 +1105,9 @@ namespace bbox {
                         DodgyXmlGenerator::Element(doc, "IISExpressAnonymousAuthentication");
                         DodgyXmlGenerator::Element(doc, "IISExpressWindowsAuthentication");
                         DodgyXmlGenerator::Element(doc, "IISExpressUseClassicPipelineMode");
-                        DodgyXmlGenerator::Element(doc, "UseGlobalApplicationHostFile");
-                    }
+						DodgyXmlGenerator::Element(doc, "UseGlobalApplicationHostFile");
+						DodgyXmlGenerator::Element(doc, "Use64BitIISExpress");
+					}
 
                     // Item group - service
 

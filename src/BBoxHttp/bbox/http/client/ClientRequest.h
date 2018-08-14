@@ -14,6 +14,7 @@
 #include <bbox/Error.h>
 #include <bbox/DebugOutput.h>
 #include <bbox/http/client/ClientResponse.h>
+#include <boost/beast/http/verb.hpp>
 
 namespace bbox
 {
@@ -36,6 +37,7 @@ namespace bbox
             public:
 
                 using CompleteCallback = std::function<void(const bbox::Error &error, const ClientResponse &response)>;
+				using Method = boost::beast::http::verb;
 
                 ClientRequest(HttpClient &client, const std::string &url);
                 ClientRequest(const ClientRequest &) = default;
@@ -46,7 +48,7 @@ namespace bbox
 
 				void PrintState(bbox::DebugOutput &out) const;
 
-				void SetMethod(const std::string &method);
+				void SetMethod(Method method);
                 void SetContentType(const std::string &content_type) { SetHeader("Content-type", content_type); }
 
                 void SetHeader(const std::string &header, const std::string &value);

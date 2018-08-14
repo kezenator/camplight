@@ -17,6 +17,8 @@
 #include <bbox/enc/ToXml.h>
 #include <bbox/enc/ToDebugString.h>
 
+#include <boost/algorithm/string/replace.hpp>
+
 namespace bbox {
     namespace http {
         namespace debug {
@@ -32,7 +34,7 @@ namespace bbox {
             {
                 SetThisDependantOn(server);
 
-                m_pending_timer.SetHandler(boost::bind(&HttpDebugWebsite::HandlePendingTimerExpiry, this));
+                m_pending_timer.SetHandler(std::bind(&HttpDebugWebsite::HandlePendingTimerExpiry, this));
 
                 m_method_set = bbox::enc::api::MethodSet({
                     bbox::enc::api::describe::Method(
@@ -88,8 +90,8 @@ namespace bbox {
 
             void HttpDebugWebsite::HandleStarting()
             {
-                m_reources_request_handler.Login("/debug", boost::bind(&HttpDebugWebsite::HandleResourceRequest, this, _1));
-                m_api_request_handler.Login("/debug/api", boost::bind(&HttpDebugWebsite::HandleApiRequest, this, _1));
+                m_reources_request_handler.Login("/debug", std::bind(&HttpDebugWebsite::HandleResourceRequest, this, std::placeholders::_1));
+                m_api_request_handler.Login("/debug/api", std::bind(&HttpDebugWebsite::HandleApiRequest, this, std::placeholders::_1));
 
                 NotifyStarted();
             }
@@ -194,7 +196,7 @@ namespace bbox {
 
             void HttpDebugWebsite::HandleApiRequest(http::Request &request)
             {
-                if (request.GetMethod() != "POST")
+                if (request.GetMethod() != http::Request::Method::post)
                 {
                     request.RespondWithMethodNotAllowedError("POST");
                     return;

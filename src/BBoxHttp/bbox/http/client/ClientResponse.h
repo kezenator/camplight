@@ -10,7 +10,9 @@
 #pragma once
 
 #include <memory>
-#include <pion/http/response.hpp>
+#include <string>
+#include <boost/beast/core.hpp>
+#include <boost/beast/http.hpp>
 
 namespace bbox
 {
@@ -38,17 +40,17 @@ namespace bbox
                 ClientResponse &operator =(ClientResponse &&) = default;
                 ~ClientResponse() = default;
 
-                int GetStatusCode() const { return m_response_ptr->get_status_code(); }
-                const std::string &GetStatusMessage() const { return m_response_ptr->get_status_message(); }
+                int GetStatusCode() const { return int(m_response_ptr->result_int()); }
+                std::string GetStatusMessage() const { return m_response_ptr->reason().to_string(); }
 
-                size_t GetContentLength() const { return m_response_ptr->get_content_length(); }
-                std::string GetContentAsString() const { return std::string(m_response_ptr->get_content(), m_response_ptr->get_content_length()); }
+                size_t GetContentLength() const { return m_response_ptr->body().size(); }
+                std::string GetContentAsString() const { return m_response_ptr->body(); }
 
             private:
 
-                explicit ClientResponse(const pion::http::response_ptr &ptr);
+                explicit ClientResponse(std::unique_ptr<boost::beast::http::response<boost::beast::http::string_body>> &&ptr);
 
-                pion::http::response_ptr m_response_ptr;
+                std::unique_ptr<boost::beast::http::response<boost::beast::http::string_body>> m_response_ptr;
             };
 
         } // namespace bbox::http::client

@@ -5,153 +5,95 @@
 */
 
 #include <bbox/http/Response.h>
-#include <bbox/http/server/HttpServer.h>
+#include <bbox/http/server/Connection.h>
 
 #include <bbox/Assert.h>
-#include <bbox/FromString.h>
 
-#include <pion/http/response.hpp>
-#include <pion/http/response_writer.hpp>
+#include <boost/beast/version.hpp>
 
 namespace bbox {
     namespace http {
 
-        struct Response::Pimpl
-        {
-            server::HttpServer *m_server_service;
-            pion::http::server_ptr m_server;
-            Request::AutoFailureHandlerPtr m_request_auto_failure;
-            pion::http::request_ptr m_request;
-            pion::tcp::connection_ptr m_connection;
-            pion::http::response_writer_ptr m_writer;
-            bool m_finish_completed;
-
-            Pimpl(Request &request)
-                : m_server_service(request.m_server_service)
-                , m_server(request.m_server)
-                , m_request_auto_failure(request.m_auto_failure)
-                , m_request(request.m_request)
-                , m_connection(request.m_connection)
-                , m_writer()
-                , m_finish_completed(false)
-            {
-            }
-
-            ~Pimpl()
-            {
-                BBOX_ASSERT(m_finish_completed);
-            }
-
-            void CreateWriter(const std::shared_ptr<Pimpl> &shared_ptr)
-            {
-                m_writer = pion::http::response_writer::create(
-                    m_connection,
-                    *m_request,
-                    boost::bind(&Pimpl::Finish, shared_ptr));
-            }
-
-            void Finish()
-            {
-                m_connection->finish();
-
-                m_writer.reset();
-
-                m_server_service->NotifyRequestCompleted();
-
-                // Set the variable here to ensure that
-                // the destructor is not called
-                // when the m_writer.reset() call is made.
-
-                m_finish_completed = true;
-            }
-        };
-
         Response::Response(Request &request)
-            : m_pimpl(std::make_shared<Pimpl>(request))
+			: m_request(request)
+			, m_response_ptr(std::make_unique<ResponseType>(Status::internal_server_error, m_request.m_pimpl_ptr->m_request_ptr->version()))
         {
-            m_pimpl->CreateWriter(m_pimpl);
-        }
+			m_response_ptr->set(boost::beast::http::field::server, BOOST_BEAST_VERSION_STRING);
+			m_response_ptr->keep_alive(m_request.m_pimpl_ptr->m_request_ptr->keep_alive());
+		}
 
         Response::~Response()
         {
         }
 
-        Response &Response::SetLifecycleForceClose()
+        Response &Response::SetResponse(Status status)
         {
-            BBOX_ASSERT(m_pimpl);
+            BBOX_ASSERT(m_response_ptr);
 
-            m_pimpl->m_connection->set_lifecycle(pion::tcp::connection::LIFECYCLE_CLOSE);
-
-            return *this;
-        }
-
-        Response &Response::SetResponse(int code, const std::string &msg)
-        {
-            BBOX_ASSERT(m_pimpl);
-
-            m_pimpl->m_writer->get_response().set_status_code(code);
-            m_pimpl->m_writer->get_response().set_status_message(msg);
+			m_response_ptr->result(status);
 
             return *this;
         }
 
         Response &Response::SetContent(const std::string &content)
         {
-            BBOX_ASSERT(m_pimpl);
+            BBOX_ASSERT(m_response_ptr);
 
-            m_pimpl->m_writer->get_response().set_content_length(content.size());
-            m_pimpl->m_writer->write(content);
+			m_response_ptr->body().assign(content);
+			m_response_ptr->content_length(content.size());
 
             return *this;
         }
 
         Response &Response::SetContent_NoCopy(const void *data, size_t length)
         {
-            BBOX_ASSERT(m_pimpl);
-
-            m_pimpl->m_writer->get_response().set_content_length(length);
-            m_pimpl->m_writer->write_no_copy(data, length);
-
-            return *this;
+			return SetContent(std::string(reinterpret_cast<const char *>(data), length));
         }
 
         Response &Response::SetHeader(const std::string &header, const std::string &value)
         {
-            BBOX_ASSERT(m_pimpl);
+            BBOX_ASSERT(m_response_ptr);
 
-            m_pimpl->m_writer->get_response().add_header(header, value);
+			m_response_ptr->set(header, value);
 
             return *this;
         }
 
         Response &Response::SetHeader_NoCache()
         {
-            BBOX_ASSERT(m_pimpl);
+            BBOX_ASSERT(m_response_ptr);
 
-            m_pimpl->m_writer->get_response().add_header("Cache-Control", "private, max-age=0, no-cache, no-store");
+			m_response_ptr->set(
+				boost::beast::http::field::cache_control,
+				"private, max-age=0, no-cache, no-store");
 
             return *this;
         }
 
         Response &Response::SetHeader_ContentType(const std::string &type)
         {
-            BBOX_ASSERT(m_pimpl);
+            BBOX_ASSERT(m_response_ptr);
 
-            m_pimpl->m_writer->get_response().set_content_type(type);
+			m_response_ptr->set(
+				boost::beast::http::field::content_type,
+				type);
 
             return *this;
         }
         
         void Response::Send()
         {
-            BBOX_ASSERT(m_pimpl);
-            BBOX_ASSERT(m_pimpl->m_request_auto_failure->NotHandled());
+			BBOX_ASSERT(m_request);
+            BBOX_ASSERT(m_response_ptr);
+            BBOX_ASSERT(m_request.m_pimpl_ptr->NotHandled());
 
-            m_pimpl->m_request_auto_failure->SetHandled();
+			{
+				ResponsePtr response = std::move(m_response_ptr);
+				m_response_ptr.reset();
 
-            m_pimpl->m_writer->send();
-
-            m_pimpl.reset();
+				m_request.m_pimpl_ptr->SetHandled();
+				m_request.m_pimpl_ptr->m_connection_ptr->Send(std::move(response));
+			}
         }
 
     } // namespace bbox::http

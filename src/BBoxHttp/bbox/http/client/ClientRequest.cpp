@@ -12,13 +12,11 @@
 #include <bbox/Format.h>
 #include <bbox/Base64.h>
 
-#include <pion/tcp/connection.hpp>
-#include <pion/http/request.hpp>
-#include <pion/http/response.hpp>
+#include <boost/beast/core.hpp>
+#include <boost/beast/http.hpp>
+#include <boost/beast/version.hpp>
 
-#include <pion/http/request_writer.hpp>
-#include <pion/http/response_reader.hpp>
-
+#include <boost/asio/connect.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
 namespace bbox
@@ -27,6 +25,15 @@ namespace bbox
     {
         namespace client
         {
+
+			using tcp = boost::asio::ip::tcp;
+			namespace http = boost::beast::http;
+
+			using request_type = http::request<http::string_body>;
+			using response_type = http::response<http::string_body>;
+
+			using request_ptr = std::unique_ptr<request_type>;
+			using response_ptr = std::unique_ptr<response_type>;
 
             struct ClientRequest::Pimpl
             {
@@ -40,14 +47,12 @@ namespace bbox
 
                 ClientRequest m_stored_ref;
 
-                pion::http::request_ptr m_request_ptr;
-                pion::tcp::connection_ptr m_conn_ptr;
-                pion::http::request_writer_ptr m_writer_ptr;
-
-                pion::http::response_reader_ptr m_reader_ptr;
-                pion::http::response_ptr m_response_ptr;
+				request_ptr m_request_ptr;
+				response_ptr m_response_ptr;
 
                 boost::asio::ip::tcp::resolver m_resolver;
+				tcp::socket m_socket;
+				boost::beast::flat_buffer m_buffer;
 
                 Pimpl(HttpClient &client, const std::string &url)
                     : m_client(client)
@@ -57,14 +62,13 @@ namespace bbox
                     , m_completed(false)
                     , m_complete_callback()
                     , m_stored_ref()
-                    , m_request_ptr(new pion::http::request())
-                    , m_conn_ptr(new pion::tcp::connection(m_client.GetProactor().GetIoService()))
-                    , m_writer_ptr()
-                    , m_reader_ptr()
-                    , m_response_ptr()
+                    , m_request_ptr(std::make_unique<request_type>())
+					, m_response_ptr(std::make_unique<response_type>())
                     , m_resolver(m_client.GetProactor().GetIoService())
-                {
-                    m_request_ptr->set_method("GET");
+					, m_socket(m_client.GetProactor().GetIoService())
+					, m_buffer()
+				{
+					m_request_ptr->method(http::verb::get);
                 }
 
                 ~Pimpl()
@@ -100,13 +104,13 @@ namespace bbox
                             m_client.GetProactor().Post(std::bind(
                                 &Pimpl::Complete,
                                 this,
-                                bbox::Error(boost::system::errc::invalid_argument),
-                                pion::http::response_ptr()));
+                                bbox::Error(boost::system::errc::invalid_argument)));
                         }
                         else
                         {
-                            m_request_ptr->add_header("Host", host);
-                            m_request_ptr->set_resource(resource_and_query);
+                            m_request_ptr->set(http::field::host, host);
+							m_request_ptr->set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
+                            m_request_ptr->target(resource_and_query);
 
                             // Start resolving the host name
 
@@ -178,7 +182,7 @@ namespace bbox
 
                 void HandleResolveComplete(
                     const boost::system::error_code &ec,
-                    boost::asio::ip::tcp::resolver::iterator iterator,
+					tcp::resolver::results_type results,
                     uint16_t port)
                 {
 					m_progress = "Resolve Completed";
@@ -201,13 +205,11 @@ namespace bbox
                         //        iterator->endpoint().port());
                         //}
 
-                        m_conn_ptr->set_lifecycle(pion::tcp::connection::LIFECYCLE_CLOSE);
-
-                        m_conn_ptr->async_connect(
-                            boost::asio::ip::tcp::endpoint(
-                                iterator->endpoint().address(),
-                                port),
-                            std::bind(
+						boost::asio::async_connect(
+							m_socket,
+							results.begin(),
+							results.end(),
+							std::bind(
                                 &Pimpl::HandleConnectComplete,
                                 this,
                                 std::placeholders::_1));
@@ -224,20 +226,21 @@ namespace bbox
                     }
                     else
                     {
-                        m_writer_ptr = pion::http::request_writer::create(
-                            m_conn_ptr,
-                            m_request_ptr,
-                            std::bind(
+						http::async_write(
+							m_socket,
+							*m_request_ptr,
+							std::bind(
                                 &Pimpl::HandleRequestWritten,
                                 this,
-                                std::placeholders::_1));
-
-                        m_writer_ptr->send();
+                                std::placeholders::_1,
+								std::placeholders::_2));
                     }
                 }
 
-                void HandleRequestWritten(const boost::system::error_code &ec)
+                void HandleRequestWritten(const boost::system::error_code &ec, std::size_t bytes_transferred)
                 {
+					boost::ignore_unused(bytes_transferred);
+
 					m_progress = "Request Written";
 
                     if (ec)
@@ -246,34 +249,22 @@ namespace bbox
                     }
                     else
                     {
-                        m_reader_ptr = pion::http::response_reader::create(
-                            m_conn_ptr,
-                            *m_request_ptr,
-                            std::bind(
+						http::async_read(
+							m_socket,
+							m_buffer,
+							*m_response_ptr,
+							std::bind(
                                 &Pimpl::HandleResponseRead,
                                 this,
                                 std::placeholders::_1,
-                                std::placeholders::_2,
-                                std::placeholders::_3));
-
-                        // TODO
-                        //if (has_timeout)
-                        {
-                            m_reader_ptr->set_timeout(30); // Timeout in seconds
-                        }
-
-                        // TODO
-                        //if (has_max_content_length)
-                        {
-                            m_reader_ptr->set_max_content_length(500 * 1024 * 1024);
-                        }
-
-                        m_reader_ptr->receive();
+                                std::placeholders::_2));
                     }
                 }
 
-                void HandleResponseRead(pion::http::response_ptr response_ptr, pion::tcp::connection_ptr conn_ptr, const boost::system::error_code &ec)
+                void HandleResponseRead(const boost::system::error_code &ec, std::size_t bytes_transferred)
                 {
+					boost::ignore_unused(bytes_transferred);
+
 					m_progress = "Response Read";
 
                     if (ec)
@@ -284,13 +275,11 @@ namespace bbox
                     {
                         // Wow - it actually succeeded!
 
-                        BBOX_ASSERT(response_ptr);
-
-                        Complete(bbox::Error(), response_ptr);
+                        Complete(bbox::Error());
                     }
                 }
 
-                void Complete(bbox::Error error, pion::http::response_ptr response_ptr = pion::http::response_ptr())
+                void Complete(bbox::Error error)
                 {
                     BBOX_ASSERT(!m_completed);
                     BBOX_ASSERT(m_stored_ref.m_pimpl);
@@ -307,10 +296,19 @@ namespace bbox
 
                     if (m_complete_callback)
                     {
-                        m_complete_callback(error, ClientResponse(response_ptr));
+						response_ptr response;
+
+						if (!error)
+							response = std::move(m_response_ptr);
+
+                        m_complete_callback(error, ClientResponse(std::move(response)));
                     }
 
                     // Clear us down
+
+					boost::system::error_code ec;
+
+					m_socket.shutdown(tcp::socket::shutdown_both, ec);
 
                     m_client.RemoveCompletedRequest(m_stored_ref);
 
@@ -350,22 +348,22 @@ namespace bbox
                         url_out << m_pimpl->m_url;
                     }
                     out << std::endl;
-					out.Format("Method: %s\n", m_pimpl->m_request_ptr->get_method());
-					out.Format("Content Length: %d\n", m_pimpl->m_request_ptr->get_content_length());
+					out.Format("Method: %s\n", m_pimpl->m_request_ptr->method());
+					out.Format("Content Length: %d\n", m_pimpl->m_request_ptr->body().size());
 
-					for (const auto &entry : m_pimpl->m_request_ptr->get_headers())
+					for (const auto &field : *m_pimpl->m_request_ptr)
 					{
-						out.Format("Header: %s: %s", entry.first, entry.second);
+						out.Format("Header: %s: %s", field.name(), field.value());
 					}
 				}
 			}
 
-            void ClientRequest::SetMethod(const std::string &method)
+            void ClientRequest::SetMethod(Method method)
             {
                 BBOX_ASSERT(m_pimpl);
                 BBOX_ASSERT(!m_pimpl->m_send_called);
 
-                m_pimpl->m_request_ptr->set_method(method);
+                m_pimpl->m_request_ptr->method(method);
             }
 
             void ClientRequest::SetHeader(const std::string &header, const std::string &value)
@@ -373,7 +371,7 @@ namespace bbox
                 BBOX_ASSERT(m_pimpl);
                 BBOX_ASSERT(!m_pimpl->m_send_called);
 
-                m_pimpl->m_request_ptr->add_header(header, value);
+                m_pimpl->m_request_ptr->set(header, value);
             }
 
             void ClientRequest::SetHeader_BasicAuthentication(const std::string &user_name, const std::string &password)
@@ -389,7 +387,8 @@ namespace bbox
                 BBOX_ASSERT(m_pimpl);
                 BBOX_ASSERT(!m_pimpl->m_send_called);
 
-                m_pimpl->m_request_ptr->set_content(content);
+                m_pimpl->m_request_ptr->body() = content;
+				m_pimpl->m_request_ptr->content_length(content.size());
             }
 
             void ClientRequest::Send(CompleteCallback &&complete_callback)

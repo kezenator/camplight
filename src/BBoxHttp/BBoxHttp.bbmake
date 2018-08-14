@@ -2,7 +2,6 @@
 project("BBoxHttp", "StaticLibrary");
 
 reference("BBoxRt");
-reference("pion");
 
 include(".");
 

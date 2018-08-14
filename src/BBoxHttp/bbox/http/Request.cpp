@@ -8,13 +8,13 @@
 #include <bbox/http/Response.h>
 #include <bbox/http/ResourceFileSet.h>
 #include <bbox/http/server/HttpServer.h>
+#include <bbox/http/server/Connection.h>
 
 #include <bbox/Assert.h>
 #include <bbox/FromString.h>
+#include <bbox/Format.h>
 
-#include <pion/http/response.hpp>
-#include <pion/http/response_writer.hpp>
-#include <pion/http/types.hpp>
+#include <boost/beast/version.hpp>
 
 #ifdef _DEBUG
 #include <bbox/FileUtils.h>
@@ -24,224 +24,184 @@ namespace bbox {
     namespace http {
 
 
-        Request::AutoFailureHandler::AutoFailureHandler(const pion::http::server_ptr &server,
-                                                        const pion::http::request_ptr &request,
-                                                        const pion::tcp::connection_ptr &connection)
+        Request::Pimpl::Pimpl(
+						server::HttpServer &server,
+						server::Connection *connection_ptr,
+						RequestPtr &&request_ptr)
             : m_server(server)
-            , m_request(request)
-            , m_connection(connection)
+            , m_connection_ptr(connection_ptr)
+			, m_request_ptr(std::move(request_ptr))
             , m_handled(false)
         {
         }
 
-        Request::AutoFailureHandler::~AutoFailureHandler()
+        Request::Pimpl::~Pimpl()
         {
-            BBOX_ASSERT(m_handled);
+			if (!m_handled)
+			{
+				Response::ResponsePtr response = std::make_unique<Response::ResponseType>(
+					Response::Status::not_found,
+					m_request_ptr->version());
+
+				response->set(boost::beast::http::field::server, BOOST_BEAST_VERSION_STRING);
+				response->set(boost::beast::http::field::content_type, "text/plain");
+				response->keep_alive(m_request_ptr->keep_alive());
+				response->body() = "404 Not Found";
+
+				m_connection_ptr->Send(std::move(response));
+			}
         }
 
-        void Request::AutoFailureHandler::SetHandled()
+        void Request::Pimpl::SetHandled()
         {
             m_handled = true;
         }
 
-        Request::Request()
-            : m_server_service(nullptr)
-            , m_server()
-            , m_request()
-            , m_connection()
-            , m_auto_failure()
-        {
-        }
-        
-        Request::Request(const Request &other)
-            : m_server_service(other.m_server_service)
-            , m_server(other.m_server)
-            , m_request(other.m_request)
-            , m_connection(other.m_connection)
-            , m_auto_failure(other.m_auto_failure)
+        Request::Request(server::HttpServer &server,
+                         server::Connection *connection_ptr,
+						 RequestPtr &&request_ptr)
+            : m_pimpl_ptr(std::make_shared<Pimpl>(server, connection_ptr, std::move(request_ptr)))
         {
         }
 
-        Request::Request(Request &&other)
-            : m_server_service(std::move(other.m_server_service))
-            , m_server(std::move(other.m_server))
-            , m_request(std::move(other.m_request))
-            , m_connection(std::move(other.m_connection))
-            , m_auto_failure(std::move(other.m_auto_failure))
-        {
-        }
+		bbox::rt::net::TcpEndpoint Request::GetLocalEndpoint() const
+		{
+			BBOX_ASSERT(*this);
 
-        Request::Request(server::HttpServer &server_service,
-                         const pion::http::server_ptr &server,
-                         const pion::http::request_ptr &request,
-                         const pion::tcp::connection_ptr &connection)
-            : m_server_service(&server_service)
-            , m_server(server)
-            , m_request(request)
-            , m_connection(connection)
-            , m_auto_failure(new AutoFailureHandler(server, request, connection))
-        {
-        }
+			return m_pimpl_ptr->m_connection_ptr->GetLocalEndpoint();
+		}
 
-        Request::~Request()
-        {
-        }
-
-        Request &Request::operator =(const Request &other)
-        {
-            if (&other != this)
-            {
-                m_server_service = other.m_server_service;
-                m_server = other.m_server;
-                m_request = other.m_request;
-                m_connection = other.m_connection;
-                m_auto_failure = other.m_auto_failure;
-            }
-            return *this;
-        }
-
-        Request &Request::operator =(Request &&other)
-        {
-            if (&other != this)
-            {
-                m_server_service = std::move(other.m_server_service);
-                m_server = std::move(other.m_server);
-                m_request = std::move(other.m_request);
-                m_connection = std::move(other.m_connection);
-                m_auto_failure = std::move(other.m_auto_failure);
-            }
-            return *this;
-        }
-
-        bbox::rt::net::IpAddress Request::GetRemoteIpAddress() const
+        bbox::rt::net::TcpEndpoint Request::GetRemoteEndpoint() const
         {
             BBOX_ASSERT(*this);
 
-            return m_auto_failure->m_request->get_remote_ip();
+			return m_pimpl_ptr->m_connection_ptr->GetRemoteEndpoint();
         }
 
-        std::string Request::GetRootUrl() const
+		std::string Request::GetHost() const
+		{
+			BBOX_ASSERT(*this);
+
+			auto it = m_pimpl_ptr->m_request_ptr->find(boost::beast::http::field::host);
+
+			if (it != m_pimpl_ptr->m_request_ptr->end())
+				return it->value().to_string();
+
+			return m_pimpl_ptr->m_connection_ptr->GetLocalEndpoint().GetAddress().ToString();
+		}
+
+		std::string Request::GetRootUrl() const
         {
-            std::stringstream stream;
-            stream << "http://" << m_server->get_endpoint();
+			auto result = bbox::Format("http://%s", GetHost());
 
-            return stream.str();
-        }
+			auto port = GetLocalEndpoint().GetPort();
+
+			if (port != 80)
+				result += bbox::Format(":%d", port);
+			
+			return result;
+		}
 
         std::string Request::GetResource() const
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
-            return m_auto_failure->m_request->get_resource();
+			return m_pimpl_ptr->m_request_ptr->target().to_string();
         }
 
         bool Request::HasQuery(const std::string &param)
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
-            return m_auto_failure->m_request->has_query(param);
+			// TODO
+			return false;
+            //return m_pimpl_ptr->m_request_ptr->has_query(param);
         }
 
         std::string Request::GetQuery(const std::string &param)
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
-            return m_auto_failure->m_request->get_query(param);
+			// TODO
+			return std::string();
+            //return m_pimpl_ptr->m_request_ptr->get_query(param);
         }
 
         std::string Request::GetFullQueryString()
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
-            return m_auto_failure->m_request->get_query_string();
+            // TODO
+			return std::string();
+			//return m_pimpl_ptr->m_request_ptr->get_query_string();
         }
 
         bool Request::HasHeader(const std::string &str)
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
-            return m_auto_failure->m_request->has_header(str);
+			return m_pimpl_ptr->m_request_ptr->find(str) != m_pimpl_ptr->m_request_ptr->end();
         }
 
         std::string Request::GetHeader(const std::string &header)
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
-            return m_auto_failure->m_request->get_header(header);
+			auto iterator = m_pimpl_ptr->m_request_ptr->find(header);
+
+			BBOX_ASSERT(iterator != m_pimpl_ptr->m_request_ptr->end());
+
+			return iterator->value().to_string();
         }
 
-        std::string Request::GetMethod()
+        Request::Method Request::GetMethod()
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
-            return m_auto_failure->m_request->get_method();
+            return m_pimpl_ptr->m_request_ptr->method();
         }
         
-        bool Request::IsMethod_GetOrHead()
-        {
-            BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+		std::string Request::GetMethodString()
+		{
+			BBOX_ASSERT(*this);
+			BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
-            return (m_auto_failure->m_request->get_method() == pion::http::types::REQUEST_METHOD_GET)
-                || (m_auto_failure->m_request->get_method() == pion::http::types::REQUEST_METHOD_HEAD);
-        }
-
-        bool Request::IsMethod_Get()
-        {
-            BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
-
-            return m_auto_failure->m_request->get_method() == pion::http::types::REQUEST_METHOD_GET;
-        }
-
-        bool Request::IsMethod_Head()
-        {
-            BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
-
-            return m_auto_failure->m_request->get_method() == pion::http::types::REQUEST_METHOD_HEAD;
-        }
-
-        bool Request::IsMethod_Put()
-        {
-            BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
-
-            return m_auto_failure->m_request->get_method() == pion::http::types::REQUEST_METHOD_PUT;
-        }
+			return m_pimpl_ptr->m_request_ptr->method_string().to_string();
+		}
 
         std::string Request::GetContent()
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
-            return std::string(
-                m_auto_failure->m_request->get_content(),
-                m_auto_failure->m_request->get_content_length());
+			return m_pimpl_ptr->m_request_ptr->body();
         }
 
         bool Request::RespondWithResource(const ResourceFileSet &resources)
         {
-            return RespondWithResource(resources, m_request->get_resource());
+            return RespondWithResource(resources, GetResource());
         }
 
         bool Request::RespondWithResource(const ResourceFileSet &resources, const std::string &resource_path)
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
             const ResourceFile *file_ptr = resources.FindFile(resource_path);
 
             if (file_ptr)
             {
-                if (IsMethod_GetOrHead())
+				Method method = m_pimpl_ptr->m_request_ptr->method();
+
+                if ((method == Method::get)
+					|| (method == Method::head))
                 {
 #ifdef _DEBUG
                     std::vector<uint8_t> data;
@@ -260,7 +220,7 @@ namespace bbox {
                         response.SetHeader_NoCache();
                         response.SetResponse_OK();
 
-                        if (m_request->get_method() == pion::http::types::REQUEST_METHOD_GET)
+                        if (method == Method::get)
                         {
                             response.SetContent(std::string(
                                 reinterpret_cast<char *>(&data[0]),
@@ -327,7 +287,7 @@ namespace bbox {
         void Request::RespondWithNotFoundError()
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
             Response(*this)
                 .SetResponse_NotFound()
@@ -340,7 +300,7 @@ namespace bbox {
         void Request::RespondWithBadRequestError()
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
             Response(*this)
                 .SetResponse_BadRequest()
@@ -352,7 +312,7 @@ namespace bbox {
         void Request::RespondWithTemporaryRedirect(const std::string &location)
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
             Response(*this)
                 .SetResponse_Found()
@@ -364,7 +324,7 @@ namespace bbox {
         void Request::RespondWithServerError(const std::string &message)
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
             Response(*this)
                 .SetResponse_ServerError()
@@ -377,7 +337,7 @@ namespace bbox {
         void Request::RespondWithMethodNotAllowedError(const std::string &allowed_methods)
         {
             BBOX_ASSERT(*this);
-            BBOX_ASSERT(m_auto_failure->NotHandled());
+            BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
             Response(*this)
                 .SetResponse_MethodNotAllowed()

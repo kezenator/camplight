@@ -1,4 +1,4 @@
-/src/ThirdParty/boost/boost_1_65_1
+/src/ThirdParty/boost/boost_1_68_0
 /src/.vs
 /src/build
 x64
@@ -14,3 +14,4 @@ bin
 /src/BBoxHttpDebug/Web/app.js.map
 /src/BBoxHttpDebug/Lib/bbox/http/debug/Resources.path
 *.vcxproj.user
+*.csproj.user

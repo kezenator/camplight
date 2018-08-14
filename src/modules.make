@@ -136,31 +136,31 @@ INCS_RECURSIVE_Snappy := $(sort \
 MODULES += boost
 
 SRCS_DIRECT_boost := $(sort \
-        ThirdParty/boost/boost_1_65_1/libs/chrono/src/chrono.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/chrono/src/process_cpu_clocks.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/chrono/src/thread_clock.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/c_regex_traits.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/cpp_regex_traits.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/cregex.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/fileiter.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/icu.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/instances.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/posix_api.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/regex.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/regex_debug.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/regex_raw_buffer.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/regex_traits_defaults.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/static_mutex.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/usinstances.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/w32_regex_traits.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/wc_regex_traits.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/wide_posix_api.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/regex/src/winstances.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/system/src/error_code.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/thread/src/future.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/thread/src/pthread/once.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/thread/src/pthread/thread.cpp \
-        ThirdParty/boost/boost_1_65_1/libs/thread/src/tss_null.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/chrono/src/chrono.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/chrono/src/process_cpu_clocks.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/chrono/src/thread_clock.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/c_regex_traits.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/cpp_regex_traits.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/cregex.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/fileiter.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/icu.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/instances.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/posix_api.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/regex.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/regex_debug.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/regex_raw_buffer.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/regex_traits_defaults.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/static_mutex.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/usinstances.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/w32_regex_traits.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/wc_regex_traits.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/wide_posix_api.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/regex/src/winstances.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/system/src/error_code.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/thread/src/future.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/thread/src/pthread/once.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/thread/src/pthread/thread.cpp \
+        ThirdParty/boost/boost_1_68_0/libs/thread/src/tss_null.cpp \
     )
     # End SRCS_DIRECT_boost
 
@@ -170,7 +170,7 @@ SRCS_RECURSIVE_boost := $(sort \
     # End SRCS_RECURSIVE_boost
 
 INCS_DIRECT_boost := $(sort \
-        ThirdParty/boost/boost_1_65_1 \
+        ThirdParty/boost/boost_1_68_0 \
     )
     # End INCS_DIRECT_boost
 
@@ -278,45 +278,6 @@ LIBS_RECURSIVE_PiLightTest := \
     # End LIBS_RECURSIVE_PiLightTest
 
 APPS += PiLightTest
-
-# Project pion (type StaticLibrary)
-
-MODULES += pion
-
-SRCS_DIRECT_pion := $(sort \
-        ThirdParty/pion/pion-5.0.5/src/admin_rights.cpp \
-        ThirdParty/pion/pion-5.0.5/src/algorithm.cpp \
-        ThirdParty/pion/pion-5.0.5/src/http_auth.cpp \
-        ThirdParty/pion/pion-5.0.5/src/http_basic_auth.cpp \
-        ThirdParty/pion/pion-5.0.5/src/http_cookie_auth.cpp \
-        ThirdParty/pion/pion-5.0.5/src/http_message.cpp \
-        ThirdParty/pion/pion-5.0.5/src/http_parser.cpp \
-        ThirdParty/pion/pion-5.0.5/src/http_reader.cpp \
-        ThirdParty/pion/pion-5.0.5/src/http_server.cpp \
-        ThirdParty/pion/pion-5.0.5/src/http_types.cpp \
-        ThirdParty/pion/pion-5.0.5/src/http_writer.cpp \
-        ThirdParty/pion/pion-5.0.5/src/scheduler.cpp \
-        ThirdParty/pion/pion-5.0.5/src/tcp_server.cpp \
-        ThirdParty/pion/pion-5.0.5/src/tcp_timer.cpp \
-    )
-    # End SRCS_DIRECT_pion
-
-SRCS_RECURSIVE_pion := $(sort \
-        $(SRCS_DIRECT_pion) \
-        $(SRCS_RECURSIVE_boost) \
-    )
-    # End SRCS_RECURSIVE_pion
-
-INCS_DIRECT_pion := $(sort \
-        ThirdParty/pion/pion-5.0.5/include \
-    )
-    # End INCS_DIRECT_pion
-
-INCS_RECURSIVE_pion := $(sort \
-        $(INCS_DIRECT_pion) \
-        $(INCS_RECURSIVE_boost) \
-    )
-    # End INCS_RECURSIVE_pion
 
 # Project BBoxRt (type StaticLibrary)
 
@@ -546,7 +507,7 @@ SRCS_DIRECT_BBoxHttp := $(sort \
         BBoxHttp/bbox/http/client/ClientRequest.cpp \
         BBoxHttp/bbox/http/client/ClientResponse.cpp \
         BBoxHttp/bbox/http/client/HttpClient.cpp \
-        BBoxHttp/bbox/http/pionhlp/Scheduler.cpp \
+        BBoxHttp/bbox/http/server/Connection.cpp \
         BBoxHttp/bbox/http/server/HttpServer.cpp \
         BBoxHttp/bbox/http/server/RequestHandler.cpp \
     )
@@ -555,7 +516,6 @@ SRCS_DIRECT_BBoxHttp := $(sort \
 SRCS_RECURSIVE_BBoxHttp := $(sort \
         $(SRCS_DIRECT_BBoxHttp) \
         $(SRCS_RECURSIVE_BBoxRt) \
-        $(SRCS_RECURSIVE_pion) \
     )
     # End SRCS_RECURSIVE_BBoxHttp
 
@@ -567,7 +527,6 @@ INCS_DIRECT_BBoxHttp := $(sort \
 INCS_RECURSIVE_BBoxHttp := $(sort \
         $(INCS_DIRECT_BBoxHttp) \
         $(INCS_RECURSIVE_BBoxRt) \
-        $(INCS_RECURSIVE_pion) \
     )
     # End INCS_RECURSIVE_BBoxHttp
 
@@ -853,7 +812,6 @@ INCS_RECURSIVE_CampLight := $(sort \
     # End INCS_RECURSIVE_CampLight
 
 LIBS_RECURSIVE_CampLight := \
-        ssl \
         uuid \
         rt \
         pthread \
@@ -919,7 +877,6 @@ INCS_RECURSIVE_LedSigns := $(sort \
     # End INCS_RECURSIVE_LedSigns
 
 LIBS_RECURSIVE_LedSigns := \
-        ssl \
         uuid \
         rt \
         pthread \
