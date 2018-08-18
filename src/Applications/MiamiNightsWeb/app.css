@@ -1,0 +1,65 @@
+﻿@font-face {
+    font-family: "Still Time";
+    src: url("/res/still_time.ttf") format('opentype');
+}
+
+@font-face {
+    font-family: "Bellerose";
+    src: url("/res/Bellerose.ttf") format('opentype');
+}
+
+@font-face {
+    font-family: "VeganStyle";
+    src: url("/res/VeganStyle.ttf") format('opentype');
+}
+
+@font-face {
+    font-family: "ThirdRail";
+    src: url("/res/ThirdRail.ttf") format('opentype');
+}
+
+@font-face {
+    font-family: "TimeBurner";
+    src: url("/res/timeburnernormal.ttf") format('opentype');
+}
+
+@font-face {
+    font-family: "TimeBurnerBold";
+    src: url("/res/timeburnerbold.ttf") format('opentype');
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+div.screen {
+    margin: 0;
+    padding: 0;
+}
+
+div.buttons {
+    margin: 10px;
+    padding: 10px;
+    font: 24pt sans-serif;
+}
+
+div.buttons span {
+    margin: 10px;
+    padding: 10px;
+    border: 5px solid white;
+    border-radius: 50px;
+    color: white;
+    text-shadow: 2px 2px 3px #808080;
+}
+
+div.buttons span.pressed {
+    border: 5px solid red;
+    color: red;
+}

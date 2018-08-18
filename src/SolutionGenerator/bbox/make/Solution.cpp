@@ -450,30 +450,44 @@ namespace bbox {
         int
         Solution::LuaFunc_File_List(LuaState &state, Project *project_ptr, E_FILE_LIST_TYPE type)
         {
-            state.ArgumentCountExactlyOrThrow(1);
+			lua_State *L = state.GetState();
 
-            lua_State *L = state.GetState();
+			int num_args = lua_gettop(L);
 
-            if (!lua_istable(L, 1))
-                return luaL_error(L, "Argument must be a table");
+			auto add_file = [project_ptr, type](const std::string &entry_str)
+			{
+				switch (type)
+				{
+				case SOURCE:    project_ptr->AddSource(entry_str); break;
+				case HEADER:    project_ptr->AddHeader(entry_str); break;
+				case RESOURCE:  project_ptr->AddResource(entry_str); break;
+				}
+			};
 
-            lua_pushnil(L);
-            while (lua_next(L, 1))
-            {
-                if (!lua_isstring(L, 3))
-                    return luaL_error(L, "Contents of argument must be strings");
+			for (int i = 1; i <= num_args; ++i)
+			{
+				if (lua_isstring(L, i))
+				{
+					add_file(lua_tostring(L, i));
+				}
+				else if (lua_istable(L, i))
+				{
+					lua_pushnil(L);
+					while (lua_next(L, i) != 0)
+					{
+						if (!lua_isstring(L, num_args + 2))
+							return luaL_error(L, "Contents of table arguments must be strings");
 
-                std::string entry_str = lua_tostring(L, 3);
+						add_file(lua_tostring(L, num_args + 2));
 
-                switch (type)
-                {
-                case SOURCE:    project_ptr->AddSource(entry_str); break;
-                case HEADER:    project_ptr->AddHeader(entry_str); break;
-                case RESOURCE:  project_ptr->AddResource(entry_str); break;
-                }
-
-                lua_pop(L, 1);
-            }
+						lua_pop(L, 1);
+					}
+				}
+				else
+				{
+					return luaL_error(L, "Arguments must be string or table");
+				}
+			}
 
             return 0;
         }
@@ -532,63 +546,69 @@ namespace bbox {
         int
         Solution::LuaFunc_Find(LuaState &state, Project *project_ptr, bool recursive)
         {
-            state.ArgumentCountExactlyOrThrow(1);
-            std::string argument = state.ArgumentToStringOrThrow(1);
+			lua_State *L = state.GetState();
 
-            lua_State *L = state.GetState();
+			int num_args = lua_gettop(L);
 
-            // Replace all the forward-slashes with back slashes
-            for (size_t i = 0; i < argument.size(); ++i)
-            {
-                if (argument[i] == '/')
-                    argument[i] = '\\';
-            }
-
-            // Split into folder and search string
-            std::string folder_relative;
-            std::string search;
-            {
-                size_t pos = argument.rfind('\\');
-                if (pos == std::string::npos)
-                {
-                    // No folder
-                    search = argument;
-                }
-                else
-                {
-                    folder_relative = argument.substr(0, pos);
-                    search = argument.substr(pos + 1);
-                }
-            }
-
-            // Now work out the full folder path
-
-            std::string folder_path;
-            {
-                folder_path.reserve(project_ptr->GetPath().size() + folder_relative.size() + 2);
-                folder_path.append(project_ptr->GetPath());
-                if (!folder_relative.empty())
-                {
-                    folder_path.push_back('\\');
-                    folder_path.append(folder_relative);
-                }
-                folder_path.push_back('\\');
-            }
-
-            // Create the table - which will be at index 2
+			// Create the table - which will be at index num_args + 1
 
             lua_newtable(L);
 
-            // Now - run the search on the top level folder
+			unsigned next_index = 1;
 
-            unsigned next_index = 1;
+			// Search for each argument
 
-            Error err = LuaFunc_DoFind(state, 2, next_index, folder_path, folder_relative, search, recursive);
+			for (int i = 1; i <= num_args; ++i)
+			{
+				std::string argument = state.ArgumentToStringOrThrow(i);
 
-            if (err)
-            {
-                return luaL_error(L, "Error finding files: %s", err.ToString().c_str());
-            }
+				// Replace all the forward-slashes with back slashes
+				for (size_t i = 0; i < argument.size(); ++i)
+				{
+					if (argument[i] == '/')
+						argument[i] = '\\';
+				}
+
+				// Split into folder and search string
+				std::string folder_relative;
+				std::string search;
+				{
+					size_t pos = argument.rfind('\\');
+					if (pos == std::string::npos)
+					{
+						// No folder
+						search = argument;
+					}
+					else
+					{
+						folder_relative = argument.substr(0, pos);
+						search = argument.substr(pos + 1);
+					}
+				}
+
+				// Now work out the full folder path
+
+				std::string folder_path;
+				{
+					folder_path.reserve(project_ptr->GetPath().size() + folder_relative.size() + 2);
+					folder_path.append(project_ptr->GetPath());
+					if (!folder_relative.empty())
+					{
+						folder_path.push_back('\\');
+						folder_path.append(folder_relative);
+					}
+					folder_path.push_back('\\');
+				}
+
+				// Now - run the search on the top level folder
+
+				Error err = LuaFunc_DoFind(state, num_args + 1, next_index, folder_path, folder_relative, search, recursive);
+
+				if (err)
+				{
+					return luaL_error(L, "Error finding files: %s", err.ToString().c_str());
+				}
+			}
 
             // Return the table
 

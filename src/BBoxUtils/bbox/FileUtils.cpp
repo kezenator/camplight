@@ -141,6 +141,50 @@ namespace bbox {
         return result;
     }
 
+	bbox::Error FileUtils::ResolveRelativePath(const std::string &relative, std::string &absolute)
+	{
+#ifdef WIN32
+
+		std::wstring file_name_wide;
+		bbox::Error err = TextCoding::Win32_UTF8_to_UTF16(relative, file_name_wide);
+		if (err)
+			return err;
+
+		std::vector<wchar_t> buffer;
+		buffer.resize(128);
+
+		while (true)
+		{
+			DWORD result = GetFullPathName(
+				file_name_wide.c_str(),
+				buffer.size(),
+				buffer.data(),
+				nullptr);
+
+			if (result == 0)
+			{
+				// Error
+				return Error::Win32_GetLastError();
+			}
+
+			if (result < buffer.size())
+			{
+				std::wstring result_w = buffer.data();
+
+				err = TextCoding::Win32_UTF16_to_UTF8(result_w, absolute);
+				if (err)
+					return err;
+
+				return bbox::Error();
+			}
+
+			buffer.resize(buffer.size() + 256);
+		}
+#else // not WIN32
+		static_assert(false, "TODO");
+#endif
+	}
+
     std::string FileUtils::GetCurrentWorkingDir()
     {
         std::string result;
@@ -438,7 +482,7 @@ namespace bbox {
 #ifdef WIN32
         std::string dos_format = TextCoding::Newlines_UNIX_to_DOS(contents);
 
-        Error error = TextCoding::UTF8_to_ExternalBytes(dos_format, bytes);
+		Error error = TextCoding::UTF8_to_ExternalBytes(dos_format, bytes);
 #else
         Error error = TextCoding::UTF8_to_ExternalBytes(contents, bytes);
 #endif
@@ -446,7 +490,7 @@ namespace bbox {
         if (error)
             return error;
 
-        return WriteBinaryFile(file_name, bytes);
+		return WriteBinaryFile(file_name, bytes);
     }
 
     void FileUtils::WriteBinaryFileOrThrow(const std::string &file_name, const std::vector<uint8_t> &contents)
@@ -574,26 +618,35 @@ namespace bbox {
 
         results.clear();
 
+		// Resolve into a full path
+
+		Error error;
+
+		std::string search_abs;
+
+		error = ResolveRelativePath(search, search_abs);
+
+		if (error)
+			return error;
+
         // Generate the path name of the search
         // to be able to generate full path names
 
         std::string search_path;
         {
-            size_t pos = search.rfind('\\');
+            size_t pos = search_abs.rfind('\\');
             if (pos == std::string::npos)
             {
                 return Error(std::errc::invalid_argument);
             }
-            search_path = search.substr(0, pos);
+            search_path = search_abs.substr(0, pos);
         }
 
         // Generate a full UNICODE file name for
         // the path
 
-        Error error;
-
         std::wstring unc_search;
-        error = TextCoding::Win32_UTF8_to_UTF16(Format("\\\\?\\%s", search), unc_search);
+        error = TextCoding::Win32_UTF8_to_UTF16(Format("\\\\?\\%s", search_abs), unc_search);
         if (error)
             return error;
 

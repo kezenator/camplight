@@ -808,19 +808,24 @@ namespace bbox {
                             std::string inputs_joined = boost::algorithm::join(custom_build.inputs, ";");
                             std::string outputs_joined = boost::algorithm::join(custom_build.outputs, ";");
 
-                            DodgyXmlGenerator::Element item_group(doc, "ItemGroup");
+                            DodgyXmlGenerator::Element item_group(doc, "ItemDefinitionGroup");
 
                             doc.SetAttribute(
                                 "Condition",
                                 Format("'$(Platform)'=='%s'", platform));
 
-                            DodgyXmlGenerator::Element custom_build_element(doc, "CustomBuild");
-                            doc.SetAttribute("Include", inputs_joined);
+                            DodgyXmlGenerator::Element custom_build_element(doc, "CustomBuildStep");
                             doc.SetTextElement("Command", Format("%s -i %s -o %s %s", exe, inputs_joined, outputs_joined, custom_build.extra_args));
-                            doc.SetTextElement("Outputs", outputs_joined);
-                            doc.SetTextElement("AdditionalInputs", exe);
+							doc.SetTextElement("Outputs", outputs_joined);
+							doc.SetTextElement("Inputs", bbox::Format("%s;%s", inputs_joined, exe));
                         }
                     }
+
+					if (!project_ptr->GetCustomBuilds().empty())
+					{
+						DodgyXmlGenerator::Element custom_build_element(doc, "PropertyGroup");
+						doc.SetTextElement("CustomBuildBeforeTargets", "ClCompile");
+					}
 
                     // Last imports
 

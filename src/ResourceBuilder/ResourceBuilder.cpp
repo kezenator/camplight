@@ -150,7 +150,6 @@ int resource_builder_main(int argc, char *argv[])
         std::set<std::string> inputs;
         std::string output_cpp;
         std::string output_h;
-        std::string output_path;
         std::vector<std::string> namespace_path;
         std::string path_remove;
 
@@ -169,14 +168,12 @@ int resource_builder_main(int argc, char *argv[])
                     std::vector<std::string> outputs;
                     boost::algorithm::split(outputs, output_str, boost::algorithm::is_any_of(";"));
 
-                    if ((outputs.size() == 3)
+                    if ((outputs.size() == 2)
                         && boost::algorithm::ends_with(outputs[0], ".cpp")
-                        && boost::algorithm::ends_with(outputs[1], ".h")
-                        && boost::algorithm::ends_with(outputs[2], ".path"))
+                        && boost::algorithm::ends_with(outputs[1], ".h"))
                     {
                         output_cpp = outputs[0];
                         output_h = outputs[1];
-                        output_path = outputs[2];
 
                         // Finally, split the namespace by double-colons
                         std::string ns(argv[6]);
@@ -253,10 +250,6 @@ int resource_builder_main(int argc, char *argv[])
             stream << "#include <bbox/http/ResourceFileSet.h>" << std::endl;
             stream << "#include <" << output_h << ">" << std::endl;
             stream << std::endl;
-            stream << "#ifdef _DEBUG" << std::endl;
-            stream << "#include <" << output_path << ">" << std::endl;
-            stream << "#endif" << std::endl;
-            stream << std::endl;
             stream << "namespace {" << std::endl;
 
             std::vector<size_t> file_lengths;
@@ -265,7 +258,7 @@ int resource_builder_main(int argc, char *argv[])
             size_t count = 0;
             for (const std::string &input : inputs)
             {
-                count++;
+				count++;
 
                 bool text_format = false;
 
@@ -282,12 +275,12 @@ int resource_builder_main(int argc, char *argv[])
 
                 std::string contents = bbox::FileUtils::ReadTextFileOrThrow(input);
 
-                if (text_format)
+				if (text_format)
                 {
                     contents = bbox::TextCoding::Newlines_DOS_to_UNIX(contents);
                 }
 
-                file_lengths.push_back(contents.size());
+				file_lengths.push_back(contents.size());
 
                 {
                     bbox::crypto::HashStream hash_stream(bbox::crypto::HashStream::SHA_256);
@@ -296,9 +289,18 @@ int resource_builder_main(int argc, char *argv[])
                     file_etags.push_back(hash_stream.CompleteHash().ToBase64String());
                 }
 
-                stream << "    // File #" << count << " - " << FixFileName(input) << std::endl;
+				stream << "    // File #" << count << " - " << FixFileName(input) << std::endl;
                 stream << "    const uint8_t file_contents_" << count << "[" << contents.size() << "] = {" << std::endl;
-                for (size_t i = 0; i < contents.size(); ++i)
+                
+				auto bcd = [](uint8_t val) -> char
+				{
+					if (val <= 9)
+						return '0' + val;
+					else
+						return 'A' - 10 + val;
+				};
+
+				for (size_t i = 0; i < contents.size(); ++i)
                 {
                     if ((i & 0xF) == 0)
                     {
@@ -309,14 +311,20 @@ int resource_builder_main(int argc, char *argv[])
                     else
                         stream << ", ";
 
-                    stream << bbox::Format("0x%02X", contents[i] & 0xFF);
+					uint8_t byte = contents[i];
+
+					stream
+						<< '0'
+						<< 'x'
+						<< bcd(byte >> 4)
+						<< bcd(byte & 0x0F);
                 }
 
                 if (!contents.empty())
                     stream << std::endl;
 
                 stream << "    };" << std::endl;
-            }
+			}
 
             stream << "} // annonymous namespace" << std::endl;
             stream << std::endl;
@@ -358,7 +366,7 @@ int resource_builder_main(int argc, char *argv[])
                 stream << indent << "        \"" << mime_type << "\", // Mime-type" << std::endl;
                 stream << indent << "        \"\\\"" << file_etags[count - 1] << "\\\"\", // Strong ETag" << std::endl;
 				stream << "#ifdef _DEBUG" << std::endl;
-				stream << indent << "        " << "RESOURCE_BASE_PATH \"/\" \"" << bbox::FileUtils::ToUnixPath(input) << "\", // Original file name (for debugging)" << std::endl;
+				stream << indent << "        \"" << bbox::FileUtils::ToUnixPath(bbox::FileUtils::GetCurrentWorkingDir()) << "/" << bbox::FileUtils::ToUnixPath(input) << "\", // Original file name (for debugging)" << std::endl;
 				stream << "#endif" << std::endl;
 				stream << indent << "    }," << std::endl;
             }
@@ -367,10 +375,10 @@ int resource_builder_main(int argc, char *argv[])
 
             NamespaceClose(stream, namespace_path);
 
-            source = stream.str();
+			source = stream.str();
         }
 
-        // Generate the header
+		// Generate the header
 
         std::string header;
 
@@ -395,32 +403,12 @@ int resource_builder_main(int argc, char *argv[])
             header = stream.str();
         }
 
-        // Generate the path file
-
-        std::string path_file;
-       
-        {
-            std::stringstream stream;
-
-            stream << "/**" << std::endl;
-            stream << " * @file" << std::endl;
-            stream << " *" << std::endl;
-            stream << " * AUTOMATICALLY GENERATED file listing the local path of the source files on this machine." << std::endl;
-            stream << " * DO NOT CHECK THIS INTO SOURCE CONTROL!" << std::endl;
-            stream << " */" << std::endl;
-            stream << std::endl;
-            stream << "#define RESOURCE_BASE_PATH \"" << bbox::FileUtils::ToUnixPath(bbox::FileUtils::GetCurrentWorkingDir()) << "\"" << std::endl;
-
-            path_file = stream.str();
-        }
-
         // Output the files
 
         UpdateFile(output_cpp, source);
         UpdateFile(output_h, header);
-        UpdateFile(output_path, path_file);
 
-        return 0;
+		return 0;
     }
     catch (const std::exception &e)
     {

@@ -11,6 +11,7 @@
 #include <bbox/Assert.h>
 
 #include <cstring>
+#include <sstream>
 
 #include <boost/algorithm/string.hpp>
 
@@ -61,6 +62,41 @@ namespace bbox {
 
     std::string TextCoding::Newlines_UNIX_to_DOS(const std::string &from)
     {
+		std::stringstream stream;
+
+		auto size = from.size();
+		const char *bytes = from.c_str();
+		for (size_t i = 0; i < size; ++i)
+		{
+			char ch = bytes[i];
+
+			if (ch == '\n')
+			{
+				stream << "\r\n";
+			}
+			else if (ch == '\r')
+			{
+				if (((ch + 1) < size)
+					&& (bytes[i + 1] == '\n'))
+				{
+					// It's already a "\r\n" - insert
+					// and skip and extra char
+					stream << "\r\n";
+					i += 1;
+				}
+				else
+				{
+					stream << ch;
+				}
+			}
+			else
+			{
+				stream << ch;
+			}
+		}
+
+		return stream.str();
+
         return boost::algorithm::replace_all_copy(
             boost::algorithm::replace_all_copy(from, "\r\n", "\n"),
             "\n",

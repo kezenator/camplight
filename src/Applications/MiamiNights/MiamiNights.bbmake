@@ -1,0 +1,28 @@
+
+if (platform() == "Win32") then
+
+  project("MiamiNights", "Application");
+
+  reference("BBoxHttp");
+  reference("BBoxHttpDebug");
+  reference("BBoxEnc");
+
+  tool_reference("ResourceBuilder");
+  tool_reference("MiamiNightsWeb");
+
+  include(".");
+
+  sources(find_recursive("*.cpp"), "mn/Resources.cpp");
+  headers(find_recursive("*.h"), "mn/Resources.h");
+
+  custom_build(
+      "ResourceBuilder",
+      find_recursive("../MiamiNightsWeb/*.css",
+                     "../MiamiNightsWeb/*.html",
+                     "../MiamiNightsWeb/*.js",
+                     "../MiamiNightsWeb/*.png",
+                     "../MiamiNightsWeb/*.ttf"),
+      { "mn/Resources.cpp", "mn/Resources.h" },
+      "-n \"mn\" -r \"../MiamiNightsWeb\"");
+
+end

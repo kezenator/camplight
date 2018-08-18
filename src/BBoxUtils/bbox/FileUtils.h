@@ -59,6 +59,15 @@ namespace bbox {
 #endif // not WIN32
         }
 
+		/**
+		 * Resolves a relative path - which may be non-absolute
+		 * (in which case GetCurrentWorkingDir is prepended),
+		 * and/or may contain directory segments like "." and "..".
+		 *
+		 * The path is returned in the system path format.
+		 */
+		static bbox::Error ResolveRelativePath(const std::string &relative, std::string &absolute);
+
         /**
          * Gets the current working directory.
          * Returns the contents as a string, and throws

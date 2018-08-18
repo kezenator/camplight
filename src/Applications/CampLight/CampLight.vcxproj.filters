@@ -160,32 +160,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="camplight\resources\app.css">
-      <Filter>camplight\resources</Filter>
-    </CustomBuild>
-    <CustomBuild Include="camplight\resources\app.js">
-      <Filter>camplight\resources</Filter>
-    </CustomBuild>
-    <CustomBuild Include="camplight\resources\apple-touch-icon-120x120.png">
-      <Filter>camplight\resources</Filter>
-    </CustomBuild>
-    <CustomBuild Include="camplight\resources\apple-touch-icon-152x152.png">
-      <Filter>camplight\resources</Filter>
-    </CustomBuild>
-    <CustomBuild Include="camplight\resources\apple-touch-icon-180x180.png">
-      <Filter>camplight\resources</Filter>
-    </CustomBuild>
-    <CustomBuild Include="camplight\resources\apple-touch-icon-192x192.png">
-      <Filter>camplight\resources</Filter>
-    </CustomBuild>
-    <CustomBuild Include="camplight\resources\favicon.ico">
-      <Filter>camplight\resources</Filter>
-    </CustomBuild>
-    <CustomBuild Include="camplight\resources\index.html">
-      <Filter>camplight\resources</Filter>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="CampLight.bbmake" />
   </ItemGroup>
 </Project>

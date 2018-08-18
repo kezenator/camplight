@@ -120,28 +120,19 @@ namespace bbox {
         void
         Project::AddSource(const std::string &source)
         {
-            auto insert_result = m_sources.insert(FileUtils::ToUnixPath(source));
-
-            if (!insert_result.second)
-                throw Exception(Format("Duplicate project source \"%s\"", source));
+            m_sources.insert(FileUtils::ToUnixPath(source));
         }
 
         void
         Project::AddHeader(const std::string &header)
         {
-            auto insert_result = m_headers.insert(FileUtils::ToUnixPath(header));
-
-            if (!insert_result.second)
-                throw Exception(Format("Duplicate project header \"%s\"", header));
+            m_headers.insert(FileUtils::ToUnixPath(header));
         }
 
         void
         Project::AddResource(const std::string &resource)
         {
-            auto insert_result = m_resources.insert(FileUtils::ToUnixPath(resource));
-
-                if (!insert_result.second)
-                    throw Exception(Format("Duplicate project resource \"%s\"", resource));
+            m_resources.insert(FileUtils::ToUnixPath(resource));
         }
 
         void

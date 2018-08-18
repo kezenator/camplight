@@ -13,12 +13,11 @@ tool_reference("ResourceBuilder");
 
 include(".");
 
-sources(find_recursive("*.cpp"));
-headers(find_recursive("*.h"));
-resources(find_recursive("camplight/resources/*.*"));
+sources(find_recursive("*.cpp"), "camplight/Resources.cpp");
+headers(find_recursive("*.h"), "camplight/Resources.h");
 
 custom_build(
     "ResourceBuilder",
     find_recursive("camplight/resources/*.*"),
-    { "camplight/Resources.cpp", "camplight/Resources.h", "camplight/Resources.path" },
+    { "camplight/Resources.cpp", "camplight/Resources.h" },
     "-n \"camplight\" -r \"camplight\\resources\"");

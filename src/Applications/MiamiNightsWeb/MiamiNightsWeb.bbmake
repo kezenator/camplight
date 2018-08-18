@@ -1,0 +1,12 @@
+
+if (platform() == "Win32") then
+
+    project("MiamiNightsWeb", "TypeScriptApplication");
+    
+    sources(find_recursive("*.ts"));
+    resources(find_recursive("*.css"));
+    resources(find_recursive("*.html"));
+    resources(find_recursive("*.ttf"));
+    resources(find_recursive("*.png"));
+
+end
