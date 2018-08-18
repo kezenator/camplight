@@ -136,8 +136,8 @@ namespace bbox {
                 // Initial headers
 
                 stream << "Microsoft Visual Studio Solution File, Format Version 12.00" << std::endl;
-                stream << "# Visual Studio 14" << std::endl;
-                stream << "VisualStudioVersion = 14.0.23107.0" << std::endl;
+                stream << "# Visual Studio 15" << std::endl;
+                stream << "VisualStudioVersion = 15.8.28010.2003" << std::endl;
                 stream << "MinimumVisualStudioVersion = 10.0.40219.1" << std::endl;
 
                 // References to each project
@@ -1101,7 +1101,7 @@ namespace bbox {
                             "true");
                         doc.SetTextElement(
                             "TypeScriptToolsVersion",
-                            "2.8");
+                            "3.0");
                         doc.SetTextElement(
                             "UseIISExpress",
                             "true");
