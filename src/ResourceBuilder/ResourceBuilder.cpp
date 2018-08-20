@@ -273,18 +273,22 @@ int resource_builder_main(int argc, char *argv[])
                     }
                 }
 
-                std::string contents = bbox::FileUtils::ReadTextFileOrThrow(input);
+                std::vector<uint8_t> contents = bbox::FileUtils::ReadBinaryFileOrThrow(input, 500 * 1024 * 1024);
 
-				if (text_format)
+				if (text_format
+					&& !contents.empty())
                 {
-                    contents = bbox::TextCoding::Newlines_DOS_to_UNIX(contents);
+					std::string str(reinterpret_cast<const char *>(contents.data()), contents.size());
+					str = bbox::TextCoding::Newlines_DOS_to_UNIX(str);
+					contents.resize(str.size());
+					memcpy(contents.data(), str.c_str(), str.size());
                 }
 
 				file_lengths.push_back(contents.size());
 
                 {
                     bbox::crypto::HashStream hash_stream(bbox::crypto::HashStream::SHA_256);
-                    hash_stream.AddBytes(contents.c_str(), contents.size());
+                    hash_stream.AddBytes(contents.data(), contents.size());
 
                     file_etags.push_back(hash_stream.CompleteHash().ToBase64String());
                 }

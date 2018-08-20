@@ -289,7 +289,15 @@ namespace bbox {
 				auto ptr = std::make_unique<Listener>(*this, tcp_endpoint, handler);
 
                 DebugOutput out(BBOX_FUNC, DebugOutput::Activity);
-                out << "Opened HTTP server " << ptr->m_acceptor.local_endpoint() << std::endl;
+				out.Format("Opened HTTP server ");
+				{
+					bbox::DebugOutput url_out(BBOX_FUNC, out, DebugOutput::Mime_Text_Url);
+					url_out.Format(
+						"http://%s:%d/",
+						ptr->m_acceptor.local_endpoint().address().to_string(),
+						ptr->m_acceptor.local_endpoint().port());
+				}
+				out << std::endl;
 
 				Listener *key = ptr.get();
 
@@ -306,7 +314,15 @@ namespace bbox {
 				auto ptr = std::make_unique<Listener>(*this, rt::net::TcpEndpoint(ip_address, 0), handler);
 
 				DebugOutput out(BBOX_FUNC, DebugOutput::Activity);
-				out << "Opened HTTP server " << ptr->m_acceptor.local_endpoint() << std::endl;
+				out.Format("Opened HTTP server ");
+				{
+					bbox::DebugOutput url_out(BBOX_FUNC, out, DebugOutput::Mime_Text_Url);
+					url_out.Format(
+						"http://%s:%d/",
+						ptr->m_acceptor.local_endpoint().address().to_string(),
+						ptr->m_acceptor.local_endpoint().port());
+				}
+				out << std::endl;
 
 				Listener *key = ptr.get();
 
