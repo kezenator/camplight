@@ -6,6 +6,7 @@ if (platform() == "Win32") then
   reference("BBoxHttp");
   reference("BBoxHttpDebug");
   reference("BBoxEnc");
+  reference("BBoxAudio");
 
   tool_reference("ResourceBuilder");
   tool_reference("MiamiNightsWeb");

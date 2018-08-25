@@ -14,6 +14,7 @@
 #include <bbox/http/server/HttpServer.h>
 #include <bbox/http/debug/HttpDebugWebsite.h>
 #include <bbox/http/Response.h>
+#include <bbox/audio/AudioService.h>
 #include <bbox/Format.h>
 #include <bbox/Assert.h>
 
@@ -33,6 +34,7 @@ public:
         , m_console_shutdown_service("console-shutdown-service", *this)
         , m_http_server("http-server", *this)
         , m_http_debug_website("http-debug-website", *this, m_http_server)
+		, m_audio_service("audio service", *this)
     {
     }
 
@@ -43,7 +45,7 @@ private:
         m_http_server.AddServer(m_http_listen_endpoint,
             std::bind(&ApplicationService::HttpRequestHandler, this, std::placeholders::_1));
 
-		m_http_server.TryAndOpenWebBrowserToServer();
+		//m_http_server.TryAndOpenWebBrowserToServer();
 
         NotifyStarted();
     }
@@ -80,6 +82,7 @@ private:
     bbox::rt::ConsoleShutdownService m_console_shutdown_service;
     bbox::http::server::HttpServer m_http_server;
     bbox::http::debug::HttpDebugWebsite m_http_debug_website;
+	bbox::audio::AudioService m_audio_service;
 
 }; // class ApplicationService
 

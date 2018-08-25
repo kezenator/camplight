@@ -1,0 +1,13 @@
+if (platform() == "Win32") then
+
+  project("BBoxAudio", "StaticLibrary");
+
+  reference("BBoxRt");
+  library_reference("Winmm.lib");
+  
+  include(".");
+
+  sources(find_recursive("*.cpp"));
+  headers(find_recursive("*.h"));
+
+end

@@ -2,6 +2,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.8.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BBoxAudio", "BBoxAudio\BBoxAudio.vcxproj", "{BD051FAA-7E64-5442-A2FF-C9E9097AB00B}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BBoxEnc", "BBoxEnc\BBoxEnc.vcxproj", "{FD7C126F-E433-5228-B563-110342C677E8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BBoxEnc_UnitTests", "BBoxEnc_UnitTests\BBoxEnc_UnitTests.vcxproj", "{9C1FBCCD-FE6C-5F9A-BA79-121ACB9E792A}"
@@ -72,6 +74,12 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD051FAA-7E64-5442-A2FF-C9E9097AB00B}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{BD051FAA-7E64-5442-A2FF-C9E9097AB00B}.Debug|x64.ActiveCfg = Debug|x64
+		{BD051FAA-7E64-5442-A2FF-C9E9097AB00B}.Debug|x64.Build.0 = Debug|x64
+		{BD051FAA-7E64-5442-A2FF-C9E9097AB00B}.Release|Any CPU.ActiveCfg = Release|x64
+		{BD051FAA-7E64-5442-A2FF-C9E9097AB00B}.Release|x64.ActiveCfg = Release|x64
+		{BD051FAA-7E64-5442-A2FF-C9E9097AB00B}.Release|x64.Build.0 = Release|x64
 		{FD7C126F-E433-5228-B563-110342C677E8}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{FD7C126F-E433-5228-B563-110342C677E8}.Debug|x64.ActiveCfg = Debug|x64
 		{FD7C126F-E433-5228-B563-110342C677E8}.Debug|x64.Build.0 = Debug|x64

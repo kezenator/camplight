@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="bbox">
+      <UniqueIdentifier>{7EE80319-4701-5188-BF60-BF84EAFDE453}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\audio">
+      <UniqueIdentifier>{F458A7EC-050F-5601-B978-1DEF4ED581EA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\audio\details">
+      <UniqueIdentifier>{07F8204A-5E38-5CC1-8CA6-C4687FCDB8A6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\audio\midi">
+      <UniqueIdentifier>{6EDFBAE7-8450-564E-82E7-50A80855649F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\audio\synths">
+      <UniqueIdentifier>{0C76CEF5-620F-5270-BB28-833A046F4C79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\audio\windows">
+      <UniqueIdentifier>{2FA145B7-C903-598D-8D44-741A5EE2E7AC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bbox\audio\AudioService.cpp">
+      <Filter>bbox\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\audio\details\AudioThread.cpp">
+      <Filter>bbox\audio\details</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\audio\synths\SimpleSynth.cpp">
+      <Filter>bbox\audio\synths</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\audio\windows\MidiIn.cpp">
+      <Filter>bbox\audio\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\audio\windows\WasapiRenderer.cpp">
+      <Filter>bbox\audio\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\audio\windows\WindowAudioThread.cpp">
+      <Filter>bbox\audio\windows</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bbox\audio\AudioService.h">
+      <Filter>bbox\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\audio\details\AudioThread.h">
+      <Filter>bbox\audio\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\audio\midi\MidiEvent.h">
+      <Filter>bbox\audio\midi</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\audio\synths\SimpleSynth.h">
+      <Filter>bbox\audio\synths</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\audio\windows\MidiIn.h">
+      <Filter>bbox\audio\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\audio\windows\WasapiRenderer.h">
+      <Filter>bbox\audio\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\audio\windows\WindowAudioThread.h">
+      <Filter>bbox\audio\windows</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BBoxAudio.bbmake" />
+  </ItemGroup>
+</Project>

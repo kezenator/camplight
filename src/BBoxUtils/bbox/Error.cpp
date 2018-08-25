@@ -9,6 +9,7 @@
 
 #ifdef WIN32
 #include <Windows.h>
+#include <comdef.h>
 #include <bbox/TextCoding.h>
 #else // not WIN32
 #include <vector>
@@ -101,23 +102,59 @@ namespace bbox {
                 // Finally, remove any trailing new line characters
                 // as these seem to be returned by the Win32 functions
 
-                if ((result.size() > 0)
-                    && (result[result.size() - 1] == '\n'))
+				if (!result.empty()
+                    && (result.back() == '\n'))
                 {
-                    result.resize(result.size() - 1);
+					result.pop_back();
                 }
 
-                if ((result.size() > 0)
-                    && (result[result.size() - 1] == '\r'))
-                {
-                    result.resize(result.size() - 1);
-                }
+				if (!result.empty()
+					&& (result.back() == '\r'))
+				{
+					result.pop_back();
+				}
 
                 return result;
             }
         };
 
-        win32_category_t win32_category;
+		class win32_hresult_category_t :
+			public boost::system::error_category
+		{
+			const char* name() const noexcept override
+			{
+				return "HRESULT";
+			}
+
+			boost::system::error_condition default_error_condition(int val) const noexcept override
+			{
+				// TODO
+				if (val == 0)
+					return boost::system::error_condition(0, boost::system::generic_category());
+				else
+					return boost::system::error_condition(boost::system::errc::not_supported);
+			}
+
+			std::string message(int val) const noexcept override
+			{
+				HRESULT hresult{ val };
+				_com_error error{ hresult };
+				std::wstring wide_result{ error.ErrorMessage() };
+
+				std::string result;
+				Error err = TextCoding::Win32_UTF16_to_UTF8(wide_result, result);
+
+				if (err)
+				{
+					return "Unknown Win32 Error (error converting UTF16 -> UTF8)";
+				}
+
+				return result;
+			}
+		};
+
+		win32_category_t win32_category;
+		win32_hresult_category_t win32_hresult_category;
 
     } // annonymous namespace
 
@@ -132,6 +169,13 @@ namespace bbox {
 
         return boost::system::error_code(win32_code, win32_category);
     }
+
+	Error Error::Win32_FromHRESULT(uint32_t hresult)
+	{
+		static_assert(sizeof(DWORD) == sizeof(int), "Win32 uint32_t is not the same size as int");
+
+		return boost::system::error_code(hresult, win32_hresult_category);
+	}
 
 #else // not WIN32
 

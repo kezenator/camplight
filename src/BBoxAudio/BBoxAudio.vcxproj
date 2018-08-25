@@ -11,20 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AD8B813D-EE36-509A-BACE-5E3295195692}</ProjectGuid>
+    <ProjectGuid>{BD051FAA-7E64-5442-A2FF-C9E9097AB00B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>MiamiNights</RootNamespace>
+    <RootNamespace>BBoxAudio</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -39,12 +39,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -53,7 +47,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxAudio;$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxRt;$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\ThirdParty\boost\boost_1_68_0</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -77,7 +71,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxAudio;$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxRt;$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\ThirdParty\boost\boost_1_68_0</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -94,54 +88,25 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="mn\Application.cpp" />
-    <ClCompile Include="mn\Resources.cpp" />
+    <ClCompile Include="bbox\audio\AudioService.cpp" />
+    <ClCompile Include="bbox\audio\details\AudioThread.cpp" />
+    <ClCompile Include="bbox\audio\synths\SimpleSynth.cpp" />
+    <ClCompile Include="bbox\audio\windows\MidiIn.cpp" />
+    <ClCompile Include="bbox\audio\windows\WasapiRenderer.cpp" />
+    <ClCompile Include="bbox\audio\windows\WindowAudioThread.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BBoxAudio\BBoxAudio.vcxproj">
-      <Project>{BD051FAA-7E64-5442-A2FF-C9E9097AB00B}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\BBoxEnc\BBoxEnc.vcxproj">
-      <Project>{FD7C126F-E433-5228-B563-110342C677E8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\BBoxHttp\BBoxHttp.vcxproj">
-      <Project>{94E68944-90D0-543B-9A4D-2BAE05CC7972}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\BBoxHttpDebug\Lib\BBoxHttpDebug.vcxproj">
-      <Project>{8B0EFE8E-D4B6-5CC5-80FD-EA7D1D8CB534}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\BBoxRt\BBoxRt.vcxproj">
-      <Project>{F6D25D50-21C7-5DFC-A148-444BAC7B011E}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\BBoxUtils\BBoxUtils.vcxproj">
-      <Project>{20DD0248-AD74-5731-8E99-0786A8D4A61E}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ThirdParty\TinyXml2\TinyXml2.vcxproj">
-      <Project>{BB30376C-3E29-569C-93A6-4982CAF78C9D}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ThirdParty\boost\boost.vcxproj">
-      <Project>{0CB72908-1FF3-5AB9-952F-59DA60B7B782}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ThirdParty\json\json.vcxproj">
-      <Project>{4F72EBAD-7B47-5980-B03C-E9690122F135}</Project>
-    </ProjectReference>
+    <ClInclude Include="bbox\audio\AudioService.h" />
+    <ClInclude Include="bbox\audio\details\AudioThread.h" />
+    <ClInclude Include="bbox\audio\midi\MidiEvent.h" />
+    <ClInclude Include="bbox\audio\synths\SimpleSynth.h" />
+    <ClInclude Include="bbox\audio\windows\MidiIn.h" />
+    <ClInclude Include="bbox\audio\windows\WasapiRenderer.h" />
+    <ClInclude Include="bbox\audio\windows\WindowAudioThread.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="mn\Resources.h" />
+    <None Include="BBoxAudio.bbmake" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="MiamiNights.bbmake" />
-  </ItemGroup>
-  <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
-    <CustomBuildStep>
-      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i ..\MiamiNightsWeb\app.css;..\MiamiNightsWeb\app.js;..\MiamiNightsWeb\index.html;..\MiamiNightsWeb\res\Bellerose.ttf;..\MiamiNightsWeb\res\ThirdRail.ttf;..\MiamiNightsWeb\res\VeganStyle.ttf;..\MiamiNightsWeb\res\imgs\menu_fortune.png;..\MiamiNightsWeb\res\imgs\menu_pong.png;..\MiamiNightsWeb\res\imgs\menu_todo.png;..\MiamiNightsWeb\res\imgs\pong_logo.png;..\MiamiNightsWeb\res\palms.png;..\MiamiNightsWeb\res\still_time.ttf;..\MiamiNightsWeb\res\timeburnerbold.ttf;..\MiamiNightsWeb\res\timeburnernormal.ttf -o mn/Resources.cpp;mn/Resources.h -n "mn" -r "../MiamiNightsWeb"</Command>
-      <Outputs>mn/Resources.cpp;mn/Resources.h</Outputs>
-      <Inputs>..\MiamiNightsWeb\app.css;..\MiamiNightsWeb\app.js;..\MiamiNightsWeb\index.html;..\MiamiNightsWeb\res\Bellerose.ttf;..\MiamiNightsWeb\res\ThirdRail.ttf;..\MiamiNightsWeb\res\VeganStyle.ttf;..\MiamiNightsWeb\res\imgs\menu_fortune.png;..\MiamiNightsWeb\res\imgs\menu_pong.png;..\MiamiNightsWeb\res\imgs\menu_todo.png;..\MiamiNightsWeb\res\imgs\pong_logo.png;..\MiamiNightsWeb\res\palms.png;..\MiamiNightsWeb\res\still_time.ttf;..\MiamiNightsWeb\res\timeburnerbold.ttf;..\MiamiNightsWeb\res\timeburnernormal.ttf;..\..\x64\$(Configuration)\ResourceBuilder.exe</Inputs>
-    </CustomBuildStep>
-  </ItemDefinitionGroup>
-  <PropertyGroup>
-    <CustomBuildBeforeTargets>ClCompile</CustomBuildBeforeTargets>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

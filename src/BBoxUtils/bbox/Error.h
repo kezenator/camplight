@@ -100,6 +100,7 @@ namespace bbox {
 #ifdef WIN32
 
         static Error Win32_GetLastError();
+		static Error Win32_FromHRESULT(uint32_t hresult);
 
 #else // !WIN32
 
