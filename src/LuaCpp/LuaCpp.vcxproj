@@ -44,7 +44,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;LUA_USE_APICHECK;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;LUA_USE_APICHECK;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\ThirdParty\Lua\src;$(ProjectDir)\..\ThirdParty\boost\boost_1_68_0</AdditionalIncludeDirectories>
@@ -52,6 +52,7 @@
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -65,7 +66,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\ThirdParty\Lua\src;$(ProjectDir)\..\ThirdParty\boost\boost_1_68_0</AdditionalIncludeDirectories>
@@ -73,6 +74,7 @@
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -11,20 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B12833EB-8D29-5A2B-A4C6-562B12291609}</ProjectGuid>
+    <ProjectGuid>{9A417FFE-F445-52BD-8C0C-8CB0FA64DBEC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>FastNoise</RootNamespace>
+    <RootNamespace>BBoxEncCompiler</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -39,15 +39,21 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;FN_USE_DOUBLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\..\external\FastNoise</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -66,10 +72,10 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;FN_USE_DOUBLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\..\external\FastNoise</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -84,13 +90,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\external\FastNoise\FastNoise.cpp" />
+    <ClCompile Include="bbox\enc\compiler\Application.cpp" />
+    <ClCompile Include="bbox\enc\compiler\Compiler.cpp" />
+    <ClCompile Include="bbox\enc\compiler\Enum.cpp" />
+    <ClCompile Include="bbox\enc\compiler\Parser.cpp" />
+    <ClCompile Include="bbox\enc\compiler\Struct.cpp" />
+    <ClCompile Include="bbox\enc\compiler\Token.cpp" />
+    <ClCompile Include="bbox\enc\compiler\Tokenizer.cpp" />
+    <ClCompile Include="bbox\enc\compiler\Type.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\external\FastNoise\FastNoise.h" />
+    <ProjectReference Include="..\..\BBoxUtils\BBoxUtils.vcxproj">
+      <Project>{20DD0248-AD74-5731-8E99-0786A8D4A61E}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ThirdParty\boost\boost.vcxproj">
+      <Project>{0CB72908-1FF3-5AB9-952F-59DA60B7B782}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="FastNoise.bbmake" />
+    <ClInclude Include="bbox\enc\compiler\Compiler.h" />
+    <ClInclude Include="bbox\enc\compiler\Enum.h" />
+    <ClInclude Include="bbox\enc\compiler\ErrorList.h" />
+    <ClInclude Include="bbox\enc\compiler\File.h" />
+    <ClInclude Include="bbox\enc\compiler\Namespace.h" />
+    <ClInclude Include="bbox\enc\compiler\Parser.h" />
+    <ClInclude Include="bbox\enc\compiler\Struct.h" />
+    <ClInclude Include="bbox\enc\compiler\Token.h" />
+    <ClInclude Include="bbox\enc\compiler\Tokenizer.h" />
+    <ClInclude Include="bbox\enc\compiler\Type.h" />
+    <ClInclude Include="bbox\enc\compiler\TypeName.h" />
+    <ClInclude Include="bbox\enc\compiler\TypeNameList.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BBoxEncCompiler.bbmake" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

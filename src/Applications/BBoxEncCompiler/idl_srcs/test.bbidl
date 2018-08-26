@@ -1,0 +1,10 @@
+namespace test
+{
+    struct asdf
+    {
+    };
+    
+    enum asdf
+    {
+    };
+}

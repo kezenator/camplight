@@ -588,7 +588,7 @@ namespace bbox {
                         {
                             // Calculate the pre-processor defines for this mode
 
-                            std::string preprocessor_defines = "WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS";
+                            std::string preprocessor_defines = "WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS";
 
                             if (mode == "Debug")
                                 preprocessor_defines += ";_DEBUG";
@@ -654,7 +654,8 @@ namespace bbox {
                                 doc.SetTextElement("AdditionalOptions", "/wd4267 /wd4503 %(AdditionalOptions)");
                                 doc.SetTextElement("MultiProcessorCompilation", "true");
                                 doc.SetTextElement("MinimalRebuild", "false");
-                            }
+								doc.SetTextElement("LanguageStandard", "stdcpp17");
+							}
 
                             {
                                 DodgyXmlGenerator::Element cl(doc, "Link");

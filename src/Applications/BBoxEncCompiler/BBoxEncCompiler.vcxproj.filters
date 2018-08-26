@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="bbox">
+      <UniqueIdentifier>{F95E94C6-B07F-5BAB-B80F-4BE3A17B73CA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\enc">
+      <UniqueIdentifier>{FBBC1789-1A22-5A95-BDB0-81CB2C616BAF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bbox\enc\compiler">
+      <UniqueIdentifier>{589371FA-9639-57AD-96CC-3581561A9A16}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bbox\enc\compiler\Application.cpp">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\compiler\Compiler.cpp">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\compiler\Enum.cpp">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\compiler\Parser.cpp">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\compiler\Struct.cpp">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\compiler\Token.cpp">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\compiler\Tokenizer.cpp">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\compiler\Type.cpp">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bbox\enc\compiler\Compiler.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\Enum.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\ErrorList.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\File.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\Namespace.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\Parser.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\Struct.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\Token.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\Tokenizer.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\Type.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\TypeName.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\TypeNameList.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BBoxEncCompiler.bbmake" />
+  </ItemGroup>
+</Project>
