@@ -45,7 +45,7 @@ private:
         m_http_server.AddServer(m_http_listen_endpoint,
             std::bind(&ApplicationService::HttpRequestHandler, this, std::placeholders::_1));
 
-		//m_http_server.TryAndOpenWebBrowserToServer();
+		m_http_server.TryAndOpenWebBrowserToServer();
 
         NotifyStarted();
     }

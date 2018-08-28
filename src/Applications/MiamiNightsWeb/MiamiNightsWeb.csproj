@@ -28,11 +28,12 @@
     <Content Include="res/Bellerose.ttf" />
     <Content Include="res/ThirdRail.ttf" />
     <Content Include="res/VeganStyle.ttf" />
+    <Content Include="res/imgs/city.png" />
     <Content Include="res/imgs/menu_fortune.png" />
     <Content Include="res/imgs/menu_pong.png" />
     <Content Include="res/imgs/menu_todo.png" />
+    <Content Include="res/imgs/palm.png" />
     <Content Include="res/imgs/pong_logo.png" />
-    <Content Include="res/palms.png" />
     <Content Include="res/still_time.ttf" />
     <Content Include="res/timeburnerbold.ttf" />
     <Content Include="res/timeburnernormal.ttf" />

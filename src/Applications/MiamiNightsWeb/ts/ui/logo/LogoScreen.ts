@@ -18,13 +18,17 @@ namespace ui.logo
         private static HORIZON: number = 700;
 
         private palms: HTMLImageElement;
+        private city: HTMLImageElement;
 
         public constructor(app: App)
         {
             super(app);
 
             this.palms = document.createElement('img');
-            this.palms.src = '/res/palms.png';
+            this.palms.src = '/res/imgs/palm.png';
+
+            this.city= document.createElement('img');
+            this.city.src = '/res/imgs/city.png';
         }
 
         public draw(ctx: CanvasRenderingContext2D, ms: number): void
@@ -38,6 +42,7 @@ namespace ui.logo
             this.drawSky(ctx, ms);
             this.drawSea(ctx, ms);
             this.drawSun(ctx, ms);
+            this.drawCity(ctx, ms);
             this.drawPalms(ctx, ms);
             this.drawText(ctx, ms);
             this.drawPressStart(ctx, ms);
@@ -174,12 +179,91 @@ namespace ui.logo
             ctx.restore();
         }
 
+        private drawCity(ctx: CanvasRenderingContext2D, ms: number)
+        {
+            var imageWidth = 1067;
+            var imageHeight = 500;
+
+            // Work out the position of the city
+
+            var cityStartX = -Math.floor(imageWidth * ((ms % 20000) / 20000));
+            var cityHorion = util.lerp(util.arrive(util.unlerp(ms, 0, LogoScreen.DURATION_SUNSET)), 2080 + imageHeight, 770);
+
+            // Draw the reflections
+
+            ctx.save();
+
+            ctx.beginPath();
+
+            var horizon = LogoScreen.HORIZON;
+            var factor = 1.2;
+            var startHeight = 2;
+
+            var loop = (ms % LogoScreen.PERIOD_REFLECTION) / LogoScreen.PERIOD_REFLECTION;
+            var secondHeight = startHeight * factor;
+            var height = util.lerp(loop, startHeight, secondHeight);
+            var pos = horizon - startHeight + util.lerp(loop, 0, 2 * startHeight);
+            while (pos < 1080)
+            {
+                var sy = pos;
+                var ey = pos + height;
+
+                if ((sy < horizon)
+                    && (ey < horizon))
+                {
+                    // All above horizon - don't clip
+                }
+                else
+                {
+                    if (sy < horizon)
+                        sy = horizon;
+                    ctx.moveTo(0, sy);
+                    ctx.lineTo(1920, sy);
+                    ctx.lineTo(1920, ey);
+                    ctx.lineTo(0, ey);
+                    ctx.lineTo(0, sy);
+                }
+
+                pos += 2 * height;
+                height *= factor;
+            }
+            ctx.clip();
+
+            ctx.translate(0, cityHorion);
+            ctx.scale(1, -0.5);
+
+            (<any>ctx).filter = 'blur(2px)';
+
+            for (var x = cityStartX; x < 1920; x += imageWidth)
+            {
+                ctx.drawImage(this.city, x, -imageHeight);
+            }
+
+            ctx.restore();
+
+            // Finally, draw the city images
+
+            for (var x = cityStartX; x < 1920; x += imageWidth)
+            {
+                ctx.drawImage(this.city, x, cityHorion - imageHeight + 1);
+            }
+        }
+
         private drawPalms(ctx: CanvasRenderingContext2D, ms: number)
         {
-            var progress = (ms % LogoScreen.DURATION_SUNSET) / LogoScreen.DURATION_SUNSET;
-            var x = util.lerp(progress, 1920, -736);
+            var imageWidth = 1118;
+            var imageHeight = 800;
 
-            ctx.drawImage(this.palms, x, 320);
+            // Work out the position of the city
+
+            var progress = ((ms + 0.8 * LogoScreen.DURATION_SUNSET) % LogoScreen.DURATION_SUNSET) / LogoScreen.DURATION_SUNSET;
+            var x = util.lerp(progress, 1920, -imageWidth);
+
+            var palmTop = util.lerp(util.arrive(util.unlerp(ms, 0, LogoScreen.DURATION_SUNSET)), 1580 + imageHeight, 1080 + 2 - imageHeight);
+
+            // Draw the palms
+
+            ctx.drawImage(this.palms, x, palmTop);
         }
 
         private drawText(ctx: CanvasRenderingContext2D, ms: number)
