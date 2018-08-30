@@ -29,8 +29,11 @@
     <Content Include="res/ThirdRail.ttf" />
     <Content Include="res/VeganStyle.ttf" />
     <Content Include="res/imgs/city.png" />
+    <Content Include="res/imgs/menu_altered_beast.png" />
     <Content Include="res/imgs/menu_fortune.png" />
     <Content Include="res/imgs/menu_pong.png" />
+    <Content Include="res/imgs/menu_sonic.png" />
+    <Content Include="res/imgs/menu_tetris.png" />
     <Content Include="res/imgs/menu_todo.png" />
     <Content Include="res/imgs/palm.png" />
     <Content Include="res/imgs/pong_logo.png" />
