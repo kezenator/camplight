@@ -82,7 +82,7 @@ namespace ui.menu
                 var start = 0.125 * i;
                 var end = 0.125 * (i + 2.1);
 
-                fade = util.there_and_back(util.unlerp(cycle, start, end));
+                fade = util.unlerp(cycle, start, end);
             }
 
             // Work out the location for this entry
@@ -101,23 +101,66 @@ namespace ui.menu
 
             // Fill in the body
 
-            ctx.fillStyle = 'hsl(' + entry.hue + ',100%,' + Math.floor(util.lerp(fade, 70, 30)) + '%)';
-            ctx.fillRect(x, y, width, height);
+            ctx.fillStyle = 'hsl(' + entry.hue + ',100%,50%)';
+            ctx.fillRect(x, y, width, height);    
+
+            ctx.save();
+
+            ctx.beginPath();
+            ctx.rect(x, y, width, height);
+            ctx.clip();
+
+            ctx.strokeStyle = 'hsl(' + entry.hue + ',100%,30%)';
+            ctx.lineWidth = 10;
+
+            ctx.beginPath();
+
+            for (var j = 0; j < (width + height); j += 25)
+            {                 
+                ctx.moveTo(x - height + j, y + height);
+                ctx.lineTo(x + j, y);
+            }
+
+            ctx.stroke();
+
+            ctx.restore();
 
             // Draw the image
 
             ctx.drawImage(entry.imageElement, x, y);
 
+            // Draw a white wash across the button
+
+            if ((fade > 0) && (fade < 1))
+            {
+                var shine_width = 200;
+
+                var width_frac = shine_width / (shine_width + width + height);
+
+                var offset = util.lerp(fade, 0, 1 - width_frac);
+
+                var grad = ctx.createLinearGradient(x - shine_width, y - shine_width, x + width + height, y + width + height);
+
+                grad.addColorStop(offset, 'rgba(255,255,255,0)');
+                grad.addColorStop(offset + 0.5 * width_frac, 'rgba(255,255,255,255)');
+                grad.addColorStop(offset + width_frac, 'rgba(255,255,255,0)');
+
+                ctx.fillStyle = grad;
+                ctx.fillRect(x, y, width, height);
+            }
+
             // Draw the border
             // (color changing, expanding with fade)
 
-            ctx.strokeStyle = 'hsl(' + entry.hue + ',100%,' + Math.floor(util.lerp(fade, 25, 50)) + '%)';
+            fade = util.there_and_back(fade);
+
+            ctx.strokeStyle = 'hsl(' + entry.hue + ',100%,' + Math.floor(util.lerp(fade, 30, 50)) + '%)';
             ctx.lineWidth = 10 + util.lerp(fade, 0, 20);
             ctx.strokeRect(x, y, width, height);
 
             // Set the button color
 
-            this.getButtons().setButtonColor(i, 'hsl(' + entry.hue + ',100%,' + util.lerp(fade, 20, 50) + '%)');
+            this.getButtons().setButtonColor(i, 'hsl(' + entry.hue + ',100%,' + util.lerp(fade, 30, 50) + '%)');
         }
     }
 }
