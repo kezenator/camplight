@@ -19,8 +19,8 @@ namespace ui.tetris
             super.show();
 
             this.games = new Array(2);
-            this.games[0] = new TetrisGame(100, 100);
-            this.games[1] = new TetrisGame(1000, 100);
+            this.games[0] = new TetrisGame(0);
+            this.games[1] = new TetrisGame(960);
         }
 
         public draw(ctx: CanvasRenderingContext2D, ms: number): void

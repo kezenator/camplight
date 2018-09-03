@@ -4,10 +4,12 @@ namespace ui.tetris
     {
         public static TILE_SIZE = 48;
 
+        public num: number;
         public hue: number;
 
-        constructor(hue: number)
+        constructor(num: number, hue: number)
         {
+            this.num = num;
             this.hue = hue;
         }
 
@@ -19,6 +21,10 @@ namespace ui.tetris
             ctx.strokeStyle = 'black';
             ctx.lineWidth = 3;
             ctx.strokeRect(x, y, Cell.TILE_SIZE, Cell.TILE_SIZE);
+
+            ctx.font = '24px monospace';
+            ctx.fillStyle = 'black';
+            ctx.fillText((this.num + 1).toString(), x + 15, y + 30);
         }
     }
 }

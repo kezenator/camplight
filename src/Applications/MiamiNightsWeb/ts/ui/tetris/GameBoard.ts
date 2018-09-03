@@ -12,13 +12,63 @@ namespace ui.tetris
 
         public constructor()
         {
+            var num_rows = GameBoard.NUM_ROWS;
+
+            this.cells = new Array(num_rows);
+
+            for (var i = 0; i < num_rows; ++i)
+                this.cells[i] = this.newRow();
+        }
+
+        private newRow()
+        {
+            var num_cols = GameBoard.NUM_COLS;
+
+            var result: Cell[] = new Array(num_cols);
+
+            for (var i = 0; i < num_cols; ++i)
+                result[i] = null;
+
+            return result;
+        }
+
+        public clearCompleteRows(): number
+        {
+            var cells = this.cells;
             var num_cols = GameBoard.NUM_COLS;
             var num_rows = GameBoard.NUM_ROWS;
 
-            this.cells = new Array(num_cols);
+            var rows_cleared = 0;
 
-            for (var i = 0; i < num_cols; ++i)
-                this.cells[i] = new Array(num_rows);
+            for (var i = num_rows - 1; (i >= 0) && (rows_cleared < 4); /* nothing */)
+            {
+                var filled = true;
+
+                for (var j = 0; j < num_cols; ++j)
+                {
+                    if (cells[i][j] === null)
+                    {
+                        filled = false;
+                        break;
+                    }
+                }
+
+                if (filled)
+                {
+                    rows_cleared += 1;
+
+                    for (var j = i; j > 0; j -= 1)
+                        cells[j] = cells[j - 1];
+
+                    cells[0] = this.newRow();
+                }
+                else
+                {
+                    i -= 1;
+                }   
+            }
+
+            return [0, 100, 300, 500, 800][rows_cleared];
         }
 
         public draw(ctx: CanvasRenderingContext2D, game_x: number, game_y: number)
@@ -34,7 +84,7 @@ namespace ui.tetris
             {
                 for (var j = hidden_rows; j < num_rows; ++j)
                 {
-                    var cell = cells[i][j];
+                    var cell = cells[j][i];
 
                     if (cell)
                     {
