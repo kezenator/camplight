@@ -53,6 +53,12 @@
     <TypeScriptCompile Include="ts\ui\logo\LogoScreen.ts" />
     <TypeScriptCompile Include="ts\ui\menu\MenuScreen.ts" />
     <TypeScriptCompile Include="ts\ui\pong\PongScreen.ts" />
+    <TypeScriptCompile Include="ts\ui\tetris\Cell.ts" />
+    <TypeScriptCompile Include="ts\ui\tetris\GameBoard.ts" />
+    <TypeScriptCompile Include="ts\ui\tetris\Piece.ts" />
+    <TypeScriptCompile Include="ts\ui\tetris\PieceFactory.ts" />
+    <TypeScriptCompile Include="ts\ui\tetris\TetrisGame.ts" />
+    <TypeScriptCompile Include="ts\ui\tetris\TetrisScreen.ts" />
     <TypeScriptCompile Include="ts\util\Color.ts" />
     <TypeScriptCompile Include="ts\util\Math.ts" />
   </ItemGroup>

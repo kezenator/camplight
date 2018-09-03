@@ -34,7 +34,7 @@ namespace ui.menu
                 new MenuScreenEntry(0, App.FORTUNE, "res/imgs/menu_fortune.png"),
                 new MenuScreenEntry(30, App.PONG, "res/imgs/menu_pong.png"),
                 new MenuScreenEntry(120, App.LOGO, "res/imgs/menu_todo.png"),
-                new MenuScreenEntry(180, App.LOGO, "res/imgs/menu_tetris.png"),
+                new MenuScreenEntry(180, App.TETRIS, "res/imgs/menu_tetris.png"),
                 new MenuScreenEntry(240, App.LOGO, "res/imgs/menu_sonic.png"),
                 new MenuScreenEntry(300, App.LOGO, "res/imgs/menu_altered_beast.png"),
             ];

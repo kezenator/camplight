@@ -1,7 +1,8 @@
 /// <reference path="ui/logo/LogoScreen.ts" />
+/// <reference path="ui/fortune/FortuneScreen.ts" />
 /// <reference path="ui/menu/MenuScreen.ts" />
 /// <reference path="ui/pong/PongScreen.ts" />
-/// <reference path="ui/fortune/FortuneScreen.ts" />
+/// <reference path="ui/tetris/TetrisScreen.ts" />
 /// <reference path="ui/buttons/HTMLButtons.ts" />
 
 class App
@@ -10,6 +11,7 @@ class App
     static MENU: string = 'menu';
     static PONG: string = 'pomg';
     static FORTUNE: string = 'fortune';
+    static TETRIS: string = 'tetris';
 
     private curScreen: ui.Screen;
     private buttons: ui.Buttons;
@@ -26,6 +28,7 @@ class App
         this.screens[App.MENU] = new ui.menu.MenuScreen(this);
         this.screens[App.PONG] = new ui.pong.PongScreen(this);
         this.screens[App.FORTUNE] = new ui.fortune.FortuneScreen(this);
+        this.screens[App.TETRIS] = new ui.tetris.TetrisScreen(this);
 
         this.curScreen = this.screens[App.LOGO];
         this.startTime = Date.now();
