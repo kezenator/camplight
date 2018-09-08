@@ -89,6 +89,7 @@
     <ClCompile Include="bbox\http\debug\api\ChildEntry.cpp" />
     <ClCompile Include="bbox\http\debug\api\DebugReport.cpp" />
     <ClCompile Include="bbox\http\debug\api\QueryResultEntry.cpp" />
+    <ClCompile Include="bbox\http\debug\msgs\DebugReportNotification.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bbox\http\debug\HttpDebugWebsite.h" />
@@ -96,6 +97,7 @@
     <ClInclude Include="bbox\http\debug\api\ChildEntry.h" />
     <ClInclude Include="bbox\http\debug\api\DebugReport.h" />
     <ClInclude Include="bbox\http\debug\api\QueryResultEntry.h" />
+    <ClInclude Include="bbox\http\debug\msgs\DebugReportNotification.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BBoxHttpDebug.bbmake" />

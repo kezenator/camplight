@@ -85,7 +85,10 @@ Enum::ptr Compiler::Builder::CreateEnum(const Namespace::ptr &ns, const Token &n
 	return new_ptr;
 }
 
-bool Compiler::CompileSources(std::vector<File::ptr> &&sources, std::vector<std::string> &error_strings)
+bool Compiler::CompileSources(
+	std::vector<File::ptr> &&sources,
+	std::map<std::string, std::string> &outputs, 
+	std::vector<std::string> &error_strings)
 {
 	Builder builder(error_strings);
 
@@ -95,7 +98,12 @@ bool Compiler::CompileSources(std::vector<File::ptr> &&sources, std::vector<std:
 			return false;
 	}
 
-	return false;
+	for (const auto &entry : builder.m_pimpl->m_namespaces)
+	{
+		entry.second->GenerateOutputs(outputs);
+	}
+
+	return true;
 }
 
 } // namespace bbox::enc::compiler

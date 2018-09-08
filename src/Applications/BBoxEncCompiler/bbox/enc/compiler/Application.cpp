@@ -23,6 +23,8 @@ int bbox_enc_compiler_main(int argc, char *argv[])
 			return 1;
 		}
 
+		std::cerr << "Reading Sources..." << std::endl;
+
 		auto src_file_list = bbox::FileUtils::ListFolderOrThrow(
 			std::string(argv[1]) + "/*.bbidl",
 			bbox::FileInfo::RegularFile);
@@ -36,12 +38,16 @@ int bbox_enc_compiler_main(int argc, char *argv[])
 				bbox::FileUtils::ReadTextFileOrThrow(entry.GetFullPath())));
 		}
 
+		std::cerr << "Compiling..." << std::endl;
+
 		bbox::enc::compiler::Compiler compiler;
 
+		std::map<std::string, std::string> outputs;
 		std::vector<std::string> error_strings;
 
 		bool result = compiler.CompileSources(
 			std::move(src_file_contents),
+			outputs,
 			error_strings);
 
 		for (const auto &str : error_strings)
@@ -49,6 +55,35 @@ int bbox_enc_compiler_main(int argc, char *argv[])
 
 		if (!result)
 			return 1;
+
+		// Now, generate the outputs
+
+		std::cerr << "Generating outputs..." << std::endl;
+
+		for (const auto &entry : outputs)
+		{
+			const std::string &path = entry.first;
+			const std::string &contents = entry.second;
+
+			std::string existing_contents;
+
+			bbox::Error read_err = bbox::FileUtils::ReadTextFile(path, existing_contents);
+
+			if (read_err)
+			{
+				std::cerr << "Creating: " << path << std::endl;
+			}
+			else if (contents == existing_contents)
+			{
+				continue;
+			}
+			else
+			{
+				std::cerr << "Updating: " << path << std::endl;
+			}
+
+			bbox::FileUtils::WriteTextFileOrThrow(path, contents);
+		}
 
 		return 0;
 	}

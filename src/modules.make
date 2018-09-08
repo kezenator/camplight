@@ -287,6 +287,7 @@ SRCS_DIRECT_BBoxEncCompiler := $(sort \
         Applications/BBoxEncCompiler/bbox/enc/compiler/Application.cpp \
         Applications/BBoxEncCompiler/bbox/enc/compiler/Compiler.cpp \
         Applications/BBoxEncCompiler/bbox/enc/compiler/Enum.cpp \
+        Applications/BBoxEncCompiler/bbox/enc/compiler/Namespace.cpp \
         Applications/BBoxEncCompiler/bbox/enc/compiler/Parser.cpp \
         Applications/BBoxEncCompiler/bbox/enc/compiler/Struct.cpp \
         Applications/BBoxEncCompiler/bbox/enc/compiler/Token.cpp \
@@ -741,6 +742,7 @@ SRCS_DIRECT_BBoxHttpDebug := $(sort \
         BBoxHttpDebug/Lib/bbox/http/debug/api/ChildEntry.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/api/DebugReport.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/api/QueryResultEntry.cpp \
+        BBoxHttpDebug/Lib/bbox/http/debug/msgs/DebugReportNotification.cpp \
     )
     # End SRCS_DIRECT_BBoxHttpDebug
 

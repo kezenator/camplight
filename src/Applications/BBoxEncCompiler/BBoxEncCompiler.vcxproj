@@ -93,6 +93,7 @@
     <ClCompile Include="bbox\enc\compiler\Application.cpp" />
     <ClCompile Include="bbox\enc\compiler\Compiler.cpp" />
     <ClCompile Include="bbox\enc\compiler\Enum.cpp" />
+    <ClCompile Include="bbox\enc\compiler\Namespace.cpp" />
     <ClCompile Include="bbox\enc\compiler\Parser.cpp" />
     <ClCompile Include="bbox\enc\compiler\Struct.cpp" />
     <ClCompile Include="bbox\enc\compiler\Token.cpp" />

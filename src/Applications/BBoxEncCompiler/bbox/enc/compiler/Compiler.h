@@ -48,7 +48,10 @@ public:
 		std::unique_ptr<Pimpl> m_pimpl;
 	};
 
-	static bool CompileSources(std::vector<File::ptr> &&sources, std::vector<std::string> &error_strings);
+	static bool CompileSources(
+		std::vector<File::ptr> &&sources,
+		std::map<std::string, std::string> &outputs,
+		std::vector<std::string> &error_strings);
 
 };
 

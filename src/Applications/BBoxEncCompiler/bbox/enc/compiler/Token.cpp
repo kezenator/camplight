@@ -23,8 +23,14 @@ const char *Token::c_str(E_TYPE type)
 		return "\'{\'";
 	case CLOSE_CURLY_BRACE:
 		return "\'}\'";
+	case OPEN_SQUARE_BRACKET:
+		return "\'[\'";
+	case CLOSE_SQUARE_BRACKET:
+		return "\']\'";
 	case SEMICOLON:
 		return "\';\'";
+	case STRING:
+		return "string literal";
 	case DOUBLE_COLON:
 		return "\"::\"";
 	case IDENTIFIER:
@@ -37,6 +43,8 @@ const char *Token::c_str(E_TYPE type)
 		return "keyword \"enum\"";
 	case UNEXPECTED_CHARACTER:
 		return "unexpected character";
+	case UNTERMINATED_STRING_LITERAL:
+		return "unterminated string literal";
 	}
 	return "unknown token";
 }
@@ -48,13 +56,19 @@ std::string Token::GetDescription() const
 	case END_OF_FILE:
 	case OPEN_CURLY_BRACE:
 	case CLOSE_CURLY_BRACE:
+	case OPEN_SQUARE_BRACKET:
+	case CLOSE_SQUARE_BRACKET:
 	case DOUBLE_COLON:
 	case SEMICOLON:
 	case KEYWORD_NAMESPACE:
 	case KEYWORD_STRUCT:
 	case KEYWORD_ENUM:
+	case UNTERMINATED_STRING_LITERAL:
 		// Just the type describes the contents
 		return c_str(m_type);
+
+	case STRING:
+		return bbox::Format("string literal %s", m_contents);
 
 	case IDENTIFIER:
 	case UNEXPECTED_CHARACTER:
@@ -103,6 +117,20 @@ std::string_view Token::GetLineContents() const
 	// Return a string view into the data
 
 	return std::string_view(str_ptr + start_offset, end_offset - start_offset);
+}
+
+std::string Token::DecodeContentsAsString() const
+{
+	std::string result{ GetContents() };
+
+	if ((m_type == STRING)
+		&& (result.size() >= 2))
+	{
+		result.pop_back();
+		result.erase(0, 1);
+	}
+
+	return result;
 }
 
 } // namespace bbox::enc::compiler

@@ -55,6 +55,11 @@ public:
 		return result;
 	}
 
+	const std::vector<Token> GetTokens() const
+	{
+		return m_tokens;
+	}
+
 private:
 	std::vector<Token> m_tokens;
 };

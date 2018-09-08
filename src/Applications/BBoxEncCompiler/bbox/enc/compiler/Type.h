@@ -7,6 +7,8 @@
 #ifndef __BBOX__ENC__COMPILER__TYPE_H__
 #define __BBOX__ENC__COMPILER__TYPE_H__
 
+#include <sstream>
+
 #include <bbox/enc/compiler/Namespace.h>
 
 namespace bbox {
@@ -30,7 +32,19 @@ public:
 	const Namespace::ptr &GetNamespace() const { return m_ns; }
 	const Token &GetName() const { return m_name; }
 
+	virtual void GenerateOutputs(std::map<std::string, std::string> &outputs, const std::string &path, Namespace::Language language) const = 0;
+
+protected:
+	void GenerateCppHeaderHeader(std::stringstream &stream, const char *type) const;
+	void GenerateCppHeaderFooter(std::stringstream &stream) const;
+	void GenerateCppSourceHeader(std::stringstream &stream, const char *type) const;
+	void GenerateCppNamespaceOpen(std::stringstream &stream) const;
+	void GenerateCppNamespaceClose(std::stringstream &stream) const;
+
 private:
+
+	void GenerateCppHeaderGuard(std::stringstream &stream) const;
+
 	Namespace::ptr m_ns;
 	Token m_name;
 };

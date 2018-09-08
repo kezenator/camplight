@@ -147,8 +147,60 @@ struct Parser::Pimpl
 			namespace_ptr = m_builder.CreateNamespace(std::move(namespace_name));
 		}
 
-		if (!Expect(Token::OPEN_CURLY_BRACE))
-			return false;
+		while (true)
+		{
+			Token tok;
+			if (!Expect(tok, { Token::OPEN_CURLY_BRACE, Token::OPEN_SQUARE_BRACKET }))
+				return false;
+
+			if (tok.Matches(Token::OPEN_CURLY_BRACE))
+				break;
+
+			Token attribute;
+			if (!Expect(attribute, Token::IDENTIFIER))
+				return false;
+
+			if (!attribute.Matches("generate"))
+			{
+				m_errors.AddError(attribute, "Only \"generate\" attribute supported");
+				return false;
+			}
+
+			Token language_tok;
+			if (!Expect(language_tok, Token::IDENTIFIER))
+				return false;
+
+			Namespace::Language language;
+
+			if (language_tok.Matches("cpp"))
+			{
+				language = Namespace::CPP;
+			}
+			else if (language_tok.Matches("ts"))
+			{
+				language = Namespace::TYPESCRIPT;
+			}
+			else
+			{
+				m_errors.AddError(language_tok, "Expected \"cpp\" or \"ts\"");
+				return false;
+			}
+
+			if (namespace_ptr->GeneratesLanguage(language))
+			{
+				m_errors.AddError(language_tok, "Duplicate generate language");
+				return false;
+			}
+
+			Token path;
+			if (!Expect(path, Token::STRING))
+				return false;
+
+			namespace_ptr->AddLanguage(language, path.DecodeContentsAsString());
+
+			if (!Expect(Token::CLOSE_SQUARE_BRACKET))
+				return false;
+		}
 
 		while (true)
 		{
@@ -162,18 +214,46 @@ struct Parser::Pimpl
 			}
 			else if (tok.Matches(Token::KEYWORD_STRUCT))
 			{
-				// TODO
 				Token name_tok;
 				if (!Expect(name_tok, Token::IDENTIFIER))
 					return false;
 				if (!Expect(Token::OPEN_CURLY_BRACE))
 					return false;
+
+				Struct::ptr struct_ptr = m_builder.CreateStruct(namespace_ptr, name_tok);
+
+				while (true)
+				{
+					Token peek_tok = PeekToken();
+					if (peek_tok.Matches(Token::CLOSE_CURLY_BRACE))
+					{
+						break;
+					}
+					else if (!peek_tok.Matches(Token::IDENTIFIER))
+					{
+						Expect(peek_tok, { Token::IDENTIFIER, Token::CLOSE_CURLY_BRACE });
+						return false;
+					}
+					else
+					{
+						TypeNameList type_name_list;
+
+						if (!ParseTypeNameList(type_name_list))
+							return false;
+
+						Token field_tok;
+						if (!Expect(field_tok, Token::IDENTIFIER))
+							return false;
+						if (!Expect(Token::SEMICOLON))
+							return false;
+
+						struct_ptr->AddField(type_name_list, field_tok);
+					}
+				}
 				if (!Expect(Token::CLOSE_CURLY_BRACE))
 					return false;
 				if (!Expect(Token::SEMICOLON))
 					return false;
-
-				m_builder.CreateStruct(namespace_ptr, name_tok);
 			}
 			else if (tok.Matches(Token::KEYWORD_ENUM))
 			{

@@ -28,6 +28,8 @@ private:
 
 public:
 	using ptr = std::shared_ptr<Enum>;
+
+	void GenerateOutputs(std::map<std::string, std::string> &outputs, const std::string &path, Namespace::Language language) const override;
 };
 
 } // namespace bbox::enc::compiler

@@ -67,6 +67,16 @@ Token Tokenizer::NextToken()
 			type = Token::CLOSE_CURLY_BRACE;
 			length = 1;
 		}
+		else if (start_ch == '[')
+		{
+			type = Token::OPEN_SQUARE_BRACKET;
+			length = 1;
+		}
+		else if (start_ch == ']')
+		{
+			type = Token::CLOSE_SQUARE_BRACKET;
+			length = 1;
+		}
 		else if (start_ch == ';')
 		{
 			type = Token::SEMICOLON;
@@ -117,6 +127,35 @@ Token Tokenizer::NextToken()
 				type = Token::KEYWORD_STRUCT;
 			if (strv == "enum")
 				type = Token::KEYWORD_ENUM;
+		}
+		else if (start_ch == '\"')
+		{
+			type = Token::UNTERMINATED_STRING_LITERAL;
+
+			size_t end_offset = m_cur_offset + 1;
+			while (true)
+			{
+				if (end_offset >= m_contents.size())
+					break;
+
+				char ch = m_contents[end_offset];
+
+				if (ch == '\n')
+				{
+					// Unterminated - can't span multiple lines
+					break;
+				}
+				else if (ch == '\"')
+				{
+					type = Token::STRING;
+					end_offset += 1;
+					break;
+				}
+
+				end_offset += 1;
+			}
+
+			length = end_offset - m_cur_offset;
 		}
 
 		result = Token(m_file, m_cur_line, m_cur_col, m_cur_offset, length, type);

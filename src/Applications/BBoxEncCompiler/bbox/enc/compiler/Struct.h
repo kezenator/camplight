@@ -28,6 +28,24 @@ private:
 
 public:
 	using ptr = std::shared_ptr<Struct>;
+
+	void AddField(const TypeNameList &type, const Token &name);
+
+	void GenerateOutputs(std::map<std::string, std::string> &outputs, const std::string &path, Namespace::Language language) const override;
+
+private:
+
+	std::string GenerateCppHeader() const;
+	std::string GenerateCppSource() const;
+	std::string GenerateTypescript() const;
+
+	struct Field
+	{
+		TypeNameList type;
+		Token name;
+	};
+
+	std::vector<Field> m_fields;
 };
 
 } // namespace bbox::enc::compiler

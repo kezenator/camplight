@@ -1,0 +1,9 @@
+namespace bbox::http::debug::msgs
+    [generate cpp "BBoxHttpDebug\Lib\bbox\http\debug\msgs"]
+{
+    struct DebugReportNotification
+    {
+        std::string contents_html;
+    };
+}
+

@@ -15,6 +15,14 @@ Enum::Enum(const Namespace::ptr &ns_ptr, const Token &name)
 {
 }
 
+void Enum::GenerateOutputs(std::map<std::string, std::string> &outputs, const std::string &path, Namespace::Language language) const
+{
+	// TODO
+	(void)outputs;
+	(void)path;
+	(void)language;
+}
+
 } // namespace bbox::enc::compiler
 } // namespace bbox::enc
 } // namespace bbox

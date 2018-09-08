@@ -21,6 +21,9 @@
     <ClCompile Include="bbox\enc\compiler\Enum.cpp">
       <Filter>bbox\enc\compiler</Filter>
     </ClCompile>
+    <ClCompile Include="bbox\enc\compiler\Namespace.cpp">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClCompile>
     <ClCompile Include="bbox\enc\compiler\Parser.cpp">
       <Filter>bbox\enc\compiler</Filter>
     </ClCompile>

@@ -27,13 +27,17 @@ public:
 		END_OF_FILE,
 		OPEN_CURLY_BRACE,
 		CLOSE_CURLY_BRACE,
+		OPEN_SQUARE_BRACKET,
+		CLOSE_SQUARE_BRACKET,
 		DOUBLE_COLON,
 		SEMICOLON,
+		STRING,
 		IDENTIFIER,
 		KEYWORD_NAMESPACE,
 		KEYWORD_STRUCT,
 		KEYWORD_ENUM,
 		UNEXPECTED_CHARACTER,
+		UNTERMINATED_STRING_LITERAL,
 	};
 
 	static const char *c_str(E_TYPE type);
@@ -70,6 +74,8 @@ public:
 	const std::string_view &GetContents() const { return m_contents; }
 	E_TYPE GetType() const { return m_type; }
 	std::string GetDescription() const;
+
+	std::string DecodeContentsAsString() const;
 
 	bool Matches(const char *str) const
 	{
