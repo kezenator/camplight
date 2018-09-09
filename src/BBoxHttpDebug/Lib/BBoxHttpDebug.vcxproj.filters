@@ -36,6 +36,18 @@
     <ClCompile Include="bbox\http\debug\msgs\DebugReportNotification.cpp">
       <Filter>bbox\http\debug\msgs</Filter>
     </ClCompile>
+    <ClCompile Include="bbox\http\debug\msgs\QueryRequest.cpp">
+      <Filter>bbox\http\debug\msgs</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\debug\msgs\QueryResponse.cpp">
+      <Filter>bbox\http\debug\msgs</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\debug\msgs\QueryResponseChild.cpp">
+      <Filter>bbox\http\debug\msgs</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\debug\msgs\QueryResponseEntry.cpp">
+      <Filter>bbox\http\debug\msgs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bbox\http\debug\HttpDebugWebsite.h">
@@ -54,6 +66,18 @@
       <Filter>bbox\http\debug\api</Filter>
     </ClInclude>
     <ClInclude Include="bbox\http\debug\msgs\DebugReportNotification.h">
+      <Filter>bbox\http\debug\msgs</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\debug\msgs\QueryRequest.h">
+      <Filter>bbox\http\debug\msgs</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\debug\msgs\QueryResponse.h">
+      <Filter>bbox\http\debug\msgs</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\debug\msgs\QueryResponseChild.h">
+      <Filter>bbox\http\debug\msgs</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\debug\msgs\QueryResponseEntry.h">
       <Filter>bbox\http\debug\msgs</Filter>
     </ClInclude>
   </ItemGroup>

@@ -82,6 +82,21 @@ Token Tokenizer::NextToken()
 			type = Token::SEMICOLON;
 			length = 1;
 		}
+		else if (start_ch == '<')
+		{
+			type = Token::LESS_THAN;
+			length = 1;
+		}
+		else if (start_ch == '>')
+		{
+			type = Token::GREATER_THAN;
+			length = 1;
+		}
+		else if (start_ch == ',')
+		{
+			type = Token::COMMA;
+			length = 1;
+		}
 		else if (start_ch == ':')
 		{
 			if (((m_cur_offset + 1) < m_contents.size())

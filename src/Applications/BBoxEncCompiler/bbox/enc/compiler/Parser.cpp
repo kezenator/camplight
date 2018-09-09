@@ -132,6 +132,42 @@ struct Parser::Pimpl
 		}
 	}
 
+	bool ParseTypeName(TypeName &result)
+	{
+		TypeNameList base_name;
+		std::optional<std::vector<TypeName>> opt_template_params;
+
+		if (!ParseTypeNameList(base_name))
+			return false;
+
+		if (Try(Token::LESS_THAN))
+		{
+			if (!Expect(Token::LESS_THAN))
+				return false;
+
+			opt_template_params.emplace();
+
+			while (true)
+			{
+				opt_template_params->emplace_back();
+
+				if (!ParseTypeName(opt_template_params->back()))
+					return false;
+
+				Token next_tok;
+				if (!Expect(next_tok, { Token::COMMA, Token::GREATER_THAN }))
+					return false;
+
+				if (next_tok.Matches(Token::GREATER_THAN))
+					break;
+			}
+		}
+
+		result = TypeName(std::move(base_name), std::move(opt_template_params));
+
+		return true;
+	}
+
 	bool ParseFile()
 	{
 		if (!Expect(Token::KEYWORD_NAMESPACE))
@@ -236,9 +272,9 @@ struct Parser::Pimpl
 					}
 					else
 					{
-						TypeNameList type_name_list;
+						TypeName type_name;
 
-						if (!ParseTypeNameList(type_name_list))
+						if (!ParseTypeName(type_name))
 							return false;
 
 						Token field_tok;
@@ -247,7 +283,7 @@ struct Parser::Pimpl
 						if (!Expect(Token::SEMICOLON))
 							return false;
 
-						struct_ptr->AddField(type_name_list, field_tok);
+						struct_ptr->AddField(type_name, field_tok);
 					}
 				}
 				if (!Expect(Token::CLOSE_CURLY_BRACE))

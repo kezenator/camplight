@@ -6,6 +6,7 @@
 
 #include <bbox/enc/compiler/Compiler.h>
 #include <bbox/enc/compiler/Parser.h>
+#include <bbox/enc/compiler/TypeLibrary.h>
 
 #include <memory>
 #include <map>
@@ -18,35 +19,23 @@ struct Compiler::Pimpl
 {
 	explicit Pimpl(std::vector<std::string> &error_strings)
 		: errors(error_strings)
+		, type_lib(std::make_shared<TypeLibrary>(errors))
 	{
 	}
 
 	void RegisterNamespace(const Namespace::ptr &new_ptr)
 	{
-		std::string name = new_ptr->GetName().ToString();
-
-		auto insert_result = m_namespaces.insert(std::make_pair(name, new_ptr));
-
-		if (!insert_result.second)
-		{
-			errors.AddError(new_ptr->GetName().GetStartToken(), bbox::Format("Duplicate namespace \"%s\"", name));
-			errors.AddError(insert_result.first->second->GetName().GetStartToken(), "Originally defined here");
-		}
+		type_lib->RegisterNamespace(new_ptr);
 	}
 
 	void RegisterType(const Type::ptr &type)
 	{
-		auto insert_result = type->GetNamespace()->m_types.insert(std::make_pair(type->GetName().GetContents(), type));
-
-		if (!insert_result.second)
-		{
-			errors.AddError(type->GetName(), bbox::Format("Duplicate type \"%s\"", type->GetName().GetContents()));
-			errors.AddError(insert_result.first->second->GetName(), "Originally defined here");
-		}
+		type_lib->RegisterType(type);
 	}
 
 	ErrorList errors;
-	std::map<std::string, Namespace::ptr> m_namespaces;
+	TypeLibrary::ptr type_lib;
+
 };
 
 Compiler::Builder::Builder(std::vector<std::string> &error_strings)
@@ -60,7 +49,7 @@ Compiler::Builder::~Builder()
 
 Namespace::ptr Compiler::Builder::CreateNamespace(TypeNameList &&name_list)
 {
-	Namespace::ptr new_ptr = Namespace::ptr(new Namespace(std::move(name_list)));
+	Namespace::ptr new_ptr = Namespace::ptr(new Namespace(m_pimpl->type_lib, std::move(name_list)));
 
 	m_pimpl->RegisterNamespace(new_ptr);
 
@@ -98,7 +87,13 @@ bool Compiler::CompileSources(
 			return false;
 	}
 
-	for (const auto &entry : builder.m_pimpl->m_namespaces)
+	for (const auto &entry : builder.m_pimpl->type_lib->m_namespaces)
+	{
+		if (!entry.second->Validate(builder.m_pimpl->errors))
+			return false;
+	}
+
+	for (const auto &entry : builder.m_pimpl->type_lib->m_namespaces)
 	{
 		entry.second->GenerateOutputs(outputs);
 	}

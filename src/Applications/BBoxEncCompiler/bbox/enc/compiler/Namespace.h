@@ -10,7 +10,9 @@
 #include <memory>
 #include <map>
 
+#include <bbox/enc/compiler/ErrorList.h>
 #include <bbox/enc/compiler/TypeNameList.h>
+#include <bbox/enc/compiler/TypeLibrary.h>
 
 namespace bbox {
 namespace enc {
@@ -19,6 +21,7 @@ namespace compiler {
 // Forward declarations;
 class Compiler;
 class Type;
+class TypeLibrary;
 
 /**
  * Describes a namespace
@@ -26,6 +29,7 @@ class Type;
 class Namespace
 {
 	friend class Compiler;
+	friend class TypeLibrary;
 
 	Namespace() = delete;
 
@@ -41,6 +45,7 @@ public:
 	~Namespace() = default;
 
 	const TypeNameList &GetName() const { return m_name; }
+	const TypeLibrary::ptr &GetTypeLibrary() const { return m_type_library_ptr; }
 
 	bool GeneratesLanguage(Language l) const
 	{
@@ -52,14 +57,17 @@ public:
 		m_languages[l] = std::move(path);
 	}
 
+	bool Validate(ErrorList &errors);
 	void GenerateOutputs(std::map<std::string, std::string> &outputs);
 
 private:
-	explicit Namespace(TypeNameList &&name)
-		: m_name(std::move(name))
+	Namespace(const TypeLibrary::ptr &type_lib, TypeNameList &&name)
+		: m_type_library_ptr(type_lib)
+		, m_name(std::move(name))
 	{
 	}
 
+	TypeLibrary::ptr m_type_library_ptr;
 	TypeNameList m_name;
 	std::map<std::string_view, std::shared_ptr<Type>> m_types;
 	std::map<Language, std::string> m_languages;

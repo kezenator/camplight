@@ -53,8 +53,11 @@ int bbox_enc_compiler_main(int argc, char *argv[])
 		for (const auto &str : error_strings)
 			std::cerr << str << std::endl;
 
-		if (!result)
+		if (!result
+			|| !error_strings.empty())
+		{
 			return 1;
+		}
 
 		// Now, generate the outputs
 

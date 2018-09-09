@@ -39,6 +39,9 @@
     <ClCompile Include="bbox\enc\compiler\Type.cpp">
       <Filter>bbox\enc\compiler</Filter>
     </ClCompile>
+    <ClCompile Include="bbox\enc\compiler\TypeLibrary.cpp">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bbox\enc\compiler\Compiler.h">
@@ -69,6 +72,12 @@
       <Filter>bbox\enc\compiler</Filter>
     </ClInclude>
     <ClInclude Include="bbox\enc\compiler\Type.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\TypeInstance.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\TypeLibrary.h">
       <Filter>bbox\enc\compiler</Filter>
     </ClInclude>
     <ClInclude Include="bbox\enc\compiler\TypeName.h">

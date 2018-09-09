@@ -15,6 +15,13 @@ Enum::Enum(const Namespace::ptr &ns_ptr, const Token &name)
 {
 }
 
+bool Enum::Validate(ErrorList & /*errors*/)
+{
+	// Nothing to do
+
+	return true;
+}
+
 void Enum::GenerateOutputs(std::map<std::string, std::string> &outputs, const std::string &path, Namespace::Language language) const
 {
 	// TODO

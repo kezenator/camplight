@@ -99,6 +99,7 @@
     <ClCompile Include="bbox\enc\compiler\Token.cpp" />
     <ClCompile Include="bbox\enc\compiler\Tokenizer.cpp" />
     <ClCompile Include="bbox\enc\compiler\Type.cpp" />
+    <ClCompile Include="bbox\enc\compiler\TypeLibrary.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BBoxUtils\BBoxUtils.vcxproj">
@@ -119,6 +120,8 @@
     <ClInclude Include="bbox\enc\compiler\Token.h" />
     <ClInclude Include="bbox\enc\compiler\Tokenizer.h" />
     <ClInclude Include="bbox\enc\compiler\Type.h" />
+    <ClInclude Include="bbox\enc\compiler\TypeInstance.h" />
+    <ClInclude Include="bbox\enc\compiler\TypeLibrary.h" />
     <ClInclude Include="bbox\enc\compiler\TypeName.h" />
     <ClInclude Include="bbox\enc\compiler\TypeNameList.h" />
   </ItemGroup>

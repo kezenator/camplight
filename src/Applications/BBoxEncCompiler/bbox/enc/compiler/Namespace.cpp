@@ -11,6 +11,17 @@ namespace bbox {
 namespace enc {
 namespace compiler {
 
+bool Namespace::Validate(ErrorList &errors)
+{
+	for (const auto &t_entry : m_types)
+	{
+		if (!t_entry.second->Validate(errors))
+			return false;
+	}
+
+	return true;
+}
+
 void Namespace::GenerateOutputs(std::map<std::string, std::string> &outputs)
 {
 	for (const auto &l_entry : m_languages)

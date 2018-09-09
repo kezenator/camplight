@@ -29,10 +29,10 @@ private:
 public:
 	using ptr = std::shared_ptr<Struct>;
 
-	void AddField(const TypeNameList &type, const Token &name);
+	void AddField(const TypeName &type, const Token &name);
 
+	bool Validate(ErrorList &errors) override;
 	void GenerateOutputs(std::map<std::string, std::string> &outputs, const std::string &path, Namespace::Language language) const override;
-
 private:
 
 	std::string GenerateCppHeader() const;
@@ -41,8 +41,9 @@ private:
 
 	struct Field
 	{
-		TypeNameList type;
+		TypeName type;
 		Token name;
+		TypeInstance::ptr instance;
 	};
 
 	std::vector<Field> m_fields;

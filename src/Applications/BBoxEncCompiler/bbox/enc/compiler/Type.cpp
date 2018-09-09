@@ -20,6 +20,28 @@ Type::~Type()
 {
 }
 
+std::string Type::GetTypescriptTypeName() const
+{
+	return std::string(m_name.GetContents());
+}
+
+std::string Type::GetTypescriptDefaultValue() const
+{
+	return bbox::Format("new %s()", m_name.GetContents());
+}
+
+void Type::AddCppHeaderIncludes(std::set<std::string> &includes) const
+{
+	std::stringstream stream;
+
+	stream << "#include <";
+	for (const Token &tok : GetNamespace()->GetName().GetTokens())
+		stream << tok.GetContents() << "/";
+	stream << m_name.GetContents() << ".h>";
+
+	includes.insert(stream.str());
+}
+
 void Type::GenerateCppHeaderGuard(std::stringstream &stream) const
 {
 	stream << "__";

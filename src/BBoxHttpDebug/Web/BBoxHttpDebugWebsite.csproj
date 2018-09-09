@@ -41,6 +41,11 @@
     <TypeScriptCompile Include="bbox\debug\api\QueryRequest.ts" />
     <TypeScriptCompile Include="bbox\debug\api\QueryResponse.ts" />
     <TypeScriptCompile Include="bbox\debug\api\QueryResponseEntry.ts" />
+    <TypeScriptCompile Include="bbox\http\debug\msgs\DebugReportNotification.ts" />
+    <TypeScriptCompile Include="bbox\http\debug\msgs\QueryRequest.ts" />
+    <TypeScriptCompile Include="bbox\http\debug\msgs\QueryResponse.ts" />
+    <TypeScriptCompile Include="bbox\http\debug\msgs\QueryResponseChild.ts" />
+    <TypeScriptCompile Include="bbox\http\debug\msgs\QueryResponseEntry.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ds\Deque.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ds\Map.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\FromXml.ts" />

@@ -1,9 +1,37 @@
 namespace bbox::http::debug::msgs
     [generate cpp "BBoxHttpDebug\Lib\bbox\http\debug\msgs"]
+    [generate ts  "BBoxHttpDebug\Web\bbox\http\debug\msgs"]
 {
     struct DebugReportNotification
     {
         std::string contents_html;
+    };
+    
+    struct QueryRequest
+    {
+        std::string request_id;
+        std::string query;
+    };
+    
+    struct QueryResponse
+    {
+        std::string request_id;
+        std::vector<QueryResponseEntry> entries;
+    };
+    
+    struct QueryResponseEntry
+    {
+        std::string path;
+        std::string parent_path;
+        std::vector<QueryResponseChild> children;
+        DebugReportNotification report;
+    };
+    
+    struct QueryResponseChild
+    {
+        std::string name;
+        std::string path;
+        std::string short_description;
     };
 }
 

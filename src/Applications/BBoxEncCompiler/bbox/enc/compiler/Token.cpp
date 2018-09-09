@@ -29,6 +29,12 @@ const char *Token::c_str(E_TYPE type)
 		return "\']\'";
 	case SEMICOLON:
 		return "\';\'";
+	case LESS_THAN:
+		return "\'<\'";
+	case GREATER_THAN:
+		return "\'>\'";
+	case COMMA:
+		return "\',\'";
 	case STRING:
 		return "string literal";
 	case DOUBLE_COLON:
@@ -60,6 +66,9 @@ std::string Token::GetDescription() const
 	case CLOSE_SQUARE_BRACKET:
 	case DOUBLE_COLON:
 	case SEMICOLON:
+	case LESS_THAN:
+	case GREATER_THAN:
+	case COMMA:
 	case KEYWORD_NAMESPACE:
 	case KEYWORD_STRUCT:
 	case KEYWORD_ENUM:

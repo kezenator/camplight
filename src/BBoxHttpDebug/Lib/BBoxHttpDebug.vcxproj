@@ -90,6 +90,10 @@
     <ClCompile Include="bbox\http\debug\api\DebugReport.cpp" />
     <ClCompile Include="bbox\http\debug\api\QueryResultEntry.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\DebugReportNotification.cpp" />
+    <ClCompile Include="bbox\http\debug\msgs\QueryRequest.cpp" />
+    <ClCompile Include="bbox\http\debug\msgs\QueryResponse.cpp" />
+    <ClCompile Include="bbox\http\debug\msgs\QueryResponseChild.cpp" />
+    <ClCompile Include="bbox\http\debug\msgs\QueryResponseEntry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bbox\http\debug\HttpDebugWebsite.h" />
@@ -98,6 +102,10 @@
     <ClInclude Include="bbox\http\debug\api\DebugReport.h" />
     <ClInclude Include="bbox\http\debug\api\QueryResultEntry.h" />
     <ClInclude Include="bbox\http\debug\msgs\DebugReportNotification.h" />
+    <ClInclude Include="bbox\http\debug\msgs\QueryRequest.h" />
+    <ClInclude Include="bbox\http\debug\msgs\QueryResponse.h" />
+    <ClInclude Include="bbox\http\debug\msgs\QueryResponseChild.h" />
+    <ClInclude Include="bbox\http\debug\msgs\QueryResponseEntry.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BBoxHttpDebug.bbmake" />

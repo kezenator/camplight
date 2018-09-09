@@ -15,11 +15,22 @@ Struct::Struct(const Namespace::ptr &ns_ptr, const Token &name)
 {
 }
 
-void Struct::AddField(const TypeNameList &type, const Token &name)
+void Struct::AddField(const TypeName &type, const Token &name)
 {
 	m_fields.emplace_back();
 	m_fields.back().type = type;
 	m_fields.back().name = name;
+}
+
+bool Struct::Validate(ErrorList &errors)
+{
+	for (Field &field : m_fields)
+	{
+		if (!ResolveType(field.type, field.instance))
+			return false;
+	}
+
+	return true;
 }
 
 void Struct::GenerateOutputs(std::map<std::string, std::string> &outputs, const std::string &path, Namespace::Language language) const
@@ -46,6 +57,20 @@ std::string Struct::GenerateCppHeader() const
 	std::stringstream stream;
 
 	GenerateCppHeaderHeader(stream, "struct");
+
+	{
+		std::set<std::string> headers;
+		for (const Field &field : m_fields)
+			field.instance->AddCppHeaderIncludes(headers);
+
+		if (!headers.empty())
+		{
+			for (const auto &header : headers)
+				stream << header << std::endl;
+			stream << std::endl;
+		}
+	}
+
 	GenerateCppNamespaceOpen(stream);
 
 	std::string_view name = GetName().GetContents();
@@ -144,7 +169,54 @@ std::string Struct::GenerateCppSource() const
 
 std::string Struct::GenerateTypescript() const
 {
-	return std::string();
+	std::stringstream stream;
+
+	const std::string_view name = GetName().GetContents();
+
+	stream << "namespace ";
+	{
+		bool first = true;
+
+		for (const Token &tok : GetNamespace()->GetName().GetTokens())
+		{
+			if (first)
+				first = false;
+			else
+				stream << '.';
+
+			stream << tok.GetContents();
+		}
+		stream << std::endl;
+	}
+	stream << '{' << std::endl;
+	stream << "    export class " << name << std::endl;
+	stream << "    {" << std::endl;
+	stream << "        static type: bbox.enc.Type = bbox.enc.TypeLibrary.simpleStructure(\""
+		<< GetNamespace()->GetName().ToString() << "::" << name << "\", "
+		<< name << ')' << std::endl;
+	for (const Field &field : m_fields)
+	{
+		stream << "            .addMember(\""
+			<< field.name.GetContents() << "\", \""
+			<< field.instance->GetTypescriptTypeName() << "\")" << std::endl;
+	}
+	stream << "            ;" << std::endl;
+	stream << std::endl;
+	if (!m_fields.empty())
+	{
+		for (const Field &field : m_fields)
+			stream << "        public " << field.name.GetContents() << ": " << field.instance->GetTypescriptTypeName() << ';' << std::endl;
+		stream << std::endl;
+	}
+	stream << "        constructor()" << std::endl;
+	stream << "        {" << std::endl;
+	for (const Field &field : m_fields)
+		stream << "            this." << field.name.GetContents() << " = " << field.instance->GetTypescriptDefaultValue() << ';' << std::endl;
+	stream << "        }" << std::endl;
+	stream << "    };" << std::endl;
+	stream << '}' << std::endl;
+
+	return stream.str();
 }
 
 

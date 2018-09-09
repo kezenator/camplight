@@ -293,6 +293,7 @@ SRCS_DIRECT_BBoxEncCompiler := $(sort \
         Applications/BBoxEncCompiler/bbox/enc/compiler/Token.cpp \
         Applications/BBoxEncCompiler/bbox/enc/compiler/Tokenizer.cpp \
         Applications/BBoxEncCompiler/bbox/enc/compiler/Type.cpp \
+        Applications/BBoxEncCompiler/bbox/enc/compiler/TypeLibrary.cpp \
     )
     # End SRCS_DIRECT_BBoxEncCompiler
 
@@ -743,6 +744,10 @@ SRCS_DIRECT_BBoxHttpDebug := $(sort \
         BBoxHttpDebug/Lib/bbox/http/debug/api/DebugReport.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/api/QueryResultEntry.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/msgs/DebugReportNotification.cpp \
+        BBoxHttpDebug/Lib/bbox/http/debug/msgs/QueryRequest.cpp \
+        BBoxHttpDebug/Lib/bbox/http/debug/msgs/QueryResponse.cpp \
+        BBoxHttpDebug/Lib/bbox/http/debug/msgs/QueryResponseChild.cpp \
+        BBoxHttpDebug/Lib/bbox/http/debug/msgs/QueryResponseEntry.cpp \
     )
     # End SRCS_DIRECT_BBoxHttpDebug
 

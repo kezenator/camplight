@@ -9,7 +9,10 @@
 
 #include <sstream>
 
+#include <bbox/enc/compiler/ErrorList.h>
 #include <bbox/enc/compiler/Namespace.h>
+#include <bbox/enc/compiler/TypeInstance.h>
+#include <bbox/enc/compiler/TypeName.h>
 
 namespace bbox {
 namespace enc {
@@ -18,7 +21,7 @@ namespace compiler {
 /**
  * Base class from which all types are derived.
  */
-class Type
+class Type: public TypeInstance
 {
 protected:
 	Type(const Namespace::ptr &ns_ptr, const Token &name);
@@ -32,9 +35,18 @@ public:
 	const Namespace::ptr &GetNamespace() const { return m_ns; }
 	const Token &GetName() const { return m_name; }
 
+	virtual bool Validate(ErrorList &errors) = 0;
 	virtual void GenerateOutputs(std::map<std::string, std::string> &outputs, const std::string &path, Namespace::Language language) const = 0;
+	std::string GetTypescriptTypeName() const override;
+	std::string GetTypescriptDefaultValue() const override;
+	void AddCppHeaderIncludes(std::set<std::string> &includes) const override;
 
 protected:
+	bool ResolveType(const TypeName &type_name, TypeInstance::ptr &result)
+	{
+		return m_ns->GetTypeLibrary()->ResolveType(type_name, result);
+	}
+
 	void GenerateCppHeaderHeader(std::stringstream &stream, const char *type) const;
 	void GenerateCppHeaderFooter(std::stringstream &stream) const;
 	void GenerateCppSourceHeader(std::stringstream &stream, const char *type) const;

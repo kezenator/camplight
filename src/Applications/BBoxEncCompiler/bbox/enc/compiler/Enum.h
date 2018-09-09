@@ -29,6 +29,7 @@ private:
 public:
 	using ptr = std::shared_ptr<Enum>;
 
+	bool Validate(ErrorList &errors) override;
 	void GenerateOutputs(std::map<std::string, std::string> &outputs, const std::string &path, Namespace::Language language) const override;
 };
 

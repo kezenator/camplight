@@ -28,7 +28,7 @@ public:
 	TypeName &operator =(const TypeName &) = default;
 	TypeName &operator =(TypeName &&) = default;
 
-	explicit TypeName(TypeNameList &&type_name, std::optional<std::vector<TypeNameList>> &&opt_template_params)
+	explicit TypeName(TypeNameList &&type_name, std::optional<std::vector<TypeName>> &&opt_template_params)
 		: m_type_name(std::move(type_name))
 		, m_opt_template_params(std::move((opt_template_params)))
 	{
@@ -39,9 +39,50 @@ public:
 		return m_type_name.GetStartToken();
 	}
 
+	const TypeNameList &GetBaseName() const
+	{
+		return m_type_name;
+	}
+
+	bool HasTemplateParams() const
+	{
+		return m_opt_template_params.has_value();
+	}
+
+	const std::vector<TypeName> &GetTemplateParams() const
+	{
+		return m_opt_template_params.value();
+	}
+
+	std::string ToString() const
+	{
+		std::string result = m_type_name.ToString();
+
+		if (m_opt_template_params)
+		{
+			result.push_back('<');
+
+			bool first = true;
+
+			for (const auto &param : *m_opt_template_params)
+			{
+				if (first)
+					first = false;
+				else
+					result.append(", ");
+
+				result.append(param.ToString());
+			}
+
+			result.push_back('>');
+		}
+
+		return result;
+	}
+
 private:
 	TypeNameList m_type_name;
-	std::optional<std::vector<TypeNameList>> m_opt_template_params;
+	std::optional<std::vector<TypeName>> m_opt_template_params;
 };
 
 } // namespace bbox::enc::compiler
