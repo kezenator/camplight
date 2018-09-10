@@ -64,5 +64,22 @@ namespace bbox
             }
         }
 
+		void ToTextFormat::SetMsgAnyPtrValue(const MsgAnyPtr &val)
+		{
+			StartStructure();
+			if (!val)
+			{
+				AddNamedValue("type", std::string("nullptr"));
+			}
+			else
+			{
+				AddNamedValue("type", val.GetType().GetName());
+				StartNamedItem("contents");
+				val.m_value->EncodeContents(*this);
+				CompleteNamedItem();
+			}
+			CompleteStructure();
+		}
+
     } // namespace bbox::enc
 } // namespace bbox

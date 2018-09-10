@@ -42,6 +42,9 @@ void QueryRequest::FromTextFormat(bbox::enc::FromTextFormat &m)
     m.CompleteStructure();
 }
 
+bbox::enc::MsgTypeLibrary::Registration<QueryRequest>
+    QueryRequest::g_msg_registration("bbox::http::debug::msgs::QueryRequest");
+
 } // namespace msgs
 } // namespace debug
 } // namespace http

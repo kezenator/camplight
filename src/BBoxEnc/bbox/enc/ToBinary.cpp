@@ -124,6 +124,22 @@ namespace bbox
             }
         }
 
+		void ToBinary::WriteMsgAnyPtr(const MsgAnyPtr &val)
+		{
+			if (!val)
+			{
+				WriteString(std::string());
+			}
+			else
+			{
+				WriteString(val.GetType().GetName());
+				if (val)
+				{
+					val.m_value->EncodeContents(*this);
+				}
+			}
+		}
+
         bool ToBinary::PrivateTestForWrite(size_t size)
         {
             if (m_HasError)

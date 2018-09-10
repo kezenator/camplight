@@ -90,6 +90,8 @@ namespace bbox
 
             virtual void SetBinaryDataValue(const std::vector<uint8_t> &data);
 
+			void SetMsgAnyPtrValue(const MsgAnyPtr &val);
+
             /**
              * Starts a named structure.
              */

@@ -37,7 +37,7 @@ public:
 
 	public:
 		Namespace::ptr CreateNamespace(TypeNameList &&name_list);
-		Struct::ptr CreateStruct(const Namespace::ptr &ns, const Token &name);
+		Struct::ptr CreateStruct(const Namespace::ptr &ns, const Token &name, bool is_message);
 		Enum::ptr CreateEnum(const Namespace::ptr &ns, const Token &name);
 
 	private:

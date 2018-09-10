@@ -163,7 +163,38 @@ namespace bbox
                 }
             };
 
-        } // namespace bbox:enc::details
+			template <>
+			struct FromBinaryAction<MarshalStrategy::AsMsgPtr, MsgAnyPtr>
+			{
+				static void Impl(FromBinary &m, MsgAnyPtr &value)
+				{
+					value = m.ReadMsgAnyPtr();
+				}
+			};
+
+			template <typename Type>
+			struct FromBinaryAction<MarshalStrategy::AsMsgPtr, MsgPtr<Type>>
+			{
+				static void Impl(FromBinary &m, MsgPtr<Type> &value)
+				{
+					MsgAnyPtr any_ptr = m.ReadMsgAnyPtr();
+
+					if (!m.HasError()
+						&& any_ptr)
+					{
+						value = message_cast<Type>(any_ptr);
+
+						if (!value)
+						{
+							m.SetError(bbox::Format("Could not cast object of type %s to type %s",
+								any_ptr.GetType().GetName(),
+								MsgTypeLibrary::FindByType<Type>().GetName()));
+						}
+					}
+				}
+			};
+
+		} // namespace bbox:enc::details
     } // namespace bbox::enc
 } // namespace bbox
 

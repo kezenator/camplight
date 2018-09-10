@@ -90,5 +90,40 @@ namespace bbox
             }
         }
 
+		MsgAnyPtr FromTextFormat::DecodeMsgAnyPtr()
+		{
+			MsgAnyPtr result;
+
+			StartStructure();
+
+			std::string type_name;
+			DecodeNamedValue("type", type_name);
+
+			if (type_name == "nullptr")
+			{
+				// All good
+			}
+			else
+			{
+				MsgType type = MsgTypeLibrary::FindByName(type_name);
+				if (!type)
+				{
+					SetError(bbox::Format("Unknown MsgType \"%s\"", type_name));
+				}
+				else
+				{
+					result = type.CreateNewObject();
+
+					StartNamedItem("contents");
+					result.m_value->DecodeContents(*this);
+					CompleteNamedItem();
+				}
+			}
+
+			CompleteStructure();
+
+			return result;
+		}
+
     } // namespace bbox::enc
 } // namespace bbox

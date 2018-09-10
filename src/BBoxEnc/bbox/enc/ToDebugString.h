@@ -26,7 +26,6 @@ namespace bbox
             return to_json.ToString();
         }
 
-
     } // namespace bbox::enc
 } // namespace bbox
 

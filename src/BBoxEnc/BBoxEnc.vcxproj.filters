@@ -33,6 +33,12 @@
     <ClCompile Include="bbox\enc\FromXml.cpp">
       <Filter>bbox\enc</Filter>
     </ClCompile>
+    <ClCompile Include="bbox\enc\MsgType.cpp">
+      <Filter>bbox\enc</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\enc\MsgTypeLibrary.cpp">
+      <Filter>bbox\enc</Filter>
+    </ClCompile>
     <ClCompile Include="bbox\enc\ToBinary.cpp">
       <Filter>bbox\enc</Filter>
     </ClCompile>
@@ -69,6 +75,18 @@
       <Filter>bbox\enc</Filter>
     </ClInclude>
     <ClInclude Include="bbox\enc\FromXml.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\MsgAnyPtr.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\MsgPtr.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\MsgType.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\MsgTypeLibrary.h">
       <Filter>bbox\enc</Filter>
     </ClInclude>
     <ClInclude Include="bbox\enc\ToBinary.h">

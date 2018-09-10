@@ -11,6 +11,7 @@
 #include <bbox/enc/ToXml.h>
 #include <bbox/enc/FromJson.h>
 #include <bbox/enc/FromXml.h>
+#include <bbox/enc/MsgTypeLibrary.h>
 
 #include <bbox/TypeInfo.h>
 #include <bbox/Format.h>
@@ -20,7 +21,7 @@
 
 namespace bbox
 {
-    namespace db
+    namespace enc
     {
         namespace unittest
         {
@@ -86,6 +87,8 @@ namespace bbox
                         return false;
                     }
                 };
+
+				bbox::enc::MsgTypeLibrary::Registration<HasAll> registration("bbox::enc::unittest::enc_types::HasAll");
 
                 struct FailDueToNonConstToMethods
                 {
@@ -208,7 +211,7 @@ namespace bbox
                     rt_to_json = convert_to_json.ToString();
                 }
 
-                if (orig_to_json != expected_json)
+                if (rt_to_json != expected_json)
                 {
                     ::unittest::Log(bbox::Format("Failed rt_to_json for type %s", bbox::TypeInfo::Of<Type>().pretty_name()));
                     ::unittest::Log(bbox::Format("Expected: %s", expected_json));
@@ -216,15 +219,6 @@ namespace bbox
                 }
 
                 BBOX_ASSERT(rt_to_json == expected_json);
-
-                // Ensure that the two values are equal
-
-                if (!(value == rt_from_binary))
-                {
-                    ::unittest::Log(bbox::Format("Failed (value == rt_from_binary) for type %s", bbox::TypeInfo::Of<Type>().pretty_name()));
-                }
-
-                BBOX_ASSERT(value == rt_from_binary);
 
                 // Round trip the value back from JSON
                 // and check that it matches
@@ -264,15 +258,6 @@ namespace bbox
                 }
 
                 BBOX_ASSERT(rt_from_json_to_json == expected_json);
-
-                // Ensure that the two values are equal
-
-                if (!(value == rt_from_json))
-                {
-                    ::unittest::Log(bbox::Format("Failed (value == rt_from_json) for type %s", bbox::TypeInfo::Of<Type>().pretty_name()));
-                }
-
-                BBOX_ASSERT(value == rt_from_json);
 
                 // Now, convert to XML
 
@@ -317,15 +302,6 @@ namespace bbox
                 }
 
                 BBOX_ASSERT(rt_from_xml_to_json == expected_json);
-
-                // Ensure that the two values are equal
-
-                if (!(value == rt_from_xml))
-                {
-                    ::unittest::Log(bbox::Format("Failed (value == rt_from_xml) for type %s", bbox::TypeInfo::Of<Type>().pretty_name()));
-                }
-
-                BBOX_ASSERT(value == rt_from_xml);
             }
 
             template <typename Type>
@@ -336,7 +312,7 @@ namespace bbox
 
                 // ::unittest::Log(bbox::Format("Testing round_trip_xml<%s>...", bbox::TypeInfo::Of<Type>().pretty_name()));
 
-                // Convert the original value to a debug string, and see
+                // Convert the original value to XML, and see
                 // that it matches the expected format
 
                 std::string orig_to_xml;
@@ -361,6 +337,8 @@ namespace bbox
 
                 BBOX_ASSERT(orig_to_xml == expected_xml);
 
+				// Create a new value decoded from the XML
+
                 Type rt_from_xml;
 
                 {
@@ -379,13 +357,31 @@ namespace bbox
                     BBOX_ASSERT(!convert_from_xml.HasError());
                 }
 
-                if (!(value == rt_from_xml))
-                {
-                    ::unittest::Log(bbox::Format("Failed (value == rt_from_xml) for type %s", bbox::TypeInfo::Of<Type>().pretty_name()));
-                }
+				// Now encode this object to XML
+				// and check that it also matches the expected value
 
-                BBOX_ASSERT(value == rt_from_xml);
-            }
+				std::string rt_to_xml;
+
+				{
+					tinyxml2::XMLDocument doc;
+					bbox::enc::ToXml to_xml(doc, "round-trip", bbox::enc::ToTextFormat::MACHINE_ROUND_TRIP);
+					to_xml.SetValue(rt_from_xml);
+
+					tinyxml2::XMLPrinter printer(nullptr, true);
+					doc.Print(&printer);
+
+					rt_to_xml = printer.CStr();
+				}
+
+				if (rt_to_xml != expected_xml)
+				{
+					::unittest::Log(bbox::Format("Failed rt_to_xml for type %s", bbox::TypeInfo::Of<Type>().pretty_name()));
+					::unittest::Log(bbox::Format("Expected: %s", expected_xml));
+					::unittest::Log(bbox::Format("Got:      %s", rt_to_xml));
+				}
+
+				BBOX_ASSERT(rt_to_xml == expected_xml);
+			}
 
             UT_TEST_CLASS(TestEnc)
             {
@@ -483,11 +479,28 @@ namespace bbox
                                                   "{\"name\":\"Mary\",\"age\":\"32\"}",
                                                   "{name:\"Mary\", age:\"32\"}");
 
-                    round_trip_xml<enc_types::HasAll>(enc_types::HasAll("simple", 32),
+					round_trip<MsgPtr<enc_types::HasAll>>(new_message<enc_types::HasAll>("Baby", 1),
+						"{\"type\":\"bbox::enc::unittest::enc_types::HasAll\",\"contents\":{\"name\":\"Baby\",\"age\":\"1\"}}",
+						"{type:\"bbox::enc::unittest::enc_types::HasAll\", contents:{name:\"Baby\", age:\"1\"}}");
+					round_trip<MsgAnyPtr>(new_message<enc_types::HasAll>("Toddler", 4),
+						"{\"type\":\"bbox::enc::unittest::enc_types::HasAll\",\"contents\":{\"name\":\"Toddler\",\"age\":\"4\"}}",
+						"{type:\"bbox::enc::unittest::enc_types::HasAll\", contents:{name:\"Toddler\", age:\"4\"}}");
+					round_trip<MsgAnyPtr>(MsgAnyPtr(),
+						"{\"type\":\"nullptr\"}",
+						"{type:\"nullptr\"}");
+
+					round_trip_xml<enc_types::HasAll>(enc_types::HasAll("simple", 32),
                         "<round-trip><name value=\"simple\"/><age value=\"32\"/></round-trip>");
                     round_trip_xml<enc_types::HasAll>(enc_types::HasAll("with\nnewlines", 32),
                         "<round-trip><name><![CDATA[with\nnewlines]]></name><age value=\"32\"/></round-trip>");
-                }
+
+					round_trip_xml<MsgPtr<enc_types::HasAll>>(new_message<enc_types::HasAll>("Baby", 1),
+						"<round-trip><type value=\"bbox::enc::unittest::enc_types::HasAll\"/><contents><name value=\"Baby\"/><age value=\"1\"/></contents></round-trip>");
+					round_trip_xml<MsgAnyPtr>(new_message<enc_types::HasAll>("Toddler", 4),
+						"<round-trip><type value=\"bbox::enc::unittest::enc_types::HasAll\"/><contents><name value=\"Toddler\"/><age value=\"4\"/></contents></round-trip>");
+					round_trip_xml<MsgAnyPtr>(MsgAnyPtr(),
+						"<round-trip><type value=\"nullptr\"/></round-trip>");
+				}
 
                 UT_TEST_METHOD(Test_bbox_enc_api_Describe)
                 {
@@ -745,6 +758,6 @@ namespace bbox
 
             UT_REGISTER_CLASS(TestEnc);
 
-        } // namespace bbox::db::unittest
-    } // namespace bbox::db
+        } // namespace bbox::enc::unittest
+    } // namespace bbox::enc
 } // namespace bbox

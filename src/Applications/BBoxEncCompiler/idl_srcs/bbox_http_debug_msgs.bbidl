@@ -2,18 +2,18 @@ namespace bbox::http::debug::msgs
     [generate cpp "BBoxHttpDebug\Lib\bbox\http\debug\msgs"]
     [generate ts  "BBoxHttpDebug\Web\bbox\http\debug\msgs"]
 {
-    struct DebugReportNotification
+    message DebugReportNotification
     {
         std::string contents_html;
     };
     
-    struct QueryRequest
+    message QueryRequest
     {
         std::string request_id;
         std::string query;
     };
     
-    struct QueryResponse
+    message QueryResponse
     {
         std::string request_id;
         std::vector<QueryResponseEntry> entries;

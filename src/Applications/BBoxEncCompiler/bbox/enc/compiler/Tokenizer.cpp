@@ -138,9 +138,11 @@ Token Tokenizer::NextToken()
 
 			if (strv == "namespace")
 				type = Token::KEYWORD_NAMESPACE;
-			if (strv == "struct")
+			else if (strv == "struct")
 				type = Token::KEYWORD_STRUCT;
-			if (strv == "enum")
+			else if (strv == "message")
+				type = Token::KEYWORD_MESSAGE;
+			else if (strv == "enum")
 				type = Token::KEYWORD_ENUM;
 		}
 		else if (start_ch == '\"')

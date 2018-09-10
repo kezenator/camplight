@@ -135,6 +135,24 @@ namespace bbox
                 }
             };
 
+			template <>
+			struct ToBinaryAction<MarshalStrategy::AsMsgPtr, MsgAnyPtr>
+			{
+				static void Impl(ToBinary &m, const MsgAnyPtr &value)
+				{
+					m.WriteMsgAnyPtr(value);
+				}
+			};
+
+			template <typename Type>
+			struct ToBinaryAction<MarshalStrategy::AsMsgPtr, MsgPtr<Type>>
+			{
+				static void Impl(ToBinary &m, const MsgPtr<Type> &value)
+				{
+					m.WriteMsgAnyPtr(value);
+				}
+			};
+
         } // namespace bbox:enc::details
     } // namespace bbox::enc
 } // namespace bbox

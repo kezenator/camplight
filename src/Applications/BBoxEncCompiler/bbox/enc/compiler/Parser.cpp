@@ -241,14 +241,20 @@ struct Parser::Pimpl
 		while (true)
 		{
 			Token tok;
-			if (!Expect(tok, { Token::CLOSE_CURLY_BRACE, Token::KEYWORD_STRUCT, Token::KEYWORD_ENUM }))
+			if (!Expect(tok, { Token::CLOSE_CURLY_BRACE,
+							   Token::KEYWORD_STRUCT,
+							   Token::KEYWORD_MESSAGE,
+							   Token::KEYWORD_ENUM }))
+			{
 				return false;
+			}
 
 			if (tok.Matches(Token::CLOSE_CURLY_BRACE))
 			{
 				break;
 			}
-			else if (tok.Matches(Token::KEYWORD_STRUCT))
+			else if (tok.Matches(Token::KEYWORD_STRUCT)
+				|| tok.Matches(Token::KEYWORD_MESSAGE))
 			{
 				Token name_tok;
 				if (!Expect(name_tok, Token::IDENTIFIER))
@@ -256,7 +262,10 @@ struct Parser::Pimpl
 				if (!Expect(Token::OPEN_CURLY_BRACE))
 					return false;
 
-				Struct::ptr struct_ptr = m_builder.CreateStruct(namespace_ptr, name_tok);
+				Struct::ptr struct_ptr = m_builder.CreateStruct(
+					namespace_ptr,
+					name_tok,
+					tok.Matches(Token::KEYWORD_MESSAGE));
 
 				while (true)
 				{

@@ -56,9 +56,9 @@ Namespace::ptr Compiler::Builder::CreateNamespace(TypeNameList &&name_list)
 	return new_ptr;
 }
 
-Struct::ptr Compiler::Builder::CreateStruct(const Namespace::ptr &ns, const Token &name)
+Struct::ptr Compiler::Builder::CreateStruct(const Namespace::ptr &ns, const Token &name, bool is_message)
 {
-	Struct::ptr new_ptr = Struct::ptr(new Struct(ns, name));
+	Struct::ptr new_ptr = Struct::ptr(new Struct(ns, name, is_message));
 
 	m_pimpl->RegisterType(new_ptr);
 

@@ -11,6 +11,8 @@
 #include <bbox/ToString.h>
 #include <bbox/FromString.h>
 
+#include <bbox/enc/MsgPtr.h>
+
 #include <utility>
 #include <set>
 #include <list>
@@ -45,6 +47,7 @@ namespace bbox
                 struct AsStdVector {};
                 struct AsStdSet {};
                 struct AsStdMap {};
+				struct AsMsgPtr {};
 
                 struct ViaCustomMethods {};
                 struct ViaBinaryCustomMethodsAndToFromString {};
@@ -165,7 +168,19 @@ namespace bbox
                 using Strategy = MarshalStrategy::AsStdMap;
             };
 
-        } // namespace bbox:enc::details
+			template <>
+			struct ChooseStrategy<MsgAnyPtr>
+			{
+				using Strategy = MarshalStrategy::AsMsgPtr;
+			};
+
+			template <typename Type>
+			struct ChooseStrategy<MsgPtr<Type>>
+			{
+				using Strategy = MarshalStrategy::AsMsgPtr;
+			};
+
+		} // namespace bbox:enc::details
     } // namespace bbox::enc
 } // namespace bbox
 

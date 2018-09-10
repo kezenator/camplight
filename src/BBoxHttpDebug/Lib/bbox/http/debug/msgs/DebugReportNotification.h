@@ -12,6 +12,7 @@
 
 #include <bbox/enc/FromBinary.h>
 #include <bbox/enc/FromTextFormat.h>
+#include <bbox/enc/MsgTypeLibrary.h>
 #include <bbox/enc/ToBinary.h>
 #include <bbox/enc/ToTextFormat.h>
 
@@ -36,6 +37,9 @@ public:
     void FromTextFormat(bbox::enc::FromTextFormat &m);
 
     std::string contents_html;
+
+private:
+    static bbox::enc::MsgTypeLibrary::Registration<DebugReportNotification> g_msg_registration;
 };
 
 } // namespace msgs

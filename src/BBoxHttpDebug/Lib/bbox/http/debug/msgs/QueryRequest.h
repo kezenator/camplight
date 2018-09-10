@@ -12,6 +12,7 @@
 
 #include <bbox/enc/FromBinary.h>
 #include <bbox/enc/FromTextFormat.h>
+#include <bbox/enc/MsgTypeLibrary.h>
 #include <bbox/enc/ToBinary.h>
 #include <bbox/enc/ToTextFormat.h>
 
@@ -37,6 +38,9 @@ public:
 
     std::string request_id;
     std::string query;
+
+private:
+    static bbox::enc::MsgTypeLibrary::Registration<QueryRequest> g_msg_registration;
 };
 
 } // namespace msgs

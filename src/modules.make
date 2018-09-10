@@ -505,6 +505,8 @@ SRCS_DIRECT_BBoxEnc := $(sort \
         BBoxEnc/bbox/enc/FromJson.cpp \
         BBoxEnc/bbox/enc/FromTextFormat.cpp \
         BBoxEnc/bbox/enc/FromXml.cpp \
+        BBoxEnc/bbox/enc/MsgType.cpp \
+        BBoxEnc/bbox/enc/MsgTypeLibrary.cpp \
         BBoxEnc/bbox/enc/ToBinary.cpp \
         BBoxEnc/bbox/enc/ToJson.cpp \
         BBoxEnc/bbox/enc/ToTextFormat.cpp \

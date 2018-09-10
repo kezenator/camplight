@@ -74,6 +74,7 @@ void Type::GenerateCppHeaderHeader(std::stringstream &stream, const char *type) 
 	stream << std::endl;
 	stream << "#include <bbox/enc/FromBinary.h>" << std::endl;
 	stream << "#include <bbox/enc/FromTextFormat.h>" << std::endl;
+	stream << "#include <bbox/enc/MsgTypeLibrary.h>" << std::endl;
 	stream << "#include <bbox/enc/ToBinary.h>" << std::endl;
 	stream << "#include <bbox/enc/ToTextFormat.h>" << std::endl;
 	stream << std::endl;

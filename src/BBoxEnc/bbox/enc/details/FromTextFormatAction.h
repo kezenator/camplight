@@ -225,6 +225,37 @@ namespace bbox
                 }
             };
 
+			template <>
+			struct FromTextFormatAction<MarshalStrategy::AsMsgPtr, MsgAnyPtr>
+			{
+				static void Impl(FromTextFormat &m, MsgAnyPtr &value)
+				{
+					value = m.DecodeMsgAnyPtr();
+				}
+			};
+
+			template <typename Type>
+			struct FromTextFormatAction<MarshalStrategy::AsMsgPtr, MsgPtr<Type>>
+			{
+				static void Impl(FromTextFormat &m, MsgPtr<Type> &value)
+				{
+					MsgAnyPtr any_ptr = m.DecodeMsgAnyPtr();
+
+					if (!m.HasError()
+						&& any_ptr)
+					{
+						value = message_cast<Type>(any_ptr);
+
+						if (!value)
+						{
+							m.SetError(bbox::Format("Could not cast object of type %s to type %s",
+								any_ptr.GetType().GetName(),
+								MsgTypeLibrary::FindByType<Type>().GetName()));
+						}
+					}
+				}
+			};
+
         } // namespace bbox:enc::details
     } // namespace bbox::enc
 } // namespace bbox

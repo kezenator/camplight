@@ -38,6 +38,9 @@ void DebugReportNotification::FromTextFormat(bbox::enc::FromTextFormat &m)
     m.CompleteStructure();
 }
 
+bbox::enc::MsgTypeLibrary::Registration<DebugReportNotification>
+    DebugReportNotification::g_msg_registration("bbox::http::debug::msgs::DebugReportNotification");
+
 } // namespace msgs
 } // namespace debug
 } // namespace http

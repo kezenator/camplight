@@ -10,8 +10,9 @@ namespace bbox {
 namespace enc {
 namespace compiler {
 
-Struct::Struct(const Namespace::ptr &ns_ptr, const Token &name)
+Struct::Struct(const Namespace::ptr &ns_ptr, const Token &name, bool is_message)
 	: Type(ns_ptr, name)
+	, m_is_message(is_message)
 {
 }
 
@@ -100,6 +101,14 @@ std::string Struct::GenerateCppHeader() const
 		}
 	}
 
+	if (m_is_message)
+	{
+		stream << std::endl;
+		stream << "private:" << std::endl;
+		stream << "    static bbox::enc::MsgTypeLibrary::Registration<"
+			<< name << "> g_msg_registration;" << std::endl;
+	}
+
 	stream << "};" << std::endl;
 	stream << std::endl;
 
@@ -161,6 +170,16 @@ std::string Struct::GenerateCppSource() const
 	generate_marshaling("AddNamedValue", true);
 	stream << "void " << name << "::FromTextFormat(bbox::enc::FromTextFormat &m)" << std::endl;
 	generate_marshaling("DecodeNamedValue", true);
+
+	if (m_is_message)
+	{
+		stream << "bbox::enc::MsgTypeLibrary::Registration<"
+			<< name << ">" << std::endl;
+		stream << "    " << name << "::g_msg_registration(\""
+			<< GetNamespace()->GetName().ToString() << "::"
+			<< name << "\");" << std::endl;
+		stream << std::endl;
+	}
 
 	GenerateCppNamespaceClose(stream);
 

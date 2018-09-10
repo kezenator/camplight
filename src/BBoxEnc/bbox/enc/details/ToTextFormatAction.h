@@ -140,6 +140,24 @@ namespace bbox
                 }
             };
 
+			template <>
+			struct ToTextFormatAction<MarshalStrategy::AsMsgPtr, MsgAnyPtr>
+			{
+				static void Impl(ToTextFormat &m, const MsgAnyPtr &value)
+				{
+					m.SetMsgAnyPtrValue(value);
+				}
+			};
+
+			template <typename Type>
+			struct ToTextFormatAction<MarshalStrategy::AsMsgPtr, MsgPtr<Type>>
+			{
+				static void Impl(ToTextFormat &m, const MsgPtr<Type> &value)
+				{
+					m.SetMsgAnyPtrValue(value);
+				}
+			};
+
         } // namespace bbox:enc::details
     } // namespace bbox::enc
 } // namespace bbox

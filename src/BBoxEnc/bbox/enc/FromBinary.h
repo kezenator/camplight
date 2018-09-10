@@ -173,6 +173,8 @@ namespace bbox
             void ReadIntByType(int32_t &val) { val = int32_t(ReadUint32()); }
             void ReadIntByType(int64_t &val) { val = int64_t(ReadUint64()); }
 
+			MsgAnyPtr ReadMsgAnyPtr();
+
             template <typename Type>
             void Read(Type &val)
             {

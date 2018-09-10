@@ -24,7 +24,7 @@ class Struct: public Type
 private:
 	friend class Compiler;
 
-	Struct(const Namespace::ptr &ns_ptr, const Token &name);
+	Struct(const Namespace::ptr &ns_ptr, const Token &name, bool is_message);
 
 public:
 	using ptr = std::shared_ptr<Struct>;
@@ -46,6 +46,7 @@ private:
 		TypeInstance::ptr instance;
 	};
 
+	bool m_is_message;
 	std::vector<Field> m_fields;
 };
 

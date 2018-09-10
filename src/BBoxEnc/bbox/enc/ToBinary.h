@@ -183,6 +183,8 @@ namespace bbox
             void WriteByteVector(const std::vector<uint8_t> &vec);
             void WriteBool(const bool &val) { WriteUint8(val ? 0x01 : 0x00); }
 
+			void WriteMsgAnyPtr(const MsgAnyPtr &val);
+
             void WriteIntByType(const uint8_t &val) { WriteUint8(val); }
             void WriteIntByType(const uint16_t &val) { WriteUint16(val); }
             void WriteIntByType(const uint32_t &val) { WriteUint32(val); }

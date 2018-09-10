@@ -45,6 +45,8 @@ const char *Token::c_str(E_TYPE type)
 		return "keyword \"namespace\"";
 	case KEYWORD_STRUCT:
 		return "keyword \"struct\"";
+	case KEYWORD_MESSAGE:
+		return "keyword \"message\"";
 	case KEYWORD_ENUM:
 		return "keyword \"enum\"";
 	case UNEXPECTED_CHARACTER:
@@ -71,6 +73,7 @@ std::string Token::GetDescription() const
 	case COMMA:
 	case KEYWORD_NAMESPACE:
 	case KEYWORD_STRUCT:
+	case KEYWORD_MESSAGE:
 	case KEYWORD_ENUM:
 	case UNTERMINATED_STRING_LITERAL:
 		// Just the type describes the contents

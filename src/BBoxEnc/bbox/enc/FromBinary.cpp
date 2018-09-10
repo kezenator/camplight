@@ -123,5 +123,26 @@ namespace bbox
             return size_t(size);
         }
 
+		MsgAnyPtr FromBinary::ReadMsgAnyPtr()
+		{
+			std::string type_name = ReadString();
+
+			if (type_name.empty())
+				return MsgAnyPtr();
+
+			MsgType type = MsgTypeLibrary::FindByName(type_name);
+			if (!type)
+			{
+				SetError(bbox::Format("Unknown MsgType \"%s\"", type_name));
+				return MsgAnyPtr();
+			}
+
+			MsgAnyPtr result = type.CreateNewObject();
+
+			result.m_value->DecodeContents(*this);
+
+			return result;
+		}
+
     } // namespace bbox::enc
 } // namespace bbox

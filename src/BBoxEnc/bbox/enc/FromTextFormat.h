@@ -105,6 +105,11 @@ namespace bbox
              */
             virtual std::string DecodeStringValue() = 0;
 
+			/**
+			 * Decodes a MsgAnyPtr object.
+			 */
+			MsgAnyPtr DecodeMsgAnyPtr();
+
             /**
              * Ensures there is no decoded data left.
              */
