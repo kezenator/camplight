@@ -2,7 +2,7 @@ namespace camplight.api
 {
     export class GetLedsResponse
     {
-        static type: bbox.enc.Type = bbox.enc.TypeLibrary.simpleStructure("camplight::api::GetLedsResponse", GetLedsResponse)
+        static TYPE: bbox.enc.Type = bbox.enc.TypeLibrary.simpleStructure("camplight::api::GetLedsResponse", GetLedsResponse)
             .addMember("width", "uint32_t")
             .addMember("height", "uint32_t")
             .addMember("main_leds", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"))

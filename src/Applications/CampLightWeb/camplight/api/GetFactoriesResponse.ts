@@ -2,7 +2,7 @@ namespace camplight.api
 {
     export class GetFactoriesResponse
     {
-        static type: bbox.enc.Type = bbox.enc.TypeLibrary.simpleStructure("camplight::api::GetFactoriesResponse", GetFactoriesResponse)
+        static TYPE: bbox.enc.Type = bbox.enc.TypeLibrary.simpleStructure("camplight::api::GetFactoriesResponse", GetFactoriesResponse)
             .addMember("sequences", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"))
             .addMember("patterns", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"))
             .addMember("transitions", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"));
