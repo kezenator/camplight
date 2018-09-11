@@ -2,9 +2,8 @@
 /src/.vs
 /src/build
 x64
-Debug
-Release
 bin
+obj
 /src/Applications/CampLight/camplight/Resources.cpp
 /src/Applications/CampLight/camplight/Resources.h
 /src/Applications/CampLightWeb/app.js.map
