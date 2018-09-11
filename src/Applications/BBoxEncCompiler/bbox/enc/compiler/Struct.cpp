@@ -104,7 +104,6 @@ std::string Struct::GenerateCppHeader() const
 	if (m_is_message)
 	{
 		stream << std::endl;
-		stream << "private:" << std::endl;
 		stream << "    static bbox::enc::MsgTypeLibrary::Registration<"
 			<< name << "> g_msg_registration;" << std::endl;
 	}
@@ -192,6 +191,21 @@ std::string Struct::GenerateTypescript() const
 
 	const std::string_view name = GetName().GetContents();
 
+	{
+		std::set<std::string> references;
+
+		for (const Field &field : m_fields)
+		{
+			field.instance->AddTypescriptReferences(references);
+		}
+
+		for (const auto &ref : references)
+			stream << ref << std::endl;
+
+		if (!references.empty())
+			stream << std::endl;
+	}
+
 	stream << "namespace ";
 	{
 		bool first = true;
@@ -208,16 +222,21 @@ std::string Struct::GenerateTypescript() const
 		stream << std::endl;
 	}
 	stream << '{' << std::endl;
-	stream << "    export class " << name << std::endl;
+	stream << "    export class " << name;
+	if (m_is_message)
+	{
+		stream << " extends bbox.enc.MsgAnyPtr";
+	}
+	stream << std::endl;
 	stream << "    {" << std::endl;
-	stream << "        static type: bbox.enc.Type = bbox.enc.TypeLibrary.simpleStructure(\""
+	stream << "        static TYPE: bbox.enc.Type = bbox.enc.TypeLibrary.simpleStructure(\""
 		<< GetNamespace()->GetName().ToString() << "::" << name << "\", "
 		<< name << ')' << std::endl;
 	for (const Field &field : m_fields)
 	{
 		stream << "            .addMember(\""
-			<< field.name.GetContents() << "\", \""
-			<< field.instance->GetTypescriptTypeName() << "\")" << std::endl;
+			<< field.name.GetContents() << "\", "
+			<< field.instance->GetTypescriptTypeLibraryConstructor() << ')' << std::endl;
 	}
 	stream << "            ;" << std::endl;
 	stream << std::endl;
@@ -229,6 +248,10 @@ std::string Struct::GenerateTypescript() const
 	}
 	stream << "        constructor()" << std::endl;
 	stream << "        {" << std::endl;
+	if (m_is_message)
+	{
+		stream << "            super(" << name << ".TYPE);" << std::endl;
+	}
 	for (const Field &field : m_fields)
 		stream << "            this." << field.name.GetContents() << " = " << field.instance->GetTypescriptDefaultValue() << ';' << std::endl;
 	stream << "        }" << std::endl;

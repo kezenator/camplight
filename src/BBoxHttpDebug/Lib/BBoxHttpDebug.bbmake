@@ -6,15 +6,22 @@ reference("BBoxEnc");
 
 tool_reference("ResourceBuilder");
 
+if (platform() == "Win32") then
+    tool_reference("BBoxHttpDebugWebsite");
+end
+
 include(".");
 
 sources(find_recursive("*.cpp"), "bbox/http/debug/Resources.cpp");
 headers(find_recursive("*.h"), "bbox/http/debug/Resources.h");
 
-resources(find_recursive("bbox/http/debug/resources/*.*"));
+resources(
+    "../Web/app.js",
+    "../Web/app.css",
+    "../Web/index.html");
 
 custom_build(
     "ResourceBuilder",
-    find_recursive("bbox/http/debug/resources/*.*"),
+    { "../Web/app.js", "../Web/app.css", "../Web/index.html"},
     { "bbox/http/debug/Resources.cpp", "bbox/http/debug/Resources.h" },
-    "-n \"bbox::http::debug\" -r \"bbox/http/debug/resources\"");
+    "-n \"bbox::http::debug\" -r \"../Web\" -a \"debug/\"");

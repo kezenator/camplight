@@ -68,6 +68,7 @@ namespace bbox.enc
             this.by_name = new ds.Map<string, Type>();
 
             this.addType(new details.StringType(this));
+            this.addType(new details.BooleanType(this));
             this.addType(new details.IntType(this, "uint8_t", 0, 255));
             this.addType(new details.IntType(this, "uint16_t", 0, 65535));
             this.addType(new details.IntType(this, "uint32_t", 0, 4294967295));

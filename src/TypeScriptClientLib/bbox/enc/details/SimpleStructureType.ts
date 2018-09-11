@@ -12,26 +12,24 @@ namespace bbox.enc.details
 
         protected abstract constructDefaultValue(): any;
 
-        public addMemberByType(member_name: string, member_type: Type): SimpleStructureType
+        public addMember(member_name: string, type: string | Type): SimpleStructureType
         {
-            if (this.members.has(member_name))
+            var type_obj: Type;
+
+            if (typeof(type) === 'string')
+                type_obj = this.getTypeLibrary().findType(type);
+            else
+                type_obj = type;
+
+            if (type_obj)
             {
-                console.assert(false, "bbox.enc.Type " + this.getName() + " already has member with name " + member_name);
-                return this;
-            }
+                if (this.members.has(member_name))
+                {
+                    console.assert(false, "bbox.enc.Type " + this.getName() + " already has member with name " + member_name);
+                    return this;
+                }
 
-            this.members.set(member_name, member_type);
-
-            return this;
-        }
-
-        public addMember(member_name: string, type_name: string): SimpleStructureType
-        {
-            var type = this.getTypeLibrary().findType(type_name);
-
-            if (type)
-            {
-                this.addMemberByType(member_name, type);
+                this.members.set(member_name, type_obj);
             }
 
             return this;

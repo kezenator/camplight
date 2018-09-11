@@ -2,10 +2,10 @@ namespace bbox.http.debug.msgs
 {
     export class QueryResponseChild
     {
-        static type: bbox.enc.Type = bbox.enc.TypeLibrary.simpleStructure("bbox::http::debug::msgs::QueryResponseChild", QueryResponseChild)
-            .addMember("name", "string")
-            .addMember("path", "string")
-            .addMember("short_description", "string")
+        static TYPE: bbox.enc.Type = bbox.enc.TypeLibrary.simpleStructure("bbox::http::debug::msgs::QueryResponseChild", QueryResponseChild)
+            .addMember("name", "std::string")
+            .addMember("path", "std::string")
+            .addMember("short_description", "std::string")
             ;
 
         public name: string;

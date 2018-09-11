@@ -19,6 +19,12 @@ namespace bbox::http::debug::msgs
         std::vector<QueryResponseEntry> entries;
     };
     
+    message EnableRequest
+    {
+        bool enabled;
+        std::vector<std::string> debug_enables;
+    };
+    
     struct QueryResponseEntry
     {
         std::string path;

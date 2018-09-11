@@ -43,7 +43,7 @@ private:
 	void RegisterNamespace(const std::shared_ptr<Namespace> &new_ptr);
 	void RegisterType(const std::shared_ptr<Type> &type);
 
-	struct StringTypeInstance;
+	struct SimpleTypeInstance;
 	struct VectorTypeInstance;
 
 	ErrorList &m_errors;

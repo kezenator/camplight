@@ -8,13 +8,14 @@
 #include <bbox/http/Response.h>
 #include <bbox/http/ResourceFileSet.h>
 #include <bbox/http/server/HttpServer.h>
-#include <bbox/http/server/Connection.h>
+#include <bbox/http/server/details/Connection.h>
 
 #include <bbox/Assert.h>
 #include <bbox/FromString.h>
 #include <bbox/Format.h>
 
 #include <boost/beast/version.hpp>
+#include <boost/beast/websocket.hpp>
 
 #ifdef _DEBUG
 #include <bbox/FileUtils.h>
@@ -26,7 +27,7 @@ namespace bbox {
 
         Request::Pimpl::Pimpl(
 						server::HttpServer &server,
-						server::Connection *connection_ptr,
+						server::details::Connection *connection_ptr,
 						RequestPtr &&request_ptr)
             : m_server(server)
             , m_connection_ptr(connection_ptr)
@@ -58,7 +59,7 @@ namespace bbox {
         }
 
         Request::Request(server::HttpServer &server,
-                         server::Connection *connection_ptr,
+                         server::details::Connection *connection_ptr,
 						 RequestPtr &&request_ptr)
             : m_pimpl_ptr(std::make_shared<Pimpl>(server, connection_ptr, std::move(request_ptr)))
         {
@@ -174,6 +175,33 @@ namespace bbox {
 			BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
 			return m_pimpl_ptr->m_request_ptr->method_string().to_string();
+		}
+
+		bool Request::CheckIsWebSocketUpgradeOrRespondWithError(const std::string &protocol)
+		{
+			BBOX_ASSERT(*this);
+			BBOX_ASSERT(m_pimpl_ptr->NotHandled());
+
+			if (!boost::beast::websocket::is_upgrade(*m_pimpl_ptr->m_request_ptr))
+			{
+				RespondWithBadRequestError("WebSocket Upgrade request expected");
+				return false;
+			}
+
+			auto it = m_pimpl_ptr->m_request_ptr->find("Sec-WebSocket-Protocol");
+			if (it == m_pimpl_ptr->m_request_ptr->end())
+			{
+				RespondWithBadRequestError("WebSocket \"Sec-WebSocket-Protocol\" header expected");
+				return false;
+			}
+
+			if (protocol != it->value())
+			{
+				RespondWithBadRequestError(bbox::Format("Only supports \"Sec-WebSocket-Protocol\" header \"%s\"", protocol));
+				return false;
+			}
+
+			return true;
 		}
 
         std::string Request::GetContent()
@@ -297,7 +325,7 @@ namespace bbox {
                 .Send();
         }
 
-        void Request::RespondWithBadRequestError()
+        void Request::RespondWithBadRequestError(const std::string &error)
         {
             BBOX_ASSERT(*this);
             BBOX_ASSERT(m_pimpl_ptr->NotHandled());
@@ -305,7 +333,7 @@ namespace bbox {
             Response(*this)
                 .SetResponse_BadRequest()
                 .SetHeader_ContentType("text/plain")
-                .SetContent("400 Bad Request")
+                .SetContent(bbox::Format("400 Bad Request: %s", error))
                 .Send();
         }
 

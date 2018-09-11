@@ -38,7 +38,9 @@ public:
 	virtual bool Validate(ErrorList &errors) = 0;
 	virtual void GenerateOutputs(std::map<std::string, std::string> &outputs, const std::string &path, Namespace::Language language) const = 0;
 	std::string GetTypescriptTypeName() const override;
+	std::string GetTypescriptTypeLibraryConstructor() const override;
 	std::string GetTypescriptDefaultValue() const override;
+	void AddTypescriptReferences(std::set<std::string> &references) const override;
 	void AddCppHeaderIncludes(std::set<std::string> &includes) const override;
 
 protected:

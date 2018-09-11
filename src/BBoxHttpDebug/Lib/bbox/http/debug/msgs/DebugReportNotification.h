@@ -38,7 +38,6 @@ public:
 
     std::string contents_html;
 
-private:
     static bbox::enc::MsgTypeLibrary::Registration<DebugReportNotification> g_msg_registration;
 };
 

@@ -117,7 +117,7 @@ namespace bbox.enc
             }
         }
 
-        decodeTypedValue(type_name: string): void
+        decodeTypedValue(type_name: string): any
         {
             if (this.has_error)
             {

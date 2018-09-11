@@ -5,7 +5,8 @@
 */
 
 #include <bbox/http/server/HttpServer.h>
-#include <bbox/http/server/Connection.h>
+#include <bbox/http/server/details/Connection.h>
+#include <bbox/http/server/details/WebSocketConnection.h>
 #include <bbox/http/server/RequestHandler.h>
 #include <bbox/Assert.h>
 #include <bbox/DebugOutput.h>
@@ -151,7 +152,7 @@ namespace bbox {
 					}
 					else
 					{
-						auto ptr = std::unique_ptr<Connection>(new Connection(m_server, std::move(m_accepted_socket), m_handler));
+						auto ptr = std::unique_ptr<details::Connection>(new details::Connection(m_server, std::move(m_accepted_socket), m_handler));
 						auto key = ptr.get();
 
 						m_server.m_connections[key] = std::move(ptr);
@@ -202,7 +203,8 @@ namespace bbox {
             {
 				if ((GetLocalRunLevel() == rt::RunLevel::STOPPING)
 					&& m_listeners.empty()
-					&& m_connections.empty())
+					&& m_connections.empty()
+					&& m_web_socket_connections.empty())
                 {
                     NotifyStopped();
                     RequestStopAllChildren();
@@ -232,8 +234,17 @@ namespace bbox {
 				out.Format("Num connections: %d\n", m_connections.size());
 				for (const auto &entry : m_connections)
 				{
-					const Connection *connection_ptr = entry.first;
+					const details::Connection *connection_ptr = entry.first;
 
+					out.Format("    Connection: %s => %s (%s)\n",
+						connection_ptr->GetRemoteEndpoint().ToString(),
+						connection_ptr->GetLocalEndpoint().ToString(),
+						connection_ptr->GetState());
+				}
+
+				out.Format("Num web sockets: %d\n", m_web_socket_connections.size());
+				for (const details::WebSocketConnection *connection_ptr : m_web_socket_connections)
+				{
 					out.Format("    Connection: %s => %s (%s)\n",
 						connection_ptr->GetRemoteEndpoint().ToString(),
 						connection_ptr->GetLocalEndpoint().ToString(),
@@ -265,20 +276,45 @@ namespace bbox {
 				});
 			}
 
-			void HttpServer::ConnectionClosed(Connection *connection)
+			void HttpServer::ConnectionClosed(details::Connection *connection)
 			{
 				GetProactor().Post([=]()
-				{
-					auto erase_result = m_connections.erase(connection);
-
-					BBOX_ASSERT(erase_result == 1);
-
-					if (m_connections.empty()
-						&& (GetLocalRunLevel() == rt::RunLevel::STOPPING))
 					{
-						m_check_shutdown_work.Schedule();
-					}
-				});
+						auto erase_result = m_connections.erase(connection);
+
+						BBOX_ASSERT(erase_result == 1);
+
+						if (m_connections.empty()
+							&& (GetLocalRunLevel() == rt::RunLevel::STOPPING))
+						{
+							m_check_shutdown_work.Schedule();
+						}
+					});
+			}
+
+			void HttpServer::WebSocketCreated(details::WebSocketConnection *web_socket)
+			{
+				auto insert_result = m_web_socket_connections.insert(web_socket);
+
+				BBOX_ASSERT(insert_result.second);
+			}
+
+			void HttpServer::WebSocketClosed(details::WebSocketConnection *web_socket)
+			{
+				GetProactor().Post([=]()
+					{
+						auto erase_result = m_web_socket_connections.erase(web_socket);
+
+						BBOX_ASSERT(erase_result == 1);
+
+						delete web_socket;
+
+						if (m_web_socket_connections.empty()
+							&& (GetLocalRunLevel() == rt::RunLevel::STOPPING))
+						{
+							m_check_shutdown_work.Schedule();
+						}
+					});
 			}
 
             bool HttpServer::AddServer(const rt::net::TcpEndpoint &tcp_endpoint,

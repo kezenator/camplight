@@ -1,10 +1,10 @@
 namespace bbox.http.debug.msgs
 {
-    export class QueryRequest
+    export class QueryRequest extends bbox.enc.MsgAnyPtr
     {
-        static type: bbox.enc.Type = bbox.enc.TypeLibrary.simpleStructure("bbox::http::debug::msgs::QueryRequest", QueryRequest)
-            .addMember("request_id", "string")
-            .addMember("query", "string")
+        static TYPE: bbox.enc.Type = bbox.enc.TypeLibrary.simpleStructure("bbox::http::debug::msgs::QueryRequest", QueryRequest)
+            .addMember("request_id", "std::string")
+            .addMember("query", "std::string")
             ;
 
         public request_id: string;
@@ -12,6 +12,7 @@ namespace bbox.http.debug.msgs
 
         constructor()
         {
+            super(QueryRequest.TYPE);
             this.request_id = "";
             this.query = "";
         }

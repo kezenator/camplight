@@ -5,8 +5,8 @@ namespace camplight.api
         static type: bbox.enc.Type = bbox.enc.TypeLibrary.simpleStructure("camplight::api::GetLedsResponse", GetLedsResponse)
             .addMember("width", "uint32_t")
             .addMember("height", "uint32_t")
-            .addMemberByType("main_leds", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"))
-            .addMemberByType("top_leds", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"));
+            .addMember("main_leds", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"))
+            .addMember("top_leds", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"));
 
         public width: number;
         public height: number;

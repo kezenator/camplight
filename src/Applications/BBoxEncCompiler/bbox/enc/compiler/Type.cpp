@@ -22,12 +22,45 @@ Type::~Type()
 
 std::string Type::GetTypescriptTypeName() const
 {
-	return std::string(m_name.GetContents());
+	std::stringstream stream;
+
+	for (const Token &tok : GetNamespace()->GetName().GetTokens())
+		stream << tok.GetContents() << '.';
+	stream << m_name.GetContents();
+
+	return stream.str();
+}
+
+std::string Type::GetTypescriptTypeLibraryConstructor() const
+{
+	std::stringstream stream;
+
+	stream << '\"';
+	for (const Token &tok : GetNamespace()->GetName().GetTokens())
+		stream << tok.GetContents() << "::";
+	stream << m_name.GetContents();
+	stream << '\"';
+
+	return stream.str();
 }
 
 std::string Type::GetTypescriptDefaultValue() const
 {
-	return bbox::Format("new %s()", m_name.GetContents());
+	std::stringstream stream;
+
+	stream << "new ";
+	for (const Token &tok : GetNamespace()->GetName().GetTokens())
+		stream << tok.GetContents() << '.';
+	stream << m_name.GetContents();
+	stream << "()";
+
+	return stream.str();
+}
+
+void Type::AddTypescriptReferences(std::set<std::string> &references) const
+{
+	// TODO - need to know relative paths...
+	references.insert(bbox::Format("/// <reference path=\"%s.ts\" />", m_name.GetContents()));
 }
 
 void Type::AddCppHeaderIncludes(std::set<std::string> &includes) const

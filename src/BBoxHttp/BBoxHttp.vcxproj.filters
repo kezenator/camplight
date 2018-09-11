@@ -13,6 +13,9 @@
     <Filter Include="bbox\http\server">
       <UniqueIdentifier>{41FCA30A-B339-5E49-A17E-65235337BE2F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="bbox\http\server\details">
+      <UniqueIdentifier>{C8DE4743-3BFB-53A9-8B10-2840893BF688}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bbox\http\Request.cpp">
@@ -36,14 +39,20 @@
     <ClCompile Include="bbox\http\client\HttpClient.cpp">
       <Filter>bbox\http\client</Filter>
     </ClCompile>
-    <ClCompile Include="bbox\http\server\Connection.cpp">
-      <Filter>bbox\http\server</Filter>
-    </ClCompile>
     <ClCompile Include="bbox\http\server\HttpServer.cpp">
       <Filter>bbox\http\server</Filter>
     </ClCompile>
     <ClCompile Include="bbox\http\server\RequestHandler.cpp">
       <Filter>bbox\http\server</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\server\ServerWebSocket.cpp">
+      <Filter>bbox\http\server</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\server\details\Connection.cpp">
+      <Filter>bbox\http\server\details</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\server\details\WebSocketConnection.cpp">
+      <Filter>bbox\http\server\details</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -68,14 +77,20 @@
     <ClInclude Include="bbox\http\client\HttpClient.h">
       <Filter>bbox\http\client</Filter>
     </ClInclude>
-    <ClInclude Include="bbox\http\server\Connection.h">
-      <Filter>bbox\http\server</Filter>
-    </ClInclude>
     <ClInclude Include="bbox\http\server\HttpServer.h">
       <Filter>bbox\http\server</Filter>
     </ClInclude>
     <ClInclude Include="bbox\http\server\RequestHandler.h">
       <Filter>bbox\http\server</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\server\ServerWebSocket.h">
+      <Filter>bbox\http\server</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\server\details\Connection.h">
+      <Filter>bbox\http\server\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\server\details\WebSocketConnection.h">
+      <Filter>bbox\http\server\details</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

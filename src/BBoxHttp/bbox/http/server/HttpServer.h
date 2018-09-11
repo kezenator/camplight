@@ -15,71 +15,78 @@
 #include <bbox/rt/OneShotWork.h>
 
 namespace bbox {
-    namespace http {
+namespace http {
 
-        // Forward declarations
-		class Request;
-        class Response;
+// Forward declarations
+class Request;
+class Response;
 
-        namespace server {
+namespace server {
 
-            // Forward declarations
-			class Connection;
-			class RequestHandler;
+// Forward declarations
+class RequestHandler;
+namespace details {
+class Connection;
+class WebSocketConnection;
+}
 
-            /**
-             * Implements a HTTP server.
-             */
-            class HttpServer : public rt::Service
-            {
-                friend class ::bbox::http::server::RequestHandler;
-				friend class ::bbox::http::server::Connection;
+/**
+ * Implements a HTTP server.
+ */
+class HttpServer : public rt::Service
+{
+	friend class ::bbox::http::server::RequestHandler;
+	friend class ::bbox::http::server::details::Connection;
+	friend class ::bbox::http::server::details::WebSocketConnection;
 
-            public:
+public:
 
-                using HandlerFunc = std::function<void(Request &request)>;
+	using HandlerFunc = std::function<void(Request &request)>;
 
-                HttpServer(const std::string &name, rt::Service &parent);
-                virtual ~HttpServer();
+	HttpServer(const std::string &name, rt::Service &parent);
+	virtual ~HttpServer();
 
-                bool AddServer(const rt::net::TcpEndpoint &tcp_endpoint,
-                               HandlerFunc default_handler = HandlerFunc());
+	bool AddServer(const rt::net::TcpEndpoint &tcp_endpoint,
+		HandlerFunc default_handler = HandlerFunc());
 
-                unsigned short AddUnassignedPortServer(const rt::net::IpAddress &ip_address,
-                                                       HandlerFunc default_handler = HandlerFunc());
+	unsigned short AddUnassignedPortServer(const rt::net::IpAddress &ip_address,
+		HandlerFunc default_handler = HandlerFunc());
 
-                void TryAndOpenWebBrowserToServer(const std::string &path = "/");
+	void TryAndOpenWebBrowserToServer(const std::string &path = "/");
 
-            private:
-				struct RequestHandlerOrder
-				{
-					bool operator()(RequestHandler *a, RequestHandler *b) const;
-				};
+private:
+	struct RequestHandlerOrder
+	{
+		bool operator()(RequestHandler *a, RequestHandler *b) const;
+	};
 
-				struct Listener;
-				
-				void HandleStarting() override;
-                void HandleStopping() override;
-				void PrintState(bbox::DebugOutput &out) const override;
+	struct Listener;
 
-                void CheckShutdown();
+	void HandleStarting() override;
+	void HandleStopping() override;
+	void PrintState(bbox::DebugOutput &out) const override;
 
-                void ListenerStopped(Listener *listener);
-				void ConnectionClosed(Connection *connection);
-                void HandleRequest(Request &&request, const HandlerFunc &server_handler);
+	void CheckShutdown();
 
-                rt::OneShotWork m_check_shutdown_work;
-				std::map<Listener *, std::unique_ptr<Listener>> m_listeners;
-				std::map<Connection *, std::unique_ptr<Connection>> m_connections;
-				uint64_t m_num_requests_received;
+	void ListenerStopped(Listener *listener);
+	void ConnectionClosed(details::Connection *connection);
+	void WebSocketCreated(details::WebSocketConnection *web_socket);
+	void WebSocketClosed(details::WebSocketConnection *web_socket);
+	void HandleRequest(Request &&request, const HandlerFunc &server_handler);
 
-                std::set<RequestHandler *, RequestHandlerOrder> m_request_handlers;
+	rt::OneShotWork m_check_shutdown_work;
+	std::map<Listener *, std::unique_ptr<Listener>> m_listeners;
+	std::map<details::Connection *, std::unique_ptr<details::Connection>> m_connections;
+	std::set<details::WebSocketConnection *> m_web_socket_connections;
+	uint64_t m_num_requests_received;
 
-                bbox::rt::DebugEnable m_default_debug_enable;
-            };
+	std::set<RequestHandler *, RequestHandlerOrder> m_request_handlers;
 
-        } // namespace bbox::http::server
-    } // namespace bbox::http
+	bbox::rt::DebugEnable m_default_debug_enable;
+};
+
+} // namespace bbox::http::server
+} // namespace bbox::http
 } // namespace bbox
 
 #endif // __BBOX__RT__HTTP__SERVER__HTTP_SERVER_H__

@@ -206,7 +206,7 @@ private:
 
         if (from_xml.HasError())
         {
-            request.RespondWithBadRequestError();
+            request.RespondWithBadRequestError(from_xml.GetErrorString());
             return;
         }
 

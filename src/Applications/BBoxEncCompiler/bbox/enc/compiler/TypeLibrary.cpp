@@ -12,19 +12,40 @@ namespace bbox {
 namespace enc {
 namespace compiler {
 
-struct TypeLibrary::StringTypeInstance : public TypeInstance
+struct TypeLibrary::SimpleTypeInstance : public TypeInstance
 {
+	std::string m_typescript_type;
+	std::string m_typescript_lib_constructor;
+	std::string m_typescript_default_value;
+
+	SimpleTypeInstance(std::string &&typescript_type, std::string &&typescript_lib_constructor, std::string &&typescript_default_value)
+		: m_typescript_type(std::move(typescript_type))
+		, m_typescript_lib_constructor(std::move(typescript_lib_constructor))
+		, m_typescript_default_value(std::move(typescript_default_value))
+	{
+	}
+		
 	std::string GetTypescriptTypeName() const override
 	{
-		return "string";
+		return m_typescript_type;
 	}
 
-	std::string GetTypescriptDefaultValue() const
+	std::string GetTypescriptTypeLibraryConstructor() const override
 	{
-		return "\"\"";
+		return m_typescript_lib_constructor;
 	}
 
-	void AddCppHeaderIncludes(std::set<std::string> & /*includes*/) const
+	std::string GetTypescriptDefaultValue() const override
+	{
+		return m_typescript_default_value;
+	}
+
+	void AddTypescriptReferences(std::set<std::string> & /*references*/) const override
+	{
+		// None
+	}
+
+	void AddCppHeaderIncludes(std::set<std::string> & /*includes*/) const override
 	{
 		// None
 	}
@@ -41,15 +62,25 @@ struct TypeLibrary::VectorTypeInstance : public TypeInstance
 
 	std::string GetTypescriptTypeName() const override
 	{
-		return m_param_type->GetTypescriptTypeName() + "[]";
+		return bbox::Format("bbox.ds.Deque<%s>", m_param_type->GetTypescriptTypeName());
 	}
 
-	std::string GetTypescriptDefaultValue() const
+	std::string GetTypescriptTypeLibraryConstructor() const override
 	{
-		return "new Array(0)";
+		return bbox::Format("bbox.enc.TypeLibrary.stdVectorAsDeque(%s)", m_param_type->GetTypescriptTypeLibraryConstructor());
 	}
 
-	void AddCppHeaderIncludes(std::set<std::string> &includes) const
+	std::string GetTypescriptDefaultValue() const override
+	{
+		return bbox::Format("new bbox.ds.Deque<%s>()", m_param_type->GetTypescriptTypeName());
+	}
+
+	void AddTypescriptReferences(std::set<std::string> &references) const override
+	{
+		m_param_type->AddTypescriptReferences(references);
+	}
+
+	void AddCppHeaderIncludes(std::set<std::string> &includes) const override
 	{
 		m_param_type->AddCppHeaderIncludes(includes);
 	}
@@ -101,7 +132,18 @@ bool TypeLibrary::ResolveType(const TypeName &type_name, TypeInstance::ptr &resu
 			return false;
 		}
 
-		result = std::make_shared<StringTypeInstance>();
+		result = std::make_shared<SimpleTypeInstance>("string", "\"std::string\"", "\"\"");
+		return true;
+	}
+	else if (base_name == "bool")
+	{
+		if (type_name.HasTemplateParams())
+		{
+			m_errors.AddError(type_name.GetStartToken(), "Type \"bool\" is not a template");
+			return false;
+		}
+
+		result = std::make_shared<SimpleTypeInstance>("boolean", "\"bool\"", "false");
 		return true;
 	}
 	else if (base_name == "std::vector")

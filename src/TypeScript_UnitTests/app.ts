@@ -3,7 +3,7 @@
     static type = bbox.enc.TypeLibrary.simpleStructure("SimpleType", SimpleType)
         .addMember("name", "std::string")
         .addMember("id", "uint32_t")
-        .addMemberByType("list", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"));
+        .addMember("list", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"));
 
     constructor()
     {

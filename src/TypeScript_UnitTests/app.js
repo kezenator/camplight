@@ -257,7 +257,7 @@ var bbox;
                     return null;
                 }
                 var enc = new bbox.enc.ToXml("state");
-                this.m_type_prototype.type.toXml(state, enc);
+                this.m_type_prototype.TYPE.toXml(state, enc);
                 if (enc.hasError()) {
                     console.log("Could not encode state: " + enc.getErrorString());
                     return null;
@@ -272,7 +272,7 @@ var bbox;
                     return null;
                 }
                 var enc = new bbox.enc.FromXml(xml, "state");
-                var state = this.m_type_prototype.type.fromXml(enc);
+                var state = this.m_type_prototype.TYPE.fromXml(enc);
                 if (enc.hasError()) {
                     console.log("Could nto decode state: " + enc.getErrorString());
                     return null;
@@ -523,8 +523,8 @@ var bbox;
                 var _this = this;
                 this.m_url = url;
                 this.m_method = method;
-                this.m_input_type = input_type.type;
-                this.m_output_type = output_type.type;
+                this.m_input_type = input_type.TYPE;
+                this.m_output_type = output_type.TYPE;
                 this.m_output = null;
                 this.m_handler = handler;
                 this.m_is_complete = false;
@@ -595,6 +595,101 @@ var bbox;
 })(bbox || (bbox = {}));
 var bbox;
 (function (bbox) {
+    var net;
+    (function (net) {
+        var MessageWebSocket = /** @class */ (function () {
+            function MessageWebSocket(url, protocol, state_handler) {
+                var _this = this;
+                this.url = url;
+                this.protocol = protocol;
+                this.state_handler = state_handler;
+                this.msg_handlers = {};
+                this.is_open = false;
+                this.first_open_attempt = true;
+                this.reconnect_timer = new bbox.ui.Timer(function () { _this.reconnect(); });
+                this.reconnect_timer.startSingleShot(100);
+            }
+            MessageWebSocket.prototype.registerHandler = function (type, handler) {
+                this.msg_handlers[type.getName()] = handler;
+            };
+            MessageWebSocket.prototype.send = function (msg) {
+                var type = msg.getType();
+                var lib = type.getTypeLibrary();
+                var toXml = new bbox.enc.ToXml('message');
+                toXml.startObject();
+                toXml.startNamedValue('type');
+                toXml.encodeTypedValue(type.getName(), 'std::string');
+                toXml.endNamedValue();
+                toXml.startNamedValue('contents');
+                toXml.encodeTypedValue(msg, type.getName());
+                toXml.endNamedValue();
+                toXml.endObject();
+                console.assert(!toXml.hasError(), "MessageWebSocket: Send Error: " + toXml.getErrorString());
+                var raw_msg = toXml.getXmlString();
+                if (this.is_open) {
+                    this.websocket.send(raw_msg);
+                }
+            };
+            MessageWebSocket.prototype.reconnect = function () {
+                var _this = this;
+                this.websocket = new WebSocket(this.url, this.protocol);
+                this.websocket.onopen = function () { _this.updateState(true, ""); };
+                this.websocket.onclose = function (evt) { _this.updateState(false, "Cause: " + evt.code.toString()); };
+                this.websocket.onmessage = function (evt) { _this.handleMessage(evt); };
+            };
+            MessageWebSocket.prototype.updateState = function (open, error) {
+                if ((open != this.is_open)
+                    || this.first_open_attempt) {
+                    this.first_open_attempt = false;
+                    this.is_open = open;
+                    this.state_handler(open, error);
+                }
+                if (!open) {
+                    this.reconnect_timer.startSingleShot(10 * 1000);
+                }
+            };
+            MessageWebSocket.prototype.handleMessage = function (evt) {
+                if (typeof (evt.data) !== 'string') {
+                    // We only handle string messages
+                    this.updateState(false, "Received binary message");
+                    this.websocket.close();
+                }
+                else {
+                    var msg = null;
+                    var fromXml = new bbox.enc.FromXml(evt.data, 'message');
+                    fromXml.startObject();
+                    fromXml.startNamedValue('type');
+                    var type_name = (fromXml.decodeTypedValue('std::string'));
+                    fromXml.endNamedValue();
+                    if (!fromXml.hasError()) {
+                        var type = bbox.enc.TypeLibrary.findType(type_name);
+                        if (!type)
+                            fromXml.raiseError('Unknown type ' + type_name);
+                        else {
+                            fromXml.startNamedValue('contents');
+                            var msg = (fromXml.decodeTypedValue(type_name));
+                            fromXml.endNamedValue();
+                            fromXml.endObject();
+                            if (!(type_name in this.msg_handlers)) {
+                                fromXml.raiseError("No handler registered for message type " + type_name);
+                            }
+                        }
+                    }
+                    fromXml.checkComplete();
+                    console.assert(!fromXml.hasError(), fromXml.getErrorString());
+                    if (!fromXml.hasError()
+                        && (msg != null)) {
+                        this.msg_handlers[type_name](msg);
+                    }
+                }
+            };
+            return MessageWebSocket;
+        }());
+        net.MessageWebSocket = MessageWebSocket;
+    })(net = bbox.net || (bbox.net = {}));
+})(bbox || (bbox = {}));
+var bbox;
+(function (bbox) {
     var enc;
     (function (enc) {
         var Type = /** @class */ (function () {
@@ -611,6 +706,23 @@ var bbox;
             return Type;
         }());
         enc.Type = Type;
+    })(enc = bbox.enc || (bbox.enc = {}));
+})(bbox || (bbox = {}));
+var bbox;
+(function (bbox) {
+    var enc;
+    (function (enc) {
+        var MsgAnyPtr = /** @class */ (function () {
+            function MsgAnyPtr(type) {
+                this.type = type;
+            }
+            MsgAnyPtr.prototype.getType = function () {
+                return this.type;
+            };
+            return MsgAnyPtr;
+        }());
+        enc.MsgAnyPtr = MsgAnyPtr;
+        ;
     })(enc = bbox.enc || (bbox.enc = {}));
 })(bbox || (bbox = {}));
 var bbox;
@@ -1021,6 +1133,59 @@ var bbox;
     (function (enc) {
         var details;
         (function (details) {
+            var BooleanType = /** @class */ (function (_super) {
+                __extends(BooleanType, _super);
+                function BooleanType(lib) {
+                    return _super.call(this, lib, "bool") || this;
+                }
+                BooleanType.prototype.isValue = function () {
+                    return true;
+                };
+                BooleanType.prototype.toString = function (val, encoder) {
+                    if (typeof val != "boolean") {
+                        encoder.raiseError("Can't encode value of type \"" + typeof val + "\" as boolean");
+                        return;
+                    }
+                    encoder.append(JSON.stringify(val));
+                };
+                BooleanType.prototype.toXml = function (val, encoder) {
+                    if (typeof val != "boolean") {
+                        encoder.raiseError("Can't encode value of type \"" + typeof val + "\" as boolean");
+                        return;
+                    }
+                    encoder.setValue(val ? 'true' : 'false');
+                };
+                BooleanType.prototype.fromXml = function (decoder) {
+                    var str = decoder.getValue();
+                    if (decoder.hasError())
+                        return undefined;
+                    if (typeof str != "string") {
+                        decoder.raiseError("Can't decode value of type \"" + typeof str + "\" as boolean");
+                        return;
+                    }
+                    if (str == 'true') {
+                        return true;
+                    }
+                    else if (str == 'false') {
+                        return false;
+                    }
+                    else {
+                        decoder.raiseError("Can't decode string value \"" + str + "\" as boolean");
+                        return;
+                    }
+                };
+                return BooleanType;
+            }(enc.Type));
+            details.BooleanType = BooleanType;
+        })(details = enc.details || (enc.details = {}));
+    })(enc = bbox.enc || (bbox.enc = {}));
+})(bbox || (bbox = {}));
+var bbox;
+(function (bbox) {
+    var enc;
+    (function (enc) {
+        var details;
+        (function (details) {
             var IntType = /** @class */ (function (_super) {
                 __extends(IntType, _super);
                 function IntType(lib, name, min, max) {
@@ -1138,18 +1303,18 @@ var bbox;
                     _this.members = new bbox.ds.Map();
                     return _this;
                 }
-                SimpleStructureType.prototype.addMemberByType = function (member_name, member_type) {
-                    if (this.members.has(member_name)) {
-                        console.assert(false, "bbox.enc.Type " + this.getName() + " already has member with name " + member_name);
-                        return this;
-                    }
-                    this.members.set(member_name, member_type);
-                    return this;
-                };
-                SimpleStructureType.prototype.addMember = function (member_name, type_name) {
-                    var type = this.getTypeLibrary().findType(type_name);
-                    if (type) {
-                        this.addMemberByType(member_name, type);
+                SimpleStructureType.prototype.addMember = function (member_name, type) {
+                    var type_obj;
+                    if (typeof (type) === 'string')
+                        type_obj = this.getTypeLibrary().findType(type);
+                    else
+                        type_obj = type;
+                    if (type_obj) {
+                        if (this.members.has(member_name)) {
+                            console.assert(false, "bbox.enc.Type " + this.getName() + " already has member with name " + member_name);
+                            return this;
+                        }
+                        this.members.set(member_name, type_obj);
                     }
                     return this;
                 };
@@ -1319,6 +1484,7 @@ var bbox;
             function TypeLibrary() {
                 this.by_name = new bbox.ds.Map();
                 this.addType(new enc.details.StringType(this));
+                this.addType(new enc.details.BooleanType(this));
                 this.addType(new enc.details.IntType(this, "uint8_t", 0, 255));
                 this.addType(new enc.details.IntType(this, "uint16_t", 0, 65535));
                 this.addType(new enc.details.IntType(this, "uint32_t", 0, 4294967295));
@@ -1396,11 +1562,14 @@ var bbox;
 /// <reference path="bbox/ui/Pre.ts" />
 /// <reference path="bbox/net/AjaxRequest.ts" />
 /// <reference path="bbox/net/BboxRpcRequest.ts" />
+/// <reference path="bbox/net/MessageWebSocket.ts" />
 /// <reference path="bbox/enc/Type.ts" />
 /// <reference path="bbox/enc/TypePrototype.ts" />
+/// <reference path="bbox/enc/MsgAnyPtr.ts" />
 /// <reference path="bbox/enc/ToString.ts" />
 /// <reference path="bbox/enc/ToXml.ts" />
 /// <reference path="bbox/enc/FromXml.ts" />
+/// <reference path="bbox/enc/details/BooleanType.ts" />
 /// <reference path="bbox/enc/details/IntType.ts" />
 /// <reference path="bbox/enc/details/StringType.ts" />
 /// <reference path="bbox/enc/details/SimpleStructureType.ts" />
@@ -1415,7 +1584,7 @@ var SimpleType = /** @class */ (function () {
     SimpleType.type = bbox.enc.TypeLibrary.simpleStructure("SimpleType", SimpleType)
         .addMember("name", "std::string")
         .addMember("id", "uint32_t")
-        .addMemberByType("list", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"));
+        .addMember("list", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"));
     return SimpleType;
 }());
 var MyApplication = /** @class */ (function (_super) {

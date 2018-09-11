@@ -91,9 +91,11 @@
     <ClCompile Include="bbox\http\client\ClientRequest.cpp" />
     <ClCompile Include="bbox\http\client\ClientResponse.cpp" />
     <ClCompile Include="bbox\http\client\HttpClient.cpp" />
-    <ClCompile Include="bbox\http\server\Connection.cpp" />
     <ClCompile Include="bbox\http\server\HttpServer.cpp" />
     <ClCompile Include="bbox\http\server\RequestHandler.cpp" />
+    <ClCompile Include="bbox\http\server\ServerWebSocket.cpp" />
+    <ClCompile Include="bbox\http\server\details\Connection.cpp" />
+    <ClCompile Include="bbox\http\server\details\WebSocketConnection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bbox\http\Request.h" />
@@ -103,9 +105,11 @@
     <ClInclude Include="bbox\http\client\ClientRequest.h" />
     <ClInclude Include="bbox\http\client\ClientResponse.h" />
     <ClInclude Include="bbox\http\client\HttpClient.h" />
-    <ClInclude Include="bbox\http\server\Connection.h" />
     <ClInclude Include="bbox\http\server\HttpServer.h" />
     <ClInclude Include="bbox\http\server\RequestHandler.h" />
+    <ClInclude Include="bbox\http\server\ServerWebSocket.h" />
+    <ClInclude Include="bbox\http\server\details\Connection.h" />
+    <ClInclude Include="bbox\http\server\details\WebSocketConnection.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BBoxHttp.bbmake" />

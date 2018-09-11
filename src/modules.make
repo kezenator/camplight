@@ -553,9 +553,11 @@ SRCS_DIRECT_BBoxHttp := $(sort \
         BBoxHttp/bbox/http/client/ClientRequest.cpp \
         BBoxHttp/bbox/http/client/ClientResponse.cpp \
         BBoxHttp/bbox/http/client/HttpClient.cpp \
-        BBoxHttp/bbox/http/server/Connection.cpp \
         BBoxHttp/bbox/http/server/HttpServer.cpp \
         BBoxHttp/bbox/http/server/RequestHandler.cpp \
+        BBoxHttp/bbox/http/server/ServerWebSocket.cpp \
+        BBoxHttp/bbox/http/server/details/Connection.cpp \
+        BBoxHttp/bbox/http/server/details/WebSocketConnection.cpp \
     )
     # End SRCS_DIRECT_BBoxHttp
 
@@ -742,10 +744,8 @@ MODULES += BBoxHttpDebug
 SRCS_DIRECT_BBoxHttpDebug := $(sort \
         BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugWebsite.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp \
-        BBoxHttpDebug/Lib/bbox/http/debug/api/ChildEntry.cpp \
-        BBoxHttpDebug/Lib/bbox/http/debug/api/DebugReport.cpp \
-        BBoxHttpDebug/Lib/bbox/http/debug/api/QueryResultEntry.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/msgs/DebugReportNotification.cpp \
+        BBoxHttpDebug/Lib/bbox/http/debug/msgs/EnableRequest.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/msgs/QueryRequest.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/msgs/QueryResponse.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/msgs/QueryResponseChild.cpp \
@@ -772,8 +772,8 @@ INCS_RECURSIVE_BBoxHttpDebug := $(sort \
     )
     # End INCS_RECURSIVE_BBoxHttpDebug
 
-BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp BBoxHttpDebug/Lib/bbox/http/debug/Resources.h: build/resourcebuilder BBoxHttpDebug/Lib/bbox/http/debug/resources/debug/app.css BBoxHttpDebug/Lib/bbox/http/debug/resources/debug/app.js BBoxHttpDebug/Lib/bbox/http/debug/resources/debug/index.html
-	cd BBoxHttpDebug/Lib && ../../build/resourcebuilder -i "bbox/http/debug/resources/debug/app.css;bbox/http/debug/resources/debug/app.js;bbox/http/debug/resources/debug/index.html" -o "bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h" -n "bbox::http::debug" -r "bbox/http/debug/resources"
+BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp BBoxHttpDebug/Lib/bbox/http/debug/Resources.h: build/resourcebuilder BBoxHttpDebug/Lib/../Web/app.css BBoxHttpDebug/Lib/../Web/app.js BBoxHttpDebug/Lib/../Web/index.html
+	cd BBoxHttpDebug/Lib && ../../build/resourcebuilder -i "../Web/app.css;../Web/app.js;../Web/index.html" -o "bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h" -n "bbox::http::debug" -r "../Web" -a "debug/"
 
 # Project LibLeds (type StaticLibrary)
 

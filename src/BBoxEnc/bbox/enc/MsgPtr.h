@@ -43,6 +43,26 @@ public:
 		return MsgAnyPtr(m_value);
 	}
 
+	const Type &operator *() const
+	{
+		return m_value->value;
+	}
+
+	Type &operator *()
+	{
+		return m_value->value;
+	}
+
+	const Type *operator ->() const
+	{
+		return &m_value->value;
+	}
+
+	Type *operator ->()
+	{
+		return &m_value->value;
+	}
+
 	MsgType GetType() const
 	{
 		MsgType result;

@@ -80,6 +80,10 @@ public:
 		{
 			g_instance().Deregister(typeid(Type));
 		}
+
+		void EnsureRegistered()
+		{
+		}
 	};
 
 private:

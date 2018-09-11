@@ -16,8 +16,8 @@ namespace bbox.net
         {
             this.m_url = url;
             this.m_method = method;
-            this.m_input_type = input_type.type;
-            this.m_output_type = output_type.type;
+            this.m_input_type = input_type.TYPE;
+            this.m_output_type = output_type.TYPE;
             this.m_output = null;
             this.m_handler = handler;
 

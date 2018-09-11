@@ -103,7 +103,7 @@ namespace bbox.ui
             }
 
             var enc = new bbox.enc.ToXml("state");
-            this.m_type_prototype.type.toXml(state, enc);
+            this.m_type_prototype.TYPE.toXml(state, enc);
 
             if (enc.hasError())
             {
@@ -126,7 +126,7 @@ namespace bbox.ui
 
             var enc = new bbox.enc.FromXml(xml, "state");
 
-            var state: StateType = <StateType>this.m_type_prototype.type.fromXml(enc);
+            var state: StateType = <StateType>this.m_type_prototype.TYPE.fromXml(enc);
 
             if (enc.hasError())
             {

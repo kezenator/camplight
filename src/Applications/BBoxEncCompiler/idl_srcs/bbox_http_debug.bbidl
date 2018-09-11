@@ -1,0 +1,9 @@
+namespace bbox::http::debug
+    [generate ts  "BBoxHttpDebug\Web\bbox\http\debug"]
+{
+    message AppState
+    {
+        std::string path;
+    };
+}
+

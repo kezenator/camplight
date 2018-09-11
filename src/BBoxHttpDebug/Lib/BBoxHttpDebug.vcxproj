@@ -86,10 +86,8 @@
   <ItemGroup>
     <ClCompile Include="bbox\http\debug\HttpDebugWebsite.cpp" />
     <ClCompile Include="bbox\http\debug\Resources.cpp" />
-    <ClCompile Include="bbox\http\debug\api\ChildEntry.cpp" />
-    <ClCompile Include="bbox\http\debug\api\DebugReport.cpp" />
-    <ClCompile Include="bbox\http\debug\api\QueryResultEntry.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\DebugReportNotification.cpp" />
+    <ClCompile Include="bbox\http\debug\msgs\EnableRequest.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\QueryRequest.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\QueryResponse.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\QueryResponseChild.cpp" />
@@ -98,10 +96,8 @@
   <ItemGroup>
     <ClInclude Include="bbox\http\debug\HttpDebugWebsite.h" />
     <ClInclude Include="bbox\http\debug\Resources.h" />
-    <ClInclude Include="bbox\http\debug\api\ChildEntry.h" />
-    <ClInclude Include="bbox\http\debug\api\DebugReport.h" />
-    <ClInclude Include="bbox\http\debug\api\QueryResultEntry.h" />
     <ClInclude Include="bbox\http\debug\msgs\DebugReportNotification.h" />
+    <ClInclude Include="bbox\http\debug\msgs\EnableRequest.h" />
     <ClInclude Include="bbox\http\debug\msgs\QueryRequest.h" />
     <ClInclude Include="bbox\http\debug\msgs\QueryResponse.h" />
     <ClInclude Include="bbox\http\debug\msgs\QueryResponseChild.h" />
@@ -112,9 +108,9 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <CustomBuildStep>
-      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i bbox\http\debug\resources\debug\app.css;bbox\http\debug\resources\debug\app.js;bbox\http\debug\resources\debug\index.html -o bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h -n "bbox::http::debug" -r "bbox/http/debug/resources"</Command>
+      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i ../Web/app.css;../Web/app.js;../Web/index.html -o bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h -n "bbox::http::debug" -r "../Web" -a "debug/"</Command>
       <Outputs>bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h</Outputs>
-      <Inputs>bbox\http\debug\resources\debug\app.css;bbox\http\debug\resources\debug\app.js;bbox\http\debug\resources\debug\index.html;..\..\x64\$(Configuration)\ResourceBuilder.exe</Inputs>
+      <Inputs>../Web/app.css;../Web/app.js;../Web/index.html;..\..\x64\$(Configuration)\ResourceBuilder.exe</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <PropertyGroup>

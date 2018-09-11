@@ -2,7 +2,7 @@ namespace bbox.enc
 {
     export interface TypePrototype<Type>
     {
-        type: enc.Type;
+        TYPE: enc.Type;
         new (): Type;
     }
 }

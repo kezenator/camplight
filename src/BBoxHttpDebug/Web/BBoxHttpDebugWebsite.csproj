@@ -29,19 +29,12 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="_references.ts" />
-    <TypeScriptCompile Include="bbox\debug\AppState.ts" />
-    <TypeScriptCompile Include="bbox\debug\Application.ts" />
-    <TypeScriptCompile Include="bbox\debug\ControlPane.ts" />
-    <TypeScriptCompile Include="bbox\debug\GetOutputQuerier.ts" />
-    <TypeScriptCompile Include="bbox\debug\OutputView.ts" />
-    <TypeScriptCompile Include="bbox\debug\api\ChildEntry.ts" />
-    <TypeScriptCompile Include="bbox\debug\api\DebugReport.ts" />
-    <TypeScriptCompile Include="bbox\debug\api\GetOutputRequest.ts" />
-    <TypeScriptCompile Include="bbox\debug\api\GetOutputResponse.ts" />
-    <TypeScriptCompile Include="bbox\debug\api\QueryRequest.ts" />
-    <TypeScriptCompile Include="bbox\debug\api\QueryResponse.ts" />
-    <TypeScriptCompile Include="bbox\debug\api\QueryResponseEntry.ts" />
+    <TypeScriptCompile Include="bbox\http\debug\AppState.ts" />
+    <TypeScriptCompile Include="bbox\http\debug\Application.ts" />
+    <TypeScriptCompile Include="bbox\http\debug\ControlPane.ts" />
+    <TypeScriptCompile Include="bbox\http\debug\OutputView.ts" />
     <TypeScriptCompile Include="bbox\http\debug\msgs\DebugReportNotification.ts" />
+    <TypeScriptCompile Include="bbox\http\debug\msgs\EnableRequest.ts" />
     <TypeScriptCompile Include="bbox\http\debug\msgs\QueryRequest.ts" />
     <TypeScriptCompile Include="bbox\http\debug\msgs\QueryResponse.ts" />
     <TypeScriptCompile Include="bbox\http\debug\msgs\QueryResponseChild.ts" />
@@ -49,17 +42,20 @@
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ds\Deque.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ds\Map.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\FromXml.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\MsgAnyPtr.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\ToString.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\ToXml.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\Type.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\TypeLibrary.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\TypePrototype.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\details\BooleanType.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\details\DequeType.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\details\IntType.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\details\SimpleStructureType.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\details\StringType.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\net\AjaxRequest.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\net\BboxRpcRequest.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\net\MessageWebSocket.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Application.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Button.ts" />
     <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Container.ts" />

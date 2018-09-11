@@ -20,7 +20,7 @@ namespace bbox {
          */
         class Response
         {
-			friend class server::Connection;
+			friend class server::details::Connection;
 			friend class Request;
 
             Response() = delete;

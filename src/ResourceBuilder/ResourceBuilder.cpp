@@ -140,11 +140,12 @@ int resource_builder_main(int argc, char *argv[])
 {
     try
     {
-        // We expect exactly 8 extra arguments - they must be
+        // We expect 8 to 10 extra arguments - they must be
         // -i "inputs;files"
         // -o "output.cpp;output.h"
         // -n "name::space"
         // -r "remove\\path"
+		// -a "add\\path"
 
         bool args_valid = false;
         std::set<std::string> inputs;
@@ -152,8 +153,9 @@ int resource_builder_main(int argc, char *argv[])
         std::string output_h;
         std::vector<std::string> namespace_path;
         std::string path_remove;
+		std::string path_add;
 
-        if (argc == 9)
+        if ((argc >= 9) && (argc <= 11))
         {
             if ((strcmp(argv[1], "-i") == 0)
                 && (strcmp(argv[3], "-o") == 0)
@@ -206,6 +208,18 @@ int resource_builder_main(int argc, char *argv[])
                     }
                 }
             }
+
+			if (args_valid
+				&& (argc == 11))
+			{
+				args_valid = false;
+
+				if (strcmp(argv[9], "-a") == 0)
+				{
+					path_add = argv[10];
+					args_valid = true;
+				}
+			}
         }
 
         if (!args_valid)
@@ -363,7 +377,7 @@ int resource_builder_main(int argc, char *argv[])
 
                 stream << indent << "    // File #" << count << " - " << FixFileName(input) << std::endl;
                 stream << indent << "    {" << std::endl;
-                stream << indent << "        \"" << FixFileName(input.substr(prefix.size())) << "\", // Filename" << std::endl;
+                stream << indent << "        \"" << FixFileName(path_add + input.substr(prefix.size())) << "\", // Filename" << std::endl;
                 stream << indent << "        file_contents_" << count << ", // Contents" << std::endl;
                 stream << indent << "        " << file_lengths[count-1] << ", // Length" << std::endl;
                 stream << indent << "        \"identity\", // Content Encoding" << std::endl;

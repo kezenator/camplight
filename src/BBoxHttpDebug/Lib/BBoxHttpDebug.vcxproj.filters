@@ -10,9 +10,6 @@
     <Filter Include="bbox\http\debug">
       <UniqueIdentifier>{955A2D39-3634-58F1-BA30-0ACD2C0B89B5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="bbox\http\debug\api">
-      <UniqueIdentifier>{8000BD7E-229D-577D-841B-9A41451E27DA}</UniqueIdentifier>
-    </Filter>
     <Filter Include="bbox\http\debug\msgs">
       <UniqueIdentifier>{99B8C881-4A48-54C9-A62B-E62B04A1CA9B}</UniqueIdentifier>
     </Filter>
@@ -24,16 +21,10 @@
     <ClCompile Include="bbox\http\debug\Resources.cpp">
       <Filter>bbox\http\debug</Filter>
     </ClCompile>
-    <ClCompile Include="bbox\http\debug\api\ChildEntry.cpp">
-      <Filter>bbox\http\debug\api</Filter>
-    </ClCompile>
-    <ClCompile Include="bbox\http\debug\api\DebugReport.cpp">
-      <Filter>bbox\http\debug\api</Filter>
-    </ClCompile>
-    <ClCompile Include="bbox\http\debug\api\QueryResultEntry.cpp">
-      <Filter>bbox\http\debug\api</Filter>
-    </ClCompile>
     <ClCompile Include="bbox\http\debug\msgs\DebugReportNotification.cpp">
+      <Filter>bbox\http\debug\msgs</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\http\debug\msgs\EnableRequest.cpp">
       <Filter>bbox\http\debug\msgs</Filter>
     </ClCompile>
     <ClCompile Include="bbox\http\debug\msgs\QueryRequest.cpp">
@@ -56,16 +47,10 @@
     <ClInclude Include="bbox\http\debug\Resources.h">
       <Filter>bbox\http\debug</Filter>
     </ClInclude>
-    <ClInclude Include="bbox\http\debug\api\ChildEntry.h">
-      <Filter>bbox\http\debug\api</Filter>
-    </ClInclude>
-    <ClInclude Include="bbox\http\debug\api\DebugReport.h">
-      <Filter>bbox\http\debug\api</Filter>
-    </ClInclude>
-    <ClInclude Include="bbox\http\debug\api\QueryResultEntry.h">
-      <Filter>bbox\http\debug\api</Filter>
-    </ClInclude>
     <ClInclude Include="bbox\http\debug\msgs\DebugReportNotification.h">
+      <Filter>bbox\http\debug\msgs</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\http\debug\msgs\EnableRequest.h">
       <Filter>bbox\http\debug\msgs</Filter>
     </ClInclude>
     <ClInclude Include="bbox\http\debug\msgs\QueryRequest.h">
@@ -82,14 +67,14 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="bbox\http\debug\resources\debug\app.css">
-      <Filter>bbox\http\debug\resources\debug</Filter>
+    <CustomBuild Include="..\Web\app.css">
+      <Filter>..\Web</Filter>
     </CustomBuild>
-    <CustomBuild Include="bbox\http\debug\resources\debug\app.js">
-      <Filter>bbox\http\debug\resources\debug</Filter>
+    <CustomBuild Include="..\Web\app.js">
+      <Filter>..\Web</Filter>
     </CustomBuild>
-    <CustomBuild Include="bbox\http\debug\resources\debug\index.html">
-      <Filter>bbox\http\debug\resources\debug</Filter>
+    <CustomBuild Include="..\Web\index.html">
+      <Filter>..\Web</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

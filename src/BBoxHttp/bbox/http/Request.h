@@ -4,8 +4,8 @@
  * Header for the bbox::http::Request class.
  */
 
-#ifndef __BBOX__RT__HTTP__REQUEST_H__
-#define __BBOX__RT__HTTP__REQUEST_H__
+#ifndef __BBOX__HTTP__REQUEST_H__
+#define __BBOX__HTTP__REQUEST_H__
 
 #include <bbox/rt/net/TcpEndpoint.h>
 
@@ -13,111 +13,117 @@
 #include <boost/beast/http.hpp>
 
 namespace bbox {
-    namespace http {
+namespace http {
 
-        // Forward declarations
-        class ResourceFileSet;
-        class Response;
-        namespace server {
-            class HttpServer;
-			class Connection;
-        }
+// Forward declarations
+class ResourceFileSet;
+class Response;
+namespace server {
+class HttpServer;
+namespace details {
+class Connection;
+class WebSocketConnection;
+}
+}
 
-        /**
-         * Value that represents a handle to a response.
-         */
-        class Request
-        {
-            friend class Response;
-            friend class server::Connection;
+/**
+ * Value that represents a handle to a response.
+ */
+class Request
+{
+	friend class Response;
+	friend class server::details::Connection;
+	friend class server::details::WebSocketConnection;
 
-        private:
+private:
 
-			using RequestType = boost::beast::http::request<boost::beast::http::string_body>;
-			using RequestPtr = std::shared_ptr<RequestType>;
+	using RequestType = boost::beast::http::request<boost::beast::http::string_body>;
+	using RequestPtr = std::shared_ptr<RequestType>;
 
-            class Pimpl
-            {
-            public:
-				Pimpl(server::HttpServer &server, server::Connection *connection_ptr, RequestPtr &&request_ptr);
-                ~Pimpl();
+	class Pimpl
+	{
+	public:
+		Pimpl(server::HttpServer &server, server::details::Connection *connection_ptr, RequestPtr &&request_ptr);
+		~Pimpl();
 
-                void SetHandled();
-                bool NotHandled() { return !m_handled; }
+		void SetHandled();
+		bool NotHandled() { return !m_handled; }
 
-				server::HttpServer &m_server;
-				server::Connection *m_connection_ptr;
-				RequestPtr m_request_ptr;
+		server::HttpServer &m_server;
+		server::details::Connection *m_connection_ptr;
+		RequestPtr m_request_ptr;
 
-            private:
-                bool m_handled;
-            };
+	private:
+		bool m_handled;
+	};
 
-            using PimplPtr = std::shared_ptr<Pimpl>;
+	using PimplPtr = std::shared_ptr<Pimpl>;
 
-			Request(server::HttpServer &server, server::Connection *connection_ptr, RequestPtr &&request_ptr);
+	Request(server::HttpServer &server, server::details::Connection *connection_ptr, RequestPtr &&request_ptr);
 
-		public:
+public:
 
-			using Method = boost::beast::http::verb;
-			
-			Request() = default;
-            Request(const Request &other) = default;
-            Request(Request &&other) = default;
-            ~Request() = default;
+	using Method = boost::beast::http::verb;
 
-            Request &operator =(const Request &other) = default;
-            Request &operator =(Request &&other) = default;
+	Request() = default;
+	Request(const Request &other) = default;
+	Request(Request &&other) = default;
+	~Request() = default;
 
-            explicit operator bool() const
-            {
-                return m_pimpl_ptr.operator bool();
-            }
+	Request &operator =(const Request &other) = default;
+	Request &operator =(Request &&other) = default;
 
-            bool operator !() const
-            {
-                return !m_pimpl_ptr;
-            }
+	explicit operator bool() const
+	{
+		return m_pimpl_ptr.operator bool();
+	}
 
-			bbox::rt::net::TcpEndpoint GetLocalEndpoint() const;
-			bbox::rt::net::TcpEndpoint GetRemoteEndpoint() const;
+	bool operator !() const
+	{
+		return !m_pimpl_ptr;
+	}
 
-			std::string GetHost() const;
-            std::string GetRootUrl() const;
+	bbox::rt::net::TcpEndpoint GetLocalEndpoint() const;
+	bbox::rt::net::TcpEndpoint GetRemoteEndpoint() const;
 
-            std::string GetResource() const;
+	std::string GetHost() const;
+	std::string GetRootUrl() const;
 
-            bool HasHeader(const std::string &str);
-            std::string GetHeader(const std::string &header);
+	std::string GetResource() const;
 
-            bool HasQuery(const std::string &param);
-            std::string GetQuery(const std::string &param);
-            std::string GetFullQueryString();
+	bool HasHeader(const std::string &str);
+	std::string GetHeader(const std::string &header);
 
-            Method GetMethod();
-			std::string GetMethodString();
+	bool HasQuery(const std::string &param);
+	std::string GetQuery(const std::string &param);
+	std::string GetFullQueryString();
 
-            std::string GetContent();
+	Method GetMethod();
+	std::string GetMethodString();
 
-            bool RespondWithResource(const ResourceFileSet &resources);
-            bool RespondWithResource(const ResourceFileSet &resources, const std::string &resource_path);
+	bool CheckIsWebSocketUpgradeOrRespondWithError(const std::string &protocol);
 
-            void RespondWithResourceOrNotFoundError(const ResourceFileSet &resources);
-            void RespondWithResourceOrNotFoundError(const ResourceFileSet &resources, const std::string &resource_path);
+	std::string GetContent();
 
-            void RespondWithNotFoundError();
-            void RespondWithBadRequestError();
+	bool RespondWithResource(const ResourceFileSet &resources);
+	bool RespondWithResource(const ResourceFileSet &resources, const std::string &resource_path);
 
-            void RespondWithTemporaryRedirect(const std::string &location);
+	void RespondWithResourceOrNotFoundError(const ResourceFileSet &resources);
+	void RespondWithResourceOrNotFoundError(const ResourceFileSet &resources, const std::string &resource_path);
 
-            void RespondWithServerError(const std::string &message);
-            void RespondWithMethodNotAllowedError(const std::string &allowed_methods);
+	void RespondWithNotFoundError();
+	void RespondWithBadRequestError(const std::string &error);
 
-        private:
-            PimplPtr m_pimpl_ptr;
-        };
+	void RespondWithTemporaryRedirect(const std::string &location);
 
-    } // namespace bbox::http
+	void RespondWithServerError(const std::string &message);
+	void RespondWithMethodNotAllowedError(const std::string &allowed_methods);
+
+private:
+	PimplPtr m_pimpl_ptr;
+};
+
+} // namespace bbox::http
 } // namespace bbox
 
-#endif // __BBOX__RT__HTTP__REQUEST_H__
+#endif // __BBOX__HTTP__REQUEST_H__

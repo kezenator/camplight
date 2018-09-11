@@ -5,7 +5,7 @@
 */
 
 #include <bbox/http/Response.h>
-#include <bbox/http/server/Connection.h>
+#include <bbox/http/server/details/Connection.h>
 
 #include <bbox/Assert.h>
 
