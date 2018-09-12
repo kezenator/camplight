@@ -71,6 +71,10 @@ var bbox;
                 console.assert((index >= 0) && (index < this.array.length), "bbox.ds.Deque.at() called with invalid index " + index + ", expected 0.." + (this.array.length - 1));
                 return this.array[index];
             };
+            Deque.prototype.setAt = function (index, val) {
+                console.assert((index >= 0) && (index < this.array.length), "bbox.ds.Deque.setAt() called with invalid index " + index + ", expected 0.." + (this.array.length - 1));
+                this.array[index] = val;
+            };
             Deque.prototype.push_back = function (val) {
                 this.array.push(val);
             };

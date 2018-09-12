@@ -151,7 +151,32 @@ namespace bbox
                 }
             };
 
-            template <typename Type, typename Comparator, typename Allocator>
+			template <typename Allocator>
+			struct FromTextFormatAction<MarshalStrategy::AsStdVector, std::vector<bool, Allocator>>
+			{
+				static void Impl(FromTextFormat &m, std::vector<bool, Allocator> &value)
+				{
+					value.clear();
+
+					m.StartStructure();
+
+					size_t size;
+					m.DecodeNamedSizeT("size", size);
+
+					value.resize(size);
+
+					for (size_t i = 0; i < size; ++i)
+					{
+						bool entry;
+						m.DecodeNamedValue("entry", entry);
+						value[i] = entry;
+					}
+
+					m.CompleteStructure();
+				}
+			};
+
+			template <typename Type, typename Comparator, typename Allocator>
             struct FromTextFormatAction<MarshalStrategy::AsStdSet, std::set<Type, Comparator, Allocator>>
             {
                 static void Impl(FromTextFormat &m, std::set<Type, Comparator, Allocator> &value)

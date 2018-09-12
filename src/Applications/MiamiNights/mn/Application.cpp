@@ -1,90 +1,103 @@
 /**
  * @file
  *
- * Main application for the MiamiNights application.
+ * Implementation file for the mn::Application class and the overall application.
  *
  */
 
-#include <bbox/MainWrapper.h>
-#include <bbox/debug/DebugProvider.h>
-#include <bbox/debug/CoutDebugTarget.h>
-#include <bbox/rt/Proactor.h>
-#include <bbox/rt/Service.h>
-#include <bbox/rt/ConsoleShutdownService.h>
-#include <bbox/http/server/HttpServer.h>
-#include <bbox/http/debug/HttpDebugWebsite.h>
-#include <bbox/http/Response.h>
-#include <bbox/audio/AudioService.h>
+#include <mn/Application.h>
+
 #include <bbox/Format.h>
 #include <bbox/Assert.h>
+
+#include <bbox/http/Response.h>
+
+#include <bbox/enc/ToXml.h>
 
 #include <mn/Resources.h>
 
 namespace mn {
 
-class ApplicationService : public bbox::rt::Service
-{
-public:
-
-    ApplicationService(const std::string &name, 
+ApplicationService::ApplicationService(const std::string &name,
                        bbox::rt::Proactor &parent,
                        const bbox::rt::net::TcpEndpoint &http_listen_endpoint)
-        : bbox::rt::Service(name, parent)
-        , m_http_listen_endpoint(http_listen_endpoint)
-        , m_console_shutdown_service("console-shutdown-service", *this)
-        , m_http_server("http-server", *this)
-        , m_http_debug_website("http-debug-website", *this, m_http_server)
-		, m_audio_service("audio service", *this)
+    : bbox::rt::Service(name, parent)
+    , m_http_listen_endpoint(http_listen_endpoint)
+    , m_console_shutdown_service("console-shutdown-service", *this)
+    , m_http_server("http-server", *this)
+    , m_http_debug_website("http-debug-website", *this, m_http_server)
+	, m_audio_service("audio service", *this)
+	, m_buttons_web_socket("buttons-web-socket", *this, m_http_server, "/ws/buttons", "kezenator.com/uri/protocols/ws/miami-nights-buttons/2018-09-12")
+	, m_app_web_socket("app-web-socket", *this, m_http_server, "/ws/app", "kezenator.com/uri/protocols/ws/miami-nights-app/2018-09-12")
+{
+	SetThisDependantOn(m_http_server);
+
+	m_buttons_web_socket.RegisterHandler(&ApplicationService::HandleButtonRxButtonState, this);
+	m_app_web_socket.RegisterHandler(&ApplicationService::HandleAppRxButtonColors, this);
+}
+
+void ApplicationService::HandleStarting()
+{
+    m_http_server.AddServer(m_http_listen_endpoint,
+        std::bind(&ApplicationService::HttpRequestHandler, this, std::placeholders::_1));
+
+	m_http_server.TryAndOpenWebBrowserToServer();
+
+    NotifyStarted();
+}
+
+void ApplicationService::HandleStopping()
+{
+    RequestStopAllChildren();
+    NotifyStopped();
+}
+
+void ApplicationService::PrintState(bbox::DebugOutput &out) const
+{
+    out.Format("HTTP Listen Endpoint: %s\n", m_http_listen_endpoint.ToString());
+	out.Format("Button States:\n");
+	{
+		out.IncIndent(4);
+		out.Format("%s\n", bbox::enc::ToXml::ConvertToPretty("button-states", m_button_states));
+		out.DecIndent(4);
+	}
+	out.Format("Button Colors:\n");
+	{
+		out.IncIndent(4);
+		out.Format("%s\n", bbox::enc::ToXml::ConvertToPretty("button-colors", m_button_colors));
+		out.DecIndent(4);
+	}
+}
+
+void ApplicationService::HttpRequestHandler(bbox::http::Request &request)
+{
+    if (request.RespondWithResource(g_resource_files))
     {
+        return;
     }
 
-private:
-
-    void HandleStarting() override
+    if (request.GetResource() == "/")
     {
-        m_http_server.AddServer(m_http_listen_endpoint,
-            std::bind(&ApplicationService::HttpRequestHandler, this, std::placeholders::_1));
-
-		m_http_server.TryAndOpenWebBrowserToServer();
-
-        NotifyStarted();
+        request.RespondWithTemporaryRedirect("/index.html");
+        return;
     }
 
-    void HandleStopping() override
-    {
-        RequestStopAllChildren();
-        NotifyStopped();
-    }
+    request.RespondWithNotFoundError();
+}
 
-    void PrintState(bbox::DebugOutput &out) const override
-    {
-        out.Format("HTTP Listen Endpoint: %s\n", m_http_listen_endpoint.ToString());
-    }
+void ApplicationService::HandleButtonRxButtonState(const msgs::ButtonStates &msg)
+{
+	m_button_states = msg;
 
-    void HttpRequestHandler(bbox::http::Request &request)
-    {
-        if (request.RespondWithResource(g_resource_files))
-        {
-            return;
-        }
+	m_app_web_socket.Send(new_message<msgs::ButtonStates>(msg));
+}
 
-        if (request.GetResource() == "/")
-        {
-            request.RespondWithTemporaryRedirect("/index.html");
-            return;
-        }
+void ApplicationService::HandleAppRxButtonColors(const msgs::ButtonColors &msg)
+{
+	m_button_colors = msg;
 
-        request.RespondWithNotFoundError();
-    }
-
-
-    bbox::rt::net::TcpEndpoint m_http_listen_endpoint;
-    bbox::rt::ConsoleShutdownService m_console_shutdown_service;
-    bbox::http::server::HttpServer m_http_server;
-    bbox::http::debug::HttpDebugWebsite m_http_debug_website;
-	bbox::audio::AudioService m_audio_service;
-
-}; // class ApplicationService
+	m_buttons_web_socket.Send(new_message<msgs::ButtonColors>(msg));
+}
 
 } // namespace camplight
 

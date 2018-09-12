@@ -7,10 +7,12 @@
         private color: string;
         private pressed: boolean;
         private clicked: boolean;
+        private set_action: { (state: boolean): void };
 
-        public constructor(parent: HTMLElement, title: string)
+        public constructor(parent: HTMLElement, title: string, set_action: { (state:boolean): void })
         {
             this.title = title;
+            this.set_action = set_action;
 
             this.pressed = false;
             this.clicked = false;
@@ -43,6 +45,7 @@
         public setPressed(pressed: boolean): void
         {
             this.pressed = pressed;
+            this.set_action(pressed);
 
             if (pressed)
             {

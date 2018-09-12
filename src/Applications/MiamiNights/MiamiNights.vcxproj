@@ -97,7 +97,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="mn\Application.cpp" />
+    <ClCompile Include="mn\MessageWebSocket.cpp" />
     <ClCompile Include="mn\Resources.cpp" />
+    <ClCompile Include="mn\msgs\ButtonColors.cpp" />
+    <ClCompile Include="mn\msgs\ButtonStates.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BBoxAudio\BBoxAudio.vcxproj">
@@ -129,7 +132,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="mn\Application.h" />
+    <ClInclude Include="mn\MessageWebSocket.h" />
     <ClInclude Include="mn\Resources.h" />
+    <ClInclude Include="mn\msgs\ButtonColors.h" />
+    <ClInclude Include="mn\msgs\ButtonStates.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MiamiNights.bbmake" />

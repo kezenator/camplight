@@ -105,7 +105,26 @@ namespace bbox
                 }
             };
 
-            template <typename Type, typename Comparator, typename Allocator>
+			template <typename Allocator>
+			struct FromBinaryAction<MarshalStrategy::AsStdVector, std::vector<bool, Allocator>>
+			{
+				// Need a special version for std::vector<bool> because of it's speciality
+
+				static void Impl(FromBinary &m, std::vector<bool, Allocator> &value)
+				{
+					size_t count = m.ReadSizeT();
+
+					value.clear();
+					value.resize(count);
+
+					for (size_t index = 0; index < count; ++index)
+					{
+						value[index] = m.ReadBool();
+					}
+				}
+			};
+
+			template <typename Type, typename Comparator, typename Allocator>
             struct FromBinaryAction<MarshalStrategy::AsStdSet, std::set<Type, Comparator, Allocator>>
             {
                 static void Impl(FromBinary &m, std::set<Type, Comparator, Allocator> &value)

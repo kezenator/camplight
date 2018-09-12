@@ -1,6 +1,6 @@
 namespace bbox::http::debug::msgs
-    [generate cpp "BBoxHttpDebug\Lib\bbox\http\debug\msgs"]
-    [generate ts  "BBoxHttpDebug\Web\bbox\http\debug\msgs"]
+    [generate cpp "BBoxHttpDebug/Lib/bbox/http/debug/msgs"]
+    [generate ts  "BBoxHttpDebug/Web/bbox/http/debug/msgs"]
 {
     message DebugReportNotification
     {

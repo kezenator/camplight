@@ -58,13 +58,38 @@ public:
 
 		// Both not null
 
-		return (m_ptr->type == other.m_ptr->type)
-			&& (m_ptr->name == other.m_ptr->name);
+		return (m_ptr->type == other.m_ptr->type);
 	}
 
 	bool operator !=(const MsgType &other) const
 	{
 		return !operator ==(other);
+	}
+
+	bool operator <(const MsgType &other) const
+	{
+		if (!m_ptr
+			&& !other.m_ptr)
+		{
+			// Both null
+			return false;
+		}
+
+		if (!m_ptr
+			&& other.m_ptr)
+		{
+			return true;
+		}
+
+		if (m_ptr
+			&& !other.m_ptr)
+		{
+			return false;
+		}
+
+		// Both not null
+
+		return m_ptr->type < other.m_ptr->type;
 	}
 
 	const std::string &GetName() const

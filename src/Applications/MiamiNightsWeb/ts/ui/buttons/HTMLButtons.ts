@@ -3,15 +3,27 @@
 
 namespace ui.buttons
 {
-    export class HTMLButtons extends Buttons
+    export class HTMLButtons
     {    
+        private backButton: SingleButton;
         private playButton: SingleButton;
         private otherButtons: SingleButton[];
         private allButtons: SingleButton[];
+        private states: mn.msgs.ButtonStates;
+        private websocket: bbox.net.MessageWebSocket;
 
-        constructor(parent: HTMLElement)
+        constructor(parent: HTMLElement, host: string)
         {
-            super();
+            this.states = new mn.msgs.ButtonStates();
+
+            this.websocket = new bbox.net.MessageWebSocket(
+                "ws://" + host + "/ws/buttons",
+                "kezenator.com/uri/protocols/ws/miami-nights-buttons/2018-09-12",
+                (state: boolean, error: string) => { this.handleWebsocketState(state, error); });
+
+            this.websocket.registerHandler(
+                mn.msgs.ButtonColors.TYPE,
+                (msg: mn.msgs.ButtonColors) => { this.handleWebsocketRxButtonColors(msg); });
 
             this.allButtons = [];
 
@@ -19,7 +31,9 @@ namespace ui.buttons
             parent.appendChild(div);
             div.classList.add('buttons');
 
-            this.playButton = new SingleButton(div, 'Play');
+            this.backButton = new SingleButton(div, 'Back', (state: boolean) => { this.states.back_state = state; });
+            this.allButtons.push(this.backButton);
+            this.playButton = new SingleButton(div, 'Play', (state: boolean) => { this.states.play_state = state; });
             this.allButtons.push(this.playButton);
 
             this.otherButtons = new Array(Buttons.NUMBER);
@@ -30,10 +44,12 @@ namespace ui.buttons
             {
                 var btn = new SingleButton(
                     div,
-                    keys.charAt(i));
+                    keys.charAt(i),
+                    ((index: number) => ((state: boolean) => { this.states.button_states.setAt(index, state); }))(i));
 
                 this.otherButtons[i] = btn;
                 this.allButtons.push(btn);
+                this.states.button_states.push_back(false);
             }
 
             window.addEventListener('keydown', (ev: KeyboardEvent) =>
@@ -43,7 +59,11 @@ namespace ui.buttons
                 for (var i = 0; i < this.allButtons.length; ++i)
                 {
                     if (this.allButtons[i].matchesKey(key))
+                    {
                         this.allButtons[i].setPressed(true);
+                        this.websocket.send(this.states);
+                        break;
+                    }
                 }
             });
 
@@ -54,64 +74,38 @@ namespace ui.buttons
                 for (var i = 0; i < this.allButtons.length; ++i)
                 {
                     if (this.allButtons[i].matchesKey(key))
+                    {
                         this.allButtons[i].setPressed(false);
+                        this.websocket.send(this.states);
+                        break;
+                    }
                 }
             });
         }
 
-        setPlayColor(color: string): void
+        private handleWebsocketState(state: boolean, error: string): void
         {
-            this.playButton.setColor(color);
+            // Reset all colors to black
+            for (var button of this.allButtons)
+                button.setColor('black');
+
+            if (state)
+            {
+                // Send our current state
+                this.websocket.send(this.states);
+            }
         }
 
-        setButtonColor(btn: number, color: string): void
+        private handleWebsocketRxButtonColors(msg: mn.msgs.ButtonColors): void
         {
-            var bb = this._getButton(btn);
-            if (bb)
-                bb.setColor(color);
-        }
+            this.backButton.setColor(msg.back_color);
+            this.playButton.setColor(msg.play_color);
 
-        isPlayPressed(): boolean
-        {
-            return this.playButton.isPressed();
-        }
-
-        isPlayClicked(): boolean
-        {
-            return this.playButton.isClicked();
-        }
-
-        isButtonPressed(btn: number): boolean
-        {
-            var bb = this._getButton(btn);
-            if (bb)
-                return bb.isPressed();
-            return false;
-        }
-
-        isButtonClicked(btn: number): boolean
-        {
-            var bb = this._getButton(btn);
-            if (bb)
-                return bb.isClicked();
-            return false;
-        }
-
-        frameCompleted(): void
-        {
-            this.playButton.setNotClicked();
-            for (var i = 0; i < Buttons.NUMBER; ++i)
-                this.otherButtons[i].setNotClicked();
-        }
-
-        private _getButton(btn: number): SingleButton | null
-        {
-            var i = Math.floor(btn);
-
-            if ((i >= 0) && (i < Buttons.NUMBER))
-                return this.otherButtons[i]; 
-
-            return null;
+            var num = Buttons.NUMBER;
+            for (var i = 0; i < num; ++i)
+            {
+                this.otherButtons[i].setColor(msg.button_colors.at(i));
+            }
         }
     }
 }

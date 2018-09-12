@@ -43,7 +43,10 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="ts\_references.ts" />
     <TypeScriptCompile Include="ts\app.ts" />
+    <TypeScriptCompile Include="ts\mn\msgs\ButtonColors.ts" />
+    <TypeScriptCompile Include="ts\mn\msgs\ButtonStates.ts" />
     <TypeScriptCompile Include="ts\ui\Buttons.ts" />
     <TypeScriptCompile Include="ts\ui\CanvasScreen.ts" />
     <TypeScriptCompile Include="ts\ui\Screen.ts" />
@@ -61,6 +64,34 @@
     <TypeScriptCompile Include="ts\ui\tetris\TetrisScreen.ts" />
     <TypeScriptCompile Include="ts\util\Color.ts" />
     <TypeScriptCompile Include="ts\util\Math.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ds\Deque.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ds\Map.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\FromXml.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\MsgAnyPtr.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\ToString.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\ToXml.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\Type.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\TypeLibrary.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\TypePrototype.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\details\BooleanType.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\details\DequeType.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\details\IntType.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\details\SimpleStructureType.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\enc\details\StringType.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\net\AjaxRequest.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\net\BboxRpcRequest.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\net\MessageWebSocket.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Application.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Button.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Container.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Control.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Div.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\EditBox.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Pre.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Span.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\TextControl.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\bbox\ui\Timer.ts" />
+    <TypeScriptCompile Include="..\..\TypeScriptClientLib\lib_references.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="web.Debug.config">

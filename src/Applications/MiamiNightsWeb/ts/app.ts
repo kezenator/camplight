@@ -1,3 +1,7 @@
+/// <reference path="../../../TypeScriptClientLib/lib_references.ts" />
+
+/// <reference path="mn\msgs\ButtonColors.ts" />
+
 /// <reference path="ui/logo/LogoScreen.ts" />
 /// <reference path="ui/fortune/FortuneScreen.ts" />
 /// <reference path="ui/menu/MenuScreen.ts" />
@@ -15,12 +19,13 @@ class App
 
     private curScreen: ui.Screen;
     private buttons: ui.Buttons;
+    private htmlButtons: ui.buttons.HTMLButtons;
     private screens: any; 
     private startTime: number;
 
     constructor()
     {
-        this.buttons = new ui.buttons.HTMLButtons(document.body);
+        this.buttons = new ui.Buttons(window.location.host);
 
         this.screens = {};
 
@@ -29,6 +34,8 @@ class App
         this.screens[App.PONG] = new ui.pong.PongScreen(this);
         this.screens[App.FORTUNE] = new ui.fortune.FortuneScreen(this);
         this.screens[App.TETRIS] = new ui.tetris.TetrisScreen(this);
+
+        this.htmlButtons = new ui.buttons.HTMLButtons(document.body, window.location.host);
 
         this.curScreen = this.screens[App.LOGO];
         this.startTime = Date.now();

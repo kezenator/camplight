@@ -1,0 +1,18 @@
+namespace mn::msgs
+    [generate cpp "Applications/MiamiNights/mn/msgs"]
+    [generate ts  "Applications/MiamiNightsWeb/ts/mn/msgs"]
+{
+    message ButtonColors
+    {
+        std::string back_color;
+        std::string play_color;
+        std::vector<std::string> button_colors;
+    };
+    
+    message ButtonStates
+    {
+        bool back_state;
+        bool play_state;
+        std::vector<bool> button_states;
+    };
+}

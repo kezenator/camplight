@@ -40,6 +40,13 @@ module bbox.ds
             return this.array[index];
         }
 
+        setAt(index: number, val: Type): void
+        {
+            console.assert((index >= 0) && (index < this.array.length), "bbox.ds.Deque.setAt() called with invalid index " + index + ", expected 0.." + (this.array.length - 1));
+
+            this.array[index] = val;
+        }
+
         push_back(val: Type): void
         {
             this.array.push(val);
