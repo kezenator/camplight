@@ -18,7 +18,7 @@ namespace ui.buttons
 
             this.websocket = new bbox.net.MessageWebSocket(
                 "ws://" + host + "/ws/buttons",
-                "kezenator.com/uri/protocols/ws/miami-nights-buttons/2018-09-12",
+                "12.09.2018.buttons.miami-nights.kezenator.com",
                 (state: boolean, error: string) => { this.handleWebsocketState(state, error); });
 
             this.websocket.registerHandler(
@@ -31,9 +31,32 @@ namespace ui.buttons
             parent.appendChild(div);
             div.classList.add('buttons');
 
-            this.backButton = new SingleButton(div, 'Back', (state: boolean) => { this.states.back_state = state; });
+            var top_row_div = document.createElement('div');
+            div.appendChild(top_row_div);
+            top_row_div.classList.add('button_row');
+
+            var bottom_row_div = document.createElement('div');
+            div.appendChild(bottom_row_div);
+            bottom_row_div.classList.add('button_row');
+
+            this.backButton = new SingleButton(
+                bottom_row_div,
+                'Back',
+                (state: boolean) =>
+                {
+                    this.states.back_state = state;
+                    this.websocket.send(this.states);
+                });
             this.allButtons.push(this.backButton);
-            this.playButton = new SingleButton(div, 'Play', (state: boolean) => { this.states.play_state = state; });
+
+            this.playButton = new SingleButton(
+                bottom_row_div,
+                'Play',
+                (state: boolean) =>
+                {
+                    this.states.play_state = state;
+                    this.websocket.send(this.states);
+                });
             this.allButtons.push(this.playButton);
 
             this.otherButtons = new Array(Buttons.NUMBER);
@@ -43,9 +66,13 @@ namespace ui.buttons
             for (var i = 0; i < Buttons.NUMBER; ++i)
             {
                 var btn = new SingleButton(
-                    div,
+                    top_row_div,
                     keys.charAt(i),
-                    ((index: number) => ((state: boolean) => { this.states.button_states.setAt(index, state); }))(i));
+                    ((index: number) => ((state: boolean) =>
+                    {
+                        this.states.button_states.setAt(index, state);
+                        this.websocket.send(this.states);
+                    }))(i));
 
                 this.otherButtons[i] = btn;
                 this.allButtons.push(btn);
@@ -61,7 +88,6 @@ namespace ui.buttons
                     if (this.allButtons[i].matchesKey(key))
                     {
                         this.allButtons[i].setPressed(true);
-                        this.websocket.send(this.states);
                         break;
                     }
                 }
@@ -76,7 +102,6 @@ namespace ui.buttons
                     if (this.allButtons[i].matchesKey(key))
                     {
                         this.allButtons[i].setPressed(false);
-                        this.websocket.send(this.states);
                         break;
                     }
                 }

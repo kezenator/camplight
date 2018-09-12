@@ -1941,7 +1941,7 @@ var bbox;
                 function Application(websocket_uri) {
                     var _this = _super.call(this, debug.AppState) || this;
                     _this.websocket_uri = websocket_uri;
-                    _this.websocket = new bbox.net.MessageWebSocket(_this.websocket_uri, "kezenator.com/uri/protocols/ws/bbox/http/debug/2018-09-11", function (open, error) { _this.handleWebSocketState(open, error); });
+                    _this.websocket = new bbox.net.MessageWebSocket(_this.websocket_uri, "11.09.2018.debug.http.bbox.kezenator.com", function (open, error) { _this.handleWebSocketState(open, error); });
                     _this.websocket.registerHandler(debug.msgs.DebugReportNotification.TYPE, function (msg) { _this.handleDebugOutputNotification(msg); });
                     _this.websocket.registerHandler(debug.msgs.QueryResponse.TYPE, function (msg) { _this.handleQueryResponse(msg); });
                     _this.output_view = new debug.OutputView(_this);

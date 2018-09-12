@@ -115,7 +115,7 @@ void HttpDebugWebsite::HandleResourceRequest(http::Request &request)
 
 void HttpDebugWebsite::HandleWebSocketRequest(http::Request &request)
 {
-	if (!request.CheckIsWebSocketUpgradeOrRespondWithError("kezenator.com/uri/protocols/ws/bbox/http/debug/2018-09-11"))
+	if (!request.CheckIsWebSocketUpgradeOrRespondWithError("11.09.2018.debug.http.bbox.kezenator.com"))
 		return;
 
 	if (m_web_socket.IsOpen())
@@ -127,6 +127,7 @@ void HttpDebugWebsite::HandleWebSocketRequest(http::Request &request)
 
 	m_web_socket = server::ServerWebSocket::Upgrade(
 		request,
+		"11.09.2018.debug.http.bbox.kezenator.com",
 		std::bind(&HttpDebugWebsite::HandleWebSocketState, this, std::placeholders::_1),
 		std::bind(&HttpDebugWebsite::HandleWebSocketMessage, this, std::placeholders::_1));
 }

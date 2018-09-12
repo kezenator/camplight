@@ -28,7 +28,7 @@ public:
 	using StateHandler = std::function<void(const bbox::Error &error)>;
 	using ReceiveHandler = std::function<void(const std::string &message)>;
 
-	WebSocketConnection(Request &request, StateHandler &&state_handler, ReceiveHandler &&rx_handler);
+	WebSocketConnection(Request &request, const std::string &protocol, StateHandler &&state_handler, ReceiveHandler &&rx_handler);
 	~WebSocketConnection();
 
 	static bool IsUpgrade(Request &request);

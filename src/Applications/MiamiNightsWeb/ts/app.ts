@@ -25,22 +25,44 @@ class App
 
     constructor()
     {
-        this.buttons = new ui.Buttons(window.location.host);
+        var params = new URLSearchParams(window.location.search);
 
-        this.screens = {};
+        var has_debug = params.has('debug');
+        var has_buttons = params.has('buttons');
+        var buttons_host = window.location.host;
+        if (params.has('host'))
+            buttons_host = params.get('host');
 
-        this.screens[App.LOGO] = new ui.logo.LogoScreen(this);
-        this.screens[App.MENU] = new ui.menu.MenuScreen(this);
-        this.screens[App.PONG] = new ui.pong.PongScreen(this);
-        this.screens[App.FORTUNE] = new ui.fortune.FortuneScreen(this);
-        this.screens[App.TETRIS] = new ui.tetris.TetrisScreen(this);
+        if (has_buttons)
+        {
+            // Just create the HTML buttons
 
-        this.htmlButtons = new ui.buttons.HTMLButtons(document.body, window.location.host);
+            this.htmlButtons = new ui.buttons.HTMLButtons(document.body, buttons_host);
+        }
+        else
+        {
+            // Run the real application
 
-        this.curScreen = this.screens[App.LOGO];
-        this.startTime = Date.now();
-        window.requestAnimationFrame(() => this._doFrame());
-        this.curScreen.show();                           
+            this.buttons = new ui.Buttons(window.location.host);
+
+            this.screens = {};
+
+            this.screens[App.LOGO] = new ui.logo.LogoScreen(this);
+            this.screens[App.MENU] = new ui.menu.MenuScreen(this);
+            this.screens[App.PONG] = new ui.pong.PongScreen(this);
+            this.screens[App.FORTUNE] = new ui.fortune.FortuneScreen(this);
+            this.screens[App.TETRIS] = new ui.tetris.TetrisScreen(this);
+
+            if (has_debug)
+            {
+                this.htmlButtons = new ui.buttons.HTMLButtons(document.body, window.location.host);
+            }
+
+            this.curScreen = this.screens[App.LOGO];
+            this.startTime = Date.now();
+            window.requestAnimationFrame(() => this._doFrame());
+            this.curScreen.show();
+        }
     }
 
     getButtons(): ui.Buttons

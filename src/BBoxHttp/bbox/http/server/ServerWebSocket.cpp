@@ -15,11 +15,11 @@ namespace bbox {
 namespace http {
 namespace server {
 
-ServerWebSocket ServerWebSocket::Upgrade(Request &request, StateHandler &&state_handler, ReceiveHandler &&rx_handler)
+ServerWebSocket ServerWebSocket::Upgrade(Request &request, const std::string &protocol, StateHandler &&state_handler, ReceiveHandler &&rx_handler)
 {
 	BBOX_ASSERT(details::WebSocketConnection::IsUpgrade(request));
 
-	return ServerWebSocket(new details::WebSocketConnection(request, std::move(state_handler), std::move(rx_handler)));
+	return ServerWebSocket(new details::WebSocketConnection(request, protocol, std::move(state_handler), std::move(rx_handler)));
 }
 
 ServerWebSocket::~ServerWebSocket()

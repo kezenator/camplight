@@ -108,7 +108,16 @@ namespace bbox {
             BBOX_ASSERT(*this);
             BBOX_ASSERT(m_pimpl_ptr->NotHandled());
 
-			return m_pimpl_ptr->m_request_ptr->target().to_string();
+			std::string result = m_pimpl_ptr->m_request_ptr->target().to_string();
+
+			for (char ch : { '#' , '?' })
+			{
+				auto pos = result.find(ch);
+				if (pos != std::string::npos)
+					result = result.substr(0, pos);
+			}
+
+			return result;
         }
 
         bool Request::HasQuery(const std::string &param)
@@ -188,7 +197,7 @@ namespace bbox {
 				return false;
 			}
 
-			auto it = m_pimpl_ptr->m_request_ptr->find("Sec-WebSocket-Protocol");
+			auto it = m_pimpl_ptr->m_request_ptr->find(boost::beast::http::field::sec_websocket_protocol);
 			if (it == m_pimpl_ptr->m_request_ptr->end())
 			{
 				RespondWithBadRequestError("WebSocket \"Sec-WebSocket-Protocol\" header expected");

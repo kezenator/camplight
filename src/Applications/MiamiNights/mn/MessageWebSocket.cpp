@@ -69,6 +69,7 @@ void MessageWebSocket::HandleHttpRequest(bbox::http::Request request)
 	m_socket.Close();
 	m_socket = bbox::http::server::ServerWebSocket::Upgrade(
 		request,
+		m_protocol,
 		std::bind(&MessageWebSocket::HandleWebSocketState, this, std::placeholders::_1),
 		std::bind(&MessageWebSocket::HandleWebSocketRxMessage, this, std::placeholders::_1));
 }

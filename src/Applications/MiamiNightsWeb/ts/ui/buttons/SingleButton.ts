@@ -6,7 +6,6 @@
         private span: HTMLSpanElement;
         private color: string;
         private pressed: boolean;
-        private clicked: boolean;
         private set_action: { (state: boolean): void };
 
         public constructor(parent: HTMLElement, title: string, set_action: { (state:boolean): void })
@@ -15,9 +14,11 @@
             this.set_action = set_action;
 
             this.pressed = false;
-            this.clicked = false;
 
             this.span = document.createElement('span');
+
+            this.span.addEventListener('touchstart', () => { this.setPressed(true); });
+            this.span.addEventListener('touchend', () => { this.setPressed(false); });
 
             parent.appendChild(this.span);
 
@@ -44,33 +45,20 @@
 
         public setPressed(pressed: boolean): void
         {
-            this.pressed = pressed;
-            this.set_action(pressed);
-
-            if (pressed)
+            if (pressed != this.pressed)
             {
-                this.clicked = true;
-                this.span.classList.add('pressed');
+                this.pressed = pressed;
+                this.set_action(pressed);
+
+                if (pressed)
+                {
+                    this.span.classList.add('pressed');
+                }
+                else
+                {
+                    this.span.classList.remove('pressed');
+                }
             }
-            else
-            {
-                this.span.classList.remove('pressed');
-            }
         }
-
-        public isPressed(): boolean
-        {
-            return this.pressed;
-        }
-
-        public isClicked(): boolean
-        {
-            return this.clicked;
-        }
-
-        public setNotClicked(): void
-        {
-            this.clicked = false;
-        }
-    }
+   }
 }

@@ -33,7 +33,7 @@
 
             this.websocket = new bbox.net.MessageWebSocket(
                 "ws://" + host + "/ws/app",
-                "kezenator.com/uri/protocols/ws/miami-nights-app/2018-09-12",
+                "12.09.2018.app.miami-nights.kezenator.com",
                 (state: boolean, error: string) => { this.handleWebsocketState(state, error); });
 
             this.websocket.registerHandler(

@@ -53,7 +53,7 @@ public:
 		return *this;
 	}
 
-	static ServerWebSocket Upgrade(Request &request, StateHandler &&state_handler, ReceiveHandler &&rx_handler);
+	static ServerWebSocket Upgrade(Request &request, const std::string &protocol, StateHandler &&state_handler, ReceiveHandler &&rx_handler);
 
 	bool IsOpen() const;
 	void Close();

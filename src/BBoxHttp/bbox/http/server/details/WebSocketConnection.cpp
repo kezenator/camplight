@@ -9,12 +9,14 @@
 #include <bbox/http/server/HttpServer.h>
 #include <bbox/Assert.h>
 
+#include <boost/beast/version.hpp>
+
 namespace bbox {
 namespace http {
 namespace server {
 namespace details {
 
-WebSocketConnection::WebSocketConnection(Request &request, StateHandler &&state_handler, ReceiveHandler &&rx_handler)
+WebSocketConnection::WebSocketConnection(Request &request, const std::string &protocol, StateHandler &&state_handler, ReceiveHandler &&rx_handler)
 	: m_server(request.m_pimpl_ptr->m_server)
 	, m_stream(std::move(request.m_pimpl_ptr->m_connection_ptr->m_socket))
 	, m_state_handler(std::move(state_handler))
@@ -32,8 +34,13 @@ WebSocketConnection::WebSocketConnection(Request &request, StateHandler &&state_
 	request.m_pimpl_ptr->SetHandled();
 
 	m_outstanding_async_ops += 1;
-	m_stream.async_accept(
+	m_stream.async_accept_ex(
 		*request.m_pimpl_ptr->m_request_ptr,
+		[=](auto & m)
+		{
+			m.insert(boost::beast::http::field::server, BOOST_BEAST_VERSION_STRING);
+			m.insert(boost::beast::http::field::sec_websocket_protocol, protocol);
+		},
 		std::bind(&WebSocketConnection::OnAccept, this, std::placeholders::_1));
 }
 

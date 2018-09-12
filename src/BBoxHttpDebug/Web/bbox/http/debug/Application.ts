@@ -16,7 +16,7 @@
 
             this.websocket = new bbox.net.MessageWebSocket(
                 this.websocket_uri,
-                "kezenator.com/uri/protocols/ws/bbox/http/debug/2018-09-11",
+                "11.09.2018.debug.http.bbox.kezenator.com",
                 (open: boolean, error: string) => { this.handleWebSocketState(open, error); });
 
             this.websocket.registerHandler(

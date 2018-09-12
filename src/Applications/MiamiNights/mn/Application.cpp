@@ -27,8 +27,8 @@ ApplicationService::ApplicationService(const std::string &name,
     , m_http_server("http-server", *this)
     , m_http_debug_website("http-debug-website", *this, m_http_server)
 	, m_audio_service("audio service", *this)
-	, m_buttons_web_socket("buttons-web-socket", *this, m_http_server, "/ws/buttons", "kezenator.com/uri/protocols/ws/miami-nights-buttons/2018-09-12")
-	, m_app_web_socket("app-web-socket", *this, m_http_server, "/ws/app", "kezenator.com/uri/protocols/ws/miami-nights-app/2018-09-12")
+	, m_buttons_web_socket("buttons-web-socket", *this, m_http_server, "/ws/buttons", "12.09.2018.buttons.miami-nights.kezenator.com")
+	, m_app_web_socket("app-web-socket", *this, m_http_server, "/ws/app", "12.09.2018.app.miami-nights.kezenator.com")
 {
 	SetThisDependantOn(m_http_server);
 
@@ -41,7 +41,7 @@ void ApplicationService::HandleStarting()
     m_http_server.AddServer(m_http_listen_endpoint,
         std::bind(&ApplicationService::HttpRequestHandler, this, std::placeholders::_1));
 
-	m_http_server.TryAndOpenWebBrowserToServer();
+	m_http_server.TryAndOpenWebBrowserToServer("/index.html?debug");
 
     NotifyStarted();
 }
@@ -111,7 +111,7 @@ int miami_nights_main(int argc, char *argv[])
 	{
 		// OK - use default endpoint
 	}
-    else if ((argc >= 2)
+    else if ((argc >= 3)
 		|| !bbox::rt::net::TcpEndpoint::FromString(argv[1], endpoint)
 		|| !endpoint.GetAddress().is_v4()
 		|| endpoint.GetAddress().is_multicast()
