@@ -1,6 +1,6 @@
 ﻿class SimpleType
 {
-    static type = bbox.enc.TypeLibrary.simpleStructure("SimpleType", SimpleType)
+    static TYPE = bbox.enc.TypeLibrary.simpleStructure("SimpleType", SimpleType)
         .addMember("name", "std::string")
         .addMember("id", "uint32_t")
         .addMember("list", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"));

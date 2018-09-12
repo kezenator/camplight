@@ -1581,7 +1581,7 @@ var SimpleType = /** @class */ (function () {
         this.id = 0;
         this.list = new bbox.ds.Deque();
     }
-    SimpleType.type = bbox.enc.TypeLibrary.simpleStructure("SimpleType", SimpleType)
+    SimpleType.TYPE = bbox.enc.TypeLibrary.simpleStructure("SimpleType", SimpleType)
         .addMember("name", "std::string")
         .addMember("id", "uint32_t")
         .addMember("list", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"));

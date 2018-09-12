@@ -94,7 +94,7 @@ struct MidiIn::Pimpl
 		case MIM_DATA:
 			{
 			    std::lock_guard<std::mutex> lock(pimpl->m_mutex);
-				pimpl->m_events.emplace_back(dwParam1);
+				pimpl->m_events.emplace_back(uint32_t(dwParam1));
 			}
 			break;
 		}
