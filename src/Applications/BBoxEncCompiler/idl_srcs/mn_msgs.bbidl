@@ -2,6 +2,10 @@ namespace mn::msgs
     [generate cpp "Applications/MiamiNights/mn/msgs"]
     [generate ts  "Applications/MiamiNightsWeb/ts/mn/msgs"]
 {
+    message RetransmitRequired
+    {
+    };
+    
     message ButtonColors
     {
         std::string back_color;
@@ -14,5 +18,14 @@ namespace mn::msgs
         bool back_state;
         bool play_state;
         std::vector<bool> button_states;
+    };
+    
+    message StartEmulator
+    {
+        std::string game;
+    };
+    
+    message EmulatorCompleted
+    {
     };
 }

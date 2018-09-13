@@ -47,6 +47,9 @@
     <TypeScriptCompile Include="ts\app.ts" />
     <TypeScriptCompile Include="ts\mn\msgs\ButtonColors.ts" />
     <TypeScriptCompile Include="ts\mn\msgs\ButtonStates.ts" />
+    <TypeScriptCompile Include="ts\mn\msgs\EmulatorCompleted.ts" />
+    <TypeScriptCompile Include="ts\mn\msgs\RetransmitRequired.ts" />
+    <TypeScriptCompile Include="ts\mn\msgs\StartEmulator.ts" />
     <TypeScriptCompile Include="ts\ui\Buttons.ts" />
     <TypeScriptCompile Include="ts\ui\CanvasScreen.ts" />
     <TypeScriptCompile Include="ts\ui\Screen.ts" />

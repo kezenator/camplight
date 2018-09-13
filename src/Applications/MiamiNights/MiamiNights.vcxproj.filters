@@ -12,6 +12,9 @@
     <ClCompile Include="mn\Application.cpp">
       <Filter>mn</Filter>
     </ClCompile>
+    <ClCompile Include="mn\EmulatorRunner.cpp">
+      <Filter>mn</Filter>
+    </ClCompile>
     <ClCompile Include="mn\MessageWebSocket.cpp">
       <Filter>mn</Filter>
     </ClCompile>
@@ -24,9 +27,21 @@
     <ClCompile Include="mn\msgs\ButtonStates.cpp">
       <Filter>mn\msgs</Filter>
     </ClCompile>
+    <ClCompile Include="mn\msgs\EmulatorCompleted.cpp">
+      <Filter>mn\msgs</Filter>
+    </ClCompile>
+    <ClCompile Include="mn\msgs\RetransmitRequired.cpp">
+      <Filter>mn\msgs</Filter>
+    </ClCompile>
+    <ClCompile Include="mn\msgs\StartEmulator.cpp">
+      <Filter>mn\msgs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mn\Application.h">
+      <Filter>mn</Filter>
+    </ClInclude>
+    <ClInclude Include="mn\EmulatorRunner.h">
       <Filter>mn</Filter>
     </ClInclude>
     <ClInclude Include="mn\MessageWebSocket.h">
@@ -39,6 +54,15 @@
       <Filter>mn\msgs</Filter>
     </ClInclude>
     <ClInclude Include="mn\msgs\ButtonStates.h">
+      <Filter>mn\msgs</Filter>
+    </ClInclude>
+    <ClInclude Include="mn\msgs\EmulatorCompleted.h">
+      <Filter>mn\msgs</Filter>
+    </ClInclude>
+    <ClInclude Include="mn\msgs\RetransmitRequired.h">
+      <Filter>mn\msgs</Filter>
+    </ClInclude>
+    <ClInclude Include="mn\msgs\StartEmulator.h">
       <Filter>mn\msgs</Filter>
     </ClInclude>
   </ItemGroup>

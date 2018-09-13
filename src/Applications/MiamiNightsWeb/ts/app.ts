@@ -16,8 +16,11 @@ class App
     static PONG: string = 'pomg';
     static FORTUNE: string = 'fortune';
     static TETRIS: string = 'tetris';
+    static SONIC: string = 'sonic';
+    static ALTERED_BEAST: string = 'altered-beast';
 
     private curScreen: ui.Screen;
+    private appWebSocket: bbox.net.MessageWebSocket;
     private buttons: ui.Buttons;
     private htmlButtons: ui.buttons.HTMLButtons;
     private screens: any; 
@@ -43,7 +46,16 @@ class App
         {
             // Run the real application
 
-            this.buttons = new ui.Buttons(window.location.host);
+            this.appWebSocket = new bbox.net.MessageWebSocket(
+                "ws://" + window.location.host + "/ws/app",
+                "12.09.2018.app.miami-nights.kezenator.com",
+                (state: boolean, error: string) => { this.handleAppWebSocketState(state, error); });
+
+            this.appWebSocket.registerHandler(
+                mn.msgs.EmulatorCompleted.TYPE,
+                (msg: mn.msgs.EmulatorCompleted) => { this.handleWebsocketRxEmulatorCompleted(msg); });
+
+            this.buttons = new ui.Buttons(this.appWebSocket);
 
             this.screens = {};
 
@@ -72,18 +84,64 @@ class App
 
     showScreen(name: string): void
     {
-        this.curScreen.hide();
-        this.curScreen = this.screens[name];
-        this.startTime = Date.now();
-        this.curScreen.show();                           
+        // Hide the current screen
+
+        if (this.curScreen)
+        {
+            this.curScreen.hide();
+            this.curScreen = null;
+        }
+
+        // See if this is a screen, or else we need to
+        // start the emulator
+
+        if (name in this.screens)
+        {
+            this.curScreen = this.screens[name];
+            this.startTime = Date.now();
+            this.curScreen.show();
+        }
+        else if (!this.appWebSocket.isOpen())
+        {
+            // No connection - just return to the menu
+
+            this.curScreen = this.screens[App.MENU];
+            this.startTime = Date.now();
+            this.curScreen.show();
+        }
+        else
+        {
+            var msg = new mn.msgs.StartEmulator();
+            msg.game = name;
+
+            this.appWebSocket.send(msg);
+        }
     }
 
-    private _doFrame()
+    private _doFrame(): void
     {
         window.requestAnimationFrame(() => this._doFrame());
 
         this.curScreen.updateFrame(Date.now() - this.startTime);
         this.buttons.frameCompleted();
+    }
+
+    private handleAppWebSocketState(state: boolean, _error: string): void
+    {
+        this.buttons.handleAppWebSocketState(state);
+
+        if (!state
+            && (this.curScreen == null))
+        {
+            // We've lost out connection - return to the logo screen
+            this.showScreen(App.LOGO);
+        }
+    }
+
+    private handleWebsocketRxEmulatorCompleted(_msg: mn.msgs.EmulatorCompleted): void
+    {
+        // Return to the menu
+        this.showScreen(App.MENU);
     }
 }
 

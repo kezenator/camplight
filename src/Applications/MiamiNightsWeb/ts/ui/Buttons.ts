@@ -13,7 +13,7 @@
         private play_clicked: boolean;
         private other_clicked: boolean[];
 
-        constructor(host: string)
+        constructor(websocket: bbox.net.MessageWebSocket)
         {
             this.button_states = new mn.msgs.ButtonStates();
             this.button_colors = new mn.msgs.ButtonColors();
@@ -31,14 +31,19 @@
 
             this.send_timer = new bbox.ui.Timer(() => { this.sendTimerExpired(); });
 
-            this.websocket = new bbox.net.MessageWebSocket(
-                "ws://" + host + "/ws/app",
-                "12.09.2018.app.miami-nights.kezenator.com",
-                (state: boolean, error: string) => { this.handleWebsocketState(state, error); });
+            this.websocket = websocket;
 
             this.websocket.registerHandler(
                 mn.msgs.ButtonStates.TYPE,
                 (msg: mn.msgs.ButtonStates) => { this.handleWebsocketRxButtonStates(msg); });
+
+            this.websocket.registerHandler(
+                mn.msgs.RetransmitRequired.TYPE,
+                (msg: mn.msgs.RetransmitRequired) => { this.handleWebsocketRxRetransmitRequired(msg); });
+        }
+
+        handleAppWebSocketState(state: boolean): void
+        {
         }
 
         setPlayColor(color: string): void
@@ -95,14 +100,6 @@
             }
        }
 
-        private handleWebsocketState(state: boolean, error: string)
-        {
-            if (state)
-            {
-                this.websocket.send(this.button_colors);
-            }
-        }
-
         private sendTimerExpired()
         {
             this.websocket.send(this.button_colors);
@@ -130,6 +127,11 @@
             // Save new state
 
             this.button_states = msg;
+        }
+
+        private handleWebsocketRxRetransmitRequired(msg: mn.msgs.RetransmitRequired): void
+        {
+            this.websocket.send(this.button_colors);
         }
     }
 }

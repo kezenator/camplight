@@ -19,9 +19,13 @@
 #include <bbox/audio/AudioService.h>
 
 #include <mn/MessageWebSocket.h>
+#include <mn/EmulatorRunner.h>
 
 #include <mn/msgs/ButtonStates.h>
 #include <mn/msgs/ButtonColors.h>
+#include <mn/msgs/EmulatorCompleted.h>
+#include <mn/msgs/RetransmitRequired.h>
+#include <mn/msgs/StartEmulator.h>
 
 namespace mn {
 
@@ -41,8 +45,11 @@ private:
 
 	void HttpRequestHandler(bbox::http::Request &request);
 
+	void HandleWebSocketStateChanged();
 	void HandleButtonRxButtonState(const msgs::ButtonStates &msg);
 	void HandleAppRxButtonColors(const msgs::ButtonColors &msg);
+	void HandleAppRxStartEmulator(const msgs::StartEmulator &msg);
+	void HandleEmulatorCompleted();
 
 	bbox::rt::net::TcpEndpoint m_http_listen_endpoint;
 	bbox::rt::ConsoleShutdownService m_console_shutdown_service;
@@ -52,6 +59,7 @@ private:
 
 	mn::MessageWebSocket m_buttons_web_socket;
 	mn::MessageWebSocket m_app_web_socket;
+	mn::EmulatorRunner m_emulator_runner;
 
 	msgs::ButtonStates m_button_states;
 	msgs::ButtonColors m_button_colors;

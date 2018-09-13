@@ -97,10 +97,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="mn\Application.cpp" />
+    <ClCompile Include="mn\EmulatorRunner.cpp" />
     <ClCompile Include="mn\MessageWebSocket.cpp" />
     <ClCompile Include="mn\Resources.cpp" />
     <ClCompile Include="mn\msgs\ButtonColors.cpp" />
     <ClCompile Include="mn\msgs\ButtonStates.cpp" />
+    <ClCompile Include="mn\msgs\EmulatorCompleted.cpp" />
+    <ClCompile Include="mn\msgs\RetransmitRequired.cpp" />
+    <ClCompile Include="mn\msgs\StartEmulator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BBoxAudio\BBoxAudio.vcxproj">
@@ -133,10 +137,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mn\Application.h" />
+    <ClInclude Include="mn\EmulatorRunner.h" />
     <ClInclude Include="mn\MessageWebSocket.h" />
     <ClInclude Include="mn\Resources.h" />
     <ClInclude Include="mn\msgs\ButtonColors.h" />
     <ClInclude Include="mn\msgs\ButtonStates.h" />
+    <ClInclude Include="mn\msgs\EmulatorCompleted.h" />
+    <ClInclude Include="mn\msgs\RetransmitRequired.h" />
+    <ClInclude Include="mn\msgs\StartEmulator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MiamiNights.bbmake" />

@@ -108,11 +108,11 @@ private:
 
 	struct Pimpl
 	{
-		std::type_index &type;
+		std::type_index type;
 		std::string name;
 		std::function<MsgAnyPtr()> constructor;
 
-		Pimpl(std::type_index &_type, std::string &&_name, std::function<MsgAnyPtr()> &&_constructor)
+		Pimpl(const std::type_index &_type, std::string &&_name, std::function<MsgAnyPtr()> &&_constructor)
 			: type(_type)
 			, name(std::move(_name))
 			, constructor(std::move(_constructor))
@@ -120,7 +120,7 @@ private:
 		}
 	};
 
-	MsgType(std::type_index &_type, std::string &&_name, std::function<MsgAnyPtr()> &&_constructor)
+	MsgType(const std::type_index &_type, std::string &&_name, std::function<MsgAnyPtr()> &&_constructor)
 		: m_ptr(std::make_shared<Pimpl>(_type, std::move(_name), std::move(_constructor)))
 	{
 	}

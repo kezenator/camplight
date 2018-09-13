@@ -19,6 +19,11 @@ namespace bbox.net
             this.reconnect_timer.startSingleShot(100);
         }
 
+        public isOpen(): boolean
+        {
+            return this.is_open;
+        }
+
         public registerHandler(type: bbox.enc.Type, handler: (msg: any) => void)
         {
             this.msg_handlers[type.getName()] = handler;

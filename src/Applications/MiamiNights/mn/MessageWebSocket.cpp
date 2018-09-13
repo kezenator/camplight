@@ -19,11 +19,13 @@ MessageWebSocket::MessageWebSocket(
 	                  bbox::rt::Service &parent,
 	                  bbox::http::server::HttpServer &server,
 	                  std::string &&path,
-	                  std::string &&protocol)
+	                  std::string &&protocol,
+	                  std::function<void()> &&connected_changed_handler)
 	: bbox::rt::Service(name, parent)
 	, m_server(server)
 	, m_path(std::move(path))
 	, m_protocol(std::move(protocol))
+	, m_connected_changed_handler(std::move(connected_changed_handler))
 	, m_request_handler("request-handler", *this, server)
 	, m_socket()
 	, m_debug_enable("messaging", *this)
@@ -85,6 +87,8 @@ void MessageWebSocket::HandleWebSocketState(bbox::Error error)
 		}
 		out.Format(": State: %s\n", error.ToString());
 	}
+
+	m_connected_changed_handler();
 }
 
 void MessageWebSocket::HandleWebSocketRxMessage(const std::string &str)

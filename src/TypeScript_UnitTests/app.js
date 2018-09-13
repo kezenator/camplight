@@ -613,6 +613,9 @@ var bbox;
                 this.reconnect_timer = new bbox.ui.Timer(function () { _this.reconnect(); });
                 this.reconnect_timer.startSingleShot(100);
             }
+            MessageWebSocket.prototype.isOpen = function () {
+                return this.is_open;
+            };
             MessageWebSocket.prototype.registerHandler = function (type, handler) {
                 this.msg_handlers[type.getName()] = handler;
             };

@@ -26,7 +26,8 @@ public:
 		bbox::rt::Service &parent,
 	    bbox::http::server::HttpServer &server,
 		std::string &&path,
-		std::string &&protocol);
+		std::string &&protocol,
+		std::function<void()> &&connected_changed_handler);
 	~MessageWebSocket();
 
 	template <typename HandlerType, typename MsgType>
@@ -58,6 +59,7 @@ private:
 	bbox::http::server::HttpServer &m_server;
 	const std::string m_path;
 	const std::string m_protocol;
+	const std::function<void()> m_connected_changed_handler;
 	bbox::http::server::RequestHandler m_request_handler;
 	bbox::http::server::ServerWebSocket m_socket;
 	bbox::rt::DebugEnable m_debug_enable;

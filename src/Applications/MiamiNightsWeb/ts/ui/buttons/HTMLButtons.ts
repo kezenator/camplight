@@ -25,6 +25,10 @@ namespace ui.buttons
                 mn.msgs.ButtonColors.TYPE,
                 (msg: mn.msgs.ButtonColors) => { this.handleWebsocketRxButtonColors(msg); });
 
+            this.websocket.registerHandler(
+                mn.msgs.RetransmitRequired.TYPE,
+                (msg: mn.msgs.RetransmitRequired) => { this.handleWebsocketRxRetransmitRequired(msg); });
+
             this.allButtons = [];
 
             var div = document.createElement('div');
@@ -113,12 +117,6 @@ namespace ui.buttons
             // Reset all colors to black
             for (var button of this.allButtons)
                 button.setColor('black');
-
-            if (state)
-            {
-                // Send our current state
-                this.websocket.send(this.states);
-            }
         }
 
         private handleWebsocketRxButtonColors(msg: mn.msgs.ButtonColors): void
@@ -132,5 +130,10 @@ namespace ui.buttons
                 this.otherButtons[i].setColor(msg.button_colors.at(i));
             }
         }
-    }
+
+        private handleWebsocketRxRetransmitRequired(msg: mn.msgs.RetransmitRequired): void
+        {
+            this.websocket.send(this.states);
+        }
+   }
 }

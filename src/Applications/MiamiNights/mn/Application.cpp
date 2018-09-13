@@ -27,13 +27,24 @@ ApplicationService::ApplicationService(const std::string &name,
     , m_http_server("http-server", *this)
     , m_http_debug_website("http-debug-website", *this, m_http_server)
 	, m_audio_service("audio service", *this)
-	, m_buttons_web_socket("buttons-web-socket", *this, m_http_server, "/ws/buttons", "12.09.2018.buttons.miami-nights.kezenator.com")
-	, m_app_web_socket("app-web-socket", *this, m_http_server, "/ws/app", "12.09.2018.app.miami-nights.kezenator.com")
+	, m_buttons_web_socket("buttons-web-socket", *this,
+		m_http_server,
+		"/ws/buttons",
+		"12.09.2018.buttons.miami-nights.kezenator.com",
+		std::bind(&ApplicationService::HandleWebSocketStateChanged, this))
+	, m_app_web_socket("app-web-socket", *this,
+		m_http_server,
+		"/ws/app",
+		"12.09.2018.app.miami-nights.kezenator.com",
+		std::bind(&ApplicationService::HandleWebSocketStateChanged, this))
+	, m_emulator_runner("emulator-runner", *this,
+		std::bind(&ApplicationService::HandleEmulatorCompleted, this))
 {
 	SetThisDependantOn(m_http_server);
 
 	m_buttons_web_socket.RegisterHandler(&ApplicationService::HandleButtonRxButtonState, this);
 	m_app_web_socket.RegisterHandler(&ApplicationService::HandleAppRxButtonColors, this);
+	m_app_web_socket.RegisterHandler(&ApplicationService::HandleAppRxStartEmulator, this);
 }
 
 void ApplicationService::HandleStarting()
@@ -85,6 +96,16 @@ void ApplicationService::HttpRequestHandler(bbox::http::Request &request)
     request.RespondWithNotFoundError();
 }
 
+void ApplicationService::HandleWebSocketStateChanged()
+{
+	if (m_app_web_socket.IsOpen()
+		&& m_buttons_web_socket.IsOpen())
+	{
+		m_app_web_socket.Send(new_message<msgs::RetransmitRequired>());
+		m_buttons_web_socket.Send(new_message<msgs::RetransmitRequired>());
+	}
+}
+
 void ApplicationService::HandleButtonRxButtonState(const msgs::ButtonStates &msg)
 {
 	m_button_states = msg;
@@ -97,6 +118,18 @@ void ApplicationService::HandleAppRxButtonColors(const msgs::ButtonColors &msg)
 	m_button_colors = msg;
 
 	m_buttons_web_socket.Send(new_message<msgs::ButtonColors>(msg));
+}
+
+void ApplicationService::HandleAppRxStartEmulator(const msgs::StartEmulator &msg)
+{
+	m_emulator_runner.Start(msg.game);
+}
+
+void ApplicationService::HandleEmulatorCompleted()
+{
+	// Just send back that we're completed
+
+	m_app_web_socket.Send(new_message<msgs::EmulatorCompleted>());
 }
 
 } // namespace camplight

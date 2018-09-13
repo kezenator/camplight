@@ -1,6 +1,10 @@
 /// <reference path="../../../TypeScriptClientLib/lib_references.ts" />
 
 /// <reference path="mn\msgs\ButtonColors.ts" />
+/// <reference path="mn\msgs\ButtonStates.ts" />
+/// <reference path="mn\msgs\EmulatorCompleted.ts" />
+/// <reference path="mn\msgs\StartEmulator.ts" />
+/// <reference path="mn\msgs\RetransmitRequired.ts" />
 
 /// <reference path="util\Color.ts" />
 /// <reference path="util\Math.ts" />
