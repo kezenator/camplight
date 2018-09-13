@@ -13,11 +13,8 @@
 
 namespace mn {
 
-// Forward declarations
-class ApplicationService;
-
 /**
- * A web-socket that can send and receive messages to a single remote party.
+ * A class that runs an external application (the arcard emulator) and reports when it's completed.
  */
 class EmulatorRunner : public bbox::rt::Resource
 {
@@ -34,6 +31,7 @@ private:
 	void HandleStopping() override;
 	void PrintState(bbox::DebugOutput &out) const override;
 
+	void CheckShutdown();
 	void ThreadProc();
 	void ProcessCompleted();
 

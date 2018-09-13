@@ -39,6 +39,7 @@ ApplicationService::ApplicationService(const std::string &name,
 		std::bind(&ApplicationService::HandleWebSocketStateChanged, this))
 	, m_emulator_runner("emulator-runner", *this,
 		std::bind(&ApplicationService::HandleEmulatorCompleted, this))
+	, m_emulator_joystick("emulator-joystick", *this)
 {
 	SetThisDependantOn(m_http_server);
 
@@ -109,6 +110,8 @@ void ApplicationService::HandleWebSocketStateChanged()
 void ApplicationService::HandleButtonRxButtonState(const msgs::ButtonStates &msg)
 {
 	m_button_states = msg;
+
+	m_emulator_joystick.SetStates(msg);
 
 	m_app_web_socket.Send(new_message<msgs::ButtonStates>(msg));
 }

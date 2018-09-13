@@ -20,6 +20,7 @@
 
 #include <mn/MessageWebSocket.h>
 #include <mn/EmulatorRunner.h>
+#include <mn/EmulatorJoystick.h>
 
 #include <mn/msgs/ButtonStates.h>
 #include <mn/msgs/ButtonColors.h>
@@ -60,6 +61,7 @@ private:
 	mn::MessageWebSocket m_buttons_web_socket;
 	mn::MessageWebSocket m_app_web_socket;
 	mn::EmulatorRunner m_emulator_runner;
+	mn::EmulatorJoystick m_emulator_joystick;
 
 	msgs::ButtonStates m_button_states;
 	msgs::ButtonColors m_button_colors;

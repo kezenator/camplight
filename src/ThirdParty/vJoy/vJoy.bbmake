@@ -1,0 +1,12 @@
+if (platform() == "Win32") then
+
+  project("vJoy", "StaticLibrary");
+
+  library_reference("vJoyInterface.lib");
+  
+  include(".");
+
+  headers(find_recursive("*.h"));
+  sources(find_recursive("*.cpp"));
+
+end

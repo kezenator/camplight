@@ -24,8 +24,7 @@ EmulatorRunner::~EmulatorRunner()
 
 void EmulatorRunner::HandleStopping()
 {
-	RequestStopAllChildren();
-	NotifyStopped();
+	CheckShutdown();
 }
 
 void EmulatorRunner::PrintState(bbox::DebugOutput &out) const
@@ -41,6 +40,16 @@ void EmulatorRunner::Start(const std::string &game)
 		m_running = true;
 		m_game = game;
 		m_thread = std::thread([this]() { ThreadProc(); });
+	}
+}
+
+void EmulatorRunner::CheckShutdown()
+{
+	if ((GetLocalRunLevel() == bbox::rt::RunLevel::STOPPING)
+		&& !m_running)
+	{
+		RequestStopAllChildren();
+		NotifyStopped();
 	}
 }
 
@@ -111,6 +120,8 @@ void EmulatorRunner::ProcessCompleted()
 	m_running = false;
 
 	m_on_complete_handler();
+
+	CheckShutdown();
 }
 
 } // namespace mn
