@@ -10,8 +10,8 @@ namespace ui
         {
             super(app);
             this.canvas = document.createElement('canvas');
-            this.canvas.width = 960;
-            this.canvas.height = 540;
+            this.canvas.width = app.getWidth();
+            this.canvas.height = app.getHeight();
             this.getDiv().appendChild(this.canvas);
         }
 
@@ -21,7 +21,10 @@ namespace ui
             if (ctx != null)
             {
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
-                ctx.scale(0.5, 0.5);
+
+                var scale = this.getApp().getScale();
+                if (scale != 1)
+                    ctx.scale(scale, scale);
 
                 this.draw(ctx, ms);
             }

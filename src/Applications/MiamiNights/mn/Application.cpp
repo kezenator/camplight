@@ -111,9 +111,17 @@ void ApplicationService::HandleButtonRxButtonState(const msgs::ButtonStates &msg
 {
 	m_button_states = msg;
 
-	m_emulator_joystick.SetStates(msg);
+	// Send to the emulator if running,
+	// else to the WebSite
 
-	m_app_web_socket.Send(new_message<msgs::ButtonStates>(msg));
+	if (m_emulator_runner.IsRunning())
+	{
+		m_emulator_joystick.SetStates(msg);
+	}
+	else
+	{
+		m_app_web_socket.Send(new_message<msgs::ButtonStates>(msg));
+	}
 }
 
 void ApplicationService::HandleAppRxButtonColors(const msgs::ButtonColors &msg)
@@ -125,14 +133,37 @@ void ApplicationService::HandleAppRxButtonColors(const msgs::ButtonColors &msg)
 
 void ApplicationService::HandleAppRxStartEmulator(const msgs::StartEmulator &msg)
 {
+	// Return default button states to the Website,
+	// start the emulator,
+	// and send it the current button states
+
+	m_app_web_socket.Send(new_message<msgs::ButtonStates>(DefaultStates()));
+
 	m_emulator_runner.Start(msg.game);
+	m_emulator_joystick.SetStates(m_button_states);
 }
 
 void ApplicationService::HandleEmulatorCompleted()
 {
-	// Just send back that we're completed
+	// Disable the joystick,
+	// tell the Website we're finished,
+	// and forward it the current button states
+
+	m_emulator_joystick.SetStates(DefaultStates());
 
 	m_app_web_socket.Send(new_message<msgs::EmulatorCompleted>());
+	m_app_web_socket.Send(new_message<msgs::ButtonStates>(m_button_states));
+}
+
+msgs::ButtonStates ApplicationService::DefaultStates()
+{
+	msgs::ButtonStates result;
+
+	result.back_state = false;
+	result.play_state = false;
+	result.button_states = { false, false, false, false, false, false };
+
+	return result;
 }
 
 } // namespace camplight

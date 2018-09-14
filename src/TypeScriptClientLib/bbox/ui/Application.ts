@@ -1,3 +1,5 @@
+/// <reference path="./Container.ts"/>
+
 namespace bbox.ui
 {
     class BodyContainer extends Container

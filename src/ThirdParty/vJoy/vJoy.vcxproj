@@ -93,6 +93,7 @@
     <ClCompile Include="vJoyInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="public.h" />
     <ClInclude Include="vjoyinterface.h" />
   </ItemGroup>
   <ItemGroup>

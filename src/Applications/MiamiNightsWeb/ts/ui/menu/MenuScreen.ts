@@ -5,6 +5,7 @@ namespace ui.menu
 {
     class MenuScreenEntry
     {
+        show: boolean;
         hue: number;
         screen: string;
         imageUri: string;
@@ -12,6 +13,7 @@ namespace ui.menu
 
         constructor(_hue: number, _screen: string, _image_uri: string)
         {
+            this.show = false;
             this.hue = _hue;
             this.screen = _screen;
             this.imageUri = _image_uri;
@@ -24,11 +26,14 @@ namespace ui.menu
     {
         private static TIME_EXPIRY: number = 60000;
 
+        private background: Background;
         private entries: MenuScreenEntry[];
 
-        public constructor(app: App)
+        public constructor(app: App, background: Background)
         {
             super(app);
+
+            this.background = background;
 
             this.entries = [
                 new MenuScreenEntry(0, App.FORTUNE, "res/imgs/menu_fortune.png"),
@@ -61,8 +66,7 @@ namespace ui.menu
 
             buttons.setPlayColor('#000000');
 
-            ctx.fillStyle = 'black';
-            ctx.fillRect(0, 0, 1920, 1080);
+            this.background.draw(ctx, ms);
 
             for (var i = 0; i < this.entries.length; ++i)
             {
@@ -75,15 +79,25 @@ namespace ui.menu
         {
             // Work out the fade amount for this entry
 
-            var fade = 0;
+            var swipe = 0;
 
             {
                 var cycle = (ms % 2000) / 2000;
                 var start = 0.125 * i;
                 var end = 0.125 * (i + 2.1);
 
-                fade = util.unlerp(cycle, start, end);
+                swipe = util.unlerp(cycle, start, end);
             }
+
+            // Work out if it should be shown
+
+            if (swipe > 0)
+            {
+                entry.show = true;
+            }
+
+            if (!entry.show)
+                return;
 
             // Work out the location for this entry
 
@@ -131,13 +145,13 @@ namespace ui.menu
 
             // Draw a white wash across the button
 
-            if ((fade > 0) && (fade < 1))
+            if ((swipe > 0) && (swipe < 1))
             {
                 var shine_width = 200;
 
                 var width_frac = shine_width / (shine_width + width + height);
 
-                var offset = util.lerp(fade, 0, 1 - width_frac);
+                var offset = util.lerp(swipe, 0, 1 - width_frac);
 
                 var grad = ctx.createLinearGradient(x - shine_width, y - shine_width, x + width + height, y + width + height);
 
@@ -152,7 +166,7 @@ namespace ui.menu
             // Draw the border
             // (color changing, expanding with fade)
 
-            fade = util.there_and_back(fade);
+            var fade = util.there_and_back(swipe);
 
             ctx.strokeStyle = 'hsl(' + entry.hue + ',100%,' + Math.floor(util.lerp(fade, 30, 50)) + '%)';
             ctx.lineWidth = 10 + util.lerp(fade, 0, 20);

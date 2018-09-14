@@ -52,6 +52,8 @@ private:
 	void HandleAppRxStartEmulator(const msgs::StartEmulator &msg);
 	void HandleEmulatorCompleted();
 
+	msgs::ButtonStates DefaultStates();
+
 	bbox::rt::net::TcpEndpoint m_http_listen_endpoint;
 	bbox::rt::ConsoleShutdownService m_console_shutdown_service;
 	bbox::http::server::HttpServer m_http_server;

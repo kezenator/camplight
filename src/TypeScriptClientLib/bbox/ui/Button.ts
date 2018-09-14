@@ -1,3 +1,5 @@
+/// <reference path="./TextControl.ts"/>
+
 namespace bbox.ui
 {
     export interface ButtonOnClickCallback

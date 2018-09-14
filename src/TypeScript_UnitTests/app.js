@@ -176,7 +176,9 @@ var bbox;
         ui.Control = Control;
     })(ui = bbox.ui || (bbox.ui = {}));
 })(bbox || (bbox = {}));
+/// <reference path="./Control.ts"/>
 var bbox;
+/// <reference path="./Control.ts"/>
 (function (bbox) {
     var ui;
     (function (ui) {
@@ -196,7 +198,9 @@ var bbox;
         ui.Container = Container;
     })(ui = bbox.ui || (bbox.ui = {}));
 })(bbox || (bbox = {}));
+/// <reference path="./Container.ts"/>
 var bbox;
+/// <reference path="./Container.ts"/>
 (function (bbox) {
     var ui;
     (function (ui) {
@@ -288,7 +292,9 @@ var bbox;
         ui.Application = Application;
     })(ui = bbox.ui || (bbox.ui = {}));
 })(bbox || (bbox = {}));
+/// <reference path="./Control.ts"/>
 var bbox;
+/// <reference path="./Control.ts"/>
 (function (bbox) {
     var ui;
     (function (ui) {
@@ -345,7 +351,9 @@ var bbox;
         ui.EditBox = EditBox;
     })(ui = bbox.ui || (bbox.ui = {}));
 })(bbox || (bbox = {}));
+/// <reference path="./TextControl.ts"/>
 var bbox;
+/// <reference path="./TextControl.ts"/>
 (function (bbox) {
     var ui;
     (function (ui) {
@@ -1134,7 +1142,9 @@ var bbox;
         enc.FromXml = FromXml;
     })(enc = bbox.enc || (bbox.enc = {}));
 })(bbox || (bbox = {}));
+/// <reference path="../Type.ts"/>
 var bbox;
+/// <reference path="../Type.ts"/>
 (function (bbox) {
     var enc;
     (function (enc) {

@@ -71,7 +71,7 @@ namespace ui.logo
             grad.addColorStop(5 / 6, '#3eafe4');
             grad.addColorStop(6 / 6, '#81c6e5');
             ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, 1920, horizon);
+            ctx.fillRect(0, 0, 1920, horizon + 1);
         }
 
         private drawSea(ctx: CanvasRenderingContext2D, ms: number)

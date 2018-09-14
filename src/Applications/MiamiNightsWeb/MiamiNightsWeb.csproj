@@ -30,6 +30,7 @@
     <Content Include="res/VeganStyle.ttf" />
     <Content Include="res/imgs/city.png" />
     <Content Include="res/imgs/menu_altered_beast.png" />
+    <Content Include="res/imgs/menu_background_sprites.png" />
     <Content Include="res/imgs/menu_fortune.png" />
     <Content Include="res/imgs/menu_pong.png" />
     <Content Include="res/imgs/menu_sonic.png" />
@@ -57,6 +58,7 @@
     <TypeScriptCompile Include="ts\ui\buttons\SingleButton.ts" />
     <TypeScriptCompile Include="ts\ui\fortune\FortuneScreen.ts" />
     <TypeScriptCompile Include="ts\ui\logo\LogoScreen.ts" />
+    <TypeScriptCompile Include="ts\ui\menu\Background.ts" />
     <TypeScriptCompile Include="ts\ui\menu\MenuScreen.ts" />
     <TypeScriptCompile Include="ts\ui\pong\PongScreen.ts" />
     <TypeScriptCompile Include="ts\ui\tetris\Cell.ts" />

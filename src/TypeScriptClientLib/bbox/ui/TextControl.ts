@@ -1,3 +1,5 @@
+/// <reference path="./Control.ts"/>
+
 namespace bbox.ui
 {
     export class TextControl extends Control

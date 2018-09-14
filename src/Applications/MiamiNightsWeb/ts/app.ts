@@ -2,8 +2,10 @@
 
 /// <reference path="mn\msgs\ButtonColors.ts" />
 
+
 /// <reference path="ui/logo/LogoScreen.ts" />
 /// <reference path="ui/fortune/FortuneScreen.ts" />
+/// <reference path="ui/menu/Background.ts"/>
 /// <reference path="ui/menu/MenuScreen.ts" />
 /// <reference path="ui/pong/PongScreen.ts" />
 /// <reference path="ui/tetris/TetrisScreen.ts" />
@@ -26,8 +28,16 @@ class App
     private screens: any; 
     private startTime: number;
 
+    private width: number;
+    private height: number;
+    private scale: number;
+
     constructor()
     {
+        this.width = 1920;
+        this.height = 1080;
+        this.scale = 1;
+
         var params = new URLSearchParams(window.location.search);
 
         var has_debug = params.has('debug');
@@ -57,24 +67,45 @@ class App
 
             this.buttons = new ui.Buttons(this.appWebSocket);
 
-            this.screens = {};
-
-            this.screens[App.LOGO] = new ui.logo.LogoScreen(this);
-            this.screens[App.MENU] = new ui.menu.MenuScreen(this);
-            this.screens[App.PONG] = new ui.pong.PongScreen(this);
-            this.screens[App.FORTUNE] = new ui.fortune.FortuneScreen(this);
-            this.screens[App.TETRIS] = new ui.tetris.TetrisScreen(this);
-
             if (has_debug)
             {
                 this.htmlButtons = new ui.buttons.HTMLButtons(document.body, window.location.host);
+
+                this.width = 960;
+                this.height = 540;
+                this.scale = 0.5;
             }
+
+            this.screens = {};
+
+            var menu_background = new ui.menu.Background();
+
+            this.screens[App.LOGO] = new ui.logo.LogoScreen(this);
+            this.screens[App.MENU] = new ui.menu.MenuScreen(this, menu_background);
+            this.screens[App.PONG] = new ui.pong.PongScreen(this);
+            this.screens[App.FORTUNE] = new ui.fortune.FortuneScreen(this);
+            this.screens[App.TETRIS] = new ui.tetris.TetrisScreen(this);
 
             this.curScreen = this.screens[App.LOGO];
             this.startTime = Date.now();
             window.requestAnimationFrame(() => this._doFrame());
             this.curScreen.show();
         }
+    }
+
+    getWidth(): number
+    {
+        return this.width;
+    }
+
+    getHeight(): number
+    {
+        return this.height;
+    }
+
+    getScale(): number
+    {
+        return this.scale;
     }
 
     getButtons(): ui.Buttons

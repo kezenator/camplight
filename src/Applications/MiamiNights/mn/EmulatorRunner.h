@@ -25,6 +25,8 @@ public:
 		std::function<void()> &&on_complete_handler);
 	~EmulatorRunner();
 
+	bool IsRunning() const { return m_running; }
+
 	void Start(const std::string &game);
 
 private:

@@ -1,3 +1,5 @@
+/// <reference path="../Type.ts"/>
+
 namespace bbox.enc.details
 {
     export class BooleanType extends Type
