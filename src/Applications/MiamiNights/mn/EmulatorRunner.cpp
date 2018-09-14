@@ -62,6 +62,10 @@ void EmulatorRunner::ThreadProc()
 	{
 		cmd = L"C:\\mame\\mame64.exe genesis -cart .\\roms\\AlteredBeast.smd";
 	}
+	else if (m_game == "super-mario-world")
+	{
+		cmd = L"C:\\mame\\mame64.exe snes -cart .\\roms\\super_mario_world.smc";
+	}
 	else // default to Sonic
 	{
 		cmd = L"C:\\mame\\mame64.exe genesis -cart .\\roms\\sonic3.smd";

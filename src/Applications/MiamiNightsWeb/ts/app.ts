@@ -20,6 +20,7 @@ class App
     static TETRIS: string = 'tetris';
     static SONIC: string = 'sonic';
     static ALTERED_BEAST: string = 'altered-beast';
+    static SUPER_MARIO_WORLD: string = 'super-mario-world';
 
     private curScreen: ui.Screen;
     private appWebSocket: bbox.net.MessageWebSocket;

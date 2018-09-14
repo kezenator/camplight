@@ -34,8 +34,8 @@
     <Content Include="res/imgs/menu_fortune.png" />
     <Content Include="res/imgs/menu_pong.png" />
     <Content Include="res/imgs/menu_sonic.png" />
+    <Content Include="res/imgs/menu_super_mario_world.png" />
     <Content Include="res/imgs/menu_tetris.png" />
-    <Content Include="res/imgs/menu_todo.png" />
     <Content Include="res/imgs/palm.png" />
     <Content Include="res/imgs/pong_logo.png" />
     <Content Include="res/still_time.ttf" />
