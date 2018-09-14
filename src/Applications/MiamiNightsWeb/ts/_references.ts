@@ -6,6 +6,9 @@
 /// <reference path="mn\msgs\StartEmulator.ts" />
 /// <reference path="mn\msgs\RetransmitRequired.ts" />
 
+/// <reference path="mn\audio\Playout.ts" />
+/// <reference path="mn\audio\AudioManager.ts" />
+
 /// <reference path="util\Color.ts" />
 /// <reference path="util\Math.ts" />
 

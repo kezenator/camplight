@@ -24,6 +24,7 @@ class App
 
     private curScreen: ui.Screen;
     private appWebSocket: bbox.net.MessageWebSocket;
+    private audio: mn.audio.AudioManager;
     private buttons: ui.Buttons;
     private htmlButtons: ui.buttons.HTMLButtons;
     private screens: any; 
@@ -67,6 +68,8 @@ class App
                 (msg: mn.msgs.EmulatorCompleted) => { this.handleWebsocketRxEmulatorCompleted(msg); });
 
             this.buttons = new ui.Buttons(this.appWebSocket);
+
+            this.audio = new mn.audio.AudioManager();
 
             if (has_debug)
             {
@@ -112,6 +115,11 @@ class App
     getButtons(): ui.Buttons
     {
         return this.buttons;
+    }
+
+    getAudio(): mn.audio.AudioManager
+    {
+        return this.audio;
     }
 
     showScreen(name: string): void

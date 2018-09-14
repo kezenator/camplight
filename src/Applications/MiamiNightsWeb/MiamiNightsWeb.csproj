@@ -28,6 +28,7 @@
     <Content Include="res/Bellerose.ttf" />
     <Content Include="res/ThirdRail.ttf" />
     <Content Include="res/VeganStyle.ttf" />
+    <Content Include="res/audio/insert_coin.ogg" />
     <Content Include="res/imgs/city.png" />
     <Content Include="res/imgs/menu_altered_beast.png" />
     <Content Include="res/imgs/menu_background_sprites.png" />
@@ -46,6 +47,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="ts\_references.ts" />
     <TypeScriptCompile Include="ts\app.ts" />
+    <TypeScriptCompile Include="ts\mn\audio\AudioManager.ts" />
+    <TypeScriptCompile Include="ts\mn\audio\Playout.ts" />
     <TypeScriptCompile Include="ts\mn\msgs\ButtonColors.ts" />
     <TypeScriptCompile Include="ts\mn\msgs\ButtonStates.ts" />
     <TypeScriptCompile Include="ts\mn\msgs\EmulatorCompleted.ts" />

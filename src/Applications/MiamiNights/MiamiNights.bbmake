@@ -23,7 +23,8 @@ if (platform() == "Win32") then
                      "../MiamiNightsWeb/*.html",
                      "../MiamiNightsWeb/*.js",
                      "../MiamiNightsWeb/*.png",
-                     "../MiamiNightsWeb/*.ttf"),
+                     "../MiamiNightsWeb/*.ttf",
+                     "../MiamiNightsWeb/*.ogg"),
       { "mn/Resources.cpp", "mn/Resources.h" },
       "-n \"mn\" -r \"../MiamiNightsWeb\"");
 

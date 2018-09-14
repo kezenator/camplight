@@ -20,6 +20,9 @@ namespace ui.logo
         private palms: HTMLImageElement;
         private city: HTMLImageElement;
 
+        private audio: mn.audio.Playout;
+        private fade_start_time: number;
+
         public constructor(app: App)
         {
             super(app);
@@ -29,15 +32,31 @@ namespace ui.logo
 
             this.city= document.createElement('img');
             this.city.src = '/res/imgs/city.png';
+
+            this.audio = null;
+            this.fade_start_time = 0;
+        }
+
+        public show()
+        {
+            super.show();
+
+            this.audio = null;
+            this.fade_start_time = 0;
         }
 
         public draw(ctx: CanvasRenderingContext2D, ms: number): void
         {
-            if (this.getButtons().isPlayClicked())
+            if (this.getButtons().isPlayClicked()
+                && (this.audio == null))
             {
-                this.getApp().showScreen(App.MENU);
-                return;
+                this.fade_start_time = ms;
+                this.audio = this.getApp().getAudio().play(
+                    "/res/audio/insert_coin.ogg",
+                    () => { this.audioCompleted(); });
             }
+
+            this.colorWaveButtons(ms);
 
             this.drawSky(ctx, ms);
             this.drawSea(ctx, ms);
@@ -45,8 +64,24 @@ namespace ui.logo
             this.drawCity(ctx, ms);
             this.drawPalms(ctx, ms);
             this.drawText(ctx, ms);
-            this.drawPressStart(ctx, ms);
-            this.colorWaveButtons(ms);
+
+            if (this.audio)
+            {
+                var alpha = util.lerp((ms - this.fade_start_time) / 1500, 0, 1);
+
+                ctx.fillStyle = 'rgba(0,0,0,' + alpha + ')';
+                ctx.fillRect(0, 0, 1920, 1080);
+            }
+            else
+            {
+                this.drawPressStart(ctx, ms);
+            }
+        }
+
+        private audioCompleted()
+        {
+            this.audio = null;
+            this.getApp().showScreen(App.MENU);
         }
 
         private drawSky(ctx: CanvasRenderingContext2D, ms: number)

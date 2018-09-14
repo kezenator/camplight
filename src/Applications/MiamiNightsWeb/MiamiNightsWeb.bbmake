@@ -10,5 +10,6 @@ if (platform() == "Win32") then
     resources(find_recursive("*.html"));
     resources(find_recursive("*.ttf"));
     resources(find_recursive("*.png"));
+    resources(find_recursive("*.ogg"));
 
 end
