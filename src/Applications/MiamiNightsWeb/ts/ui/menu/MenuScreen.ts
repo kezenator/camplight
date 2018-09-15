@@ -24,10 +24,13 @@ namespace ui.menu
 
     export class MenuScreen extends CanvasScreen
     {
-        private static TIME_EXPIRY: number = 60000;
+        static CYCLE_TIME: number = 2000;
 
         private background: Background;
         private entries: MenuScreenEntry[];
+
+        private music_resources: string[];
+        private music_playout: mn.audio.Playout;
 
         public constructor(app: App, background: Background)
         {
@@ -43,44 +46,77 @@ namespace ui.menu
                 new MenuScreenEntry(240, App.SONIC, "res/imgs/menu_sonic.png"),
                 new MenuScreenEntry(300, App.ALTERED_BEAST, "res/imgs/menu_altered_beast.png"),
             ];
+
+            this.music_resources = new Array(0);
+
+            if (!app.isSafeMode())
+                this.music_resources.push('/res/audio/mii-channel-my-neck.ogg');
+
+            this.music_resources.push('/res/audio/mii-channel-fresh-prince.ogg');
+            this.music_resources.push('/res/audio/mii-channel-insaneintherainmusic.ogg');
+
+            this.music_playout = null;
         }
 
         public show(): void
         {
             super.show();
 
+            var buttons = this.getButtons();
+
+            buttons.setPlayColor('#000000');
+            buttons.setBackColor('#FFFFFF');
+            for (var i = 0; i < Buttons.NUMBER; ++i)
+                buttons.setButtonColor(i, '#000000');
+
             for (var entry of this.entries)
                 entry.show = false;
+
+            var music = this.music_resources.shift();
+            this.music_resources.push(music);
+
+            this.music_playout = this.getApp().getAudio().play(
+                music,
+                () => { this.handleMusicCompleted(); });
         }
 
         public draw(ctx: CanvasRenderingContext2D, ms: number): void
         {
-            if (ms > MenuScreen.TIME_EXPIRY)
+            var buttons = this.getButtons();
+
+            if (buttons.isBackClicked())
             {
+                this.music_playout.stop();
                 this.getApp().showScreen(App.LOGO);
                 return;
             }
-
-            var buttons = this.getButtons();
 
             for (var i = 0; i < this.entries.length; ++i)
             {
                 if (buttons.isButtonClicked(i))
                 {
+                    this.music_playout.stop();
                     this.getApp().showScreen(this.entries[i].screen);
                     return;
                 }
             }
 
-            buttons.setPlayColor('#000000');
-
             this.background.draw(ctx, ms);
 
-            for (var i = 0; i < this.entries.length; ++i)
+            if (ms >= MenuScreen.CYCLE_TIME)
             {
-                var entry = this.entries[i];
-                this.drawMenu(ctx, ms, i, entry);
-            } 
+                for (var i = 0; i < this.entries.length; ++i)
+                {
+                    var entry = this.entries[i];
+                    this.drawMenu(ctx, ms, i, entry);
+                }
+            }
+            else
+            {
+                // Fade in
+                ctx.fillStyle = 'rgba(0,0,0,' + (1 - (ms / MenuScreen.CYCLE_TIME)) + ')';
+                ctx.fillRect(0, 0, 1920, 1080);
+            }
         }
 
         private drawMenu(ctx: CanvasRenderingContext2D, ms: number, i: number, entry: MenuScreenEntry): void
@@ -90,7 +126,7 @@ namespace ui.menu
             var swipe = 0;
 
             {
-                var cycle = (ms % 2000) / 2000;
+                var cycle = (ms % MenuScreen.CYCLE_TIME) / MenuScreen.CYCLE_TIME;
                 var start = 0.125 * i;
                 var end = 0.125 * (i + 2.1);
 
@@ -182,7 +218,12 @@ namespace ui.menu
 
             // Set the button color
 
-            this.getButtons().setButtonColor(i, 'hsl(' + entry.hue + ',100%,' + util.lerp(fade, 30, 50) + '%)');
+            this.getButtons().setButtonColor(i, 'hsl(' + entry.hue + ',100%,' + util.lerp(fade, 0, 50) + '%)');
+        }
+
+        handleMusicCompleted(): void
+        {
+            this.getApp().showScreen(App.LOGO);
         }
     }
 }

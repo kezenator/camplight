@@ -113,13 +113,14 @@ namespace ui.pong
         {
             var buttons = this.getButtons();
 
-            if (buttons.isPlayClicked())
+            if (buttons.isBackClicked())
             {
                 this.getApp().showScreen(App.MENU);
                 return false;
             }
 
-            buttons.setPlayColor('#ffffff');
+            buttons.setBackColor('#ff0000');
+            buttons.setPlayColor('#000000');
 
             var p1_on = true;
             var p2_on = true;

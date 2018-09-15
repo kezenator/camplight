@@ -18,6 +18,11 @@ namespace ui.tetris
         {
             super.show();
 
+            var buttons = this.getButtons();
+
+            buttons.setBackColor('#ff0000');
+            buttons.setPlayColor('#000000');
+
             this.games = new Array(2);
             this.games[0] = new TetrisGame(0);
             this.games[1] = new TetrisGame(960);
@@ -27,7 +32,7 @@ namespace ui.tetris
         {
             var buttons = this.getButtons();
 
-            if (buttons.isPlayClicked())
+            if (buttons.isBackClicked())
             {
                 this.getApp().showScreen(App.MENU);
                 return;

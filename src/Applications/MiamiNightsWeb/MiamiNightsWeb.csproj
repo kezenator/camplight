@@ -29,6 +29,9 @@
     <Content Include="res/ThirdRail.ttf" />
     <Content Include="res/VeganStyle.ttf" />
     <Content Include="res/audio/insert_coin.ogg" />
+    <Content Include="res/audio/mii-channel-fresh-prince.ogg" />
+    <Content Include="res/audio/mii-channel-insaneintherainmusic.ogg" />
+    <Content Include="res/audio/mii-channel-my-neck.ogg" />
     <Content Include="res/imgs/city.png" />
     <Content Include="res/imgs/menu_altered_beast.png" />
     <Content Include="res/imgs/menu_background_sprites.png" />

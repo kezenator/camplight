@@ -57,6 +57,17 @@
             }
         }
 
+        setBackColor(color: string): void
+        {
+            if (color != this.button_colors.back_color)
+            {
+                this.button_colors.back_color = color;
+
+                if (!this.send_timer.isRunning())
+                    this.send_timer.startSingleShot(1);
+            }
+        }
+
         setButtonColor(btn: number, color: string): void
         {
             if (color != this.button_colors.button_colors.at(btn))
@@ -76,6 +87,16 @@
         isPlayClicked(): boolean
         {
             return this.play_clicked;
+        }
+
+        isBackPressed(): boolean
+        {
+            return this.button_states.back_state;
+        }
+
+        isBackClicked(): boolean
+        {
+            return this.back_clicked;
         }
 
         isButtonPressed(btn: number): boolean

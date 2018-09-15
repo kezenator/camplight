@@ -41,6 +41,8 @@ namespace ui.logo
         {
             super.show();
 
+            this.getApp().getButtons().setBackColor('#000000');
+
             this.audio = null;
             this.fade_start_time = 0;
         }
@@ -50,6 +52,7 @@ namespace ui.logo
             if (this.getButtons().isPlayClicked()
                 && (this.audio == null))
             {
+                this.getButtons().setPlayColor('#000000');
                 this.fade_start_time = ms;
                 this.audio = this.getApp().getAudio().play(
                     "/res/audio/insert_coin.ogg",

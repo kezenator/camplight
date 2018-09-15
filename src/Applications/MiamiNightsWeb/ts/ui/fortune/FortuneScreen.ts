@@ -123,7 +123,8 @@ namespace ui.fortune
 
             var buttons = this.getButtons();
 
-            buttons.setPlayColor('#ffffff');
+            buttons.setBackColor('#ff0000');
+            buttons.setPlayColor('#000000');
             for (var i = 0; i < Buttons.NUMBER; ++i)
                 buttons.setButtonColor(0, '#000000');
         }
@@ -135,7 +136,7 @@ namespace ui.fortune
 
             var buttons = this.getButtons();
 
-            if (buttons.isPlayClicked())
+            if (buttons.isBackClicked())
             {
                 this.getApp().showScreen(App.MENU);
                 return;

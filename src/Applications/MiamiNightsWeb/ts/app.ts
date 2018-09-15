@@ -33,12 +33,14 @@ class App
     private width: number;
     private height: number;
     private scale: number;
+    private safeMode: boolean;
 
     constructor()
     {
         this.width = 1920;
         this.height = 1080;
         this.scale = 1;
+        this.safeMode = false;
 
         var params = new URLSearchParams(window.location.search);
 
@@ -47,6 +49,8 @@ class App
         var buttons_host = window.location.host;
         if (params.has('host'))
             buttons_host = params.get('host');
+
+        this.safeMode = params.has('safe');
 
         if (has_buttons)
         {
@@ -110,6 +114,11 @@ class App
     getScale(): number
     {
         return this.scale;
+    }
+
+    isSafeMode(): boolean
+    {
+        return this.safeMode;
     }
 
     getButtons(): ui.Buttons
