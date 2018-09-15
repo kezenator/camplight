@@ -404,14 +404,29 @@ namespace ui.logo
 
             if (on)
             {
-                ctx.font = '55px "Consolas"';
-                ctx.fillStyle = 'rgb(255,255,255)';
-
                 var text = 'PRESS PLAY';
+
+                ctx.font = '65px "KarmaticArcade"';
 
                 var metrics = ctx.measureText(text);
 
-                ctx.fillText(text, 960 - 0.5 * metrics.width, 1080 - 55);
+                var x = 960 - 0.5 * metrics.width;
+                var y = 1050;
+
+                var grad = ctx.createLinearGradient(x, y, x + metrics.width, y);
+                grad.addColorStop(0, 'hsl(0,100%,50%)');
+                grad.addColorStop(1/5, 'hsl(30,100%,50%)');
+                grad.addColorStop(2/5, 'hsl(60,100%,50%)');
+                grad.addColorStop(3/5, 'hsl(120,100%,50%)');
+                grad.addColorStop(4/5, 'hsl(180,100%,50%)');
+                grad.addColorStop(1, 'hsl(240,100%,50%)');
+
+                ctx.fillStyle = grad;
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 6;
+
+                ctx.strokeText(text, x, y);
+                ctx.fillText(text, x, y);
 
                 buttons.setPlayColor('#ffffff');
             }

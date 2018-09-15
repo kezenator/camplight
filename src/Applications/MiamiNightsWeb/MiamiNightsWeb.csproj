@@ -42,6 +42,7 @@
     <Content Include="res/imgs/menu_tetris.png" />
     <Content Include="res/imgs/palm.png" />
     <Content Include="res/imgs/pong_logo.png" />
+    <Content Include="res/ka1.ttf" />
     <Content Include="res/still_time.ttf" />
     <Content Include="res/timeburnerbold.ttf" />
     <Content Include="res/timeburnernormal.ttf" />

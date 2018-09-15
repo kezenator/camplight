@@ -28,6 +28,11 @@
     src: url("/res/timeburnerbold.ttf") format('opentype');
 }
 
+@font-face {
+    font-family: "KarmaticArcade";
+    src: url("/res/ka1.ttf") format('opentype');
+}
+
 html {
     margin: 0;
     padding: 0;

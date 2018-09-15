@@ -392,10 +392,10 @@ namespace ui.pong
                             text = "Move Paddles";
                             break;
                         case 5:
-                            text = "<= P1 Red";
+                            text = "P1 Red                  ";
                             break;
                         case 4:
-                            text = "P2 Yellow =>";
+                            text = "               Yellow P2";
                             break;
                         case 3:
                             text = "First to 11 wins";
@@ -432,8 +432,8 @@ namespace ui.pong
 
             if (text != null)
             {
-                ctx.font = 'bold 180px "TimeBurner"';
-                ctx.lineWidth = 8;
+                ctx.font = '120px "KarmaticArcade"';
+                ctx.lineWidth = 4;
                 ctx.fillStyle = 'hsl(205,100%,58%)';
                 ctx.strokeStyle = 'hsl(195,100%,58%)';
                 drawText(
