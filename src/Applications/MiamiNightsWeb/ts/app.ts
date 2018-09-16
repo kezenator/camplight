@@ -94,7 +94,7 @@ class App
             this.screens[App.FORTUNE] = new ui.fortune.FortuneScreen(this);
             this.screens[App.TETRIS] = new ui.tetris.TetrisScreen(this);
 
-            this.curScreen = this.screens[App.PONG];
+            this.curScreen = this.screens[App.LOGO];
             this.startTime = Date.now();
             window.requestAnimationFrame(() => this._doFrame());
             this.curScreen.show();
@@ -148,15 +148,19 @@ class App
         {
             this.curScreen = this.screens[name];
             this.startTime = Date.now();
+            this.buttons.frameCompleted();
             this.curScreen.show();
+            this.curScreen.updateFrame(0);
         }
         else if (!this.appWebSocket.isOpen())
         {
-            // No connection - just return to the menu
+            // No connection - just return to the logo
 
-            this.curScreen = this.screens[App.MENU];
+            this.curScreen = this.screens[App.LOGO];
             this.startTime = Date.now();
+            this.buttons.frameCompleted();
             this.curScreen.show();
+            this.curScreen.updateFrame(0);
         }
         else
         {

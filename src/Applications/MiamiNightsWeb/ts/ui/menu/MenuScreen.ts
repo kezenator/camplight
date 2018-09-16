@@ -3,31 +3,18 @@
 
 namespace ui.menu
 {
-    class MenuScreenEntry
-    {
-        show: boolean;
-        hue: number;
-        screen: string;
-        imageUri: string;
-        imageElement: HTMLImageElement;
-
-        constructor(_hue: number, _screen: string, _image_uri: string)
-        {
-            this.show = false;
-            this.hue = _hue;
-            this.screen = _screen;
-            this.imageUri = _image_uri;
-            this.imageElement = document.createElement('img');
-            this.imageElement.src = _image_uri;
-        }
-    };
-
     export class MenuScreen extends CanvasScreen
     {
         static CYCLE_TIME: number = 2000;
+        static MOVE_TIME: number = 250;
+        static BUTTON_REVEAL_TIME: number = 250;
+        static TIMEOUT_TIME: number = 7000;
 
         private background: Background;
-        private entries: MenuScreenEntry[];
+        private entries: MenuEntry[];
+        private selected: boolean;
+        private selected_index: number;
+        private selected_ms: number;
 
         private music_resources: string[];
         private music_playout: mn.audio.Playout;
@@ -39,13 +26,17 @@ namespace ui.menu
             this.background = background;
 
             this.entries = [
-                new MenuScreenEntry(0, App.FORTUNE, "res/imgs/menu_fortune.png"),
-                new MenuScreenEntry(30, App.PONG, "res/imgs/menu_pong.png"),
-                new MenuScreenEntry(120, App.SUPER_MARIO_WORLD, "res/imgs/menu_super_mario_world.png"),
-                new MenuScreenEntry(180, App.TETRIS, "res/imgs/menu_tetris.png"),
-                new MenuScreenEntry(240, App.SONIC, "res/imgs/menu_sonic.png"),
-                new MenuScreenEntry(300, App.ALTERED_BEAST, "res/imgs/menu_altered_beast.png"),
+                new MenuEntry(App.FORTUNE),
+                new MenuEntry(App.PONG),
+                new MenuEntry(App.SUPER_MARIO_WORLD),
+                new MenuEntry(App.TETRIS),
+                new MenuEntry(App.SONIC),
+                new MenuEntry(App.ALTERED_BEAST),
             ];
+
+            this.selected = false;
+            this.selected_index = 0;
+            this.selected_ms = 0;
 
             this.music_resources = new Array(0);
 
@@ -72,6 +63,8 @@ namespace ui.menu
             for (var entry of this.entries)
                 entry.show = false;
 
+            this.selected = false;
+
             var music = this.music_resources.shift();
             this.music_resources.push(music);
 
@@ -84,19 +77,46 @@ namespace ui.menu
         {
             var buttons = this.getButtons();
 
-            if (buttons.isBackClicked())
+            if (!this.selected)
             {
-                this.music_playout.stop();
-                this.getApp().showScreen(App.LOGO);
-                return;
-            }
-
-            for (var i = 0; i < this.entries.length; ++i)
-            {
-                if (buttons.isButtonClicked(i))
+                if (buttons.isBackClicked())
                 {
                     this.music_playout.stop();
-                    this.getApp().showScreen(this.entries[i].screen);
+                    this.getApp().showScreen(App.LOGO);
+                    return;
+                }
+
+                for (var i = 0; i < this.entries.length; ++i)
+                {
+                    if (this.entries[i].show
+                        && buttons.isButtonClicked(i))
+                    {
+                        this.selected = true;
+                        this.selected_index = i;
+                        this.selected_ms = ms;
+
+                        var entry = this.entries[i];
+
+                        for (var j = 0; j < this.entries.length; ++j)
+                            this.entries[j].show = false;
+                        entry.show = true;
+
+                        for (var j = 0; j < Buttons.NUMBER; ++j)
+                            buttons.setButtonColor(j, entry.buttons[j].color);
+                        buttons.setBackColor(entry.buttons[6].color);
+                        buttons.setPlayColor(entry.buttons[7].color);
+
+                        break;
+                    }
+                }
+            }
+            else // selected
+            {
+                if (buttons.isPlayClicked()
+                    || ((ms - this.selected_ms) >= MenuScreen.TIMEOUT_TIME))
+                {
+                    this.music_playout.stop();
+                    this.getApp().showScreen(this.entries[this.selected_index].screen);
                     return;
                 }
             }
@@ -110,6 +130,11 @@ namespace ui.menu
                     var entry = this.entries[i];
                     this.drawMenu(ctx, ms, i, entry);
                 }
+
+                if (this.selected)
+                {
+                    this.drawHelp(ctx, ms, this.entries[this.selected_index]);
+                }
             }
             else
             {
@@ -119,7 +144,7 @@ namespace ui.menu
             }
         }
 
-        private drawMenu(ctx: CanvasRenderingContext2D, ms: number, i: number, entry: MenuScreenEntry): void
+        private drawMenu(ctx: CanvasRenderingContext2D, ms: number, i: number, entry: MenuEntry): void
         {
             // Work out the fade amount for this entry
 
@@ -135,27 +160,31 @@ namespace ui.menu
 
             // Work out if it should be shown
 
-            if (swipe > 0)
+            if (!this.selected
+                && (swipe > 0))
             {
                 entry.show = true;
             }
 
             if (!entry.show)
+            {
                 return;
+            }
 
             // Work out the location for this entry
-
-            var row = Math.floor(i / 3);
-            var col = Math.floor(i % 3);
-
-            var marginx = 100;
-            var marginy = 100;
 
             var width = 505;
             var height = 390;
 
-            var x = marginx + (col * (width + marginx));
-            var y = marginy + (row * (height + marginy));
+            var x = entry.x;
+            var y = entry.y;
+
+            if (this.selected)
+            {
+                var move = util.lerp((ms - this.selected_ms) / MenuScreen.MOVE_TIME, 0, 1);
+                x = util.lerp(util.arrive(move), entry.x, entry.selected_x);
+                y = util.lerp(util.arrive(move), entry.y, entry.selected_y);
+            }
 
             // Fill in the body
 
@@ -218,7 +247,90 @@ namespace ui.menu
 
             // Set the button color
 
-            this.getButtons().setButtonColor(i, 'hsl(' + entry.hue + ',100%,' + util.lerp(fade, 0, 50) + '%)');
+            if (!this.selected)
+            {
+                this.getButtons().setButtonColor(i, 'hsl(' + entry.hue + ',100%,' + util.lerp(fade, 0, 50) + '%)');
+            }
+        }
+
+        private drawHelp(ctx: CanvasRenderingContext2D, ms: number, entry: MenuEntry): void
+        {
+            if ((ms - this.selected_ms) <= MenuScreen.MOVE_TIME)
+            {
+                // Still moving - don't show
+                return;
+            }
+
+            function drawButton(x: number, y: number, but: ButtonEntry)
+            {
+                ctx.fillStyle = 'black';
+                ctx.beginPath();
+                ctx.arc(x, y + 70, 50, 0, 2 * Math.PI);
+                ctx.fill();
+
+                ctx.fillStyle = but.color;
+                ctx.beginPath();
+                ctx.arc(x, y + 70, 43, 0, 2 * Math.PI);
+                ctx.fill();
+
+                ctx.font = '50px "KarmaticArcade"';
+                ctx.fillStyle = 'white';
+
+                var meas = ctx.measureText(but.help1);
+
+                ctx.fillText(but.help1, x - 0.5 * meas.width, y + 180);
+
+                meas = ctx.measureText(but.help2);
+                ctx.fillText(but.help2, x - 0.5 * meas.width, y + 240);
+            }
+
+            var width = 1920 / 6;
+            var offset = 0.5 * width;
+
+            var clipped = (ms - this.selected_ms) < (MenuScreen.MOVE_TIME + MenuScreen.BUTTON_REVEAL_TIME);
+
+            if (clipped)
+            {
+                ctx.save();
+
+                var clip_width =
+                    util.lerp(
+                        util.unlerp(
+                            ms - this.selected_ms,
+                            MenuScreen.MOVE_TIME,
+                            MenuScreen.MOVE_TIME + MenuScreen.BUTTON_REVEAL_TIME),
+                        0,
+                        1920);
+
+                if (clip_width > 0)
+                {
+                    ctx.beginPath();
+                    ctx.rect(0, entry.help_y, clip_width, 540);
+                    ctx.clip();
+                }
+            }
+
+            for (var i = 0; i < 6; ++i)
+            {
+                drawButton(
+                    offset + (i * width),
+                    entry.help_y,
+                    entry.buttons[i]);
+            }
+
+            drawButton(
+                offset + (2 * width),
+                entry.help_y + 270,
+                entry.buttons[6]);
+            drawButton(
+                offset + (3 * width),
+                entry.help_y + 270,
+                entry.buttons[7]);
+
+            if (clipped)
+            {
+                ctx.restore();
+            }
         }
 
         handleMusicCompleted(): void

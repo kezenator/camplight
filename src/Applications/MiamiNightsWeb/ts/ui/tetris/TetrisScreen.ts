@@ -37,6 +37,12 @@ namespace ui.tetris
                 this.getApp().showScreen(App.MENU);
                 return;
             }
+            else if (this.games[0].isTimedOut(ms)
+                && this.games[1].isTimedOut(ms))
+            {
+                this.getApp().showScreen(App.LOGO);
+                return;
+            }
 
             this.games[0].handleButtons(
                 ms,

@@ -13,6 +13,7 @@ namespace ui.tetris
         private curPiece: Piece;
         private lastMoveMs: number;
         private gameOver: boolean;
+        private gameOverTime: number;
         private level: number;
         private score: number;
 
@@ -28,9 +29,16 @@ namespace ui.tetris
 
             this.lastMoveMs = 0;
             this.gameOver = false;
+            this.gameOverTime = 0;
             this.level = 1;
             this.score = 0;
         }       
+
+        public isTimedOut(ms: number): boolean
+        {
+            return this.gameOver
+                && (ms > (this.gameOverTime + 5000));
+        }
 
         public handleButtons(ms: number, left: boolean, down: boolean, right: boolean): void
         {
@@ -137,6 +145,7 @@ namespace ui.tetris
                         // Doesn't fit above the screen???
                         // Don't know how this can happen - but anyway...
                         this.gameOver = true;
+                        this.gameOverTime = ms;
                     }
                     else
                     {
@@ -147,6 +156,7 @@ namespace ui.tetris
                             // Hide it an end the game
                             this.curPiece.move(0, -1);
                             this.gameOver = true;
+                            this.gameOverTime = ms;
                         }
                     }
                 }

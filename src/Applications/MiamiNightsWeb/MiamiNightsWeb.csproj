@@ -66,6 +66,8 @@
     <TypeScriptCompile Include="ts\ui\fortune\FortuneScreen.ts" />
     <TypeScriptCompile Include="ts\ui\logo\LogoScreen.ts" />
     <TypeScriptCompile Include="ts\ui\menu\Background.ts" />
+    <TypeScriptCompile Include="ts\ui\menu\ButtonEntry.ts" />
+    <TypeScriptCompile Include="ts\ui\menu\MenuEntry.ts" />
     <TypeScriptCompile Include="ts\ui\menu\MenuScreen.ts" />
     <TypeScriptCompile Include="ts\ui\pong\PongScreen.ts" />
     <TypeScriptCompile Include="ts\ui\tetris\Cell.ts" />
