@@ -327,6 +327,31 @@ namespace ui.menu
                 entry.help_y + 270,
                 entry.buttons[7]);
 
+            // Now also draw the count down timer
+
+            var end_ms = this.selected_ms + MenuScreen.TIMEOUT_TIME;
+            var start_ms = this.selected_ms + MenuScreen.MOVE_TIME;
+
+            var range = util.unlerp(ms, start_ms, end_ms);
+
+            ctx.lineWidth = 30;
+            ctx.lineCap = 'butt';
+            ctx.strokeStyle = 'cornflowerblue';
+            ctx.font = '50px "KarmaticArcade"';
+
+            var label = Math.floor(1 + (MenuScreen.TIMEOUT_TIME - (ms - start_ms)) / 1000).toString();
+
+            var meas = ctx.measureText(label);
+
+            ctx.beginPath();
+            ctx.arc(
+                1567, entry.selected_y + 200,
+                100,
+                1.5 * Math.PI,
+                (1.5 + range * 2) * Math.PI);
+            ctx.stroke();
+            ctx.fillText(label, 1567 - 0.5 * meas.width, entry.selected_y + 225);
+
             if (clipped)
             {
                 ctx.restore();
