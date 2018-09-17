@@ -76,14 +76,14 @@ namespace ui.menu
                 this.selected_y = marginy + (1 * (height + marginy));
                 this.help_y = 0;
 
-                this.buttons[0] = new ButtonEntry('black', '', '');
-                this.buttons[1] = new ButtonEntry('black', '', '');
-                this.buttons[2] = new ButtonEntry('black', '', '');
-                this.buttons[3] = new ButtonEntry('black', '', '');
-                this.buttons[4] = new ButtonEntry('black', '', '');
-                this.buttons[5] = new ButtonEntry('black', '', '');
-                this.buttons[6] = new ButtonEntry('black', '', '');
-                this.buttons[7] = new ButtonEntry('black', '', '');
+                this.buttons[0] = new ButtonEntry('#0000FF', 'JUMP', 'SELECT');
+                this.buttons[1] = new ButtonEntry('#00FFFF', 'CROUCH', '');
+                this.buttons[2] = new ButtonEntry('#000000', '', '');
+                this.buttons[3] = new ButtonEntry('#000000', '', '');
+                this.buttons[4] = new ButtonEntry('#7F00FF', 'LEFT', '');
+                this.buttons[5] = new ButtonEntry('#7F00FF', 'RIGHT', '');
+                this.buttons[6] = new ButtonEntry('#FF0000', 'MENU', '');
+                this.buttons[7] = new ButtonEntry('#00FF00', 'START', 'PAUSE');
             }
             else if (_screen == App.TETRIS)
             {
@@ -96,10 +96,10 @@ namespace ui.menu
                 this.help_y = 540;
 
                 this.buttons[0] = new ButtonEntry('#0000FF', 'P1', 'LEFT');
-                this.buttons[1] = new ButtonEntry('#7F00FF', 'SPIN', 'DROP');
+                this.buttons[1] = new ButtonEntry('#7F00FF', 'SPIN', '');
                 this.buttons[2] = new ButtonEntry('#0000FF', 'P1', 'RIGHT');
                 this.buttons[3] = new ButtonEntry('#FF0000', 'P2', 'LEFT');
-                this.buttons[4] = new ButtonEntry('#FF7F00', 'SPIN', 'DROP');
+                this.buttons[4] = new ButtonEntry('#FF7F00', 'SPIN', '');
                 this.buttons[5] = new ButtonEntry('#FF0000', 'P2', 'RIGHT');
                 this.buttons[6] = new ButtonEntry('#FF0000', 'MENU', '');
                 this.buttons[7] = new ButtonEntry('#000000', '', '');
@@ -121,7 +121,7 @@ namespace ui.menu
                 this.buttons[4] = new ButtonEntry('#7F00FF', 'LEFT', '');
                 this.buttons[5] = new ButtonEntry('#7F00FF', 'RIGHT', '');
                 this.buttons[6] = new ButtonEntry('#FF0000', 'MENU', '');
-                this.buttons[7] = new ButtonEntry('#FFFFFF', 'START', 'PAUSE');
+                this.buttons[7] = new ButtonEntry('#00FF00', 'START', 'PAUSE');
             }
             else // App.ALTERED_BEAST
             {
@@ -140,7 +140,7 @@ namespace ui.menu
                 this.buttons[4] = new ButtonEntry('#7F00FF', 'LEFT', '');
                 this.buttons[5] = new ButtonEntry('#7F00FF', 'RIGHT', '');
                 this.buttons[6] = new ButtonEntry('#FF0000', 'MENU', '');
-                this.buttons[7] = new ButtonEntry('#FFFFFF', 'START', 'PAUSE');
+                this.buttons[7] = new ButtonEntry('#00FF00', 'START', 'PAUSE');
             }
 
             this.imageElement = document.createElement('img');

@@ -84,7 +84,7 @@ void EmulatorRunner::ThreadProc()
 		nullptr,
 		nullptr,
 		false,
-		0,
+		CREATE_NEW_CONSOLE,
 		nullptr,
 		current_dir.c_str(),
 		&startup_info,

@@ -3,6 +3,79 @@
 
 namespace ui.tetris
 {
+    class TetrisButton
+    {
+        click: boolean;
+        pressed: boolean;
+        last_click_ms: number;
+        waiting: boolean;
+
+        constructor()
+        {
+            this.click = false;
+            this.pressed = false;
+            this.last_click_ms = 0;
+            this.waiting = false;
+        }
+
+        update(ms: number, clicked: boolean, pressed: boolean)
+        {
+            // If waiting and not pressed, then clear waiting.
+            // Otherwise we're not pressed
+
+            if (this.waiting
+                && pressed)
+            {
+                this.click = false;
+                return;
+            }
+
+            this.waiting = false;
+
+            // If "clicked" then treat as if it
+            // wasn't pressed an now is
+
+            if (clicked)
+            {
+                this.pressed = false;
+                pressed = true;
+            }
+
+            // Save start time
+
+            if (pressed
+                && !this.pressed)
+            {
+                this.last_click_ms = ms;
+                this.click = true;
+            }
+            else if (pressed
+                && this.pressed
+                && ((ms - this.last_click_ms) >= 125))
+            {
+                this.last_click_ms += 125;
+                this.click = true;
+            }
+
+            this.pressed = pressed;
+        }
+
+        clicked(): boolean
+        {
+            return this.click;
+        }
+
+        clearClicked(): void
+        {
+            this.click = false;
+        }
+
+        waitForRepress(): void
+        {
+            this.waiting = true;
+        }
+    };
+
     export class TetrisGame
     {
         private x: number;
@@ -16,6 +89,9 @@ namespace ui.tetris
         private gameOverTime: number;
         private level: number;
         private score: number;
+        private left_btn: TetrisButton;
+        private right_btn: TetrisButton;
+        private other_btn: TetrisButton;
 
         public constructor(x: number)
         {
@@ -32,6 +108,9 @@ namespace ui.tetris
             this.gameOverTime = 0;
             this.level = 1;
             this.score = 0;
+            this.left_btn = new TetrisButton();
+            this.right_btn = new TetrisButton();
+            this.other_btn = new TetrisButton();
         }       
 
         public isTimedOut(ms: number): boolean
@@ -40,24 +119,34 @@ namespace ui.tetris
                 && (ms > (this.gameOverTime + 5000));
         }
 
-        public handleButtons(ms: number, left: boolean, down: boolean, right: boolean): void
+        public handleButtons(ms: number,
+            left_clicked: boolean,
+            left_pressed: boolean,
+            other_clicked: boolean,
+            other_pressed: boolean,
+            right_clicked: boolean,
+            right_pressed: boolean): void
         {
+            this.left_btn.update(ms, left_clicked, left_pressed);
+            this.right_btn.update(ms, right_clicked, right_pressed);
+            this.other_btn.update(ms, other_clicked, other_pressed);
+
             while (!this.gameOver)
             {
                 var need_lock = false;
                 var need_break = false;
 
-                if (left || right)
+                if (this.left_btn.clicked() || this.right_btn.clicked())
                 {
                     var move = false;
                     var offset = 0;
 
-                    if (left && !right)
+                    if (this.left_btn.clicked() && !this.right_btn.clicked())
                     {
                         move = true;
                         offset = -1;
                     }
-                    else if (!left && right)
+                    else if (!this.left_btn.clicked() && this.right_btn.clicked())
                     {
                         move = true;
                         offset = 1;
@@ -67,16 +156,17 @@ namespace ui.tetris
                     {
                         this.curPiece.move(offset, 0);
 
-                        if (!this.curPiece.fits(this.gameBoard))
+                        if (this.curPiece.fits(this.gameBoard))
+                            this.lastMoveMs = ms;
+                        else
                             this.curPiece.move(-offset, 0);
                     }
 
-                    this.lastMoveMs = ms;
-                    left = false;
-                    right = false;
+                    this.left_btn.clearClicked();
+                    this.right_btn.clearClicked();
                 }
 
-                if (down)
+                if (this.other_btn.clicked())
                 {
                     this.curPiece.rotate(1);
 
@@ -101,7 +191,7 @@ namespace ui.tetris
                     if (accept)
                     {
                         this.lastMoveMs = ms;
-                        down = false;
+                        this.other_btn.clearClicked();
                     }
                     else // revert
                     {
@@ -159,6 +249,11 @@ namespace ui.tetris
                             this.gameOverTime = ms;
                         }
                     }
+
+                    // Reset the buttons so you need to press again
+                    this.left_btn.waitForRepress();
+                    this.right_btn.waitForRepress();
+                    this.other_btn.waitForRepress();
                 }
 
                 if (need_break)

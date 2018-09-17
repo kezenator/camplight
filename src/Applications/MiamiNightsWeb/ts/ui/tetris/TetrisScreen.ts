@@ -5,11 +5,20 @@ namespace ui.tetris
 {
     export class TetrisScreen extends CanvasScreen
     {
+        private music_resources: string[];
+        private music_playout: mn.audio.Playout;
+
         private games: TetrisGame[];
 
         public constructor(app: App)
         {
             super(app);
+
+            this.music_resources = new Array(0);
+            this.music_resources.push('/res/audio/tetris-8bit-remix.ogg');
+            this.music_resources.push('/res/audio/tetris-trap-remix.ogg');
+
+            this.music_playout = null;
 
             this.games = null;
         }
@@ -18,10 +27,11 @@ namespace ui.tetris
         {
             super.show();
 
-            var buttons = this.getButtons();
-
-            buttons.setBackColor('#ff0000');
-            buttons.setPlayColor('#000000');
+            var res = this.music_resources.shift();
+            this.music_resources.push(res);
+            this.music_playout = this.getApp().getAudio().play(
+                res,
+                () => { this.handleMusicCompleted(); });
 
             this.games = new Array(2);
             this.games[0] = new TetrisGame(0);
@@ -34,12 +44,14 @@ namespace ui.tetris
 
             if (buttons.isBackClicked())
             {
+                this.music_playout.stop();
                 this.getApp().showScreen(App.MENU);
                 return;
             }
             else if (this.games[0].isTimedOut(ms)
                 && this.games[1].isTimedOut(ms))
             {
+                this.music_playout.stop();
                 this.getApp().showScreen(App.LOGO);
                 return;
             }
@@ -47,17 +59,33 @@ namespace ui.tetris
             this.games[0].handleButtons(
                 ms,
                 buttons.isButtonClicked(0),
+                buttons.isButtonPressed(0),
                 buttons.isButtonClicked(1),
-                buttons.isButtonClicked(2));
+                buttons.isButtonPressed(1),
+                buttons.isButtonClicked(2),
+                buttons.isButtonPressed(2));
 
             this.games[1].handleButtons(
                 ms,
                 buttons.isButtonClicked(3),
+                buttons.isButtonPressed(3),
                 buttons.isButtonClicked(4),
-                buttons.isButtonClicked(5));
+                buttons.isButtonPressed(4),
+                buttons.isButtonClicked(5),
+                buttons.isButtonPressed(5));
+);
 
             this.games[0].draw(ctx);
             this.games[1].draw(ctx);
+        }
+
+        private handleMusicCompleted(): void
+        {
+            var res = this.music_resources.shift();
+            this.music_resources.push(res);
+            this.music_playout = this.getApp().getAudio().play(
+                res,
+                () => { this.handleMusicCompleted(); });
         }
     }
 }

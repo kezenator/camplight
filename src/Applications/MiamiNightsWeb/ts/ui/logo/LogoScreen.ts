@@ -15,25 +15,35 @@ namespace ui.logo
         private static PERIOD_CASA_HIGHLIGHT: number = 2000;
         private static PERIOD_REFLECTION: number = 3000;
 
+        private static DURATION_LOOP: number = 30000;
+        private static DURATION_FADE: number = 1500;
+
         private static HORIZON: number = 700;
 
-        private palms: HTMLImageElement;
+        private palms: HTMLImageElement[];
         private city: HTMLImageElement;
 
-        private audio: mn.audio.Playout;
+        private fading: boolean;
+        private button_pressed: boolean;
         private fade_start_time: number;
 
         public constructor(app: App)
         {
             super(app);
 
-            this.palms = document.createElement('img');
-            this.palms.src = '/res/imgs/palm.png';
+            this.palms = [];
+            for (var i = 1; i <= 5; ++i)
+            {
+                var img = document.createElement('img');
+                img.src = '/res/imgs/palm' + i + '.png';
+                this.palms.push(img);
+            }
 
             this.city= document.createElement('img');
             this.city.src = '/res/imgs/city.png';
 
-            this.audio = null;
+            this.fading = false;
+            this.button_pressed = false;
             this.fade_start_time = 0;
         }
 
@@ -43,21 +53,52 @@ namespace ui.logo
 
             this.getApp().getButtons().setBackColor('#000000');
 
-            this.audio = null;
+            this.fading = false;
+            this.button_pressed = false;
             this.fade_start_time = 0;
         }
 
         public draw(ctx: CanvasRenderingContext2D, ms: number): void
         {
-            if (this.getButtons().isPlayClicked()
-                && (this.audio == null))
+            var buttons = this.getButtons();
+
+            var button_pressed = buttons.isPlayClicked();
+            for (var i = 0; i < Buttons.NUMBER; ++i)
             {
-                this.getButtons().setPlayColor('#000000');
-                this.fade_start_time = ms;
-                this.audio = this.getApp().getAudio().play(
-                    "/res/audio/insert_coin.ogg",
-                    () => { this.audioCompleted(); });
+                if (buttons.isButtonPressed(i))
+                    button_pressed = true;
             }
+
+            if (button_pressed
+                || (ms > LogoScreen.DURATION_LOOP))
+            {
+                if (button_pressed && !this.button_pressed)
+                {
+                    this.button_pressed = true;
+                    this.getButtons().setPlayColor('#000000');
+                    this.getApp().getAudio().play(
+                        "/res/audio/insert_coin.ogg",
+                        () => { });
+                }
+
+                if (!this.fading)
+                {
+                    this.fading = true;
+                    this.fade_start_time = ms;
+                }
+            }
+
+            if (this.fading)
+            {
+                if ((ms - this.fade_start_time) > LogoScreen.DURATION_FADE)
+                {
+                    if (this.button_pressed)
+                        this.getApp().showScreen(App.MENU);
+                    else
+                        this.getApp().showScreen(App.LOGO);
+                    return;
+                }
+            }                                   
 
             this.colorWaveButtons(ms);
 
@@ -68,9 +109,9 @@ namespace ui.logo
             this.drawPalms(ctx, ms);
             this.drawText(ctx, ms);
 
-            if (this.audio)
+            if (this.fading)
             {
-                var alpha = util.lerp((ms - this.fade_start_time) / 1500, 0, 1);
+                var alpha = util.lerp((ms - this.fade_start_time) / LogoScreen.DURATION_FADE, 0, 1);
 
                 ctx.fillStyle = 'rgba(0,0,0,' + alpha + ')';
                 ctx.fillRect(0, 0, 1920, 1080);
@@ -78,13 +119,15 @@ namespace ui.logo
             else
             {
                 this.drawPressStart(ctx, ms);
-            }
-        }
 
-        private audioCompleted()
-        {
-            this.audio = null;
-            this.getApp().showScreen(App.MENU);
+                if (ms < LogoScreen.DURATION_FADE)
+                {
+                    var alpha = util.lerp(ms / LogoScreen.DURATION_FADE, 1, 0);
+
+                    ctx.fillStyle = 'rgba(0,0,0,' + alpha + ')';
+                    ctx.fillRect(0, 0, 1920, 1080);
+                }
+            }
         }
 
         private drawSky(ctx: CanvasRenderingContext2D, ms: number)
@@ -225,7 +268,7 @@ namespace ui.logo
             // Work out the position of the city
 
             var cityStartX = -Math.floor(imageWidth * ((ms % 20000) / 20000));
-            var cityHorion = util.lerp(util.arrive(util.unlerp(ms, 0, LogoScreen.DURATION_SUNSET)), 2080 + imageHeight, 770);
+            var cityHorion = util.lerp(util.arrive(util.unlerp(ms, 0, LogoScreen.DURATION_SUNSET)), 2080 + imageHeight, 800);
 
             // Draw the reflections
 
@@ -294,14 +337,15 @@ namespace ui.logo
 
             // Work out the position of the city
 
+            var index = Math.floor((ms + 0.8 * LogoScreen.DURATION_SUNSET) / LogoScreen.DURATION_SUNSET) % 5;
             var progress = ((ms + 0.8 * LogoScreen.DURATION_SUNSET) % LogoScreen.DURATION_SUNSET) / LogoScreen.DURATION_SUNSET;
             var x = util.lerp(progress, 1920, -imageWidth);
 
-            var palmTop = util.lerp(util.arrive(util.unlerp(ms, 0, LogoScreen.DURATION_SUNSET)), 1580 + imageHeight, 1080 + 2 - imageHeight);
+            var palmBottom = util.lerp(util.arrive(util.unlerp(ms, 0, LogoScreen.DURATION_SUNSET)), 2500, 1080 + 2);
 
             // Draw the palms
 
-            ctx.drawImage(this.palms, x, palmTop);
+            ctx.drawImage(this.palms[index], x, palmBottom - this.palms[index].height);
         }
 
         private drawText(ctx: CanvasRenderingContext2D, ms: number)
