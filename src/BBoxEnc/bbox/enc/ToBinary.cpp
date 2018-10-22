@@ -6,6 +6,7 @@
 */
 
 #include <bbox/enc/ToBinary.h>
+#include <bbox/enc/MsgAnyPtr.h>
 #include <cstring>
 
 namespace bbox

@@ -6,6 +6,8 @@
  */
 
 #include <bbox/enc/FromTextFormat.h>
+#include <bbox/enc/MsgAnyPtr.h>
+#include <bbox/enc/MsgTypeLibrary.h>
 #include <bbox/Base64.h>
 
 namespace bbox

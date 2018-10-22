@@ -8,6 +8,8 @@
 #ifndef __BBOX__ENC__DETAILS__TO_TEXT_FORMAT_ACTION_H__
 #define __BBOX__ENC__DETAILS__TO_TEXT_FORMAT_ACTION_H__
 
+#include <bbox/enc/MsgPtr.h>
+
 namespace bbox
 {
     namespace enc

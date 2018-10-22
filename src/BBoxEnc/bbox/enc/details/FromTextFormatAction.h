@@ -11,6 +11,7 @@
 #include <bbox/FromString.h>
 #include <bbox/Format.h>
 #include <bbox/TypeInfo.h>
+#include <bbox/enc/MsgPtr.h>
 
 namespace bbox
 {

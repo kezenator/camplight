@@ -6,6 +6,8 @@
 */
 
 #include <bbox/enc/FromBinary.h>
+#include <bbox/enc/MsgAnyPtr.h>
+#include <bbox/enc/MsgTypeLibrary.h>
 #include <bbox/Format.h>
 #include <cstring>
 

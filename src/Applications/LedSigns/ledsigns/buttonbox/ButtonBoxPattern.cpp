@@ -246,8 +246,8 @@ namespace ledsigns
 					}
 					else
 					{
-						float v1, v2;
-						float hue = (float)h / 360;
+						double v1, v2;
+						double hue = (double)h / 360;
 
 						v2 = (l < 0.5) ? (l * (1 + s)) : ((l + s) - (l * s));
 						v1 = 2 * l - v2;

@@ -12,6 +12,7 @@
 #include <map>
 
 #include <bbox/enc/MsgAnyPtr.h>
+#include <bbox/enc/MsgPtr.h>
 #include <bbox/enc/MsgTypeLibrary.h>
 
 namespace bbox {

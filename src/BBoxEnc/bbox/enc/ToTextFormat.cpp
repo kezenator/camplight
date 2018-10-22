@@ -6,6 +6,7 @@
  */
 
 #include <bbox/enc/ToTextFormat.h>
+#include <bbox/enc/MsgAnyPtr.h>
 #include <bbox/Base64.h>
 #include <bbox/Base16.h>
 #include <bbox/Format.h>

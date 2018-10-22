@@ -11,8 +11,6 @@
 #include <bbox/ToString.h>
 #include <bbox/FromString.h>
 
-#include <bbox/enc/MsgPtr.h>
-
 #include <utility>
 #include <set>
 #include <list>
@@ -25,8 +23,12 @@ namespace bbox
     {
         // Forward declarations
         class FromBinary;
+		class FromTextFormat;
         class ToBinary;
         class ToTextFormat;
+		class MsgAnyPtr;
+		template <typename Type>
+		class MsgPtr;
 
         namespace details
         {
