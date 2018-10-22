@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="mn">
+      <UniqueIdentifier>{B6075DA1-35A9-50C9-9DE2-00F1564AEDCB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mn\msgs">
+      <UniqueIdentifier>{42922446-F220-5925-966C-39047E192E64}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mn\msgs\ButtonColors.cpp">
+      <Filter>mn\msgs</Filter>
+    </ClCompile>
+    <ClCompile Include="mn\msgs\ButtonStates.cpp">
+      <Filter>mn\msgs</Filter>
+    </ClCompile>
+    <ClCompile Include="mn\msgs\EmulatorCompleted.cpp">
+      <Filter>mn\msgs</Filter>
+    </ClCompile>
+    <ClCompile Include="mn\msgs\RetransmitRequired.cpp">
+      <Filter>mn\msgs</Filter>
+    </ClCompile>
+    <ClCompile Include="mn\msgs\StartEmulator.cpp">
+      <Filter>mn\msgs</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mn\msgs\ButtonColors.h">
+      <Filter>mn\msgs</Filter>
+    </ClInclude>
+    <ClInclude Include="mn\msgs\ButtonStates.h">
+      <Filter>mn\msgs</Filter>
+    </ClInclude>
+    <ClInclude Include="mn\msgs\EmulatorCompleted.h">
+      <Filter>mn\msgs</Filter>
+    </ClInclude>
+    <ClInclude Include="mn\msgs\RetransmitRequired.h">
+      <Filter>mn\msgs</Filter>
+    </ClInclude>
+    <ClInclude Include="mn\msgs\StartEmulator.h">
+      <Filter>mn\msgs</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MiamiNightsMsgs.bbmake" />
+  </ItemGroup>
+</Project>

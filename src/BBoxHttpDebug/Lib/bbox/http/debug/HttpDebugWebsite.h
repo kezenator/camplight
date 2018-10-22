@@ -10,6 +10,10 @@
 #include <bbox/http/server/ServerWebSocket.h>
 #include <bbox/debug/DebugTarget.h>
 #include <bbox/enc/MsgAnyPtr.h>
+#include <bbox/enc/Dispatcher.h>
+
+#include <bbox/http/debug/msgs/QueryRequest.h>
+#include <bbox/http/debug/msgs/EnableRequest.h>
 
 namespace bbox {
 namespace http {
@@ -41,6 +45,9 @@ private:
 	void HandleWebSocketState(const bbox::Error &error);
 	void HandleWebSocketMessage(const std::string &msg_str);
 
+	bool HandleWebSocketMessageQueryRequest(const msgs::QueryRequest &msg);
+	bool HandleWebSocketMessageEnableRequest(const msgs::EnableRequest &msg);
+
 	void WebSocketSend(const bbox::enc::MsgAnyPtr &msg);
 	void UpdateOverallDebugEnables();
 
@@ -52,6 +59,8 @@ private:
 	server::RequestHandler m_websocket_request_handler;
 
 	server::ServerWebSocket m_web_socket;
+
+	bbox::enc::Dispatcher m_dispatcher;
 
 	bool m_output_requested;
 	std::set<std::string> m_requested_debug_enables;

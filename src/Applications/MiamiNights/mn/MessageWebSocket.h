@@ -12,6 +12,7 @@
 #include <bbox/http/server/RequestHandler.h>
 
 #include <bbox/enc/MsgAnyPtr.h>
+#include <bbox/enc/Dispatcher.h>
 
 namespace mn {
 
@@ -33,11 +34,11 @@ public:
 	template <typename HandlerType, typename MsgType>
 	void RegisterHandler(void (HandlerType::*method)(const MsgType &), HandlerType *handler)
 	{
-		m_msg_handlers[bbox::enc::MsgTypeLibrary::FindByType<MsgType>()] =
-			[=](const bbox::enc::MsgAnyPtr &msg) -> void
+		m_dispatcher.Register<MsgType>([=](const MsgType &msg)
 			{
-			    (handler->*method)(*message_cast<MsgType>(msg));
-			};
+				(handler->*method)(msg);
+				return true;
+			});
 	}
 
 	bool IsOpen()
@@ -60,11 +61,10 @@ private:
 	const std::string m_path;
 	const std::string m_protocol;
 	const std::function<void()> m_connected_changed_handler;
+	bbox::enc::Dispatcher m_dispatcher;
 	bbox::http::server::RequestHandler m_request_handler;
 	bbox::http::server::ServerWebSocket m_socket;
 	bbox::rt::DebugEnable m_debug_enable;
-
-	std::map<bbox::enc::MsgType, std::function<void(const bbox::enc::MsgAnyPtr &)>> m_msg_handlers;
 };
 
 } // namespace mn

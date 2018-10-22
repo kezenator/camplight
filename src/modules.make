@@ -553,6 +553,7 @@ SRCS_DIRECT_BBoxHttp := $(sort \
         BBoxHttp/bbox/http/client/ClientRequest.cpp \
         BBoxHttp/bbox/http/client/ClientResponse.cpp \
         BBoxHttp/bbox/http/client/HttpClient.cpp \
+        BBoxHttp/bbox/http/client/WebSocketClient.cpp \
         BBoxHttp/bbox/http/server/HttpServer.cpp \
         BBoxHttp/bbox/http/server/RequestHandler.cpp \
         BBoxHttp/bbox/http/server/ServerWebSocket.cpp \
@@ -808,6 +809,36 @@ INCS_RECURSIVE_LibLeds := $(sort \
     )
     # End INCS_RECURSIVE_LibLeds
 
+# Project MiamiNightsMsgs (type StaticLibrary)
+
+MODULES += MiamiNightsMsgs
+
+SRCS_DIRECT_MiamiNightsMsgs := $(sort \
+        Applications/MiamiNightsMsgs/mn/msgs/ButtonColors.cpp \
+        Applications/MiamiNightsMsgs/mn/msgs/ButtonStates.cpp \
+        Applications/MiamiNightsMsgs/mn/msgs/EmulatorCompleted.cpp \
+        Applications/MiamiNightsMsgs/mn/msgs/RetransmitRequired.cpp \
+        Applications/MiamiNightsMsgs/mn/msgs/StartEmulator.cpp \
+    )
+    # End SRCS_DIRECT_MiamiNightsMsgs
+
+SRCS_RECURSIVE_MiamiNightsMsgs := $(sort \
+        $(SRCS_DIRECT_MiamiNightsMsgs) \
+        $(SRCS_RECURSIVE_BBoxEnc) \
+    )
+    # End SRCS_RECURSIVE_MiamiNightsMsgs
+
+INCS_DIRECT_MiamiNightsMsgs := $(sort \
+        Applications/MiamiNightsMsgs/. \
+    )
+    # End INCS_DIRECT_MiamiNightsMsgs
+
+INCS_RECURSIVE_MiamiNightsMsgs := $(sort \
+        $(INCS_DIRECT_MiamiNightsMsgs) \
+        $(INCS_RECURSIVE_BBoxEnc) \
+    )
+    # End INCS_RECURSIVE_MiamiNightsMsgs
+
 # Project CampLight (type Application)
 
 MODULES += CampLight
@@ -845,6 +876,7 @@ SRCS_RECURSIVE_CampLight := $(sort \
         $(SRCS_RECURSIVE_BBoxHttp) \
         $(SRCS_RECURSIVE_BBoxHttpDebug) \
         $(SRCS_RECURSIVE_LibWS281x) \
+        $(SRCS_RECURSIVE_MiamiNightsMsgs) \
     )
     # End SRCS_RECURSIVE_CampLight
 
@@ -859,6 +891,7 @@ INCS_RECURSIVE_CampLight := $(sort \
         $(INCS_RECURSIVE_BBoxHttp) \
         $(INCS_RECURSIVE_BBoxHttpDebug) \
         $(INCS_RECURSIVE_LibWS281x) \
+        $(INCS_RECURSIVE_MiamiNightsMsgs) \
     )
     # End INCS_RECURSIVE_CampLight
 
@@ -881,6 +914,8 @@ MODULES += LedSigns
 SRCS_DIRECT_LedSigns := $(sort \
         Applications/LedSigns/ledsigns/Application.cpp \
         Applications/LedSigns/ledsigns/RenderService.cpp \
+        Applications/LedSigns/ledsigns/buttonbox/ButtonBoxLayout.cpp \
+        Applications/LedSigns/ledsigns/buttonbox/ButtonBoxPattern.cpp \
         Applications/LedSigns/ledsigns/casadelshade/CasaDelShadeLayout.cpp \
         Applications/LedSigns/ledsigns/casadelshade/FlickeringNeonPattern.cpp \
         Applications/LedSigns/ledsigns/casadelshade/PulsePattern.cpp \
@@ -910,6 +945,7 @@ SRCS_RECURSIVE_LedSigns := $(sort \
         $(SRCS_RECURSIVE_BBoxHttpDebug) \
         $(SRCS_RECURSIVE_FastNoise) \
         $(SRCS_RECURSIVE_LibLeds) \
+        $(SRCS_RECURSIVE_MiamiNightsMsgs) \
     )
     # End SRCS_RECURSIVE_LedSigns
 
@@ -924,6 +960,7 @@ INCS_RECURSIVE_LedSigns := $(sort \
         $(INCS_RECURSIVE_BBoxHttpDebug) \
         $(INCS_RECURSIVE_FastNoise) \
         $(INCS_RECURSIVE_LibLeds) \
+        $(INCS_RECURSIVE_MiamiNightsMsgs) \
     )
     # End INCS_RECURSIVE_LedSigns
 

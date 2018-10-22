@@ -3,6 +3,7 @@ if (platform() == "Win32") then
 
   project("MiamiNights", "Application");
 
+  reference("MiamiNightsMsgs");
   reference("BBoxHttp");
   reference("BBoxHttpDebug");
   reference("BBoxEnc");

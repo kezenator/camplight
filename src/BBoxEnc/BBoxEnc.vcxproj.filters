@@ -65,6 +65,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bbox\enc\Dispatcher.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
     <ClInclude Include="bbox\enc\FromBinary.h">
       <Filter>bbox\enc</Filter>
     </ClInclude>

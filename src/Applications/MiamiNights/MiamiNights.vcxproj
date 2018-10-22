@@ -53,7 +53,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxAudio;$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\vJoy</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxAudio;$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\Applications\MiamiNightsMsgs;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\vJoy</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -78,7 +78,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxAudio;$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\vJoy</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxAudio;$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\Applications\MiamiNightsMsgs;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json;$(ProjectDir)\..\..\ThirdParty\vJoy</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -101,11 +101,6 @@
     <ClCompile Include="mn\EmulatorRunner.cpp" />
     <ClCompile Include="mn\MessageWebSocket.cpp" />
     <ClCompile Include="mn\Resources.cpp" />
-    <ClCompile Include="mn\msgs\ButtonColors.cpp" />
-    <ClCompile Include="mn\msgs\ButtonStates.cpp" />
-    <ClCompile Include="mn\msgs\EmulatorCompleted.cpp" />
-    <ClCompile Include="mn\msgs\RetransmitRequired.cpp" />
-    <ClCompile Include="mn\msgs\StartEmulator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BBoxAudio\BBoxAudio.vcxproj">
@@ -126,6 +121,9 @@
     <ProjectReference Include="..\..\BBoxUtils\BBoxUtils.vcxproj">
       <Project>{20DD0248-AD74-5731-8E99-0786A8D4A61E}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Applications\MiamiNightsMsgs\MiamiNightsMsgs.vcxproj">
+      <Project>{04E7C4D1-C533-5A53-9AEF-5138D1426C26}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\ThirdParty\TinyXml2\TinyXml2.vcxproj">
       <Project>{BB30376C-3E29-569C-93A6-4982CAF78C9D}</Project>
     </ProjectReference>
@@ -145,11 +143,6 @@
     <ClInclude Include="mn\EmulatorRunner.h" />
     <ClInclude Include="mn\MessageWebSocket.h" />
     <ClInclude Include="mn\Resources.h" />
-    <ClInclude Include="mn\msgs\ButtonColors.h" />
-    <ClInclude Include="mn\msgs\ButtonStates.h" />
-    <ClInclude Include="mn\msgs\EmulatorCompleted.h" />
-    <ClInclude Include="mn\msgs\RetransmitRequired.h" />
-    <ClInclude Include="mn\msgs\StartEmulator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MiamiNights.bbmake" />

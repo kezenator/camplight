@@ -5,6 +5,7 @@ reference("BBoxHttp");
 reference("BBoxHttpDebug");
 reference("LibLeds");
 reference("FastNoise");
+reference("MiamiNightsMsgs");
 
 include(".");
 

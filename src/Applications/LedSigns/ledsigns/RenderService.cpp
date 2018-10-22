@@ -25,6 +25,9 @@
 #include <ledsigns/gaysign/GaySignLayout.h>
 #include <ledsigns/gaysign/GaySignPattern.h>
 
+#include <ledsigns/buttonbox/ButtonBoxLayout.h>
+#include <ledsigns/buttonbox/ButtonBoxPattern.h>
+
 namespace ledsigns
 {                     
                                 
@@ -57,6 +60,17 @@ namespace ledsigns
                 m_gpio_client,
                 *m_render_state_ptr);
         }
+		else if (m_mode == "buttonbox")
+		{
+			m_render_state_ptr = std::make_unique<common::RenderState>(
+				buttonbox::ButtonBoxLayout,
+				0);
+
+			m_pattern_ptr = std::make_unique<buttonbox::ButtonBoxPattern>(
+				*this,
+				m_gpio_client,
+				*m_render_state_ptr);
+		}
         else // casadelshade
         {
             m_render_state_ptr = std::make_unique<common::RenderState>(

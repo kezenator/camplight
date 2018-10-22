@@ -17,8 +17,6 @@
 #include <bbox/enc/ToDebugString.h>
 
 #include <bbox/http/debug/msgs/DebugReportNotification.h>
-#include <bbox/http/debug/msgs/EnableRequest.h>
-#include <bbox/http/debug/msgs/QueryRequest.h>
 #include <bbox/http/debug/msgs/QueryResponse.h>
 
 #include <boost/algorithm/string/replace.hpp>
@@ -32,17 +30,15 @@ HttpDebugWebsite::HttpDebugWebsite(const std::string &name, bbox::rt::Service &p
 	, m_reources_request_handler("resource-request-handler", *this, server)
 	, m_websocket_request_handler("websocket-request-handler", *this, server)
 	, m_web_socket()
+	, m_dispatcher()
 	, m_output_requested(false)
 	, m_requested_debug_enables()
 	, m_active_debug_enables()
 {
 	SetThisDependantOn(server);
 
-	// Ensure all messages are loaded into the type library
-	msgs::DebugReportNotification::g_msg_registration.EnsureRegistered();
-	msgs::EnableRequest::g_msg_registration.EnsureRegistered();
-	msgs::QueryRequest::g_msg_registration.EnsureRegistered();
-	msgs::QueryResponse::g_msg_registration.EnsureRegistered();
+	m_dispatcher.Register(&HttpDebugWebsite::HandleWebSocketMessageEnableRequest, this);
+	m_dispatcher.Register(&HttpDebugWebsite::HandleWebSocketMessageQueryRequest, this);
 }
 
 HttpDebugWebsite::~HttpDebugWebsite()
@@ -102,15 +98,19 @@ void HttpDebugWebsite::HandleResourceRequest(http::Request &request)
 {
 	std::string resource = request.GetResource();
 
-	if ((resource == "/debug")
-		|| (resource == "/debug/")
+	if (resource == "/debug")
+	{
+		request.RespondWithTemporaryRedirect("/debug/");
+	}
+	else if ((resource == "/debug/")
 		|| (resource.substr(0, 13) == "/debug/state/"))
 	{
 		request.RespondWithResourceOrNotFoundError(g_resource_files, "/debug/index.html");
-		return;
 	}
-
-	request.RespondWithResourceOrNotFoundError(g_resource_files);
+	else
+	{
+		request.RespondWithResourceOrNotFoundError(g_resource_files);
+	}
 }
 
 void HttpDebugWebsite::HandleWebSocketRequest(http::Request &request)
@@ -153,61 +153,11 @@ void HttpDebugWebsite::HandleWebSocketMessage(const std::string &msg_str)
 	{
 		from_xml.SetError("Received nullptr message");
 	}
-	else
+
+	if (!from_xml.HasError())
 	{
-		auto query_msg = message_cast<msgs::QueryRequest>(msg);
-		auto enable_msg = message_cast<msgs::EnableRequest>(msg);
-
-		if (query_msg)
-		{
-			std::vector<bbox::debug::DebugQueryResult> query_results =
-				bbox::debug::DebugQuery::DoQuery(query_msg->query);
-
-			auto response_msg = new_message<msgs::QueryResponse>();
-
-			auto &response = *response_msg;
-
-			response.request_id = query_msg->request_id;
-			response.entries.clear();
-			response.entries.reserve(query_results.size());
-
-			for (const bbox::debug::DebugQueryResult &entry : query_results)
-			{
-				response.entries.emplace_back();
-
-				msgs::QueryResponseEntry &response_entry = response.entries.back();
-
-				response_entry.path = entry.full_path;
-				response_entry.parent_path = entry.parent_path;
-				for (const bbox::debug::DebugChildEntry &child : entry.children)
-				{
-					response_entry.children.emplace_back();
-
-					msgs::QueryResponseChild &response_child = response_entry.children.back();
-					response_child.name = child.name;
-					response_child.path = child.path;
-					response_child.short_description = child.short_description;
-				}
-
-				ConvertDebugReport(entry.report, response_entry.report);
-			}
-
-			WebSocketSend(response_msg);
-		}
-		else if (enable_msg)
-		{
-			m_output_requested = enable_msg->enabled;
-
-			m_requested_debug_enables.clear();
-			for (const auto &entry : enable_msg->debug_enables)
-				m_requested_debug_enables.insert(entry);
-
-			UpdateOverallDebugEnables();
-		}
-		else
-		{
-			from_xml.SetError(bbox::Format("Unsupported message of type %s", msg.GetType().GetName()));
-		}
+		if (!m_dispatcher.Dispatch(msg))
+			from_xml.SetError(bbox::Format("No handler or handler error for message of type %s", msg.GetType().GetName()));
 	}
 
 	if (from_xml.HasError())
@@ -221,6 +171,58 @@ void HttpDebugWebsite::HandleWebSocketMessage(const std::string &msg_str)
 		m_web_socket.Close();
 		return;
 	}
+}
+
+bool HttpDebugWebsite::HandleWebSocketMessageQueryRequest(const msgs::QueryRequest &msg)
+{
+	std::vector<bbox::debug::DebugQueryResult> query_results =
+		bbox::debug::DebugQuery::DoQuery(msg.query);
+
+	auto response_msg = new_message<msgs::QueryResponse>();
+
+	auto &response = *response_msg;
+
+	response.request_id = msg.request_id;
+	response.entries.clear();
+	response.entries.reserve(query_results.size());
+
+	for (const bbox::debug::DebugQueryResult &entry : query_results)
+	{
+		response.entries.emplace_back();
+
+		msgs::QueryResponseEntry &response_entry = response.entries.back();
+
+		response_entry.path = entry.full_path;
+		response_entry.parent_path = entry.parent_path;
+		for (const bbox::debug::DebugChildEntry &child : entry.children)
+		{
+			response_entry.children.emplace_back();
+
+			msgs::QueryResponseChild &response_child = response_entry.children.back();
+			response_child.name = child.name;
+			response_child.path = child.path;
+			response_child.short_description = child.short_description;
+		}
+
+		ConvertDebugReport(entry.report, response_entry.report);
+	}
+
+	WebSocketSend(response_msg);
+
+	return true;
+}
+
+bool HttpDebugWebsite::HandleWebSocketMessageEnableRequest(const msgs::EnableRequest &msg)
+{
+	m_output_requested = msg.enabled;
+
+	m_requested_debug_enables.clear();
+	for (const auto &entry : msg.debug_enables)
+		m_requested_debug_enables.insert(entry);
+
+	UpdateOverallDebugEnables();
+
+	return true;
 }
 
 void HttpDebugWebsite::WebSocketSend(const bbox::enc::MsgAnyPtr &msg)

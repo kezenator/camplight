@@ -1,0 +1,9 @@
+
+project("MiamiNightsMsgs", "StaticLibrary");
+
+reference("BBoxEnc");
+
+include(".");
+
+sources(find_recursive("*.cpp"));
+headers(find_recursive("*.h"));

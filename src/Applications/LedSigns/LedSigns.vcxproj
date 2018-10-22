@@ -53,7 +53,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;FN_USE_DOUBLES;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\FastNoise\..\..\..\external\FastNoise;$(ProjectDir)\..\..\Applications\LibLeds;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\FastNoise\..\..\..\external\FastNoise;$(ProjectDir)\..\..\Applications\LibLeds;$(ProjectDir)\..\..\Applications\MiamiNightsMsgs;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -75,7 +75,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;FN_USE_DOUBLES;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\FastNoise\..\..\..\external\FastNoise;$(ProjectDir)\..\..\Applications\LibLeds;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxHttp;$(ProjectDir)\..\..\BBoxHttpDebug\Lib;$(ProjectDir)\..\..\BBoxRt;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\FastNoise\..\..\..\external\FastNoise;$(ProjectDir)\..\..\Applications\LibLeds;$(ProjectDir)\..\..\Applications\MiamiNightsMsgs;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -92,6 +92,8 @@
   <ItemGroup>
     <ClCompile Include="ledsigns\Application.cpp" />
     <ClCompile Include="ledsigns\RenderService.cpp" />
+    <ClCompile Include="ledsigns\buttonbox\ButtonBoxLayout.cpp" />
+    <ClCompile Include="ledsigns\buttonbox\ButtonBoxPattern.cpp" />
     <ClCompile Include="ledsigns\casadelshade\CasaDelShadeLayout.cpp" />
     <ClCompile Include="ledsigns\casadelshade\FlickeringNeonPattern.cpp" />
     <ClCompile Include="ledsigns\casadelshade\PulsePattern.cpp" />
@@ -135,6 +137,9 @@
     <ProjectReference Include="..\..\Applications\LibLeds\LibLeds.vcxproj">
       <Project>{EED14378-C54B-52B9-A476-2582BAA8C6E1}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Applications\MiamiNightsMsgs\MiamiNightsMsgs.vcxproj">
+      <Project>{04E7C4D1-C533-5A53-9AEF-5138D1426C26}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\ThirdParty\TinyXml2\TinyXml2.vcxproj">
       <Project>{BB30376C-3E29-569C-93A6-4982CAF78C9D}</Project>
     </ProjectReference>
@@ -147,6 +152,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ledsigns\RenderService.h" />
+    <ClInclude Include="ledsigns\buttonbox\ButtonBoxLayout.h" />
+    <ClInclude Include="ledsigns\buttonbox\ButtonBoxPattern.h" />
     <ClInclude Include="ledsigns\casadelshade\CasaDelShadeLayout.h" />
     <ClInclude Include="ledsigns\casadelshade\FlickeringNeonPattern.h" />
     <ClInclude Include="ledsigns\casadelshade\PulsePattern.h" />

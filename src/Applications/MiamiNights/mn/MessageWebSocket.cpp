@@ -25,11 +25,11 @@ MessageWebSocket::MessageWebSocket(
 	, m_server(server)
 	, m_path(std::move(path))
 	, m_protocol(std::move(protocol))
+	, m_dispatcher()
 	, m_connected_changed_handler(std::move(connected_changed_handler))
 	, m_request_handler("request-handler", *this, server)
 	, m_socket()
 	, m_debug_enable("messaging", *this)
-	, m_msg_handlers()
 {
 	SetThisDependantOn(server);
 }
@@ -94,7 +94,6 @@ void MessageWebSocket::HandleWebSocketState(bbox::Error error)
 void MessageWebSocket::HandleWebSocketRxMessage(const std::string &str)
 {
 	bbox::enc::MsgAnyPtr msg;
-	std::function<void(const bbox::enc::MsgAnyPtr &)> handler;
 
 	bbox::enc::FromXml fromXml(str);
 
@@ -103,15 +102,22 @@ void MessageWebSocket::HandleWebSocketRxMessage(const std::string &str)
 
 	if (!msg)
 		fromXml.SetError("Decoded null message");
-	else
-	{
-		auto it = m_msg_handlers.find(msg.GetType());
 
-		if (it == m_msg_handlers.end())
-			fromXml.SetError(bbox::Format("No handler for message of type %s", msg.GetType().GetName()));
-		else
-			handler = it->second;
+	if (!fromXml.HasError())
+	{
+		bbox::DebugOutput out(BBOX_FUNC, m_debug_enable);
+		if (out)
+		{
+			{
+				bbox::DebugOutput path_out(BBOX_FUNC, out, bbox::DebugOutput::Mime_Text_Debug_Full_Path);
+				path_out << GetResourceFullPath();
+			}
+			out.Format(": RX: %s\n", bbox::enc::ToDebugString(msg));
+		}
 	}
+
+	if (!m_dispatcher.Dispatch(msg))
+		fromXml.SetError(bbox::Format("No msg handler or handler error for message of type %s", msg.GetType().GetName()));
 
 	if (fromXml.HasError())
 	{
@@ -129,20 +135,6 @@ void MessageWebSocket::HandleWebSocketRxMessage(const std::string &str)
 			out.IncIndent(4);
 			out.Format("%s\n", str);
 		}
-	}
-	else // no error
-	{
-		bbox::DebugOutput out(BBOX_FUNC, m_debug_enable);
-		if (out)
-		{
-			{
-				bbox::DebugOutput path_out(BBOX_FUNC, out, bbox::DebugOutput::Mime_Text_Debug_Full_Path);
-				path_out << GetResourceFullPath();
-			}
-			out.Format(": RX: %s\n", bbox::enc::ToDebugString(msg));
-		}
-
-		handler(msg);
 	}
 }
 

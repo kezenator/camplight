@@ -1,5 +1,5 @@
 namespace mn::msgs
-    [generate cpp "Applications/MiamiNights/mn/msgs"]
+    [generate cpp "Applications/MiamiNightsMsgs/mn/msgs"]
     [generate ts  "Applications/MiamiNightsWeb/ts/mn/msgs"]
 {
     message RetransmitRequired

@@ -5,6 +5,8 @@ reference("BBoxHttp");
 reference("BBoxHttpDebug");
 reference("BBoxEnc");
 
+reference("MiamiNightsMsgs");
+
 if (platform() ~= "Win32") then
     reference("LibWS281x");
 end

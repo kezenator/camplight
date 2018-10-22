@@ -4,9 +4,6 @@
     <Filter Include="mn">
       <UniqueIdentifier>{1133FC09-069B-565C-9D61-427CC4025328}</UniqueIdentifier>
     </Filter>
-    <Filter Include="mn\msgs">
-      <UniqueIdentifier>{8E1286E7-A33C-519A-8A1A-29D982465565}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mn\Application.cpp">
@@ -24,21 +21,6 @@
     <ClCompile Include="mn\Resources.cpp">
       <Filter>mn</Filter>
     </ClCompile>
-    <ClCompile Include="mn\msgs\ButtonColors.cpp">
-      <Filter>mn\msgs</Filter>
-    </ClCompile>
-    <ClCompile Include="mn\msgs\ButtonStates.cpp">
-      <Filter>mn\msgs</Filter>
-    </ClCompile>
-    <ClCompile Include="mn\msgs\EmulatorCompleted.cpp">
-      <Filter>mn\msgs</Filter>
-    </ClCompile>
-    <ClCompile Include="mn\msgs\RetransmitRequired.cpp">
-      <Filter>mn\msgs</Filter>
-    </ClCompile>
-    <ClCompile Include="mn\msgs\StartEmulator.cpp">
-      <Filter>mn\msgs</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mn\Application.h">
@@ -55,21 +37,6 @@
     </ClInclude>
     <ClInclude Include="mn\Resources.h">
       <Filter>mn</Filter>
-    </ClInclude>
-    <ClInclude Include="mn\msgs\ButtonColors.h">
-      <Filter>mn\msgs</Filter>
-    </ClInclude>
-    <ClInclude Include="mn\msgs\ButtonStates.h">
-      <Filter>mn\msgs</Filter>
-    </ClInclude>
-    <ClInclude Include="mn\msgs\EmulatorCompleted.h">
-      <Filter>mn\msgs</Filter>
-    </ClInclude>
-    <ClInclude Include="mn\msgs\RetransmitRequired.h">
-      <Filter>mn\msgs</Filter>
-    </ClInclude>
-    <ClInclude Include="mn\msgs\StartEmulator.h">
-      <Filter>mn\msgs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -91,7 +91,9 @@ int gaysign_main(int argc, char *argv[])
         || !fadecandy_remote_endpoint.GetAddress().is_v4()
         || fadecandy_remote_endpoint.GetAddress().is_multicast()
         || (fadecandy_remote_endpoint.GetPort() == 0)
-        || ((0 != strcmp(argv[1], "gaysign")) && (0 != strcmp(argv[1], "casadelshade"))))
+        || ((0 != strcmp(argv[1], "gaysign"))
+			&& (0 != strcmp(argv[1], "casadelshade"))
+			&& (0 != strcmp(argv[1], "buttonbox"))))
     {
         std::cerr << "Usage:  " << argv[0] << " mode ipv4-listen-addr:port fadecandy-server-addr:port" << std::endl;
 		std::cerr << "   e.g. " << argv[0] << " gaysign 127.0.0.1:8080 127.0.0.1:7890" << std::endl;
@@ -99,6 +101,7 @@ int gaysign_main(int argc, char *argv[])
         std::cerr << "Mode can be one of:" << std::endl;
         std::cerr << "    gaysign" << std::endl;
         std::cerr << "    casadelshade" << std::endl;
+		std::cerr << "    buttonbox" << std::endl;
         return 1;
     }
 

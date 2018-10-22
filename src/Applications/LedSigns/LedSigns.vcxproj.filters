@@ -4,6 +4,9 @@
     <Filter Include="ledsigns">
       <UniqueIdentifier>{FAC14243-1BCC-5A9B-8D81-8B3249FB7543}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ledsigns\buttonbox">
+      <UniqueIdentifier>{D1732D99-AE83-55F5-891D-A75AB5608CA9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ledsigns\casadelshade">
       <UniqueIdentifier>{8C6B5804-2C9E-5B96-A62F-CDDB2120DEB2}</UniqueIdentifier>
     </Filter>
@@ -20,6 +23,12 @@
     </ClCompile>
     <ClCompile Include="ledsigns\RenderService.cpp">
       <Filter>ledsigns</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\buttonbox\ButtonBoxLayout.cpp">
+      <Filter>ledsigns\buttonbox</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\buttonbox\ButtonBoxPattern.cpp">
+      <Filter>ledsigns\buttonbox</Filter>
     </ClCompile>
     <ClCompile Include="ledsigns\casadelshade\CasaDelShadeLayout.cpp">
       <Filter>ledsigns\casadelshade</Filter>
@@ -85,6 +94,12 @@
   <ItemGroup>
     <ClInclude Include="ledsigns\RenderService.h">
       <Filter>ledsigns</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\buttonbox\ButtonBoxLayout.h">
+      <Filter>ledsigns\buttonbox</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\buttonbox\ButtonBoxPattern.h">
+      <Filter>ledsigns\buttonbox</Filter>
     </ClInclude>
     <ClInclude Include="ledsigns\casadelshade\CasaDelShadeLayout.h">
       <Filter>ledsigns\casadelshade</Filter>

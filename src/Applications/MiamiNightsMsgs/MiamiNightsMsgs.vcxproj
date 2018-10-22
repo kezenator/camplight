@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{FD7C126F-E433-5228-B563-110342C677E8}</ProjectGuid>
+    <ProjectGuid>{04E7C4D1-C533-5A53-9AEF-5138D1426C26}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>BBoxEnc</RootNamespace>
+    <RootNamespace>MiamiNightsMsgs</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -47,7 +47,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\ThirdParty\TinyXml2;$(ProjectDir)\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\ThirdParty\json</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -69,7 +69,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\ThirdParty\TinyXml2;$(ProjectDir)\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\ThirdParty\json</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\..\BBoxEnc;$(ProjectDir)\..\..\BBoxUtils;$(ProjectDir)\..\..\ThirdParty\TinyXml2;$(ProjectDir)\..\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\..\ThirdParty\json</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -84,56 +84,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="bbox\enc\FromBinary.cpp" />
-    <ClCompile Include="bbox\enc\FromJson.cpp" />
-    <ClCompile Include="bbox\enc\FromTextFormat.cpp" />
-    <ClCompile Include="bbox\enc\FromXml.cpp" />
-    <ClCompile Include="bbox\enc\MsgType.cpp" />
-    <ClCompile Include="bbox\enc\MsgTypeLibrary.cpp" />
-    <ClCompile Include="bbox\enc\ToBinary.cpp" />
-    <ClCompile Include="bbox\enc\ToJson.cpp" />
-    <ClCompile Include="bbox\enc\ToTextFormat.cpp" />
-    <ClCompile Include="bbox\enc\ToXml.cpp" />
-    <ClCompile Include="bbox\enc\api\Method.cpp" />
-    <ClCompile Include="bbox\enc\api\MethodSet.cpp" />
-    <ClCompile Include="bbox\enc\api\Param.cpp" />
-    <ClCompile Include="bbox\enc\api\ParamPack.cpp" />
+    <ClCompile Include="mn\msgs\ButtonColors.cpp" />
+    <ClCompile Include="mn\msgs\ButtonStates.cpp" />
+    <ClCompile Include="mn\msgs\EmulatorCompleted.cpp" />
+    <ClCompile Include="mn\msgs\RetransmitRequired.cpp" />
+    <ClCompile Include="mn\msgs\StartEmulator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bbox\enc\Dispatcher.h" />
-    <ClInclude Include="bbox\enc\FromBinary.h" />
-    <ClInclude Include="bbox\enc\FromJson.h" />
-    <ClInclude Include="bbox\enc\FromTextFormat.h" />
-    <ClInclude Include="bbox\enc\FromXml.h" />
-    <ClInclude Include="bbox\enc\MsgAnyPtr.h" />
-    <ClInclude Include="bbox\enc\MsgPtr.h" />
-    <ClInclude Include="bbox\enc\MsgType.h" />
-    <ClInclude Include="bbox\enc\MsgTypeLibrary.h" />
-    <ClInclude Include="bbox\enc\ToBinary.h" />
-    <ClInclude Include="bbox\enc\ToDebugString.h" />
-    <ClInclude Include="bbox\enc\ToJson.h" />
-    <ClInclude Include="bbox\enc\ToTextFormat.h" />
-    <ClInclude Include="bbox\enc\ToXml.h" />
-    <ClInclude Include="bbox\enc\api\Describe.h" />
-    <ClInclude Include="bbox\enc\api\Method.h" />
-    <ClInclude Include="bbox\enc\api\MethodSet.h" />
-    <ClInclude Include="bbox\enc\api\Param.h" />
-    <ClInclude Include="bbox\enc\api\ParamPack.h" />
-    <ClInclude Include="bbox\enc\api\describe\Directions.h" />
-    <ClInclude Include="bbox\enc\api\describe\details\MethodImpl.h" />
-    <ClInclude Include="bbox\enc\api\describe\details\ParamImpl.h" />
-    <ClInclude Include="bbox\enc\api\describe\details\ParamPackImpl.h" />
-    <ClInclude Include="bbox\enc\api\describe\details\TypeTraits.h" />
-    <ClInclude Include="bbox\enc\details\FromBinaryAction.h" />
-    <ClInclude Include="bbox\enc\details\FromTextFormatAction.h" />
-    <ClInclude Include="bbox\enc\details\MarshalActions.h" />
-    <ClInclude Include="bbox\enc\details\MarshalStrategy.h" />
-    <ClInclude Include="bbox\enc\details\MethodDetection.h" />
-    <ClInclude Include="bbox\enc\details\ToBinaryAction.h" />
-    <ClInclude Include="bbox\enc\details\ToTextFormatAction.h" />
+    <ClInclude Include="mn\msgs\ButtonColors.h" />
+    <ClInclude Include="mn\msgs\ButtonStates.h" />
+    <ClInclude Include="mn\msgs\EmulatorCompleted.h" />
+    <ClInclude Include="mn\msgs\RetransmitRequired.h" />
+    <ClInclude Include="mn\msgs\StartEmulator.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BBoxEnc.bbmake" />
+    <None Include="MiamiNightsMsgs.bbmake" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
