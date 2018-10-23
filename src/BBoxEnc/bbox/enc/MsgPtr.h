@@ -89,7 +89,7 @@ public:
 
 		if (other)
 		{
-			MsgType type = MsgTypeLibrary::FindByType<Type>();
+			MsgType type = MsgTypeLibrary::FindByType(typeid(Type));
 			if (type)
 			{
 				if (type == other.m_value->type)
@@ -162,5 +162,15 @@ bbox::enc::MsgPtr<Type> message_cast(const bbox::enc::MsgAnyPtr &val)
 {
 	return bbox::enc::MsgPtr<Type>::TryCast(val);
 }
+
+#include <bbox/enc/FromBinary.h>
+#include <bbox/enc/FromTextFormat.h>
+#include <bbox/enc/ToBinary.h>
+#include <bbox/enc/ToTextFormat.h>
+
+#include <bbox/enc/details/FromBinaryAction.h>
+#include <bbox/enc/details/FromTextFormatAction.h>
+#include <bbox/enc/details/ToBinaryAction.h>
+#include <bbox/enc/details/ToTextFormatAction.h>
 
 #endif // __BBOX__ENC__MSG_PTR_H__

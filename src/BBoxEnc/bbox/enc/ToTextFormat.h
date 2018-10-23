@@ -168,6 +168,8 @@ namespace bbox
     } // namespace bbox::enc
 } // namespace bbox
 
+#ifndef __BBOX__ENC__MSG_PTR_H__
 #include <bbox/enc/details/ToTextFormatAction.h>
+#endif // not __BBOX__ENC__MSG_PTR_H__
 
 #endif // __BBOX__ENC__TO_TEXT_FORMAT_H__

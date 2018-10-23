@@ -13,6 +13,7 @@
 #include <typeindex>
 
 #include <bbox/enc/MsgType.h>
+#include <bbox/enc/MsgPtr.h>
 
 namespace bbox {
 namespace enc {

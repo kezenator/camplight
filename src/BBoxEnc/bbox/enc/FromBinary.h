@@ -207,7 +207,8 @@ namespace bbox
     } // namespace bbox::enc
 } // namespace bbox
 
-#include <bbox/enc/MsgAnyPtr.h>
+#ifndef __BBOX__ENC__MSG_PTR_H__
 #include <bbox/enc/details/FromBinaryAction.h>
+#endif // not __BBOX__ENC__MSG_PTR_H__
 
 #endif // __BBOX__ENC__FROM_ENCARY_H__

@@ -218,6 +218,8 @@ namespace bbox
     } // namespace bbox::enc
 } // namespace bbox
 
+#ifndef __BBOX__ENC__MSG_PTR_H__
 #include <bbox/enc/details/ToBinaryAction.h>
+#endif // not __BBOX__ENC__MSG_PTR_H__
 
 #endif // __BBOX__ENC__TO_ENCARY_H__

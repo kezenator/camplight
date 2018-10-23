@@ -8,6 +8,7 @@
 #ifndef __BBOX__ENC__DETAILS__FROM_BINARY_ACTION_H__
 #define __BBOX__ENC__DETAILS__FROM_BINARY_ACTION_H__
 
+#include <bbox/Format.h>
 #include <bbox/enc/MsgPtr.h>
 
 namespace bbox

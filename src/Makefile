@@ -19,7 +19,7 @@ include modules.make
 # Default compiler flags
 
 CFLAGS := 
-CXXFLAGS := --std=c++14 -Werror -Wall -Wpedantic -Wno-error=unused-local-typedefs -Wno-unused-local-typedefs -Wno-psabi
+CXXFLAGS := -std=gnu++17 -Werror -Wall -Wpedantic -Wno-error=unused-local-typedefs -Wno-unused-local-typedefs -Wno-psabi
 OUTPUT_DIR := build
 
 ###################################################
