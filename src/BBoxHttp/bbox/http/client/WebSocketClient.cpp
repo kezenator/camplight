@@ -253,7 +253,7 @@ struct WebSocketClient::Pimpl
 				size_t offset = 0;
 				for (const auto &buf : m_rx_buffer.data())
 				{
-					memcpy(text.data() + offset, buf.data(), buf.size());
+					memcpy(&text[offset], buf.data(), buf.size());
 					offset += buf.size();
 				}
 			}

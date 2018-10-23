@@ -181,7 +181,21 @@ namespace bbox {
 			buffer.resize(buffer.size() + 256);
 		}
 #else // not WIN32
-		static_assert(false, "TODO");
+        char *mem_result = realpath(relative.c_str(), nullptr);
+        if (mem_result == nullptr)
+        {
+            return Error::posix_errno();
+        }
+        try
+        {
+            absolute = mem_result;
+        }
+        catch (...)
+        {
+            free(mem_result);
+            throw;
+        }
+        return Error();
 #endif
 	}
 

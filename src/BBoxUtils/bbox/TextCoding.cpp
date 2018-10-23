@@ -76,7 +76,7 @@ namespace bbox {
 			}
 			else if (ch == '\r')
 			{
-				if (((ch + 1) < size)
+				if (((i + 1) < size)
 					&& (bytes[i + 1] == '\n'))
 				{
 					// It's already a "\r\n" - insert

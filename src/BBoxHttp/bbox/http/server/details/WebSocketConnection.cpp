@@ -95,7 +95,7 @@ void WebSocketConnection::CheckClose()
 	}
 }
 
-void WebSocketConnection::ReportError(bbox::Error &error)
+void WebSocketConnection::ReportError(const bbox::Error &error)
 {
 	BBOX_ASSERT(error);
 
@@ -197,7 +197,7 @@ void WebSocketConnection::OnRead(boost::system::error_code ec, size_t bytes_tran
 				size_t offset = 0;
 				for (const auto &buf : m_rx_buffer.data())
 				{
-					memcpy(text.data() + offset, buf.data(), buf.size());
+					memcpy(&text[offset], buf.data(), buf.size());
 					offset += buf.size();
 				}
 			}

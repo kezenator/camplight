@@ -44,7 +44,7 @@ public:
 private:
 
 	void CheckClose();
-	void ReportError(bbox::Error &error);
+	void ReportError(const bbox::Error &error);
 	void StartWrite();
 
 	void OnAccept(boost::system::error_code ec);

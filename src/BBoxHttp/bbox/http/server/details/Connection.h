@@ -31,6 +31,7 @@ class WebSocketConnection;
 class Connection
 {
 	friend class HttpServer;
+	friend class HttpServer::Listener;
 	friend class WebSocketConnection;
 
 	Connection() = delete;

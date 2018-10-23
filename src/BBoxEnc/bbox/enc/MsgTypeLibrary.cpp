@@ -5,7 +5,7 @@
  *
  */
 
-#include <bbox/enc/MsgTypeLibrary.h>
+#include <bbox/enc/MsgPtr.h>
 
 #include <iostream>
 #include <cassert>
