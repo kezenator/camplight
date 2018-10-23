@@ -73,7 +73,6 @@ namespace ui.tetris
                 buttons.isButtonPressed(4),
                 buttons.isButtonClicked(5),
                 buttons.isButtonPressed(5));
-);
 
             this.games[0].draw(ctx);
             this.games[1].draw(ctx);

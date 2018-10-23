@@ -36,6 +36,7 @@ public:
 
     std::string back_color;
     std::string play_color;
+    std::string wash_color;
     std::vector<std::string> button_colors;
 
     static bbox::enc::MsgTypeLibrary::Registration<ButtonColors> g_msg_registration;

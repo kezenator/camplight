@@ -68,6 +68,17 @@
             }
         }
 
+        setWashColor(color: string): void
+        {
+            if (color != this.button_colors.wash_color)
+            {
+                this.button_colors.wash_color = color;
+
+                if (!this.send_timer.isRunning())
+                    this.send_timer.startSingleShot(1);
+            }
+        }
+
         setButtonColor(btn: number, color: string): void
         {
             if (color != this.button_colors.button_colors.at(btn))

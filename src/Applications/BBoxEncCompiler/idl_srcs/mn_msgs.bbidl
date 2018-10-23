@@ -10,6 +10,7 @@ namespace mn::msgs
     {
         std::string back_color;
         std::string play_color;
+        std::string wash_color;
         std::vector<std::string> button_colors;
     };
     

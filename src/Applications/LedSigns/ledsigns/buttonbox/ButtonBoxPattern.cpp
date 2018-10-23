@@ -80,7 +80,7 @@ namespace ledsigns
 			fill(35, 4, m_button_colors.play_color);
 
 			// 2x18 bottom LEDs
-			fill(39, 36, "white");
+			fill(39, 36, m_button_colors.wash_color);
 
 			return result;
         }

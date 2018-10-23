@@ -5,11 +5,13 @@ namespace mn.msgs
         static TYPE: bbox.enc.Type = bbox.enc.TypeLibrary.simpleStructure("mn::msgs::ButtonColors", ButtonColors)
             .addMember("back_color", "std::string")
             .addMember("play_color", "std::string")
+            .addMember("wash_color", "std::string")
             .addMember("button_colors", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"))
             ;
 
         public back_color: string;
         public play_color: string;
+        public wash_color: string;
         public button_colors: bbox.ds.Deque<string>;
 
         constructor()
@@ -17,6 +19,7 @@ namespace mn.msgs
             super(ButtonColors.TYPE);
             this.back_color = "";
             this.play_color = "";
+            this.wash_color = "";
             this.button_colors = new bbox.ds.Deque<string>();
         }
     };

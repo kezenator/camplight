@@ -56,7 +56,8 @@ namespace ui.menu
             var buttons = this.getButtons();
 
             buttons.setPlayColor('#000000');
-            buttons.setBackColor('#FFFFFF');
+            buttons.setBackColor('#FF0000');
+            buttons.setWashColor('#000000');
             for (var i = 0; i < Buttons.NUMBER; ++i)
                 buttons.setButtonColor(i, '#000000');
 
@@ -105,6 +106,7 @@ namespace ui.menu
                             buttons.setButtonColor(j, entry.buttons[j].color);
                         buttons.setBackColor(entry.buttons[6].color);
                         buttons.setPlayColor(entry.buttons[7].color);
+                        buttons.setWashColor('hsl(' + entry.hue + ',100%,50%)');
 
                         break;
                     }
@@ -134,6 +136,44 @@ namespace ui.menu
                 if (this.selected)
                 {
                     this.drawHelp(ctx, ms, this.entries[this.selected_index]);
+                }
+                else
+                {
+                    // Scroll the wash color with the selected index
+                    // Each light goes from 0 to 0.2625, offset by 0.125 amounts
+                    // So the brightest point of each is at 0.13125
+
+                    var cycle = (ms % MenuScreen.CYCLE_TIME) / MenuScreen.CYCLE_TIME;
+                    var peak_first = 0.13125;
+                    var peak_last = 0.13125 + (5 * 0.125);
+                    var end = 0.125 * 7.1;
+
+                    if (cycle < peak_first)
+                    {
+                        buttons.setWashColor('hsl('
+                            + this.entries[0].hue
+                            + ',100%,'
+                            + util.lerp(cycle / peak_first, 0, 50).toString()
+                            + '%)');
+                    }
+                    else if (cycle > peak_last)
+                    {
+                        buttons.setWashColor('hsl('
+                            + this.entries[5].hue
+                            + ',100%,'
+                            + util.lerp(util.unlerp(cycle, peak_last, end), 50, 0).toString()
+                            + '%)');
+                    }
+                    else
+                    {
+                        var index_float = 5 * util.unlerp(cycle, peak_first, peak_last);
+                        var index = Math.floor(index_float);
+                        var sweep = index_float - index;
+
+                        buttons.setWashColor('hsl('
+                            + util.lerp(sweep, this.entries[index].hue, this.entries[index + 1].hue).toString()
+                            + ',100%,50%)');
+                    }
                 }
             }
             else

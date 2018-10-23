@@ -14,6 +14,7 @@ namespace ui.logo
 
         private static PERIOD_CASA_HIGHLIGHT: number = 2000;
         private static PERIOD_REFLECTION: number = 3000;
+        private static PERIOD_WASH: number = 10000;
 
         private static DURATION_LOOP: number = 30000;
         private static DURATION_FADE: number = 1500;
@@ -484,14 +485,27 @@ namespace ui.logo
         {
             var buttons = this.getButtons();
 
+            var lightness = 50;
+
+            if (this.fading)
+            {
+                var alpha = util.lerp((ms - this.fade_start_time) / LogoScreen.DURATION_FADE, 0, 1);
+
+                lightness = (1 - alpha) * lightness;
+            }
+
             for (var i = 0; i < Buttons.NUMBER; ++i)
             {
                 var base = 360 * ((ms % 4000) / 4000);
                 var offset = i * 60;
                 var hue = Math.floor((base + offset) % 360);
 
-                buttons.setButtonColor(i, 'hsl(' + hue + ',100%,50%)');
+                buttons.setButtonColor(i, 'hsl(' + hue + ',100%,' + lightness + '%)');
             }
+
+            var wash_hue = 360 * (ms % LogoScreen.PERIOD_WASH) / LogoScreen.PERIOD_WASH;
+
+            buttons.setWashColor('hsl(' + wash_hue + ',100%,' + lightness + '%)');
         }
     }
 }
