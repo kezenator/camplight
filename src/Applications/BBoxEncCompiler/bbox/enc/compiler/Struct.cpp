@@ -176,7 +176,9 @@ std::string Struct::GenerateCppSource() const
 			<< name << ">" << std::endl;
 		stream << "    " << name << "::g_msg_registration(\""
 			<< GetNamespace()->GetName().ToString() << "::"
-			<< name << "\");" << std::endl;
+			<< name << "\", []() { return new_message<"
+			<< GetNamespace()->GetName().ToString() << "::"
+			<< name << ">(); });" << std::endl;
 		stream << std::endl;
 	}
 

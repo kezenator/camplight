@@ -88,7 +88,12 @@ namespace bbox
                     }
                 };
 
-				bbox::enc::MsgTypeLibrary::Registration<HasAll> registration("bbox::enc::unittest::enc_types::HasAll");
+				bbox::enc::MsgTypeLibrary::Registration<HasAll> registration(
+					"bbox::enc::unittest::enc_types::HasAll",
+					[]()
+					{
+						return new_message<HasAll>();
+					});
 
                 struct FailDueToNonConstToMethods
                 {

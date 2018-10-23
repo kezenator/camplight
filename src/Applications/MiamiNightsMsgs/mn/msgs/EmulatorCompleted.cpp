@@ -35,7 +35,7 @@ void EmulatorCompleted::FromTextFormat(bbox::enc::FromTextFormat &m)
 }
 
 bbox::enc::MsgTypeLibrary::Registration<EmulatorCompleted>
-    EmulatorCompleted::g_msg_registration("mn::msgs::EmulatorCompleted");
+    EmulatorCompleted::g_msg_registration("mn::msgs::EmulatorCompleted", []() { return new_message<mn::msgs::EmulatorCompleted>(); });
 
 } // namespace msgs
 } // namespace mn

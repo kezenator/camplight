@@ -35,7 +35,7 @@ void RetransmitRequired::FromTextFormat(bbox::enc::FromTextFormat &m)
 }
 
 bbox::enc::MsgTypeLibrary::Registration<RetransmitRequired>
-    RetransmitRequired::g_msg_registration("mn::msgs::RetransmitRequired");
+    RetransmitRequired::g_msg_registration("mn::msgs::RetransmitRequired", []() { return new_message<mn::msgs::RetransmitRequired>(); });
 
 } // namespace msgs
 } // namespace mn

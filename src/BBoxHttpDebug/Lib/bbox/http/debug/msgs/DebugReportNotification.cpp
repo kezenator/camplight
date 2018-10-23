@@ -39,7 +39,7 @@ void DebugReportNotification::FromTextFormat(bbox::enc::FromTextFormat &m)
 }
 
 bbox::enc::MsgTypeLibrary::Registration<DebugReportNotification>
-    DebugReportNotification::g_msg_registration("bbox::http::debug::msgs::DebugReportNotification");
+    DebugReportNotification::g_msg_registration("bbox::http::debug::msgs::DebugReportNotification", []() { return new_message<bbox::http::debug::msgs::DebugReportNotification>(); });
 
 } // namespace msgs
 } // namespace debug

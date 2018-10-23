@@ -69,12 +69,12 @@ public:
 		Registration &operator =(Registration &&) = delete;
 
 	public:
-		explicit Registration(std::string &&name)
+		Registration(std::string &&name, std::function<MsgAnyPtr()> &&constructor)
 		{
 			g_instance().Register(
 				typeid(Type),
 				std::move(name),
-				[]() { return MsgPtr<Type>::CreateNewObject(); });
+				std::move(constructor));
 		}
 
 		~Registration()

@@ -45,7 +45,7 @@ void ButtonColors::FromTextFormat(bbox::enc::FromTextFormat &m)
 }
 
 bbox::enc::MsgTypeLibrary::Registration<ButtonColors>
-    ButtonColors::g_msg_registration("mn::msgs::ButtonColors");
+    ButtonColors::g_msg_registration("mn::msgs::ButtonColors", []() { return new_message<mn::msgs::ButtonColors>(); });
 
 } // namespace msgs
 } // namespace mn

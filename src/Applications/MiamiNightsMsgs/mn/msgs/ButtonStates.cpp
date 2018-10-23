@@ -45,7 +45,7 @@ void ButtonStates::FromTextFormat(bbox::enc::FromTextFormat &m)
 }
 
 bbox::enc::MsgTypeLibrary::Registration<ButtonStates>
-    ButtonStates::g_msg_registration("mn::msgs::ButtonStates");
+    ButtonStates::g_msg_registration("mn::msgs::ButtonStates", []() { return new_message<mn::msgs::ButtonStates>(); });
 
 } // namespace msgs
 } // namespace mn

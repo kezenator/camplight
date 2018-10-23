@@ -37,7 +37,7 @@ void StartEmulator::FromTextFormat(bbox::enc::FromTextFormat &m)
 }
 
 bbox::enc::MsgTypeLibrary::Registration<StartEmulator>
-    StartEmulator::g_msg_registration("mn::msgs::StartEmulator");
+    StartEmulator::g_msg_registration("mn::msgs::StartEmulator", []() { return new_message<mn::msgs::StartEmulator>(); });
 
 } // namespace msgs
 } // namespace mn

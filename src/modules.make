@@ -279,50 +279,6 @@ LIBS_RECURSIVE_PiLightTest := \
 
 APPS += PiLightTest
 
-# Project BBoxEncCompiler (type Application)
-
-MODULES += BBoxEncCompiler
-
-SRCS_DIRECT_BBoxEncCompiler := $(sort \
-        Applications/BBoxEncCompiler/bbox/enc/compiler/Application.cpp \
-        Applications/BBoxEncCompiler/bbox/enc/compiler/Compiler.cpp \
-        Applications/BBoxEncCompiler/bbox/enc/compiler/Enum.cpp \
-        Applications/BBoxEncCompiler/bbox/enc/compiler/Namespace.cpp \
-        Applications/BBoxEncCompiler/bbox/enc/compiler/Parser.cpp \
-        Applications/BBoxEncCompiler/bbox/enc/compiler/Struct.cpp \
-        Applications/BBoxEncCompiler/bbox/enc/compiler/Token.cpp \
-        Applications/BBoxEncCompiler/bbox/enc/compiler/Tokenizer.cpp \
-        Applications/BBoxEncCompiler/bbox/enc/compiler/Type.cpp \
-        Applications/BBoxEncCompiler/bbox/enc/compiler/TypeLibrary.cpp \
-    )
-    # End SRCS_DIRECT_BBoxEncCompiler
-
-SRCS_RECURSIVE_BBoxEncCompiler := $(sort \
-        $(SRCS_DIRECT_BBoxEncCompiler) \
-        $(SRCS_RECURSIVE_BBoxUtils) \
-    )
-    # End SRCS_RECURSIVE_BBoxEncCompiler
-
-INCS_DIRECT_BBoxEncCompiler := $(sort \
-        Applications/BBoxEncCompiler/. \
-    )
-    # End INCS_DIRECT_BBoxEncCompiler
-
-INCS_RECURSIVE_BBoxEncCompiler := $(sort \
-        $(INCS_DIRECT_BBoxEncCompiler) \
-        $(INCS_RECURSIVE_BBoxUtils) \
-    )
-    # End INCS_RECURSIVE_BBoxEncCompiler
-
-LIBS_RECURSIVE_BBoxEncCompiler := \
-        uuid \
-        rt \
-        pthread \
-        crypto \
-    # End LIBS_RECURSIVE_BBoxEncCompiler
-
-APPS += BBoxEncCompiler
-
 # Project BBoxRt (type StaticLibrary)
 
 MODULES += BBoxRt

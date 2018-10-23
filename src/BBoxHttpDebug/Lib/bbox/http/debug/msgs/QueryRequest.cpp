@@ -43,7 +43,7 @@ void QueryRequest::FromTextFormat(bbox::enc::FromTextFormat &m)
 }
 
 bbox::enc::MsgTypeLibrary::Registration<QueryRequest>
-    QueryRequest::g_msg_registration("bbox::http::debug::msgs::QueryRequest");
+    QueryRequest::g_msg_registration("bbox::http::debug::msgs::QueryRequest", []() { return new_message<bbox::http::debug::msgs::QueryRequest>(); });
 
 } // namespace msgs
 } // namespace debug

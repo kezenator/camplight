@@ -1,9 +1,13 @@
 
-project("BBoxEncCompiler", "Application");
+if (platform() == "Win32") then
 
-reference("BBoxUtils");
+    project("BBoxEncCompiler", "Application");
 
-include(".");
+    reference("BBoxUtils");
 
-sources(find_recursive("*.cpp"));
-headers(find_recursive("*.h"));
+    include(".");
+
+    sources(find_recursive("*.cpp"));
+    headers(find_recursive("*.h"));
+
+end
