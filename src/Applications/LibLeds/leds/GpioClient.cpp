@@ -39,22 +39,22 @@ namespace leds
 			return (GetKeyState(VK_LCONTROL) & 0x8000) == 0;
 
 			// Button box support
-		case 0:
-			return (GetKeyState('A') & 0x8000) != 0;
-		case 1:
-			return (GetKeyState('S') & 0x8000) != 0;
-		case 2:
-			return (GetKeyState('D') & 0x8000) != 0;
-		case 3:
-			return (GetKeyState('F') & 0x8000) != 0;
-		case 4:
-			return (GetKeyState('G') & 0x8000) != 0;
-		case 5:
-			return (GetKeyState('H') & 0x8000) != 0;
 		case 6:
-			return (GetKeyState('P') & 0x8000) != 0;
-		case 7:
-			return (GetKeyState('B') & 0x8000) != 0;
+			return (GetKeyState('A') & 0x8000) == 0;
+		case 13:
+			return (GetKeyState('S') & 0x8000) == 0;
+		case 19:
+			return (GetKeyState('D') & 0x8000) == 0;
+		case 26:
+			return (GetKeyState('F') & 0x8000) == 0;
+		case 12:
+			return (GetKeyState('G') & 0x8000) == 0;
+		case 16:
+			return (GetKeyState('H') & 0x8000) == 0;
+		case 20:
+			return (GetKeyState('P') & 0x8000) == 0;
+		case 21:
+			return (GetKeyState('B') & 0x8000) == 0;
 
 		default:
 			BBOX_ASSERT(false);

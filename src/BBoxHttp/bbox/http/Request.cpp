@@ -162,12 +162,17 @@ namespace bbox {
         {
             BBOX_ASSERT(*this);
             BBOX_ASSERT(m_pimpl_ptr->NotHandled());
+            
+            std::string result;
 
 			auto iterator = m_pimpl_ptr->m_request_ptr->find(header);
-
-			BBOX_ASSERT(iterator != m_pimpl_ptr->m_request_ptr->end());
-
-			return iterator->value().to_string();
+			
+			if (iterator != m_pimpl_ptr->m_request_ptr->end())
+			{
+                result = iterator->value().to_string();
+            }
+            
+            return result;
         }
 
         Request::Method Request::GetMethod()

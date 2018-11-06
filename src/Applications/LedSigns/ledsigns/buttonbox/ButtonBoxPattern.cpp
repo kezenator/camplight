@@ -34,7 +34,7 @@ namespace ledsigns
 			m_dispatcher.Register(&ButtonBoxPattern::HandleRetransmitRequired, this);
 			m_dispatcher.Register(&ButtonBoxPattern::HandleButtonColors, this);
 
-			m_web_socket_client.Open("127.0.0.1", "/ws/buttons", "12.09.2018.buttons.miami-nights.kezenator.com");
+			m_web_socket_client.Open("192.168.0.20", "/ws/buttons", "12.09.2018.buttons.miami-nights.kezenator.com");
         }
 
         ButtonBoxPattern::~ButtonBoxPattern()
@@ -67,17 +67,17 @@ namespace ledsigns
 				}
 			};
 
-			// 6 main buttons, 4 each, 1 betwee
-			fill(0,  4, m_button_colors.button_colors[0]);
-			fill(5,  4, m_button_colors.button_colors[1]);
-			fill(10, 4, m_button_colors.button_colors[2]);
-			fill(15, 4, m_button_colors.button_colors[3]);
-			fill(20, 4, m_button_colors.button_colors[4]);
-			fill(25, 4, m_button_colors.button_colors[5]);
+			// 6 main buttons, 4 each, 1 between - in reverse order
+			fill(0,  4, m_button_colors.button_colors[5]);
+			fill(5,  4, m_button_colors.button_colors[4]);
+			fill(10, 4, m_button_colors.button_colors[3]);
+			fill(15, 4, m_button_colors.button_colors[2]);
+			fill(20, 4, m_button_colors.button_colors[1]);
+			fill(25, 4, m_button_colors.button_colors[0]);
 
-			// 6 main buttons, 4 each, 1 betwee
-			fill(29, 4, m_button_colors.back_color);
-			fill(35, 4, m_button_colors.play_color);
+			// 6 main buttons, 4 each, 1 between
+			fill(29, 4, m_button_colors.play_color);
+			fill(35, 4, m_button_colors.back_color);
 
 			// 2x18 bottom LEDs
 			fill(39, 36, m_button_colors.wash_color);
@@ -107,11 +107,11 @@ namespace ledsigns
 
 			if (!from_xml.HasError())
 			{
-				bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Testing);
-				if (out)
-				{
-					out.Format("WebSocket: Rx: %s\n", bbox::enc::ToDebugString(msg_ptr));
-				}
+				//bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Testing);
+				//if (out)
+				//{
+				//	out.Format("WebSocket: Rx: %s\n", bbox::enc::ToDebugString(msg_ptr));
+				//}
 
 				if (!m_dispatcher.Dispatch(msg_ptr))
 					from_xml.SetError(bbox::Format("No handler or handler error for message of type %s", msg_ptr.GetType().GetName()));
@@ -148,24 +148,30 @@ namespace ledsigns
 		{
 			bool changed = false;
 
-			auto update = [&](size_t input, bool saved_state)
+			auto update = [&](size_t input, const char *name, bool saved_state)
 			{
-				bool new_state = m_gpio_client.GetInput(input);
+				bool new_state = !m_gpio_client.GetInput(input);
 				if (new_state != saved_state)
 				{
+                    bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Testing);
+                    if (out)
+                    {
+                        out.Format("GPIO: Input %d \"%s\" changed to %s\n", input, name, new_state);
+                    }
+                    
 					changed = true;
 				}
 				return new_state;
 			};
 
-			m_button_states.button_states[0] = update(0, m_button_states.button_states[0]);
-			m_button_states.button_states[1] = update(1, m_button_states.button_states[1]);
-			m_button_states.button_states[2] = update(2, m_button_states.button_states[2]);
-			m_button_states.button_states[3] = update(3, m_button_states.button_states[3]);
-			m_button_states.button_states[4] = update(4, m_button_states.button_states[4]);
-			m_button_states.button_states[5] = update(5, m_button_states.button_states[5]);
-			m_button_states.play_state = update(6, m_button_states.play_state);
-			m_button_states.back_state = update(7, m_button_states.back_state);
+			m_button_states.button_states[0] = update(19, "1", m_button_states.button_states[0]);
+			m_button_states.button_states[1] = update(16, "2", m_button_states.button_states[1]);
+			m_button_states.button_states[2] = update(20, "3", m_button_states.button_states[2]);
+			m_button_states.button_states[3] = update(12, "4", m_button_states.button_states[3]);
+			m_button_states.button_states[4] = update(26, "5", m_button_states.button_states[4]);
+			m_button_states.button_states[5] = update(6, "6", m_button_states.button_states[5]);
+			m_button_states.back_state = update(21, "B", m_button_states.back_state);
+			m_button_states.play_state = update(13, "P", m_button_states.play_state);
 
 			if (changed)
 			{

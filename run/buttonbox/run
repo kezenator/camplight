@@ -1,0 +1,21 @@
+
+echo 6 > /sys/class/gpio/export
+echo 12 > /sys/class/gpio/export
+echo 13 > /sys/class/gpio/export
+echo 16 > /sys/class/gpio/export
+echo 19 > /sys/class/gpio/export
+echo 20 > /sys/class/gpio/export
+echo 21 > /sys/class/gpio/export
+echo 26 > /sys/class/gpio/export
+
+gpio -g mode 6 up
+gpio -g mode 12 up
+gpio -g mode 13 up
+gpio -g mode 16 up
+gpio -g mode 19 up
+gpio -g mode 20 up
+gpio -g mode 21 up
+gpio -g mode 26 up
+
+../../external/fadecandy/bin/fcserver-rpi config.json &
+../../src/build/ledsigns buttonbox 0.0.0.0:8080 127.0.0.1:7890 &
