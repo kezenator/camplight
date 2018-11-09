@@ -63,7 +63,7 @@ namespace bbox {
 
             return result;
         }
-        
+
         std::set<std::string>
         Project::GetSelfPlusReferencesRecursive() const
         {
@@ -79,9 +79,9 @@ namespace bbox {
         {
             if (m_relative_path.empty())
                 return ".";
-                
+
             std::string result = "..";
-            
+
             for (char ch : m_relative_path)
             {
                 if ((ch == '/') || (ch == '\\'))
@@ -154,12 +154,17 @@ namespace bbox {
         }
 
         void
-        Project::AddCustomBuild(const std::string &tool, const std::set<std::string> &inputs, const std::set<std::string> &outputs, const std::string &extra_args)
+        Project::AddCustomBuild(
+            const std::string &tool,
+            const std::set<std::string> &inputs,
+            const std::set<std::string> &outputs,
+            const std::set<std::string> &depedent_sources,
+            const std::string &extra_args)
         {
             if (m_tool_references.find(tool) == m_tool_references.end())
                 throw Exception(Format("Custom build tool \"%s\" is not referenced by project \"%s\"", tool, m_name));
 
-            m_custom_builds.emplace_back(tool, inputs, outputs, extra_args);
+            m_custom_builds.emplace_back(tool, inputs, outputs, depedent_sources, extra_args);
         }
 
         void

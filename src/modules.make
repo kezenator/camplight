@@ -732,6 +732,8 @@ INCS_RECURSIVE_BBoxHttpDebug := $(sort \
 BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp BBoxHttpDebug/Lib/bbox/http/debug/Resources.h: build/resourcebuilder BBoxHttpDebug/Lib/../Web/app.css BBoxHttpDebug/Lib/../Web/app.js BBoxHttpDebug/Lib/../Web/index.html
 	cd BBoxHttpDebug/Lib && ../../build/resourcebuilder -i "../Web/app.css;../Web/app.js;../Web/index.html" -o "bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h" -n "bbox::http::debug" -r "../Web" -a "debug/"
 
+build/BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugWebsite.o: BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp BBoxHttpDebug/Lib/bbox/http/debug/Resources.h
+
 # Project LibLeds (type StaticLibrary)
 
 MODULES += LibLeds
@@ -860,6 +862,8 @@ LIBS_RECURSIVE_CampLight := \
 
 Applications/CampLight/camplight/Resources.cpp Applications/CampLight/camplight/Resources.h: build/resourcebuilder Applications/CampLight/camplight/resources/app.css Applications/CampLight/camplight/resources/app.js Applications/CampLight/camplight/resources/apple-touch-icon-120x120.png Applications/CampLight/camplight/resources/apple-touch-icon-152x152.png Applications/CampLight/camplight/resources/apple-touch-icon-180x180.png Applications/CampLight/camplight/resources/apple-touch-icon-192x192.png Applications/CampLight/camplight/resources/favicon.ico Applications/CampLight/camplight/resources/index.html
 	cd Applications/CampLight && ../../build/resourcebuilder -i "camplight/resources/app.css;camplight/resources/app.js;camplight/resources/apple-touch-icon-120x120.png;camplight/resources/apple-touch-icon-152x152.png;camplight/resources/apple-touch-icon-180x180.png;camplight/resources/apple-touch-icon-192x192.png;camplight/resources/favicon.ico;camplight/resources/index.html" -o "camplight/Resources.cpp;camplight/Resources.h" -n "camplight" -r "camplight\resources"
+
+build/Applications/CampLight/camplight/Application.o: Applications/CampLight/camplight/Resources.cpp Applications/CampLight/camplight/Resources.h
 
 APPS += CampLight
 

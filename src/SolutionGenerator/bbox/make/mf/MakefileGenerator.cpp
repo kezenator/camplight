@@ -84,7 +84,7 @@ namespace bbox {
 
                     stream << "MODULES += " << proj->GetName() << std::endl;
                     stream << std::endl;
-                                        
+
                     switch (proj->GetType().GetValue())
                     {
                     case ProjectType::Application:
@@ -252,6 +252,27 @@ namespace bbox {
                         << std::endl;
 
                     stream << std::endl;
+
+                    std::set<std::string> dependent_objs;
+
+                    for (const std::string &dep_source : custom_build.depedent_sources)
+                    {
+                        if ((dep_source.size() > 4)
+                            && (dep_source.substr(dep_source.size() - 4) == ".cpp"))
+                        {
+                            dependent_objs.insert(dep_source.substr(0, dep_source.size() - 4) + ".o");
+                        }
+                    }
+
+                    if (!dependent_objs.empty())
+                    {
+                        stream << PrefixJoinToUnix(bbox::Format("build/%s", prefix), dependent_objs, " ")
+                            << ": "
+                            << PrefixJoinToUnix(prefix, custom_build.outputs, " ")
+                            << std::endl;
+
+                        stream << std::endl;
+                    }
                 }
             }
 

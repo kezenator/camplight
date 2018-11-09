@@ -24,4 +24,5 @@ custom_build(
     "ResourceBuilder",
     { "../Web/app.js", "../Web/app.css", "../Web/index.html"},
     { "bbox/http/debug/Resources.cpp", "bbox/http/debug/Resources.h" },
+    { "bbox/http/debug/HttpDebugWebsite.cpp" },
     "-n \"bbox::http::debug\" -r \"../Web\" -a \"debug/\"");

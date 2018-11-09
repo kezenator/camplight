@@ -35,12 +35,14 @@ namespace bbox {
                 std::string tool;
                 std::set<std::string> inputs;
                 std::set<std::string> outputs;
+                std::set<std::string> depedent_sources;
                 std::string extra_args;
 
-                CustomBuild(std::string _tool, std::set<std::string> _inputs, std::set<std::string> _outputs, std::string _extra_args)
+                CustomBuild(std::string _tool, std::set<std::string> _inputs, std::set<std::string> _outputs, std::set<std::string> _depedent_sources, std::string _extra_args)
                     : tool(std::move(_tool))
                     , inputs(std::move(_inputs))
                     , outputs(std::move(_outputs))
+                    , depedent_sources(std::move(_depedent_sources))
                     , extra_args(std::move(_extra_args))
                 {
                 }
@@ -96,7 +98,12 @@ namespace bbox {
             void AddDefine(const std::string &define, const std::string &value, const std::string &condition);
             void AddAdditionalDependency(const std::string &additional_dep);
 
-            void AddCustomBuild(const std::string &tool, const std::set<std::string> &inputs, const std::set<std::string> &outputs, const std::string &extra_args);
+            void AddCustomBuild(
+                const std::string &tool,
+                const std::set<std::string> &inputs,
+                const std::set<std::string> &outputs,
+                const std::set<std::string> &depedent_sources,
+                const std::string &extra_args);
 
             void SetLinkAllObjects() { m_link_all_objects = true; }
 

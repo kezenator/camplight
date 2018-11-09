@@ -169,8 +169,8 @@ namespace bbox {
                     lua_state.PCallOrThrow(0, 0);
 
                     // We don't nessesarily expect
-					// a project to be created, because some
-					// projects are only created for some platforms.
+                    // a project to be created, because some
+                    // projects are only created for some platforms.
                 }
             }
 
@@ -298,7 +298,7 @@ namespace bbox {
             if (called)
                 throw Exception("Already created project");
 
-            called = true; 
+            called = true;
 
             if (file_name != (name + ".bbmake"))
                 throw Exception("Project name doesn't match file name");
@@ -450,44 +450,44 @@ namespace bbox {
         int
         Solution::LuaFunc_File_List(LuaState &state, Project *project_ptr, E_FILE_LIST_TYPE type)
         {
-			lua_State *L = state.GetState();
+            lua_State *L = state.GetState();
 
-			int num_args = lua_gettop(L);
+            int num_args = lua_gettop(L);
 
-			auto add_file = [project_ptr, type](const std::string &entry_str)
-			{
-				switch (type)
-				{
-				case SOURCE:    project_ptr->AddSource(entry_str); break;
-				case HEADER:    project_ptr->AddHeader(entry_str); break;
-				case RESOURCE:  project_ptr->AddResource(entry_str); break;
-				}
-			};
+            auto add_file = [project_ptr, type](const std::string &entry_str)
+            {
+                switch (type)
+                {
+                case SOURCE:    project_ptr->AddSource(entry_str); break;
+                case HEADER:    project_ptr->AddHeader(entry_str); break;
+                case RESOURCE:  project_ptr->AddResource(entry_str); break;
+                }
+            };
 
-			for (int i = 1; i <= num_args; ++i)
-			{
-				if (lua_isstring(L, i))
-				{
-					add_file(lua_tostring(L, i));
-				}
-				else if (lua_istable(L, i))
-				{
-					lua_pushnil(L);
-					while (lua_next(L, i) != 0)
-					{
-						if (!lua_isstring(L, num_args + 2))
-							return luaL_error(L, "Contents of table arguments must be strings");
+            for (int i = 1; i <= num_args; ++i)
+            {
+                if (lua_isstring(L, i))
+                {
+                    add_file(lua_tostring(L, i));
+                }
+                else if (lua_istable(L, i))
+                {
+                    lua_pushnil(L);
+                    while (lua_next(L, i) != 0)
+                    {
+                        if (!lua_isstring(L, num_args + 2))
+                            return luaL_error(L, "Contents of table arguments must be strings");
 
-						add_file(lua_tostring(L, num_args + 2));
+                        add_file(lua_tostring(L, num_args + 2));
 
-						lua_pop(L, 1);
-					}
-				}
-				else
-				{
-					return luaL_error(L, "Arguments must be string or table");
-				}
-			}
+                        lua_pop(L, 1);
+                    }
+                }
+                else
+                {
+                    return luaL_error(L, "Arguments must be string or table");
+                }
+            }
 
             return 0;
         }
@@ -495,7 +495,7 @@ namespace bbox {
         int
         Solution::LuaFunc_Custom_Build(LuaState &state, Project *project_ptr)
         {
-            state.ArgumentCountExactlyOrThrow(4);
+            state.ArgumentCountExactlyOrThrow(5);
 
             lua_State *L = state.GetState();
 
@@ -505,22 +505,25 @@ namespace bbox {
                 return luaL_error(L, "Second argument must be a table");
             if (!lua_istable(L, 3))
                 return luaL_error(L, "Third argument must be a table");
-            if (!lua_isstring(L, 4))
-                return luaL_error(L, "Fourth argument must be a string");
+            if (!lua_istable(L, 4))
+                return luaL_error(L, "Fourth argument must be a table");
+            if (!lua_isstring(L, 5))
+                return luaL_error(L, "Fifth argument must be a string");
 
             std::string tool_str = lua_tostring(L, 1);
-            std::string extra_args_str = lua_tostring(L, 4);
+            std::string extra_args_str = lua_tostring(L, 5);
 
             std::set<std::string> inputs;
             std::set<std::string> outputs;
+            std::set<std::string> depedent_sources;
 
             lua_pushnil(L);
             while (lua_next(L, 2))
             {
-                if (!lua_isstring(L, 6))
+                if (!lua_isstring(L, 7))
                     return luaL_error(L, "Contents of second argument must be strings");
 
-                std::string entry_str = lua_tostring(L, 6);
+                std::string entry_str = lua_tostring(L, 7);
                 inputs.insert(entry_str);
 
                 lua_pop(L, 1);
@@ -529,16 +532,28 @@ namespace bbox {
             lua_pushnil(L);
             while (lua_next(L, 3))
             {
-                if (!lua_isstring(L, 6))
-                    return luaL_error(L, "Contents of second argument must be strings");
+                if (!lua_isstring(L, 7))
+                    return luaL_error(L, "Contents of third argument must be strings");
 
-                std::string entry_str = lua_tostring(L, 6);
+                std::string entry_str = lua_tostring(L, 7);
                 outputs.insert(entry_str);
 
                 lua_pop(L, 1);
             }
 
-            project_ptr->AddCustomBuild(tool_str, inputs, outputs, extra_args_str);
+            lua_pushnil(L);
+            while (lua_next(L, 4))
+            {
+                if (!lua_isstring(L, 7))
+                    return luaL_error(L, "Contents of fourth argument must be strings");
+
+                std::string entry_str = lua_tostring(L, 7);
+                depedent_sources.insert(entry_str);
+
+                lua_pop(L, 1);
+            }
+
+            project_ptr->AddCustomBuild(tool_str, inputs, outputs, depedent_sources, extra_args_str);
 
             return 0;
         }
@@ -546,69 +561,69 @@ namespace bbox {
         int
         Solution::LuaFunc_Find(LuaState &state, Project *project_ptr, bool recursive)
         {
-			lua_State *L = state.GetState();
+            lua_State *L = state.GetState();
 
-			int num_args = lua_gettop(L);
+            int num_args = lua_gettop(L);
 
-			// Create the table - which will be at index num_args + 1
+            // Create the table - which will be at index num_args + 1
 
             lua_newtable(L);
 
-			unsigned next_index = 1;
+            unsigned next_index = 1;
 
-			// Search for each argument
+            // Search for each argument
 
-			for (int i = 1; i <= num_args; ++i)
-			{
-				std::string argument = state.ArgumentToStringOrThrow(i);
+            for (int i = 1; i <= num_args; ++i)
+            {
+                std::string argument = state.ArgumentToStringOrThrow(i);
 
-				// Replace all the forward-slashes with back slashes
-				for (size_t i = 0; i < argument.size(); ++i)
-				{
-					if (argument[i] == '/')
-						argument[i] = '\\';
-				}
+                // Replace all the forward-slashes with back slashes
+                for (size_t i = 0; i < argument.size(); ++i)
+                {
+                    if (argument[i] == '/')
+                        argument[i] = '\\';
+                }
 
-				// Split into folder and search string
-				std::string folder_relative;
-				std::string search;
-				{
-					size_t pos = argument.rfind('\\');
-					if (pos == std::string::npos)
-					{
-						// No folder
-						search = argument;
-					}
-					else
-					{
-						folder_relative = argument.substr(0, pos);
-						search = argument.substr(pos + 1);
-					}
-				}
+                // Split into folder and search string
+                std::string folder_relative;
+                std::string search;
+                {
+                    size_t pos = argument.rfind('\\');
+                    if (pos == std::string::npos)
+                    {
+                        // No folder
+                        search = argument;
+                    }
+                    else
+                    {
+                        folder_relative = argument.substr(0, pos);
+                        search = argument.substr(pos + 1);
+                    }
+                }
 
-				// Now work out the full folder path
+                // Now work out the full folder path
 
-				std::string folder_path;
-				{
-					folder_path.reserve(project_ptr->GetPath().size() + folder_relative.size() + 2);
-					folder_path.append(project_ptr->GetPath());
-					if (!folder_relative.empty())
-					{
-						folder_path.push_back('\\');
-						folder_path.append(folder_relative);
-					}
-					folder_path.push_back('\\');
-				}
+                std::string folder_path;
+                {
+                    folder_path.reserve(project_ptr->GetPath().size() + folder_relative.size() + 2);
+                    folder_path.append(project_ptr->GetPath());
+                    if (!folder_relative.empty())
+                    {
+                        folder_path.push_back('\\');
+                        folder_path.append(folder_relative);
+                    }
+                    folder_path.push_back('\\');
+                }
 
-				// Now - run the search on the top level folder
+                // Now - run the search on the top level folder
 
-				Error err = LuaFunc_DoFind(state, num_args + 1, next_index, folder_path, folder_relative, search, recursive);
+                Error err = LuaFunc_DoFind(state, num_args + 1, next_index, folder_path, folder_relative, search, recursive);
 
-				if (err)
-				{
-					return luaL_error(L, "Error finding files: %s", err.ToString().c_str());
-				}
-			}
+                if (err)
+                {
+                    return luaL_error(L, "Error finding files: %s", err.ToString().c_str());
+                }
+            }
 
             // Return the table
 
@@ -625,7 +640,7 @@ namespace bbox {
 
             std::list<bbox::FileInfo> files;
             Error error;
-            
+
             error = bbox::FileUtils::ListFolder(
                     bbox::Format("%s%s", folder_path, search),
                     bbox::FileInfo::RegularFile,
