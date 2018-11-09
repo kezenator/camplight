@@ -4,8 +4,8 @@
  * Header for the bbox::rt::win32::NetworkChangeService class.
  */
 
-#ifndef __BBOX__RT__WIN32__NETWORK_CHANGE_SERVICE_H__
-#define __BBOX__RT__WIN32__NETWORK_CHANGE_SERVICE_H__
+#ifndef __BBOX__RT__WIN32__WIN32_NETWORK_CHANGE_SERVICE_H__
+#define __BBOX__RT__WIN32__WIN32_NETWORK_CHANGE_SERVICE_H__
 
 #pragma once
 
@@ -15,6 +15,8 @@
 
 #include <boost/atomic.hpp>
 
+#include <bbox/rt/net/NetworkChangeService.h>
+
 namespace bbox {
     namespace rt { 
         namespace win32 {
@@ -22,22 +24,15 @@ namespace bbox {
             /**
              * A service that detects networks adapters connected to the PC.
              */
-            class NetworkChangeService : public Service
+            class Win32NetworkChangeService : public net::NetworkChangeService
             {
             public:
 
-                static const char *SERVICE_NAME;
-
-                NetworkChangeService(const std::string &name, Proactor &parent);
-                NetworkChangeService(const std::string &name, Service &parent);
-                virtual ~NetworkChangeService();
+				Win32NetworkChangeService(const std::string &name, Proactor &parent);
+				Win32NetworkChangeService(const std::string &name, Service &parent);
+                virtual ~Win32NetworkChangeService();
 
                 void TriggerUpdate();
-
-                const std::map<std::string, net::AdapterInfo> &GetCurrentAdapterInfo() const
-                {
-                    return m_current_adapters;
-                }
 
             private:
                 void HandleStarting() override;
@@ -54,7 +49,6 @@ namespace bbox {
                 boost::atomic<size_t> m_pending_counter;
                 bool m_another_update_required;
 
-                std::map<std::string, net::AdapterInfo> m_current_adapters;
                 std::map<std::string, net::AdapterInfo> m_detecting_adapters;
             };
 
@@ -62,4 +56,4 @@ namespace bbox {
     } // namespace bbox::rt
 } // namespace bbox
 
-#endif // __BBOX__RT__WIN32__NETWORK_CHANGE_SERVICE_H__
+#endif // __BBOX__RT__WIN32__WIN32_NETWORK_CHANGE_SERVICE_H__

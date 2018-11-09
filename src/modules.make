@@ -286,7 +286,6 @@ MODULES += BBoxRt
 SRCS_DIRECT_BBoxRt := $(sort \
         BBoxRt/bbox/rt/ConsoleShutdownService.cpp \
         BBoxRt/bbox/rt/DebugEnable.cpp \
-        BBoxRt/bbox/rt/NetworkChangeRef.cpp \
         BBoxRt/bbox/rt/OneShotWork.cpp \
         BBoxRt/bbox/rt/Proactor.cpp \
         BBoxRt/bbox/rt/Resource.cpp \
@@ -302,11 +301,14 @@ SRCS_DIRECT_BBoxRt := $(sort \
         BBoxRt/bbox/rt/details/ResourceBase.cpp \
         BBoxRt/bbox/rt/net/AdapterInfo.cpp \
         BBoxRt/bbox/rt/net/IpAddress.cpp \
+        BBoxRt/bbox/rt/net/NetworkChangeHandler.cpp \
+        BBoxRt/bbox/rt/net/NetworkChangeService.cpp \
         BBoxRt/bbox/rt/net/TcpEndpoint.cpp \
         BBoxRt/bbox/rt/net/UdpEndpoint.cpp \
         BBoxRt/bbox/rt/net/UdpSocket.cpp \
+        BBoxRt/bbox/rt/net/UpnpDiscoveryService.cpp \
         BBoxRt/bbox/rt/win32/IpHelperAccess.cpp \
-        BBoxRt/bbox/rt/win32/NetworkChangeService.cpp \
+        BBoxRt/bbox/rt/win32/Win32NetworkChangeService.cpp \
     )
     # End SRCS_DIRECT_BBoxRt
 

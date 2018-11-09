@@ -1,10 +1,10 @@
 /**
 * @file
 *
-* Implementation for the bbox::rt::win32::NetworkChangeService class.
+* Implementation for the bbox::rt::win32::Win32NetworkChangeService class.
 */
 
-#include <bbox/rt/win32/NetworkChangeService.h>
+#include <bbox/rt/win32/Win32NetworkChangeService.h>
 #include <bbox/rt/win32/IpHelperAccess.h>
 #include <bbox/Assert.h>
 #include <bbox/ScopedDebugIndent.h>
@@ -15,7 +15,7 @@ namespace {
 
     void Callback(void *context)
     {
-        bbox::rt::win32::NetworkChangeService *service = static_cast<bbox::rt::win32::NetworkChangeService *>(context);
+        bbox::rt::win32::Win32NetworkChangeService *service = static_cast<bbox::rt::win32::Win32NetworkChangeService *>(context);
 
         service->TriggerUpdate();
     }
@@ -26,33 +26,29 @@ namespace bbox {
     namespace rt {
         namespace win32 {
 
-            const char *NetworkChangeService::SERVICE_NAME = "win32/NetworkChangeService";
-
-            NetworkChangeService::NetworkChangeService(const std::string &name, Proactor &parent)
-                : Service(name, parent)
+			Win32NetworkChangeService::Win32NetworkChangeService(const std::string &name, Proactor &parent)
+                : net::NetworkChangeService(name, parent)
                 , m_thread_pool_ref("thread-pool-ref", *this)
                 , m_change_handle(nullptr)
                 , m_pending_counter(0)
                 , m_another_update_required(false)
             {
-                RegisterService(SERVICE_NAME, this);
             }
 
-            NetworkChangeService::NetworkChangeService(const std::string &name, Service &parent)
-                : Service(name, parent)
+			Win32NetworkChangeService::Win32NetworkChangeService(const std::string &name, Service &parent)
+                : net::NetworkChangeService(name, parent)
                 , m_thread_pool_ref("thread-pool-ref", *this)
                 , m_change_handle(nullptr)
                 , m_pending_counter(0)
                 , m_another_update_required(false)
             {
-                RegisterService(SERVICE_NAME, this);
             }
 
-            NetworkChangeService::~NetworkChangeService()
+			Win32NetworkChangeService::~Win32NetworkChangeService()
             {
             }
 
-            void NetworkChangeService::HandleStarting()
+            void Win32NetworkChangeService::HandleStarting()
             {
                 // Register for change notifications
 
@@ -62,19 +58,19 @@ namespace bbox {
                     this);
             }
 
-            void NetworkChangeService::HandleStopping()
+            void Win32NetworkChangeService::HandleStopping()
             {
                 // To start the shutdown process, we want to
                 // destroy the change notifier
                 // and start shutting down the thread pool access
 
                 IpHelperAccess::DestroyChangeNotifier(m_change_handle);
-                m_thread_pool_ref.RequestStop(boost::bind(&NetworkChangeService::CheckShutdown, this));
+                m_thread_pool_ref.RequestStop(boost::bind(&Win32NetworkChangeService::CheckShutdown, this));
 
                 CheckShutdown();
             }
 
-            void NetworkChangeService::CheckShutdown()
+            void Win32NetworkChangeService::CheckShutdown()
             {
                 if ((GetLocalRunLevel() == RunLevel::STOPPING)
                     && (m_thread_pool_ref.GetOverallRunLevel() == RunLevel::STOPPED)
@@ -85,13 +81,13 @@ namespace bbox {
                 }
             }
 
-			void NetworkChangeService::PrintState(bbox::DebugOutput &out) const
+			void Win32NetworkChangeService::PrintState(bbox::DebugOutput &out) const
 			{
-				out.Format("Current adapters: %d\n", m_current_adapters.size());
+				out.Format("Current adapters: %d\n", GetCurrentAdapterInfo().size());
 
 				ScopedDebugIndent indent(out, 4);
 
-				for (const auto &entry : m_current_adapters)
+				for (const auto &entry : GetCurrentAdapterInfo())
 				{
 					out.Format("\n");
 					out.Format("Name: %s\n", entry.first);
@@ -105,7 +101,7 @@ namespace bbox {
 				}
 			}
 
-            void NetworkChangeService::TriggerUpdate()
+            void Win32NetworkChangeService::TriggerUpdate()
             {
                 // This function is called from a random
                 // thread created by the IpHelper API.
@@ -117,11 +113,11 @@ namespace bbox {
                 m_pending_counter.fetch_add(1, boost::memory_order_relaxed);
 
                 GetProactor().ThreadSafePost(boost::bind(
-                    &NetworkChangeService::HandleUpdateRequired,
+                    &Win32NetworkChangeService::HandleUpdateRequired,
                     this));
             }
 
-            void NetworkChangeService::HandleUpdateRequired()
+            void Win32NetworkChangeService::HandleUpdateRequired()
             {
                 // Decrement the pending operation count
 
@@ -134,8 +130,8 @@ namespace bbox {
                 if (!m_thread_pool_ref.AnyOperationsRunning())
                 {
                     m_thread_pool_ref.RunOnThread(
-                        boost::bind(&NetworkChangeService::RequestAdapters, this),
-                        boost::bind(&NetworkChangeService::HandlUpdateComplete, this));
+                        boost::bind(&Win32NetworkChangeService::RequestAdapters, this),
+                        boost::bind(&Win32NetworkChangeService::HandlUpdateComplete, this));
                 }
                 else
                 {
@@ -143,7 +139,7 @@ namespace bbox {
                 }
             }
 
-            void NetworkChangeService::HandlUpdateComplete()
+            void Win32NetworkChangeService::HandlUpdateComplete()
             {
                 BBOX_ASSERT(!m_thread_pool_ref.AnyOperationsRunning());
 
@@ -160,25 +156,23 @@ namespace bbox {
                     m_another_update_required = false;
 
                     m_thread_pool_ref.RunOnThread(
-                        boost::bind(&NetworkChangeService::RequestAdapters, this),
-                        boost::bind(&NetworkChangeService::HandlUpdateComplete, this));
+                        boost::bind(&Win32NetworkChangeService::RequestAdapters, this),
+                        boost::bind(&Win32NetworkChangeService::HandlUpdateComplete, this));
                 }
                 else
                 {
-                    if ((m_detecting_adapters != m_current_adapters)
+                    if ((m_detecting_adapters != GetCurrentAdapterInfo())
                         || (GetLocalRunLevel() == RunLevel::STARTING))
                     {
                         // We've got new settings - save them, and either
                         // mark us as started or post a change notification
-
-                        m_current_adapters = std::move(m_detecting_adapters);
 
                         {
                             std::cout << "Network Adapters - "
                                 << ((GetLocalRunLevel() == RunLevel::STARTING) ? "Initial State" : "Updated")
                                 << std::endl;
 
-                            for (const auto &entry : m_current_adapters)
+                            for (const auto &entry : m_detecting_adapters)
                             {
                                 const net::AdapterInfo &adapter = entry.second;
 
@@ -192,19 +186,17 @@ namespace bbox {
                             }
                         }
 
+						ReportChange(std::move(m_detecting_adapters));
+
                         if (GetLocalRunLevel() == RunLevel::STARTING)
                         {
                             NotifyStarted();
-                        }
-                        else
-                        {
-                            // TODO - change notification
                         }
                     }
                 }
             }
 
-            void NetworkChangeService::RequestAdapters()
+            void Win32NetworkChangeService::RequestAdapters()
             {
                 // This function is run in a thread-pool thread
                 // and is where we actually query the

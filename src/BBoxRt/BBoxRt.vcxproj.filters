@@ -24,9 +24,6 @@
     <ClCompile Include="bbox\rt\DebugEnable.cpp">
       <Filter>bbox\rt</Filter>
     </ClCompile>
-    <ClCompile Include="bbox\rt\NetworkChangeRef.cpp">
-      <Filter>bbox\rt</Filter>
-    </ClCompile>
     <ClCompile Include="bbox\rt\OneShotWork.cpp">
       <Filter>bbox\rt</Filter>
     </ClCompile>
@@ -72,6 +69,12 @@
     <ClCompile Include="bbox\rt\net\IpAddress.cpp">
       <Filter>bbox\rt\net</Filter>
     </ClCompile>
+    <ClCompile Include="bbox\rt\net\NetworkChangeHandler.cpp">
+      <Filter>bbox\rt\net</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\net\NetworkChangeService.cpp">
+      <Filter>bbox\rt\net</Filter>
+    </ClCompile>
     <ClCompile Include="bbox\rt\net\TcpEndpoint.cpp">
       <Filter>bbox\rt\net</Filter>
     </ClCompile>
@@ -81,10 +84,13 @@
     <ClCompile Include="bbox\rt\net\UdpSocket.cpp">
       <Filter>bbox\rt\net</Filter>
     </ClCompile>
+    <ClCompile Include="bbox\rt\net\UpnpDiscoveryService.cpp">
+      <Filter>bbox\rt\net</Filter>
+    </ClCompile>
     <ClCompile Include="bbox\rt\win32\IpHelperAccess.cpp">
       <Filter>bbox\rt\win32</Filter>
     </ClCompile>
-    <ClCompile Include="bbox\rt\win32\NetworkChangeService.cpp">
+    <ClCompile Include="bbox\rt\win32\Win32NetworkChangeService.cpp">
       <Filter>bbox\rt\win32</Filter>
     </ClCompile>
   </ItemGroup>
@@ -93,9 +99,6 @@
       <Filter>bbox\rt</Filter>
     </ClInclude>
     <ClInclude Include="bbox\rt\DebugEnable.h">
-      <Filter>bbox\rt</Filter>
-    </ClInclude>
-    <ClInclude Include="bbox\rt\NetworkChangeRef.h">
       <Filter>bbox\rt</Filter>
     </ClInclude>
     <ClInclude Include="bbox\rt\OneShotWork.h">
@@ -146,6 +149,12 @@
     <ClInclude Include="bbox\rt\net\IpAddress.h">
       <Filter>bbox\rt\net</Filter>
     </ClInclude>
+    <ClInclude Include="bbox\rt\net\NetworkChangeHandler.h">
+      <Filter>bbox\rt\net</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\net\NetworkChangeService.h">
+      <Filter>bbox\rt\net</Filter>
+    </ClInclude>
     <ClInclude Include="bbox\rt\net\TcpEndpoint.h">
       <Filter>bbox\rt\net</Filter>
     </ClInclude>
@@ -155,10 +164,13 @@
     <ClInclude Include="bbox\rt\net\UdpSocket.h">
       <Filter>bbox\rt\net</Filter>
     </ClInclude>
+    <ClInclude Include="bbox\rt\net\UpnpDiscoveryService.h">
+      <Filter>bbox\rt\net</Filter>
+    </ClInclude>
     <ClInclude Include="bbox\rt\win32\IpHelperAccess.h">
       <Filter>bbox\rt\win32</Filter>
     </ClInclude>
-    <ClInclude Include="bbox\rt\win32\NetworkChangeService.h">
+    <ClInclude Include="bbox\rt\win32\Win32NetworkChangeService.h">
       <Filter>bbox\rt\win32</Filter>
     </ClInclude>
   </ItemGroup>

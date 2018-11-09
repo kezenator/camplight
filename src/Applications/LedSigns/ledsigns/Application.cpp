@@ -12,6 +12,8 @@
 #include <bbox/rt/Service.h>
 #include <bbox/rt/Timer.h>
 #include <bbox/rt/ConsoleShutdownService.h>
+#include <bbox/rt/net/NetworkChangeService.h>
+#include <bbox/rt/net/UpnpDiscoveryService.h>
 #include <bbox/http/server/HttpServer.h>
 #include <bbox/http/Response.h>
 #include <bbox/http/debug/HttpDebugWebsite.h>
@@ -35,9 +37,12 @@ public:
                        const bbox::rt::net::TcpEndpoint &http_listen_endpoint,
                        const bbox::rt::net::TcpEndpoint &fadecandy_remote_endpoint)
         : bbox::rt::Service(name, parent)
-        , m_http_listen_endpoint(http_listen_endpoint)
+		, m_http_listen_endpoint(http_listen_endpoint)
+		, m_thread_pool("thread-pool", *this)
         , m_console_shutdown_service("console-shutdown-service", *this)
-        , m_http_server("http-server", *this)
+		, m_network_change_service("network-change-service", *this)
+		, m_upnp_discovery_service("upnp-discovery-service", *this)
+		, m_http_server("http-server", *this)
         , m_http_debug_website("http-debug-website", *this, m_http_server)
         , m_fadecandy_client("fadecandy-client", *this, fadecandy_remote_endpoint)
         , m_gpio_client("gpio-client", *this)
@@ -65,8 +70,12 @@ public:
         out.Format("HTTP Listen Endpoint: %s\n", m_http_listen_endpoint.ToString());
     }
 
-    bbox::rt::net::TcpEndpoint m_http_listen_endpoint;
-    bbox::rt::ConsoleShutdownService m_console_shutdown_service;
+	const bbox::rt::net::TcpEndpoint m_http_listen_endpoint;
+
+	bbox::rt::ThreadPool m_thread_pool;
+	bbox::rt::ConsoleShutdownService m_console_shutdown_service;
+	bbox::rt::net::NetworkChangeService::Impl m_network_change_service;
+	bbox::rt::net::UpnpDiscoveryService m_upnp_discovery_service;
     bbox::http::server::HttpServer m_http_server;
     bbox::http::debug::HttpDebugWebsite m_http_debug_website;
     leds::FadecandyClient m_fadecandy_client;

@@ -86,7 +86,6 @@
   <ItemGroup>
     <ClCompile Include="bbox\rt\ConsoleShutdownService.cpp" />
     <ClCompile Include="bbox\rt\DebugEnable.cpp" />
-    <ClCompile Include="bbox\rt\NetworkChangeRef.cpp" />
     <ClCompile Include="bbox\rt\OneShotWork.cpp" />
     <ClCompile Include="bbox\rt\Proactor.cpp" />
     <ClCompile Include="bbox\rt\Resource.cpp" />
@@ -102,16 +101,18 @@
     <ClCompile Include="bbox\rt\details\ResourceBase.cpp" />
     <ClCompile Include="bbox\rt\net\AdapterInfo.cpp" />
     <ClCompile Include="bbox\rt\net\IpAddress.cpp" />
+    <ClCompile Include="bbox\rt\net\NetworkChangeHandler.cpp" />
+    <ClCompile Include="bbox\rt\net\NetworkChangeService.cpp" />
     <ClCompile Include="bbox\rt\net\TcpEndpoint.cpp" />
     <ClCompile Include="bbox\rt\net\UdpEndpoint.cpp" />
     <ClCompile Include="bbox\rt\net\UdpSocket.cpp" />
+    <ClCompile Include="bbox\rt\net\UpnpDiscoveryService.cpp" />
     <ClCompile Include="bbox\rt\win32\IpHelperAccess.cpp" />
-    <ClCompile Include="bbox\rt\win32\NetworkChangeService.cpp" />
+    <ClCompile Include="bbox\rt\win32\Win32NetworkChangeService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bbox\rt\ConsoleShutdownService.h" />
     <ClInclude Include="bbox\rt\DebugEnable.h" />
-    <ClInclude Include="bbox\rt\NetworkChangeRef.h" />
     <ClInclude Include="bbox\rt\OneShotWork.h" />
     <ClInclude Include="bbox\rt\Proactor.h" />
     <ClInclude Include="bbox\rt\Resource.h" />
@@ -128,11 +129,14 @@
     <ClInclude Include="bbox\rt\details\ResourceBase.h" />
     <ClInclude Include="bbox\rt\net\AdapterInfo.h" />
     <ClInclude Include="bbox\rt\net\IpAddress.h" />
+    <ClInclude Include="bbox\rt\net\NetworkChangeHandler.h" />
+    <ClInclude Include="bbox\rt\net\NetworkChangeService.h" />
     <ClInclude Include="bbox\rt\net\TcpEndpoint.h" />
     <ClInclude Include="bbox\rt\net\UdpEndpoint.h" />
     <ClInclude Include="bbox\rt\net\UdpSocket.h" />
+    <ClInclude Include="bbox\rt\net\UpnpDiscoveryService.h" />
     <ClInclude Include="bbox\rt\win32\IpHelperAccess.h" />
-    <ClInclude Include="bbox\rt\win32\NetworkChangeService.h" />
+    <ClInclude Include="bbox\rt\win32\Win32NetworkChangeService.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BBoxRt.bbmake" />
