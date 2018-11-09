@@ -40,23 +40,25 @@ namespace ledsigns
 
         private:
 
-			void HandleWebSocketState(const bbox::Error &error);
-			void HandleWebSocketReceive(const std::string &msg);
+            void HandleWebSocketState(const bbox::Error &error);
+            void HandleWebSocketReceive(const std::string &msg);
 
-			bool HandleRetransmitRequired(const mn::msgs::RetransmitRequired &msg);
-			bool HandleButtonColors(const mn::msgs::ButtonColors &colors);
+            bool HandleRetransmitRequired(const mn::msgs::RetransmitRequired &msg);
+            bool HandleButtonColors(const mn::msgs::ButtonColors &colors);
 
-			void UpdateButtonStates();
+            void UpdateButtonStates();
+            void CreateDisconnectedPattern(const common::RenderState &render);
 
-			void Send(const bbox::enc::MsgAnyPtr &msg);
+            void Send(const bbox::enc::MsgAnyPtr &msg);
 
-			leds::Color ConvertColour(const std::string &css_color);
+            leds::Color ConvertColour(const std::string &css_color);
 
             leds::GpioClient &m_gpio_client;
-			bbox::http::client::WebSocketClient m_web_socket_client;
-			bbox::enc::Dispatcher m_dispatcher;
-			mn::msgs::ButtonColors m_button_colors;
-			mn::msgs::ButtonStates m_button_states;
+            bbox::http::client::WebSocketClient m_web_socket_client;
+            bbox::enc::Dispatcher m_dispatcher;
+            bbox::Error m_socket_error;
+            mn::msgs::ButtonColors m_button_colors;
+            mn::msgs::ButtonStates m_button_states;
         };
 
     } // namespace ledsigns::buttonbox
