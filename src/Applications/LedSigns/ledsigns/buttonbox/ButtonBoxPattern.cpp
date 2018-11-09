@@ -195,7 +195,7 @@ namespace ledsigns
             auto hue_offset_to_color = [&](size_t offset)
             {
                 size_t hue = ((render.time_ms / 100) + offset) % 360;
-                return bbox::Format("hsl(%d,100%,50%)", hue);
+                return bbox::Format("hsl(%d,100%c,50%c)", hue, '%', '%');
             };
 
             m_button_colors.button_colors[0] = hue_offset_to_color(0);
