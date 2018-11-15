@@ -116,6 +116,9 @@ namespace bbox {
          */
         static std::string Win32_UTF16_to_UTF8(const std::wstring &from);
 #endif // WIN32
+
+    private:
+        static std::string Newlines_Implementation(const std::string &from, const char *replace, size_t replace_length);
     };
 
 }

@@ -57,51 +57,69 @@ namespace bbox {
 
     std::string TextCoding::Newlines_DOS_to_UNIX(const std::string &from)
     {
-        return boost::algorithm::replace_all_copy(from, "\r\n", "\n");
+        return Newlines_Implementation(from, "\n", 1);
     }
 
     std::string TextCoding::Newlines_UNIX_to_DOS(const std::string &from)
     {
-		std::stringstream stream;
-
-		auto size = from.size();
-		const char *bytes = from.c_str();
-		for (size_t i = 0; i < size; ++i)
-		{
-			char ch = bytes[i];
-
-			if (ch == '\n')
-			{
-				stream << "\r\n";
-			}
-			else if (ch == '\r')
-			{
-				if (((i + 1) < size)
-					&& (bytes[i + 1] == '\n'))
-				{
-					// It's already a "\r\n" - insert
-					// and skip and extra char
-					stream << "\r\n";
-					i += 1;
-				}
-				else
-				{
-					stream << ch;
-				}
-			}
-			else
-			{
-				stream << ch;
-			}
-		}
-
-		return stream.str();
-
-        return boost::algorithm::replace_all_copy(
-            boost::algorithm::replace_all_copy(from, "\r\n", "\n"),
-            "\n",
-            "\r\n");
+        return Newlines_Implementation(from, "\r\n", 2);
     }
+
+	std::string TextCoding::Newlines_Implementation(const std::string &from, const char *replace, size_t replace_length)
+	{
+        std::string result;
+
+        // Reserve space for half the characters to be replaced with a longer
+        // equivilent (if replace_length is greater than 1)
+
+        result.reserve(from.size() + (from.size() / 2 * (replace_length - 1)));
+
+        // Keep appending non-newline sections
+        // and then perform the appropriate replacement
+        // for new lines found.
+
+        size_t start_pos = 0;
+        while (start_pos < from.size())
+        {
+	        size_t next_pos = from.find_first_of("\r\n", start_pos);
+
+	        if (next_pos == std::string::npos)
+	        {
+		        // The range from start_pos to the end of the string
+		        // contains no newlines - it can be appended
+
+		        result.append(from, start_pos, from.size() - start_pos);
+
+		        start_pos = from.size();
+	        }
+	        else
+	        {
+		        // We've found a new-line further into the string.
+		        // We need to:
+		        // 1) Append any non-new-line characters between the start
+		        //    pos and the found pos
+		        // 2) Append the correct replacement newline characters
+		        // 3) Move past the new line character sequence - \r, \n, or \r\n.
+
+		        result.append(from, start_pos, next_pos - start_pos);
+		        result.append(replace, replace_length);
+
+		        start_pos = next_pos + 1;
+
+		        if ((from[next_pos] == '\r')
+			        && (start_pos < from.size())
+			        && (from[start_pos] == '\n'))
+		        {
+			        // The from string contains a \r\n sequence -
+			        // skip both
+
+			        start_pos += 1;
+		        }
+	        }
+        }
+
+        return result;
+	}
 
 #ifdef WIN32
 

@@ -13,6 +13,7 @@
 #include <vector>
 #include <sstream>
 #include <map>
+#include <future>
 
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
@@ -68,7 +69,7 @@ void UpdateFile(const std::string &name, const std::string &contents)
 
     if (needs_write)
     {
-        std::cout << "Updating " << name << "..." << std::endl;
+        std::cout << bbox::Format("Updating %s\n", name);
 
         bbox::FileUtils::WriteTextFileOrThrow(name, contents);
     }
@@ -266,81 +267,109 @@ int resource_builder_main(int argc, char *argv[])
             stream << std::endl;
             stream << "namespace {" << std::endl;
 
-            std::vector<size_t> file_lengths;
-            std::vector<std::string> file_etags;
+            std::vector<size_t> file_lengths(inputs.size());
+            std::vector<std::string> file_etags(inputs.size());
+			std::vector<std::string> file_contents(inputs.size());
+			std::vector<std::future<void>> file_futures(inputs.size());
 
             size_t count = 0;
-            for (const std::string &input : inputs)
-            {
+			for (const std::string &input : inputs)
+			{
+				size_t index = count;
 				count++;
 
-                bool text_format = false;
+				file_futures[index] = std::async([input, index, &extension_lookup, &file_lengths, &file_etags, &file_contents]()
+					{
+						bool text_format = false;
 
-                size_t dot_pos = input.rfind('.');
-                if (dot_pos != std::string::npos)
-                {
-                    std::string extension = input.substr(dot_pos);
-                    auto it = extension_lookup.find(extension);
-                    if (it != extension_lookup.end())
-                    {
-                        text_format = it->second.text_format;
-                    }
-                }
+						size_t dot_pos = input.rfind('.');
+						if (dot_pos != std::string::npos)
+						{
+							std::string extension = input.substr(dot_pos);
+							auto it = extension_lookup.find(extension);
+							if (it != extension_lookup.end())
+							{
+								text_format = it->second.text_format;
+							}
+						}
 
-                std::vector<uint8_t> contents = bbox::FileUtils::ReadBinaryFileOrThrow(input, 500 * 1024 * 1024);
+						std::vector<uint8_t> contents = bbox::FileUtils::ReadBinaryFileOrThrow(input, 500 * 1024 * 1024);
 
-				if (text_format
-					&& !contents.empty())
-                {
-					std::string str(reinterpret_cast<const char *>(contents.data()), contents.size());
-					str = bbox::TextCoding::Newlines_DOS_to_UNIX(str);
-					contents.resize(str.size());
-					memcpy(contents.data(), str.c_str(), str.size());
-                }
+						if (text_format
+							&& !contents.empty())
+						{
+							std::string str(reinterpret_cast<const char *>(contents.data()), contents.size());
+							str = bbox::TextCoding::Newlines_DOS_to_UNIX(str);
+							contents.resize(str.size());
+							memcpy(contents.data(), str.c_str(), str.size());
+						}
 
-				file_lengths.push_back(contents.size());
+						file_lengths[index] = contents.size();
 
-                {
-                    bbox::crypto::HashStream hash_stream(bbox::crypto::HashStream::SHA_256);
-                    hash_stream.AddBytes(contents.data(), contents.size());
+						{
+							bbox::crypto::HashStream hash_stream(bbox::crypto::HashStream::SHA_256);
+							hash_stream.AddBytes(contents.data(), contents.size());
 
-                    file_etags.push_back(hash_stream.CompleteHash().ToBase64String());
-                }
+							file_etags[index] = hash_stream.CompleteHash().ToBase64String();
+						}
+
+						std::string data_buffer;
+						data_buffer.reserve(100 + (10 + (16 * 6)) * ((contents.size() + 15) / 16));
+
+						auto bcd = [](uint8_t val) -> char
+						{
+							if (val <= 9)
+								return '0' + val;
+							else
+								return 'A' - 10 + val;
+						};
+
+						for (size_t i = 0; i < contents.size(); ++i)
+						{
+							if ((i & 0xF) == 0)
+							{
+								if (i != 0)
+								{
+									data_buffer.append(",\n", 2);
+								}
+								data_buffer.append("        ", 8);
+							}
+							else
+								data_buffer.append(", ", 2);
+
+							uint8_t byte = contents[i];
+
+							char one_val[4];
+
+							one_val[0] = '0';
+							one_val[1] = 'x';
+							one_val[2] = bcd(byte >> 4);
+							one_val[3] = bcd(byte & 0x0F);
+
+							data_buffer.append(one_val, 4);
+						}
+
+						if (!contents.empty())
+							data_buffer.push_back('\n');
+
+						file_contents[index] = std::move(data_buffer);
+					});
+			}
+
+			for (auto &future : file_futures)
+			{
+				future.get();
+			}
+
+			count = 0;
+			for (const std::string &input : inputs)
+			{
+				size_t index = count;
+				count++;
 
 				stream << "    // File #" << count << " - " << FixFileName(input) << std::endl;
-                stream << "    const uint8_t file_contents_" << count << "[" << contents.size() << "] = {" << std::endl;
-                
-				auto bcd = [](uint8_t val) -> char
-				{
-					if (val <= 9)
-						return '0' + val;
-					else
-						return 'A' - 10 + val;
-				};
-
-				for (size_t i = 0; i < contents.size(); ++i)
-                {
-                    if ((i & 0xF) == 0)
-                    {
-                        if (i != 0)
-                            stream << "," << std::endl;
-                        stream << "        ";
-                    }
-                    else
-                        stream << ", ";
-
-					uint8_t byte = contents[i];
-
-					stream
-						<< '0'
-						<< 'x'
-						<< bcd(byte >> 4)
-						<< bcd(byte & 0x0F);
-                }
-
-                if (!contents.empty())
-                    stream << std::endl;
-
+                stream << "    const uint8_t file_contents_" << count << "[" << file_lengths[index] << "] = {" << std::endl;
+				stream << file_contents[index];
                 stream << "    };" << std::endl;
 			}
 
@@ -398,7 +427,7 @@ int resource_builder_main(int argc, char *argv[])
 
 		// Generate the header
 
-        std::string header;
+		std::string header;
 
         {
             std::stringstream stream;
@@ -423,8 +452,11 @@ int resource_builder_main(int argc, char *argv[])
 
         // Output the files
 
-        UpdateFile(output_cpp, source);
-        UpdateFile(output_h, header);
+		auto update_future_source = std::async([&]() { UpdateFile(output_cpp, source); });
+		auto update_future_header = std::async([&]() { UpdateFile(output_h, header); });
+
+		update_future_source.get();
+		update_future_header.get();
 
 		return 0;
     }
