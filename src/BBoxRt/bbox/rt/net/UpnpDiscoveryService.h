@@ -10,6 +10,7 @@
 #include <bbox/rt/Service.h>
 #include <bbox/rt/net/NetworkChangeHandler.h>
 #include <bbox/rt/OneShotWork.h>
+#include <bbox/rt/net/UdpEndpoint.h>
 
 namespace bbox {
 namespace rt {
@@ -22,22 +23,24 @@ namespace net {
 class UpnpDiscoveryService: public Service
 {
 public:
-	UpnpDiscoveryService(const std::string &name, Service &parent);
-	~UpnpDiscoveryService();
+    UpnpDiscoveryService(const std::string &name, Service &parent);
+    ~UpnpDiscoveryService();
 
 private:
-	void HandleStarting() override;
-	void HandleStopping() override;
-	void PrintState(bbox::DebugOutput &out) const override;
+    void HandleStarting() override;
+    void HandleStopping() override;
+    void PrintState(bbox::DebugOutput &out) const override;
 
-	void OnNetworkInterfacesChanged();
-	void OnCheckNetwork();
+    void OnNetworkInterfacesChanged();
+    void OnCheckNetwork();
 
-	struct NetworkInterface;
+    struct NetworkInterface;
 
-	NetworkChangeHandler m_network_change_handler;
-	OneShotWork m_check_network_work;
-	std::vector<std::unique_ptr<NetworkInterface>> m_interfaces;
+    void HandleReceivedPacket(NetworkInterface *iface_ptr, const Error &err, const void *data, size_t num_bytes, const UdpEndpoint &from);
+
+    NetworkChangeHandler m_network_change_handler;
+    OneShotWork m_check_network_work;
+    std::vector<std::unique_ptr<NetworkInterface>> m_interfaces;
 };
 
 } // namespace bbox::rt::net
