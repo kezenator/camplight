@@ -93,12 +93,12 @@ namespace ui.tetris
         private right_btn: TetrisButton;
         private other_btn: TetrisButton;
 
-        public constructor(x: number)
+        public constructor(x: number, pieces_img: HTMLImageElement)
         {
             this.x = x;
 
             this.gameBoard = new GameBoard();
-            this.pieceFactory = new PieceFactory();
+            this.pieceFactory = new PieceFactory(pieces_img);
 
             this.curPiece = this.pieceFactory.newPiece();
             this.nextPiece = this.pieceFactory.newPiece();

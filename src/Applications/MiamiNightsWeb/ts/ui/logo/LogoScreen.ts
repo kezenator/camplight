@@ -23,6 +23,7 @@ namespace ui.logo
 
         private palms: HTMLImageElement[];
         private city: HTMLImageElement;
+        private instagram: HTMLImageElement;
 
         private fading: boolean;
         private button_pressed: boolean;
@@ -40,8 +41,11 @@ namespace ui.logo
                 this.palms.push(img);
             }
 
-            this.city= document.createElement('img');
+            this.city = document.createElement('img');
             this.city.src = '/res/imgs/city.png';
+
+            this.instagram = document.createElement('img');
+            this.instagram.src = '/res/imgs/instagram.png';
 
             this.fading = false;
             this.button_pressed = false;
@@ -353,6 +357,10 @@ namespace ui.logo
         {
             this.drawTextCasaDelShade(ctx, ms);
             this.drawTextMiamiNights(ctx, ms);
+
+            // Draw the instagram logo
+
+            ctx.drawImage(this.instagram, 1421, 952);
         }
 
         private drawTextCasaDelShade(ctx: CanvasRenderingContext2D, ms: number)

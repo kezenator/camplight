@@ -7,6 +7,7 @@ namespace ui.tetris
     {
         private music_resources: string[];
         private music_playout: mn.audio.Playout;
+        private pieces_img: HTMLImageElement;
 
         private games: TetrisGame[];
 
@@ -19,6 +20,9 @@ namespace ui.tetris
             this.music_resources.push('/res/audio/tetris-trap-remix.ogg');
 
             this.music_playout = null;
+
+            this.pieces_img = document.createElement('img');
+            this.pieces_img.src = '/res/imgs/tetris_pieces.png';
 
             this.games = null;
         }
@@ -34,8 +38,8 @@ namespace ui.tetris
                 () => { this.handleMusicCompleted(); });
 
             this.games = new Array(2);
-            this.games[0] = new TetrisGame(0);
-            this.games[1] = new TetrisGame(960);
+            this.games[0] = new TetrisGame(0, this.pieces_img);
+            this.games[1] = new TetrisGame(960, this.pieces_img);
         }
 
         public draw(ctx: CanvasRenderingContext2D, ms: number): void

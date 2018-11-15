@@ -35,6 +35,7 @@
     <Content Include="res/audio/tetris-8bit-remix.ogg" />
     <Content Include="res/audio/tetris-trap-remix.ogg" />
     <Content Include="res/imgs/city.png" />
+    <Content Include="res/imgs/instagram.png" />
     <Content Include="res/imgs/menu_altered_beast.png" />
     <Content Include="res/imgs/menu_background_sprites.png" />
     <Content Include="res/imgs/menu_fortune.png" />
@@ -48,6 +49,7 @@
     <Content Include="res/imgs/palm4.png" />
     <Content Include="res/imgs/palm5.png" />
     <Content Include="res/imgs/pong_logo.png" />
+    <Content Include="res/imgs/tetris_pieces.png" />
     <Content Include="res/ka1.ttf" />
     <Content Include="res/still_time.ttf" />
     <Content Include="res/timeburnerbold.ttf" />

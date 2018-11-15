@@ -164,14 +164,16 @@ namespace ui.tetris
         private y: number;
         private rotation: number;
         private parts: Part[];
+        private pieces_img: HTMLImageElement;
 
-        public constructor(num: number)
+        public constructor(pieces_img: HTMLImageElement, num: number)
         {
             this.num = num;
             this.x = Math.floor(0.5 * GameBoard.NUM_COLS);
             this.y = GameBoard.HIDDEN_ROWS - 1;
             this.rotation = 0;
             this.parts = new Array(4);
+            this.pieces_img = pieces_img;
 
             this.createParts();
         }
@@ -296,10 +298,10 @@ namespace ui.tetris
 
             var offsets = Piece.PART_OFFSETS[this.num][this.rotation];
 
-            this.parts[0] = new Part(new Cell(0, hue), offsets[0], offsets[1]);
-            this.parts[1] = new Part(new Cell(1, hue), offsets[2], offsets[3]);
-            this.parts[2] = new Part(new Cell(2, hue), offsets[4], offsets[5]);
-            this.parts[3] = new Part(new Cell(3, hue), offsets[6], offsets[7]);
+            this.parts[0] = new Part(new Cell(this.pieces_img, this.num, 0, hue, this.rotation), offsets[0], offsets[1]);
+            this.parts[1] = new Part(new Cell(this.pieces_img, this.num, 1, hue, this.rotation), offsets[2], offsets[3]);
+            this.parts[2] = new Part(new Cell(this.pieces_img, this.num, 2, hue, this.rotation), offsets[4], offsets[5]);
+            this.parts[3] = new Part(new Cell(this.pieces_img, this.num, 3, hue, this.rotation), offsets[6], offsets[7]);
         }
     }
 }
