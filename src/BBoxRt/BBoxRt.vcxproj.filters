@@ -16,6 +16,9 @@
     <Filter Include="bbox\rt\net">
       <UniqueIdentifier>{DB270935-E6D1-5F60-85C8-ACA4680FC5AA}</UniqueIdentifier>
     </Filter>
+    <Filter Include="bbox\rt\net\ssdp">
+      <UniqueIdentifier>{25BDB88D-FF3B-5FBD-BCED-A05A99DDE07E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="bbox\rt\win32">
       <UniqueIdentifier>{F661B8E0-B7E2-58CB-BF1C-5BD7FFE72A2F}</UniqueIdentifier>
     </Filter>
@@ -90,8 +93,8 @@
     <ClCompile Include="bbox\rt\net\UdpSocket.cpp">
       <Filter>bbox\rt\net</Filter>
     </ClCompile>
-    <ClCompile Include="bbox\rt\net\UpnpDiscoveryService.cpp">
-      <Filter>bbox\rt\net</Filter>
+    <ClCompile Include="bbox\rt\net\ssdp\SsdpDiscoveryService.cpp">
+      <Filter>bbox\rt\net\ssdp</Filter>
     </ClCompile>
     <ClCompile Include="bbox\rt\win32\IpHelperAccess.cpp">
       <Filter>bbox\rt\win32</Filter>
@@ -173,8 +176,8 @@
     <ClInclude Include="bbox\rt\net\UdpSocket.h">
       <Filter>bbox\rt\net</Filter>
     </ClInclude>
-    <ClInclude Include="bbox\rt\net\UpnpDiscoveryService.h">
-      <Filter>bbox\rt\net</Filter>
+    <ClInclude Include="bbox\rt\net\ssdp\SsdpDiscoveryService.h">
+      <Filter>bbox\rt\net\ssdp</Filter>
     </ClInclude>
     <ClInclude Include="bbox\rt\win32\IpHelperAccess.h">
       <Filter>bbox\rt\win32</Filter>

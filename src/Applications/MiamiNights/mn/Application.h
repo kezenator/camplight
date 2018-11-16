@@ -14,6 +14,8 @@
 #include <bbox/rt/Proactor.h>
 #include <bbox/rt/Service.h>
 #include <bbox/rt/ConsoleShutdownService.h>
+#include <bbox/rt/net/NetworkChangeService.h>
+#include <bbox/rt/net/ssdp/SsdpDiscoveryService.h>
 #include <bbox/http/server/HttpServer.h>
 #include <bbox/http/debug/HttpDebugWebsite.h>
 #include <bbox/audio/AudioService.h>
@@ -54,8 +56,12 @@ private:
 
 	msgs::ButtonStates DefaultStates();
 
-	bbox::rt::net::TcpEndpoint m_http_listen_endpoint;
-	bbox::rt::ConsoleShutdownService m_console_shutdown_service;
+    const bbox::rt::net::TcpEndpoint m_http_listen_endpoint;
+
+    bbox::rt::ThreadPool m_thread_pool;
+    bbox::rt::ConsoleShutdownService m_console_shutdown_service;
+    bbox::rt::net::NetworkChangeService::Impl m_network_change_service;
+    bbox::rt::net::ssdp::SsdpDiscoveryService m_ssdp_discovery_service;
 	bbox::http::server::HttpServer m_http_server;
 	bbox::http::debug::HttpDebugWebsite m_http_debug_website;
 	bbox::audio::AudioService m_audio_service;

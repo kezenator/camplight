@@ -1,19 +1,20 @@
 /**
  * @file
  *
- * Implementation for the bbox::rt::net::UpnpDiscoveryService class.
+ * Implementation for the bbox::rt::net::SsdpDiscoveryService class.
  */
 
-#include <bbox/rt/net/UpnpDiscoveryService.h>
+#include <bbox/rt/net/ssdp/SsdpDiscoveryService.h>
 #include <bbox/rt/net/UdpSocket.h>
 
 namespace bbox {
 namespace rt {
 namespace net {
+namespace ssdp {
 
-struct UpnpDiscoveryService::NetworkInterface: Resource
+struct SsdpDiscoveryService::NetworkInterface : Resource
 {
-    NetworkInterface(const std::string &name, UpnpDiscoveryService &parent, const IpAddress &addr)
+    NetworkInterface(const std::string &name, SsdpDiscoveryService &parent, const IpAddress &addr)
         : Resource(name, parent)
         , m_parent(parent)
         , m_address(addr)
@@ -30,7 +31,7 @@ struct UpnpDiscoveryService::NetworkInterface: Resource
         m_socket.EnableReading(std::bind(&NetworkInterface::OnSocketReceive, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
     }
 
-    UpnpDiscoveryService &m_parent;
+    SsdpDiscoveryService &m_parent;
     const IpAddress m_address;
     UdpSocket m_socket;
 
@@ -51,37 +52,37 @@ struct UpnpDiscoveryService::NetworkInterface: Resource
     }
 };
 
-UpnpDiscoveryService::UpnpDiscoveryService(const std::string &name, Service &parent)
+SsdpDiscoveryService::SsdpDiscoveryService(const std::string &name, Service &parent)
     : Service(name, parent)
-    , m_network_change_handler("network-change-handler", *this, std::bind(&UpnpDiscoveryService::OnNetworkInterfacesChanged, this))
-    , m_check_network_work("check-network-work", *this, std::bind(&UpnpDiscoveryService::OnCheckNetwork, this))
+    , m_network_change_handler("network-change-handler", *this, std::bind(&SsdpDiscoveryService::OnNetworkInterfacesChanged, this))
+    , m_check_network_work("check-network-work", *this, std::bind(&SsdpDiscoveryService::OnCheckNetwork, this))
     , m_interfaces()
 {
 }
 
-UpnpDiscoveryService::~UpnpDiscoveryService()
+SsdpDiscoveryService::~SsdpDiscoveryService()
 {
 }
 
-void UpnpDiscoveryService::HandleStarting()
+void SsdpDiscoveryService::HandleStarting()
 {
     m_check_network_work.Schedule();
 
     NotifyStarted();
 }
 
-void UpnpDiscoveryService::HandleStopping()
+void SsdpDiscoveryService::HandleStopping()
 {
     m_check_network_work.Schedule();
 }
 
-void UpnpDiscoveryService::PrintState(bbox::DebugOutput &out) const
+void SsdpDiscoveryService::PrintState(bbox::DebugOutput &out) const
 {
     // TODO
     (void)out;
 }
 
-void UpnpDiscoveryService::OnNetworkInterfacesChanged()
+void SsdpDiscoveryService::OnNetworkInterfacesChanged()
 {
     if (GetLocalRunLevel() == RunLevel::RUNNING)
     {
@@ -89,7 +90,7 @@ void UpnpDiscoveryService::OnNetworkInterfacesChanged()
     }
 }
 
-void UpnpDiscoveryService::OnCheckNetwork()
+void SsdpDiscoveryService::OnCheckNetwork()
 {
     // Work out what interfaces to create and destroy
 
@@ -165,7 +166,7 @@ void UpnpDiscoveryService::OnCheckNetwork()
 
     bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Never);
     if (out)
-        out.Format("UpnpDiscoveryService::OnCheckNetwork\n");
+        out.Format("SsdpDiscoveryService::OnCheckNetwork\n");
 
     // Create new interfaces
 
@@ -232,7 +233,7 @@ void UpnpDiscoveryService::OnCheckNetwork()
     }
 }
 
-void UpnpDiscoveryService::HandleReceivedPacket(NetworkInterface *iface_ptr, const Error &err, const void *data, size_t num_bytes, const UdpEndpoint &from)
+void SsdpDiscoveryService::HandleReceivedPacket(NetworkInterface *iface_ptr, const Error &err, const void *data, size_t num_bytes, const UdpEndpoint &from)
 {
     bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Testing);
     if (out)
@@ -248,6 +249,7 @@ void UpnpDiscoveryService::HandleReceivedPacket(NetworkInterface *iface_ptr, con
     }
 }
 
+} // namespace bbox::rt::net::ssdp
 } // namespace bbox::rt::net
 } // namespace bbox::rt
 } // namespace bbox

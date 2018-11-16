@@ -1,11 +1,11 @@
 /**
  * @file
  *
- * Header for the bbox::rt::net::UpnpDiscoveryService class.
+ * Header for the bbox::rt::net::SsdpDiscoveryService class.
  */
 
-#ifndef __BBOX__RT__NET__UPNP_DISCOVERY_SERVICE_H__
-#define __BBOX__RT__NET__UPNP_DISCOVERY_SERVICE_H__
+#ifndef __BBOX__RT__NET__SSDP__SSDP_DISCOVERY_SERVICE_H__
+#define __BBOX__RT__NET__SSDP__SSDP_DISCOVERY_SERVICE_H__
 
 #include <bbox/rt/Service.h>
 #include <bbox/rt/net/NetworkChangeHandler.h>
@@ -16,16 +16,17 @@
 namespace bbox {
 namespace rt {
 namespace net {
+namespace ssdp {
 
 /**
  * A class that advertises a service via Upnp, and discovers
  * other services.
  */
-class UpnpDiscoveryService: public Service
+class SsdpDiscoveryService : public Service
 {
 public:
-    UpnpDiscoveryService(const std::string &name, Service &parent);
-    ~UpnpDiscoveryService();
+    SsdpDiscoveryService(const std::string &name, Service &parent);
+    ~SsdpDiscoveryService();
 
 private:
     void HandleStarting() override;
@@ -44,8 +45,9 @@ private:
     std::vector<std::unique_ptr<NetworkInterface>> m_interfaces;
 };
 
+} // namespace bbox::rt::net::ssdp
 } // namespace bbox::rt::net
 } // namespace bbox::rt
 } // namespace bbox
 
-#endif // __BBOX__RT__NET__UPNP_DISCOVERY_SERVICE_H__
+#endif // __BBOX__RT__NET__SSDP__SSDP_DISCOVERY_SERVICE_H__
