@@ -35,6 +35,7 @@ namespace bbox {
                 , m_pending_counter(0)
                 , m_another_update_required(false)
             {
+                SetThisDependantOn(m_thread_pool_ref);
             }
 
 			Win32NetworkChangeService::Win32NetworkChangeService(const std::string &name, Service &parent)
@@ -44,6 +45,7 @@ namespace bbox {
                 , m_pending_counter(0)
                 , m_another_update_required(false)
             {
+                SetThisDependantOn(m_thread_pool_ref);
             }
 
 			Win32NetworkChangeService::~Win32NetworkChangeService()

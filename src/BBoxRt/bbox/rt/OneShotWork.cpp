@@ -13,14 +13,18 @@ namespace bbox {
 
         OneShotWork::OneShotWork(const std::string &name, Resource &parent, boost::function<void()> &&callback)
             : Resource(name, parent)
-            , m_pending(false)
+            , m_next_token(1)
+            , m_pending_token(0)
+            , m_last_resolved_token(0)
             , m_callback(std::move(callback))
         {
         }
 
         OneShotWork::OneShotWork(const std::string &name, Service &parent, boost::function<void()> &&callback)
             : Resource(name, parent)
-            , m_pending(false)
+            , m_next_token(1)
+            , m_pending_token(0)
+            , m_last_resolved_token(0)
             , m_callback(std::move(callback))
         {
         }
@@ -33,16 +37,31 @@ namespace bbox {
         {
             BBOX_ASSERT(GetLocalRunLevel() == RunLevel::RUNNING);
 
-            if (!m_pending)
+            if (m_pending_token == 0)
             {
-                m_pending = true;
+                m_pending_token = m_next_token;
+                m_next_token += 1;
                 GetProactor().Post(boost::bind(&OneShotWork::DoCallback, this));
             }
         }
 
+        void OneShotWork::Cancel()
+        {
+            BBOX_ASSERT(GetLocalRunLevel() == RunLevel::RUNNING);
+
+            m_pending_token = 0;
+        }
+
         void OneShotWork::HandleStopping()
         {
-            if (!m_pending)
+            m_pending_token = 0;
+            CheckShutdown();
+        }
+
+        void OneShotWork::CheckShutdown()
+        {
+            if ((GetLocalRunLevel() == RunLevel::STOPPING)
+                && ((m_last_resolved_token + 1) == m_next_token))
             {
                 NotifyStopped();
                 RequestStopAllChildren();
@@ -51,24 +70,27 @@ namespace bbox {
 
 		void OneShotWork::PrintState(bbox::DebugOutput &out) const
 		{
-			out.Format("Pending: %s\n", m_pending);
-		}
+			out.Format("Schedled:       %s\n", IScheduled());
+            out.Format("Next Token:     %d\n", m_next_token);
+            out.Format("Pending Token:  %d\n", m_pending_token);
+            out.Format("Resolve Token:  %d\n", m_last_resolved_token);
+        }
 
         void OneShotWork::DoCallback()
         {
-            BBOX_ASSERT(m_pending);
+            BBOX_ASSERT((m_last_resolved_token + 1) < m_next_token);
 
-            m_pending = false;
+            m_last_resolved_token += 1;
 
-            if (m_callback)
-                m_callback();
-
-            if (!m_pending
-                && (GetLocalRunLevel() == RunLevel::STOPPING))
+            if (m_pending_token == m_last_resolved_token)
             {
-                NotifyStopped();
-                RequestStopAllChildren();
+                m_pending_token = 0;
+
+                if (m_callback)
+                    m_callback();
             }
+
+            CheckShutdown();
         }
 
     } // namespace bbox::rt

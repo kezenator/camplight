@@ -146,6 +146,12 @@ namespace bbox {
 
         void Proactor::ConnectRegisteredServices()
         {
+            bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Never);
+            if (out)
+            {
+                out.Format("Connecting services...\n");
+            }
+
             BBOX_ASSERT(GetOverallRunLevel() == RunLevel::CONSTRUCTED);
 
             for (details::GenericServiceReference *ref_ptr : m_references)
@@ -161,8 +167,31 @@ namespace bbox {
 
                     if (entry_ptr.type == ref_ptr->m_type)
                     {
+                        if (out)
+                        {
+                            out.Format("    Connecting %s to %s\n",
+                                ref_ptr->GetResourceFullPath(),
+                                entry_ptr.implementing_service->GetResourceFullPath());
+                        }
+
                         ref_ptr->m_implementing_service = entry_ptr.implementing_service;
                         ref_ptr->m_void_ptr = entry_ptr.void_ptr;
+
+                        for (details::ResourceBase *dep_ptr : ref_ptr->m_dependant_on_our_service)
+                        {
+                            if (out)
+                            {
+                                out.Format("      Setting %s dependant on %s\n",
+                                    dep_ptr->GetResourceFullPath(),
+                                    entry_ptr.implementing_service->GetResourceFullPath());
+                            }
+
+                            auto insert_result_1 = dep_ptr->m_dependant_on_them.insert(entry_ptr.implementing_service);
+                            auto insert_result_2 = entry_ptr.implementing_service->m_dependant_on_us.insert(dep_ptr);
+
+                            BBOX_ASSERT(insert_result_1.second);
+                            BBOX_ASSERT(insert_result_2.second);
+                        }
                     }
                 }
             }

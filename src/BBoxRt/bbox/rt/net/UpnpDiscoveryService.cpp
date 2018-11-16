@@ -110,41 +110,123 @@ void UpnpDiscoveryService::OnCheckNetwork()
     }
 
     std::vector<IpAddress> to_create;
-    std::vector<size_t> to_destroy;
+    std::vector<IpAddress> to_destroy;
 
-    for (const IpAddress &addr : cur_addresses)
+    // If not stopping, then we should create any
+    // interfaces that have been found but that
+    // we don't have
+
+    if (GetLocalRunLevel() == RunLevel::RUNNING)
+    {
+        for (const IpAddress &addr : cur_addresses)
+        {
+            bool found = false;
+
+            for (const auto &iface_ptr : m_interfaces)
+            {
+                if (iface_ptr->m_address == addr)
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                to_create.push_back(addr);
+            }
+        }
+    }
+
+    // We should check all created interfaces and destroy
+    // any that don't exist, or all if shutting down
+
+    for (const auto &iface_ptr : m_interfaces)
     {
         bool found = false;
 
-        for (const auto &iface_ptr : m_interfaces)
+        if (GetLocalRunLevel() != RunLevel::STOPPING)
         {
-            if (iface_ptr->m_address == addr)
+            for (const IpAddress &addr : cur_addresses)
             {
-                found = true;
-                break;
+                if (iface_ptr->m_address == addr)
+                {
+                    found = true;
+                    break;
+                }
             }
         }
 
         if (!found)
         {
-            to_create.push_back(addr);
+            to_destroy.push_back(iface_ptr->m_address);
         }
     }
+
+    bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Testing);
+    if (out)
+        out.Format("UpnpDiscoveryService::OnCheckNetwork\n");
 
     // Create new interfaces
 
     for (const IpAddress &addr : to_create)
     {
+        if (out)
+            out.Format("    Creating %s\n", addr.ToString());
+
         m_interfaces.emplace_back(std::make_unique<NetworkInterface>(addr.ToString(), *this, addr));
     }
 
-    // Destroy interfaces
+    // Request destroy of interfaces
+
+    for (const IpAddress &addr : to_destroy)
+    {
+        for (const auto &iface_ptr : m_interfaces)
+        {
+            if ((iface_ptr->m_address == addr)
+                && (iface_ptr->GetOverallRunLevel() == RunLevel::RUNNING))
+            {
+                if (out)
+                    out.Format("    Stopping %s\n", iface_ptr->m_address.ToString());
+
+                iface_ptr->RequestStop([this]()
+                    {
+                        m_check_network_work.Schedule();
+                    });
+            }
+        }
+    }
+
+    // Destroy interfaces that we can
+
+    while (true)
+    {
+        bool destroyed_any = false;
+
+        for (size_t i = 0; i < m_interfaces.size(); ++i)
+        {
+            if (m_interfaces[i]->GetOverallRunLevel() == RunLevel::STOPPED)
+            {
+                if (out)
+                    out.Format("    Destroying %s\n", m_interfaces[i]->m_address.ToString());
+
+                destroyed_any = true;
+                m_interfaces.erase(m_interfaces.begin() + i);
+                m_check_network_work.Schedule();
+            }
+        }
+
+        if (!destroyed_any)
+            break;
+    }
 
     // Shutdown
 
     if ((GetLocalRunLevel() == RunLevel::STOPPING)
         && m_interfaces.empty())
     {
+        m_check_network_work.Cancel();
+
         RequestStopAllChildren();
         NotifyStopped();
     }

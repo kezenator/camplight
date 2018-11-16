@@ -91,6 +91,7 @@ namespace bbox {
 
                 void GenericRegisterService(const std::string &name, TypeInfo type, void *service);
                 void SetThisDependantOn(::bbox::rt::Service &service);
+                void SetThisDependantOn(::bbox::rt::details::GenericServiceReference &service_ref);
 
                 void PostUpdateWork();
                 void HandleUpdateWork();
@@ -111,6 +112,7 @@ namespace bbox {
                 std::set<GenericServiceReference *> m_references_from;
 
                 std::set<ResourceBase *> m_dependant_on_them;
+                std::set<GenericServiceReference *> m_dependant_on_their_ref;
                 std::set<ResourceBase *> m_dependant_on_us;
             };
 

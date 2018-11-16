@@ -11,7 +11,7 @@
 
 #include <string>
 
-#include <bbox/rt/Resource.h>
+#include <bbox/rt/Service.h>
 #include <bbox/TypeInfo.h>
 
 namespace bbox {
@@ -26,7 +26,7 @@ namespace bbox {
             /**
              * Base class for service references.
              */
-            class GenericServiceReference: public Resource
+            class GenericServiceReference: public Service
             {
                 friend class bbox::rt::Proactor;
                 friend class bbox::rt::details::ResourceBase;
@@ -41,15 +41,16 @@ namespace bbox {
             private:
 
                 GenericServiceReference(const std::string &name, Service &parent, const std::string &referenced_name, TypeInfo type);
-                GenericServiceReference(const std::string &name, Resource &parent, const std::string &referenced_name, TypeInfo type);
                 ~GenericServiceReference();
+                void HandleStarting() override;
                 void HandleStopping() override;
-				void PrintState(bbox::DebugOutput &out) const override;
+                void PrintState(bbox::DebugOutput &out) const override;
 
                 std::string m_ref_name;
                 TypeInfo m_type;
                 ResourceBase *m_implementing_service;
                 void *m_void_ptr;
+                std::set<ResourceBase *> m_dependant_on_our_service;
             };
 
         } // namespace bbox::rt::details

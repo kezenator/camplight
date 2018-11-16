@@ -25,6 +25,7 @@ namespace bbox {
                 , m_detection_in_progress(false)
                 , m_detecting_adapters()
             {
+                SetThisDependantOn(m_thread_pool_ref);
             }
 
             LinuxNetworkChangeService::LinuxNetworkChangeService(const std::string &name, Service &parent)
@@ -34,6 +35,7 @@ namespace bbox {
                 , m_detection_in_progress(false)
                 , m_detecting_adapters()
             {
+                SetThisDependantOn(m_thread_pool_ref);
             }
 
             LinuxNetworkChangeService::~LinuxNetworkChangeService()

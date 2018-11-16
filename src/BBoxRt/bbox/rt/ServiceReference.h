@@ -27,11 +27,6 @@ namespace bbox {
             {
             }
 
-            ServiceReference(const std::string &name, Resource &parent, const std::string &referenced_name)
-                : details::GenericServiceReference(name, parent, referenced_name, typeid(ServiceType))
-            {
-            }
-
             ~ServiceReference()
             {
             }

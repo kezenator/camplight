@@ -16,6 +16,7 @@ NetworkChangeHandler::NetworkChangeHandler(const std::string &name, Service &par
 	, m_service_ref("service-reference", *this, NetworkChangeService::SERVICE_NAME)
 	, m_change_handler(std::move(change_handler))
 {
+    SetThisDependantOn(m_service_ref);
 }
 
 NetworkChangeHandler::~NetworkChangeHandler()

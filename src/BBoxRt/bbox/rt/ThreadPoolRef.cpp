@@ -19,15 +19,14 @@ namespace bbox {
         {
         }
 
-        ThreadPoolRef::ThreadPoolRef(const std::string &name, Resource &parent)
-            : ServiceReference<ThreadPool>(name, parent, ThreadPool::SERVICE_NAME)
-            , m_pending_ops(0)
-        {
-        }
-
         ThreadPoolRef::~ThreadPoolRef()
         {
             BBOX_ASSERT(m_pending_ops == 0);
+        }
+        
+        void ThreadPoolRef::HandleStarting()
+        {
+            NotifyStarted();
         }
 
         void ThreadPoolRef::HandleStopping()

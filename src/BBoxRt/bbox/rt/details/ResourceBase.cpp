@@ -279,6 +279,22 @@ namespace bbox {
                 BBOX_ASSERT(insert_result_2.second);
             }
 
+            void ResourceBase::SetThisDependantOn(::bbox::rt::details::GenericServiceReference &service_ref)
+            {
+                BBOX_ASSERT(m_local_level == RunLevel::CONSTRUCTED);
+                BBOX_ASSERT(m_overall_level == RunLevel::CONSTRUCTED);
+
+                BBOX_ASSERT(service_ref.m_local_level == RunLevel::CONSTRUCTED);
+                BBOX_ASSERT(service_ref.m_overall_level == RunLevel::CONSTRUCTED);
+                BBOX_ASSERT(!service_ref.m_implementing_service);
+
+                auto insert_result_1 = m_dependant_on_their_ref.insert(&service_ref);
+                auto insert_result_2 = service_ref.m_dependant_on_our_service.insert(this);
+
+                BBOX_ASSERT(insert_result_1.second);
+                BBOX_ASSERT(insert_result_2.second);
+            }
+
             void ResourceBase::PostUpdateWork()
             {
                 if (!m_work_requested)
@@ -515,7 +531,7 @@ namespace bbox {
                             || (&level == &m_local_level));
 
                 // TODO - conditional enable
-                if ((this == &m_proactor) && (&level == &m_overall_level))
+                //if ((this == &m_proactor) && (&level == &m_overall_level))
                 {
                     bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Activity);
                     out << m_full_path

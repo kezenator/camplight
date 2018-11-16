@@ -29,17 +29,22 @@ namespace bbox {
             OneShotWork(const std::string &name, Service &parent, boost::function<void()> &&callback);
             ~OneShotWork();
 
-            bool IScheduled() const { return m_pending; }
+            bool IScheduled() const { return m_pending_token != 0; }
 
             void Schedule();
+            void Cancel();
 
         private:
             void HandleStopping() override;
 			void PrintState(bbox::DebugOutput &out) const override;
 
+            void CheckShutdown();
+
             void DoCallback();
 
-            bool m_pending;
+            size_t m_next_token;
+            size_t m_pending_token;
+            size_t m_last_resolved_token;
             boost::function<void()> m_callback;
         };
 

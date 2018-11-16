@@ -26,7 +26,6 @@ namespace bbox {
         {
         public:
             ThreadPoolRef(const std::string &name, Service &parent);
-            ThreadPoolRef(const std::string &name, Resource &parent);
             ~ThreadPoolRef();
 
             void RunOnThread(boost::function<void()> function,
@@ -38,6 +37,7 @@ namespace bbox {
             class Operation;
             class Functor;
 
+            void HandleStarting() override;
             void HandleStopping() override;
 			void PrintState(bbox::DebugOutput &out) const override;
 
