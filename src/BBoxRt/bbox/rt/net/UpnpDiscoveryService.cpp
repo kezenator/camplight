@@ -163,7 +163,7 @@ void UpnpDiscoveryService::OnCheckNetwork()
         }
     }
 
-    bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Testing);
+    bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Never);
     if (out)
         out.Format("UpnpDiscoveryService::OnCheckNetwork\n");
 

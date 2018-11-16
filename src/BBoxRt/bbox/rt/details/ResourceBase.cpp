@@ -531,7 +531,7 @@ namespace bbox {
                             || (&level == &m_local_level));
 
                 // TODO - conditional enable
-                //if ((this == &m_proactor) && (&level == &m_overall_level))
+                if ((this == &m_proactor) && (&level == &m_overall_level))
                 {
                     bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Activity);
                     out << m_full_path
