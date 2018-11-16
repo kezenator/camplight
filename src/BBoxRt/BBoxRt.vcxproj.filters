@@ -10,6 +10,9 @@
     <Filter Include="bbox\rt\details">
       <UniqueIdentifier>{2E483E2D-AB4A-55BE-B0B7-2CF1F70EB7B9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="bbox\rt\lin">
+      <UniqueIdentifier>{105D0E93-25E2-5477-98B9-1DE9E7B3AA71}</UniqueIdentifier>
+    </Filter>
     <Filter Include="bbox\rt\net">
       <UniqueIdentifier>{DB270935-E6D1-5F60-85C8-ACA4680FC5AA}</UniqueIdentifier>
     </Filter>
@@ -62,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="bbox\rt\details\ResourceBase.cpp">
       <Filter>bbox\rt\details</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\lin\LinuxNetworkChangeService.cpp">
+      <Filter>bbox\rt\lin</Filter>
     </ClCompile>
     <ClCompile Include="bbox\rt\net\AdapterInfo.cpp">
       <Filter>bbox\rt\net</Filter>
@@ -142,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="bbox\rt\details\ResourceBase.h">
       <Filter>bbox\rt\details</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\lin\LinuxNetworkChangeService.h">
+      <Filter>bbox\rt\lin</Filter>
     </ClInclude>
     <ClInclude Include="bbox\rt\net\AdapterInfo.h">
       <Filter>bbox\rt\net</Filter>

@@ -299,6 +299,7 @@ SRCS_DIRECT_BBoxRt := $(sort \
         BBoxRt/bbox/rt/WallClock.cpp \
         BBoxRt/bbox/rt/details/GenericServiceReference.cpp \
         BBoxRt/bbox/rt/details/ResourceBase.cpp \
+        BBoxRt/bbox/rt/lin/LinuxNetworkChangeService.cpp \
         BBoxRt/bbox/rt/net/AdapterInfo.cpp \
         BBoxRt/bbox/rt/net/IpAddress.cpp \
         BBoxRt/bbox/rt/net/NetworkChangeHandler.cpp \

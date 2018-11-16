@@ -21,7 +21,12 @@ namespace win32 {
 // Forward declaration
 class Win32NetworkChangeService;
 } // namespace bbox::rt::win32
-#endif // WIN32
+#else // not WIN32
+namespace lin {
+// Forward declaration
+class LinuxNetworkChangeService;
+} // namespace bbox::rt::win32
+#endif // not WIN32
 
 namespace net {
 
@@ -41,7 +46,9 @@ public:
 
 #ifdef WIN32
 	using Impl = win32::Win32NetworkChangeService;
-#endif // WIN32
+#else // not WIN32
+	using Impl = lin::LinuxNetworkChangeService;
+#endif // not WIN32
 
 	const std::map<std::string, net::AdapterInfo> &GetCurrentAdapterInfo() const
 	{
@@ -67,6 +74,8 @@ private:
 
 #ifdef WIN32
 #include <bbox/rt/win32/Win32NetworkChangeService.h>
-#endif // WIN32
+#else // not WIN32
+#include <bbox/rt/lin/LinuxNetworkChangeService.h>
+#endif // not WIN32
 
 #endif // __BBOX__RT__NET__NETWORK_CHANGE_SERVICE_H__

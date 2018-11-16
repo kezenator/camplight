@@ -11,6 +11,7 @@
 #include <bbox/rt/net/NetworkChangeHandler.h>
 #include <bbox/rt/OneShotWork.h>
 #include <bbox/rt/net/UdpEndpoint.h>
+#include <bbox/Error.h>
 
 namespace bbox {
 namespace rt {

@@ -99,6 +99,7 @@
     <ClCompile Include="bbox\rt\WallClock.cpp" />
     <ClCompile Include="bbox\rt\details\GenericServiceReference.cpp" />
     <ClCompile Include="bbox\rt\details\ResourceBase.cpp" />
+    <ClCompile Include="bbox\rt\lin\LinuxNetworkChangeService.cpp" />
     <ClCompile Include="bbox\rt\net\AdapterInfo.cpp" />
     <ClCompile Include="bbox\rt\net\IpAddress.cpp" />
     <ClCompile Include="bbox\rt\net\NetworkChangeHandler.cpp" />
@@ -127,6 +128,7 @@
     <ClInclude Include="bbox\rt\WallClock.h" />
     <ClInclude Include="bbox\rt\details\GenericServiceReference.h" />
     <ClInclude Include="bbox\rt\details\ResourceBase.h" />
+    <ClInclude Include="bbox\rt\lin\LinuxNetworkChangeService.h" />
     <ClInclude Include="bbox\rt\net\AdapterInfo.h" />
     <ClInclude Include="bbox\rt\net\IpAddress.h" />
     <ClInclude Include="bbox\rt\net\NetworkChangeHandler.h" />
