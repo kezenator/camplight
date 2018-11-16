@@ -5,21 +5,19 @@
 */
 
 #ifdef WIN32
+
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <IPHlpApi.h>
 #include <Mstcpip.h>
 #pragma comment(lib, "iphlpapi.lib")
 #pragma comment(lib, "Ntdll.lib")
-#endif
 
 #include <bbox/rt/win32/IpHelperAccess.h>
 
 #include <bbox/Assert.h>
 #include <bbox/TextCoding.h>
 #include <bbox/Format.h>
-
-#ifdef WIN32
 
 namespace {
 
@@ -267,32 +265,4 @@ namespace bbox {
     } // namespace bbox::rt
 } // namespace bbox
 
-#else // not WIN32
-
-namespace bbox {
-    namespace rt {
-        namespace win32 {
-
-            bbox::Error  IpHelperAccess::RegisterChangeNotifier(void *&notifier, void(*handler)(void *context), void *context)
-            {
-                // TODO
-                std::cerr << "TODO: Network change notification not implemented yet!" << std::endl;
-                return bbox::Error();
-            }
-
-            bbox::Error IpHelperAccess::DestroyChangeNotifier(void *&notifier)
-            {
-                // TODO
-                return bbox::Error();
-            }
-
-            bbox::Error IpHelperAccess::QueryAdapters(std::map<std::string, net::AdapterInfo> &results)
-            {
-                return bbox::Error();
-            }
-
-        } // namespace bbox::rt::win32
-    } // namespace bbox::rt
-} // namespace bbox
-
-#endif // not WIN32
+#endif // WIN32

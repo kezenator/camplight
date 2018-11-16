@@ -4,6 +4,8 @@
 * Implementation for the bbox::rt::1inux::LinuxNetworkChangeService class.
 */
 
+#ifndef WIN32
+
 #include <bbox/rt/lin/LinuxNetworkChangeService.h>
 #include <bbox/Assert.h>
 #include <bbox/ScopedDebugIndent.h>
@@ -196,3 +198,5 @@ namespace bbox {
         } // namespace bbox::rt::lin
     } // namespace bbox::rt
 } // namespace bbox
+
+#endif // not WIN32

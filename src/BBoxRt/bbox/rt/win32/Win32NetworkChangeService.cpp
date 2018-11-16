@@ -4,6 +4,8 @@
 * Implementation for the bbox::rt::win32::Win32NetworkChangeService class.
 */
 
+#ifdef WIN32
+
 #include <bbox/rt/win32/Win32NetworkChangeService.h>
 #include <bbox/rt/win32/IpHelperAccess.h>
 #include <bbox/Assert.h>
@@ -208,3 +210,5 @@ namespace bbox {
         } // namespace bbox::rt::win32
     } // namespace bbox::rt
 } // namespace bbox
+
+#endif // WIN32
