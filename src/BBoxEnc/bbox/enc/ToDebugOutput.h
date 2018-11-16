@@ -24,7 +24,7 @@ namespace bbox
         {
             if (out)
             {
-                out << ToXml::ConvertToPretty("value", value);
+                out.ostream() << ToXml::ConvertToPretty("value", value);
             }
         }
 

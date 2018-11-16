@@ -9,6 +9,7 @@
 #include <bbox/rt/lin/LinuxNetworkChangeService.h>
 #include <bbox/Assert.h>
 #include <bbox/ScopedDebugIndent.h>
+#include <bbox/enc/ToDebugOutput.h>
 
 #include <sys/types.h>
 #include <ifaddrs.h>
@@ -76,19 +77,7 @@ namespace bbox {
                 out.Format("Current adapters: %d\n", GetCurrentAdapterInfo().size());
 
                 ScopedDebugIndent indent(out, 4);
-
-                for (const auto &entry : GetCurrentAdapterInfo())
-                {
-                    out.Format("\n");
-                    out.Format("Name: %s\n", entry.first);
-                    out.Format("System Name: %s\n", entry.second.system_name);
-                    out.Format("User Name: %s\n", entry.second.user_name);
-                    out.Format("Description: %s\n", entry.second.description);
-                    out.Format("MAC Address: %s\n", entry.second.mac_address);
-
-                    for (const std::string &addr : entry.second.ip_addresses)
-                        out.Format("IP Address: %s\n", addr);
-                }
+                bbox::enc::ToDebugOutput(out, GetCurrentAdapterInfo());
             }
 
             void LinuxNetworkChangeService::HandleDetectionTimerExpired()
@@ -137,7 +126,14 @@ namespace bbox {
 
                             if (ifa->ifa_addr->sa_family==AF_INET)
                             {
-                                m_detecting_adapters[name].ip_addresses.insert(inet_ntoa(reinterpret_cast<struct sockaddr_in *>(ifa->ifa_addr)->sin_addr));
+                                net::AdapterAddressInfo addr_info;
+
+                                addr_info.address =
+                                    boost::asio::ip::address(boost::asio::ip::address_v4(
+                                        ntohl(reinterpret_cast<struct sockaddr_in *>(ifa->ifa_addr)->sin_addr.s_addr)));
+//                                addr_info.broadcast = inet_ntoa(reinterpret_cast<struct sockaddr_in *>(ifa->ifa_broadaddr)->sin_addr);
+
+                                m_detecting_adapters[name].ip_addresses.push_back(addr_info);
                             }
                             else if ((ifa->ifa_addr->sa_family==AF_PACKET)
                                 && (reinterpret_cast<struct sockaddr_ll *>(ifa->ifa_addr)->sll_halen == 6))
@@ -167,23 +163,15 @@ namespace bbox {
                     // We've got new settings - save them, and either
                     // mark us as started or post a change notification
 
+                    bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Activity);
+                    if (out)
                     {
-                        std::cout << "Network Adapters - "
-                            << ((GetLocalRunLevel() == RunLevel::STARTING) ? "Initial State" : "Updated")
-                            << std::endl;
+                        out << "Network Adapters - "
+                             << ((GetLocalRunLevel() == RunLevel::STARTING) ? "Initial State" : "Updated")
+                             << std::endl;
 
-                        for (const auto &entry : m_detecting_adapters)
-                        {
-                            const net::AdapterInfo &adapter = entry.second;
-
-                            std::cout << "   Adapter " << adapter.system_name << std::endl;
-                            std::cout << "      User Name    : " << adapter.user_name << std::endl;
-                            std::cout << "      Description  : " << adapter.description << std::endl;
-                            std::cout << "      MAC Address  : " << adapter.mac_address << std::endl;
-
-                            for (const std::string &address: adapter.ip_addresses)
-                                std::cout << "      IP Address   : " << address << std::endl;
-                        }
+                        ScopedDebugIndent indent(out, 4);
+                        bbox::enc::ToDebugOutput(out, m_detecting_adapters);
                     }
 
                     ReportChange(std::move(m_detecting_adapters));
