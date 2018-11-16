@@ -131,7 +131,9 @@ namespace bbox {
                                 addr_info.address =
                                     boost::asio::ip::address(boost::asio::ip::address_v4(
                                         ntohl(reinterpret_cast<struct sockaddr_in *>(ifa->ifa_addr)->sin_addr.s_addr)));
-//                                addr_info.broadcast = inet_ntoa(reinterpret_cast<struct sockaddr_in *>(ifa->ifa_broadaddr)->sin_addr);
+                                addr_info.broadcast =
+                                    boost::asio::ip::address(boost::asio::ip::address_v4(
+                                        ntohl(reinterpret_cast<struct sockaddr_in *>(ifa->ifa_broadaddr)->sin_addr.s_addr)));
 
                                 m_detecting_adapters[name].ip_addresses.push_back(addr_info);
                             }
