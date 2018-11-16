@@ -39,6 +39,22 @@ public:
     void ToTextFormat(bbox::enc::ToTextFormat &m) const;
     void FromTextFormat(bbox::enc::FromTextFormat &m);
 
+    bool operator ==(const QueryResponseEntry &other) const
+    {
+        return (path == other.path)
+            && (parent_path == other.parent_path)
+            && (children == other.children)
+            && (report == other.report);
+    }
+
+    bool operator !=(const QueryResponseEntry &other) const
+    {
+        return (path != other.path)
+            || (parent_path != other.parent_path)
+            || (children != other.children)
+            || (report != other.report);
+    }
+
     std::string path;
     std::string parent_path;
     std::vector<QueryResponseChild> children;

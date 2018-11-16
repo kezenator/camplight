@@ -34,6 +34,22 @@ public:
     void ToTextFormat(bbox::enc::ToTextFormat &m) const;
     void FromTextFormat(bbox::enc::FromTextFormat &m);
 
+    bool operator ==(const ButtonColors &other) const
+    {
+        return (back_color == other.back_color)
+            && (play_color == other.play_color)
+            && (wash_color == other.wash_color)
+            && (button_colors == other.button_colors);
+    }
+
+    bool operator !=(const ButtonColors &other) const
+    {
+        return (back_color != other.back_color)
+            || (play_color != other.play_color)
+            || (wash_color != other.wash_color)
+            || (button_colors != other.button_colors);
+    }
+
     std::string back_color;
     std::string play_color;
     std::string wash_color;

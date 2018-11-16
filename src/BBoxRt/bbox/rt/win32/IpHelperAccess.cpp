@@ -6,14 +6,14 @@
 
 #ifdef WIN32
 
+#include <bbox/rt/win32/IpHelperAccess.h>
+
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <IPHlpApi.h>
 #include <Mstcpip.h>
 #pragma comment(lib, "iphlpapi.lib")
 #pragma comment(lib, "Ntdll.lib")
-
-#include <bbox/rt/win32/IpHelperAccess.h>
 
 #include <bbox/Assert.h>
 #include <bbox/TextCoding.h>
@@ -188,55 +188,25 @@ namespace bbox {
                                             BBOX_ASSERT(address->Address.iSockaddrLength >= sizeof(sockaddr_in));
                                             sockaddr_in *addr = reinterpret_cast<sockaddr_in *>(address->Address.lpSockaddr);
 
-                                            WCHAR str_buf[INET_ADDRSTRLEN];
-                                            ULONG str_len = INET_ADDRSTRLEN;
+                                            net::AdapterAddressInfo addr_info;
 
-                                            win32_result = RtlIpv4AddressToStringEx(
-                                                &addr->sin_addr,
-                                                0,
-                                                str_buf,
-                                                &str_len);
-                                            if (win32_result != NO_ERROR)
-                                            {
-                                                error = Error::Win32_GetLastError();
-                                                break;
-                                            }
+                                            addr_info.address = boost::asio::ip::address(
+                                                boost::asio::ip::address_v4(
+                                                    ntohl(addr->sin_addr.S_un.S_addr)));
 
-                                            std::string str;
+                                            ULONG net_mask;
+                                            ConvertLengthToIpv4Mask(address->OnLinkPrefixLength, &net_mask);
 
-                                            error = TextCoding::Win32_UTF16_to_UTF8(std::wstring(str_buf, str_len), str);
-                                            if (error)
-                                                break;
+                                            addr_info.broadcast = boost::asio::ip::address(
+                                                boost::asio::ip::address_v4(
+                                                    ntohl(addr->sin_addr.S_un.S_addr & net_mask)
+                                                    | ntohl(0xFFFFFFFF & ~net_mask)));
 
-                                            info.ip_addresses.insert(str);
+                                            info.ip_addresses.push_back(addr_info);
                                         }
                                         else if (address->Address.lpSockaddr->sa_family == AF_INET6)
                                         {
-                                            BBOX_ASSERT(address->Address.iSockaddrLength >= sizeof(sockaddr_in6));
-                                            sockaddr_in6 *addr = reinterpret_cast<sockaddr_in6 *>(address->Address.lpSockaddr);
-
-                                            WCHAR str_buf[INET6_ADDRSTRLEN];
-                                            ULONG str_len = INET6_ADDRSTRLEN;
-
-                                            win32_result = RtlIpv6AddressToStringEx(
-                                                &addr->sin6_addr,
-                                                addr->sin6_scope_id,
-                                                0,
-                                                str_buf,
-                                                &str_len);
-                                            if (win32_result != NO_ERROR)
-                                            {
-                                                error = Error::Win32_GetLastError();
-                                                break;
-                                            }
-
-                                            std::string str;
-
-                                            error = TextCoding::Win32_UTF16_to_UTF8(std::wstring(str_buf, str_len), str);
-                                            if (error)
-                                                break;
-
-                                            info.ip_addresses.insert(str);
+                                            // TODO - add IPv6 support
                                         }
                                     }
                                 }

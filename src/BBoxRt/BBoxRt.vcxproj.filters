@@ -72,6 +72,9 @@
     <ClCompile Include="bbox\rt\lin\LinuxNetworkChangeService.cpp">
       <Filter>bbox\rt\lin</Filter>
     </ClCompile>
+    <ClCompile Include="bbox\rt\net\AdapterAddressInfo.cpp">
+      <Filter>bbox\rt\net</Filter>
+    </ClCompile>
     <ClCompile Include="bbox\rt\net\AdapterInfo.cpp">
       <Filter>bbox\rt\net</Filter>
     </ClCompile>
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="bbox\rt\lin\LinuxNetworkChangeService.h">
       <Filter>bbox\rt\lin</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\net\AdapterAddressInfo.h">
+      <Filter>bbox\rt\net</Filter>
     </ClInclude>
     <ClInclude Include="bbox\rt\net\AdapterInfo.h">
       <Filter>bbox\rt\net</Filter>

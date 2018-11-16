@@ -36,6 +36,18 @@ public:
     void ToTextFormat(bbox::enc::ToTextFormat &m) const;
     void FromTextFormat(bbox::enc::FromTextFormat &m);
 
+    bool operator ==(const QueryRequest &other) const
+    {
+        return (request_id == other.request_id)
+            && (query == other.query);
+    }
+
+    bool operator !=(const QueryRequest &other) const
+    {
+        return (request_id != other.request_id)
+            || (query != other.query);
+    }
+
     std::string request_id;
     std::string query;
 

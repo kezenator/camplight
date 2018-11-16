@@ -34,6 +34,16 @@ public:
     void ToTextFormat(bbox::enc::ToTextFormat &m) const;
     void FromTextFormat(bbox::enc::FromTextFormat &m);
 
+    bool operator ==(const RetransmitRequired &other) const
+    {
+        return true;
+    }
+
+    bool operator !=(const RetransmitRequired &other) const
+    {
+        return false;
+    }
+
     static bbox::enc::MsgTypeLibrary::Registration<RetransmitRequired> g_msg_registration;
 };
 

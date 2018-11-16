@@ -93,6 +93,7 @@
     <ClCompile Include="bbox\enc\compiler\Application.cpp" />
     <ClCompile Include="bbox\enc\compiler\Compiler.cpp" />
     <ClCompile Include="bbox\enc\compiler\Enum.cpp" />
+    <ClCompile Include="bbox\enc\compiler\Extern.cpp" />
     <ClCompile Include="bbox\enc\compiler\Namespace.cpp" />
     <ClCompile Include="bbox\enc\compiler\Parser.cpp" />
     <ClCompile Include="bbox\enc\compiler\Struct.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="bbox\enc\compiler\Compiler.h" />
     <ClInclude Include="bbox\enc\compiler\Enum.h" />
     <ClInclude Include="bbox\enc\compiler\ErrorList.h" />
+    <ClInclude Include="bbox\enc\compiler\Extern.h" />
     <ClInclude Include="bbox\enc\compiler\File.h" />
     <ClInclude Include="bbox\enc\compiler\Namespace.h" />
     <ClInclude Include="bbox\enc\compiler\Parser.h" />

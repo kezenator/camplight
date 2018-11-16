@@ -34,6 +34,20 @@ public:
     void ToTextFormat(bbox::enc::ToTextFormat &m) const;
     void FromTextFormat(bbox::enc::FromTextFormat &m);
 
+    bool operator ==(const ButtonStates &other) const
+    {
+        return (back_state == other.back_state)
+            && (play_state == other.play_state)
+            && (button_states == other.button_states);
+    }
+
+    bool operator !=(const ButtonStates &other) const
+    {
+        return (back_state != other.back_state)
+            || (play_state != other.play_state)
+            || (button_states != other.button_states);
+    }
+
     bool back_state;
     bool play_state;
     std::vector<bool> button_states;

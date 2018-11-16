@@ -95,6 +95,9 @@
     <ClInclude Include="bbox\enc\ToBinary.h">
       <Filter>bbox\enc</Filter>
     </ClInclude>
+    <ClInclude Include="bbox\enc\ToDebugOutput.h">
+      <Filter>bbox\enc</Filter>
+    </ClInclude>
     <ClInclude Include="bbox\enc\ToDebugString.h">
       <Filter>bbox\enc</Filter>
     </ClInclude>

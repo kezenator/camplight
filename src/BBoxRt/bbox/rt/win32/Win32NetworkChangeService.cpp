@@ -10,6 +10,7 @@
 #include <bbox/rt/win32/IpHelperAccess.h>
 #include <bbox/Assert.h>
 #include <bbox/ScopedDebugIndent.h>
+#include <bbox/enc/ToDebugOutput.h>
 
 #include <boost/bind.hpp>
 
@@ -90,19 +91,7 @@ namespace bbox {
 				out.Format("Current adapters: %d\n", GetCurrentAdapterInfo().size());
 
 				ScopedDebugIndent indent(out, 4);
-
-				for (const auto &entry : GetCurrentAdapterInfo())
-				{
-					out.Format("\n");
-					out.Format("Name: %s\n", entry.first);
-					out.Format("System Name: %s\n", entry.second.system_name);
-					out.Format("User Name: %s\n", entry.second.user_name);
-					out.Format("Description: %s\n", entry.second.description);
-					out.Format("MAC Address: %s\n", entry.second.mac_address);
-
-					for (const std::string &addr : entry.second.ip_addresses)
-						out.Format("IP Address: %s\n", addr);
-				}
+                bbox::enc::ToDebugOutput(out, GetCurrentAdapterInfo());
 			}
 
             void Win32NetworkChangeService::TriggerUpdate()
@@ -171,23 +160,15 @@ namespace bbox {
                         // We've got new settings - save them, and either
                         // mark us as started or post a change notification
 
+                        bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Activity);
+                        if (out)
                         {
-                            std::cout << "Network Adapters - "
+                            out << "Network Adapters - "
                                 << ((GetLocalRunLevel() == RunLevel::STARTING) ? "Initial State" : "Updated")
                                 << std::endl;
 
-                            for (const auto &entry : m_detecting_adapters)
-                            {
-                                const net::AdapterInfo &adapter = entry.second;
-
-                                std::cout << "   Adapter " << adapter.system_name << std::endl;
-                                std::cout << "      User Name    : " << adapter.user_name << std::endl;
-                                std::cout << "      Description  : " << adapter.description << std::endl;
-                                std::cout << "      MAC Address  : " << adapter.mac_address << std::endl;
-
-                                for (const std::string &address: adapter.ip_addresses)
-                                    std::cout << "      IP Address   : " << address << std::endl;
-                            }
+                            ScopedDebugIndent indent(out, 4);
+                            bbox::enc::ToDebugOutput(out, m_detecting_adapters);
                         }
 
 						ReportChange(std::move(m_detecting_adapters));

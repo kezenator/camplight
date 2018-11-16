@@ -279,59 +279,6 @@ LIBS_RECURSIVE_PiLightTest := \
 
 APPS += PiLightTest
 
-# Project BBoxRt (type StaticLibrary)
-
-MODULES += BBoxRt
-
-SRCS_DIRECT_BBoxRt := $(sort \
-        BBoxRt/bbox/rt/ConsoleShutdownService.cpp \
-        BBoxRt/bbox/rt/DebugEnable.cpp \
-        BBoxRt/bbox/rt/OneShotWork.cpp \
-        BBoxRt/bbox/rt/Proactor.cpp \
-        BBoxRt/bbox/rt/Resource.cpp \
-        BBoxRt/bbox/rt/RunLevel.cpp \
-        BBoxRt/bbox/rt/Service.cpp \
-        BBoxRt/bbox/rt/ServiceFolder.cpp \
-        BBoxRt/bbox/rt/ThreadPool.cpp \
-        BBoxRt/bbox/rt/ThreadPoolRef.cpp \
-        BBoxRt/bbox/rt/TimeSpan.cpp \
-        BBoxRt/bbox/rt/Timer.cpp \
-        BBoxRt/bbox/rt/WallClock.cpp \
-        BBoxRt/bbox/rt/details/GenericServiceReference.cpp \
-        BBoxRt/bbox/rt/details/ResourceBase.cpp \
-        BBoxRt/bbox/rt/lin/LinuxNetworkChangeService.cpp \
-        BBoxRt/bbox/rt/net/AdapterInfo.cpp \
-        BBoxRt/bbox/rt/net/IpAddress.cpp \
-        BBoxRt/bbox/rt/net/NetworkChangeHandler.cpp \
-        BBoxRt/bbox/rt/net/NetworkChangeService.cpp \
-        BBoxRt/bbox/rt/net/TcpEndpoint.cpp \
-        BBoxRt/bbox/rt/net/UdpEndpoint.cpp \
-        BBoxRt/bbox/rt/net/UdpSocket.cpp \
-        BBoxRt/bbox/rt/net/ssdp/SsdpDiscoveryService.cpp \
-        BBoxRt/bbox/rt/win32/IpHelperAccess.cpp \
-        BBoxRt/bbox/rt/win32/Win32NetworkChangeService.cpp \
-    )
-    # End SRCS_DIRECT_BBoxRt
-
-SRCS_RECURSIVE_BBoxRt := $(sort \
-        $(SRCS_DIRECT_BBoxRt) \
-        $(SRCS_RECURSIVE_BBoxUtils) \
-        $(SRCS_RECURSIVE_boost) \
-    )
-    # End SRCS_RECURSIVE_BBoxRt
-
-INCS_DIRECT_BBoxRt := $(sort \
-        BBoxRt/. \
-    )
-    # End INCS_DIRECT_BBoxRt
-
-INCS_RECURSIVE_BBoxRt := $(sort \
-        $(INCS_DIRECT_BBoxRt) \
-        $(INCS_RECURSIVE_BBoxUtils) \
-        $(INCS_RECURSIVE_boost) \
-    )
-    # End INCS_RECURSIVE_BBoxRt
-
 # Project LuaCpp (type StaticLibrary)
 
 MODULES += LuaCpp
@@ -500,82 +447,6 @@ INCS_RECURSIVE_BBoxEnc := $(sort \
     )
     # End INCS_RECURSIVE_BBoxEnc
 
-# Project BBoxHttp (type StaticLibrary)
-
-MODULES += BBoxHttp
-
-SRCS_DIRECT_BBoxHttp := $(sort \
-        BBoxHttp/bbox/http/Request.cpp \
-        BBoxHttp/bbox/http/ResourceFile.cpp \
-        BBoxHttp/bbox/http/ResourceFileSet.cpp \
-        BBoxHttp/bbox/http/Response.cpp \
-        BBoxHttp/bbox/http/client/ClientRequest.cpp \
-        BBoxHttp/bbox/http/client/ClientResponse.cpp \
-        BBoxHttp/bbox/http/client/HttpClient.cpp \
-        BBoxHttp/bbox/http/client/WebSocketClient.cpp \
-        BBoxHttp/bbox/http/server/HttpServer.cpp \
-        BBoxHttp/bbox/http/server/RequestHandler.cpp \
-        BBoxHttp/bbox/http/server/ServerWebSocket.cpp \
-        BBoxHttp/bbox/http/server/details/Connection.cpp \
-        BBoxHttp/bbox/http/server/details/WebSocketConnection.cpp \
-    )
-    # End SRCS_DIRECT_BBoxHttp
-
-SRCS_RECURSIVE_BBoxHttp := $(sort \
-        $(SRCS_DIRECT_BBoxHttp) \
-        $(SRCS_RECURSIVE_BBoxRt) \
-    )
-    # End SRCS_RECURSIVE_BBoxHttp
-
-INCS_DIRECT_BBoxHttp := $(sort \
-        BBoxHttp/. \
-    )
-    # End INCS_DIRECT_BBoxHttp
-
-INCS_RECURSIVE_BBoxHttp := $(sort \
-        $(INCS_DIRECT_BBoxHttp) \
-        $(INCS_RECURSIVE_BBoxRt) \
-    )
-    # End INCS_RECURSIVE_BBoxHttp
-
-# Project BBoxRt_UnitTests (type UnitTests)
-
-MODULES += BBoxRt_UnitTests
-
-SRCS_DIRECT_BBoxRt_UnitTests := $(sort \
-        BBoxRt_UnitTests/BBoxRtNetAddressesAndEndpoints.cpp \
-        BBoxRt_UnitTests/BboxRtTimer.cpp \
-    )
-    # End SRCS_DIRECT_BBoxRt_UnitTests
-
-SRCS_RECURSIVE_BBoxRt_UnitTests := $(sort \
-        $(SRCS_DIRECT_BBoxRt_UnitTests) \
-        $(SRCS_RECURSIVE_BBoxRt) \
-        $(SRCS_RECURSIVE_UnitTest) \
-    )
-    # End SRCS_RECURSIVE_BBoxRt_UnitTests
-
-INCS_DIRECT_BBoxRt_UnitTests := $(sort \
-        BBoxRt_UnitTests/. \
-    )
-    # End INCS_DIRECT_BBoxRt_UnitTests
-
-INCS_RECURSIVE_BBoxRt_UnitTests := $(sort \
-        $(INCS_DIRECT_BBoxRt_UnitTests) \
-        $(INCS_RECURSIVE_BBoxRt) \
-        $(INCS_RECURSIVE_UnitTest) \
-    )
-    # End INCS_RECURSIVE_BBoxRt_UnitTests
-
-LIBS_RECURSIVE_BBoxRt_UnitTests := \
-        uuid \
-        rt \
-        pthread \
-        crypto \
-    # End LIBS_RECURSIVE_BBoxRt_UnitTests
-
-TESTS += BBoxRt_UnitTests
-
 # Project BBoxUtils_UnitTests (type UnitTests)
 
 MODULES += BBoxUtils_UnitTests
@@ -697,6 +568,201 @@ LIBS_RECURSIVE_BBoxEnc_UnitTests := \
 
 TESTS += BBoxEnc_UnitTests
 
+# Project BBoxRt (type StaticLibrary)
+
+MODULES += BBoxRt
+
+SRCS_DIRECT_BBoxRt := $(sort \
+        BBoxRt/bbox/rt/ConsoleShutdownService.cpp \
+        BBoxRt/bbox/rt/DebugEnable.cpp \
+        BBoxRt/bbox/rt/OneShotWork.cpp \
+        BBoxRt/bbox/rt/Proactor.cpp \
+        BBoxRt/bbox/rt/Resource.cpp \
+        BBoxRt/bbox/rt/RunLevel.cpp \
+        BBoxRt/bbox/rt/Service.cpp \
+        BBoxRt/bbox/rt/ServiceFolder.cpp \
+        BBoxRt/bbox/rt/ThreadPool.cpp \
+        BBoxRt/bbox/rt/ThreadPoolRef.cpp \
+        BBoxRt/bbox/rt/TimeSpan.cpp \
+        BBoxRt/bbox/rt/Timer.cpp \
+        BBoxRt/bbox/rt/WallClock.cpp \
+        BBoxRt/bbox/rt/details/GenericServiceReference.cpp \
+        BBoxRt/bbox/rt/details/ResourceBase.cpp \
+        BBoxRt/bbox/rt/lin/LinuxNetworkChangeService.cpp \
+        BBoxRt/bbox/rt/net/AdapterAddressInfo.cpp \
+        BBoxRt/bbox/rt/net/AdapterInfo.cpp \
+        BBoxRt/bbox/rt/net/IpAddress.cpp \
+        BBoxRt/bbox/rt/net/NetworkChangeHandler.cpp \
+        BBoxRt/bbox/rt/net/NetworkChangeService.cpp \
+        BBoxRt/bbox/rt/net/TcpEndpoint.cpp \
+        BBoxRt/bbox/rt/net/UdpEndpoint.cpp \
+        BBoxRt/bbox/rt/net/UdpSocket.cpp \
+        BBoxRt/bbox/rt/net/ssdp/SsdpDiscoveryService.cpp \
+        BBoxRt/bbox/rt/win32/IpHelperAccess.cpp \
+        BBoxRt/bbox/rt/win32/Win32NetworkChangeService.cpp \
+    )
+    # End SRCS_DIRECT_BBoxRt
+
+SRCS_RECURSIVE_BBoxRt := $(sort \
+        $(SRCS_DIRECT_BBoxRt) \
+        $(SRCS_RECURSIVE_BBoxEnc) \
+        $(SRCS_RECURSIVE_BBoxUtils) \
+        $(SRCS_RECURSIVE_boost) \
+    )
+    # End SRCS_RECURSIVE_BBoxRt
+
+INCS_DIRECT_BBoxRt := $(sort \
+        BBoxRt/. \
+    )
+    # End INCS_DIRECT_BBoxRt
+
+INCS_RECURSIVE_BBoxRt := $(sort \
+        $(INCS_DIRECT_BBoxRt) \
+        $(INCS_RECURSIVE_BBoxEnc) \
+        $(INCS_RECURSIVE_BBoxUtils) \
+        $(INCS_RECURSIVE_boost) \
+    )
+    # End INCS_RECURSIVE_BBoxRt
+
+# Project MiamiNightsMsgs (type StaticLibrary)
+
+MODULES += MiamiNightsMsgs
+
+SRCS_DIRECT_MiamiNightsMsgs := $(sort \
+        Applications/MiamiNightsMsgs/mn/msgs/ButtonColors.cpp \
+        Applications/MiamiNightsMsgs/mn/msgs/ButtonStates.cpp \
+        Applications/MiamiNightsMsgs/mn/msgs/EmulatorCompleted.cpp \
+        Applications/MiamiNightsMsgs/mn/msgs/RetransmitRequired.cpp \
+        Applications/MiamiNightsMsgs/mn/msgs/StartEmulator.cpp \
+    )
+    # End SRCS_DIRECT_MiamiNightsMsgs
+
+SRCS_RECURSIVE_MiamiNightsMsgs := $(sort \
+        $(SRCS_DIRECT_MiamiNightsMsgs) \
+        $(SRCS_RECURSIVE_BBoxEnc) \
+    )
+    # End SRCS_RECURSIVE_MiamiNightsMsgs
+
+INCS_DIRECT_MiamiNightsMsgs := $(sort \
+        Applications/MiamiNightsMsgs/. \
+    )
+    # End INCS_DIRECT_MiamiNightsMsgs
+
+INCS_RECURSIVE_MiamiNightsMsgs := $(sort \
+        $(INCS_DIRECT_MiamiNightsMsgs) \
+        $(INCS_RECURSIVE_BBoxEnc) \
+    )
+    # End INCS_RECURSIVE_MiamiNightsMsgs
+
+# Project BBoxHttp (type StaticLibrary)
+
+MODULES += BBoxHttp
+
+SRCS_DIRECT_BBoxHttp := $(sort \
+        BBoxHttp/bbox/http/Request.cpp \
+        BBoxHttp/bbox/http/ResourceFile.cpp \
+        BBoxHttp/bbox/http/ResourceFileSet.cpp \
+        BBoxHttp/bbox/http/Response.cpp \
+        BBoxHttp/bbox/http/client/ClientRequest.cpp \
+        BBoxHttp/bbox/http/client/ClientResponse.cpp \
+        BBoxHttp/bbox/http/client/HttpClient.cpp \
+        BBoxHttp/bbox/http/client/WebSocketClient.cpp \
+        BBoxHttp/bbox/http/server/HttpServer.cpp \
+        BBoxHttp/bbox/http/server/RequestHandler.cpp \
+        BBoxHttp/bbox/http/server/ServerWebSocket.cpp \
+        BBoxHttp/bbox/http/server/details/Connection.cpp \
+        BBoxHttp/bbox/http/server/details/WebSocketConnection.cpp \
+    )
+    # End SRCS_DIRECT_BBoxHttp
+
+SRCS_RECURSIVE_BBoxHttp := $(sort \
+        $(SRCS_DIRECT_BBoxHttp) \
+        $(SRCS_RECURSIVE_BBoxRt) \
+    )
+    # End SRCS_RECURSIVE_BBoxHttp
+
+INCS_DIRECT_BBoxHttp := $(sort \
+        BBoxHttp/. \
+    )
+    # End INCS_DIRECT_BBoxHttp
+
+INCS_RECURSIVE_BBoxHttp := $(sort \
+        $(INCS_DIRECT_BBoxHttp) \
+        $(INCS_RECURSIVE_BBoxRt) \
+    )
+    # End INCS_RECURSIVE_BBoxHttp
+
+# Project BBoxRt_UnitTests (type UnitTests)
+
+MODULES += BBoxRt_UnitTests
+
+SRCS_DIRECT_BBoxRt_UnitTests := $(sort \
+        BBoxRt_UnitTests/BBoxRtNetAddressesAndEndpoints.cpp \
+        BBoxRt_UnitTests/BboxRtTimer.cpp \
+    )
+    # End SRCS_DIRECT_BBoxRt_UnitTests
+
+SRCS_RECURSIVE_BBoxRt_UnitTests := $(sort \
+        $(SRCS_DIRECT_BBoxRt_UnitTests) \
+        $(SRCS_RECURSIVE_BBoxRt) \
+        $(SRCS_RECURSIVE_UnitTest) \
+    )
+    # End SRCS_RECURSIVE_BBoxRt_UnitTests
+
+INCS_DIRECT_BBoxRt_UnitTests := $(sort \
+        BBoxRt_UnitTests/. \
+    )
+    # End INCS_DIRECT_BBoxRt_UnitTests
+
+INCS_RECURSIVE_BBoxRt_UnitTests := $(sort \
+        $(INCS_DIRECT_BBoxRt_UnitTests) \
+        $(INCS_RECURSIVE_BBoxRt) \
+        $(INCS_RECURSIVE_UnitTest) \
+    )
+    # End INCS_RECURSIVE_BBoxRt_UnitTests
+
+LIBS_RECURSIVE_BBoxRt_UnitTests := \
+        uuid \
+        rt \
+        pthread \
+        crypto \
+    # End LIBS_RECURSIVE_BBoxRt_UnitTests
+
+TESTS += BBoxRt_UnitTests
+
+# Project LibLeds (type StaticLibrary)
+
+MODULES += LibLeds
+
+SRCS_DIRECT_LibLeds := $(sort \
+        Applications/LibLeds/leds/Color.cpp \
+        Applications/LibLeds/leds/FadecandyClient.cpp \
+        Applications/LibLeds/leds/GpioClient.cpp \
+        Applications/LibLeds/leds/HsvColor.cpp \
+    )
+    # End SRCS_DIRECT_LibLeds
+
+SRCS_RECURSIVE_LibLeds := $(sort \
+        $(SRCS_DIRECT_LibLeds) \
+        $(SRCS_RECURSIVE_BBoxEnc) \
+        $(SRCS_RECURSIVE_BBoxRt) \
+        $(SRCS_RECURSIVE_LibWS281x) \
+    )
+    # End SRCS_RECURSIVE_LibLeds
+
+INCS_DIRECT_LibLeds := $(sort \
+        Applications/LibLeds/. \
+    )
+    # End INCS_DIRECT_LibLeds
+
+INCS_RECURSIVE_LibLeds := $(sort \
+        $(INCS_DIRECT_LibLeds) \
+        $(INCS_RECURSIVE_BBoxEnc) \
+        $(INCS_RECURSIVE_BBoxRt) \
+        $(INCS_RECURSIVE_LibWS281x) \
+    )
+    # End INCS_RECURSIVE_LibLeds
+
 # Project BBoxHttpDebug (type StaticLibrary)
 
 MODULES += BBoxHttpDebug
@@ -736,69 +802,6 @@ BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp BBoxHttpDebug/Lib/bbox/http/debu
 	cd BBoxHttpDebug/Lib && ../../build/resourcebuilder -i "../Web/app.css;../Web/app.js;../Web/index.html" -o "bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h" -n "bbox::http::debug" -r "../Web" -a "debug/"
 
 build/BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugWebsite.o: BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp BBoxHttpDebug/Lib/bbox/http/debug/Resources.h
-
-# Project LibLeds (type StaticLibrary)
-
-MODULES += LibLeds
-
-SRCS_DIRECT_LibLeds := $(sort \
-        Applications/LibLeds/leds/Color.cpp \
-        Applications/LibLeds/leds/FadecandyClient.cpp \
-        Applications/LibLeds/leds/GpioClient.cpp \
-        Applications/LibLeds/leds/HsvColor.cpp \
-    )
-    # End SRCS_DIRECT_LibLeds
-
-SRCS_RECURSIVE_LibLeds := $(sort \
-        $(SRCS_DIRECT_LibLeds) \
-        $(SRCS_RECURSIVE_BBoxEnc) \
-        $(SRCS_RECURSIVE_BBoxRt) \
-        $(SRCS_RECURSIVE_LibWS281x) \
-    )
-    # End SRCS_RECURSIVE_LibLeds
-
-INCS_DIRECT_LibLeds := $(sort \
-        Applications/LibLeds/. \
-    )
-    # End INCS_DIRECT_LibLeds
-
-INCS_RECURSIVE_LibLeds := $(sort \
-        $(INCS_DIRECT_LibLeds) \
-        $(INCS_RECURSIVE_BBoxEnc) \
-        $(INCS_RECURSIVE_BBoxRt) \
-        $(INCS_RECURSIVE_LibWS281x) \
-    )
-    # End INCS_RECURSIVE_LibLeds
-
-# Project MiamiNightsMsgs (type StaticLibrary)
-
-MODULES += MiamiNightsMsgs
-
-SRCS_DIRECT_MiamiNightsMsgs := $(sort \
-        Applications/MiamiNightsMsgs/mn/msgs/ButtonColors.cpp \
-        Applications/MiamiNightsMsgs/mn/msgs/ButtonStates.cpp \
-        Applications/MiamiNightsMsgs/mn/msgs/EmulatorCompleted.cpp \
-        Applications/MiamiNightsMsgs/mn/msgs/RetransmitRequired.cpp \
-        Applications/MiamiNightsMsgs/mn/msgs/StartEmulator.cpp \
-    )
-    # End SRCS_DIRECT_MiamiNightsMsgs
-
-SRCS_RECURSIVE_MiamiNightsMsgs := $(sort \
-        $(SRCS_DIRECT_MiamiNightsMsgs) \
-        $(SRCS_RECURSIVE_BBoxEnc) \
-    )
-    # End SRCS_RECURSIVE_MiamiNightsMsgs
-
-INCS_DIRECT_MiamiNightsMsgs := $(sort \
-        Applications/MiamiNightsMsgs/. \
-    )
-    # End INCS_DIRECT_MiamiNightsMsgs
-
-INCS_RECURSIVE_MiamiNightsMsgs := $(sort \
-        $(INCS_DIRECT_MiamiNightsMsgs) \
-        $(INCS_RECURSIVE_BBoxEnc) \
-    )
-    # End INCS_RECURSIVE_MiamiNightsMsgs
 
 # Project CampLight (type Application)
 

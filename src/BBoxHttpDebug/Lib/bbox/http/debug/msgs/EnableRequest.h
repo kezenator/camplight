@@ -36,6 +36,18 @@ public:
     void ToTextFormat(bbox::enc::ToTextFormat &m) const;
     void FromTextFormat(bbox::enc::FromTextFormat &m);
 
+    bool operator ==(const EnableRequest &other) const
+    {
+        return (enabled == other.enabled)
+            && (debug_enables == other.debug_enables);
+    }
+
+    bool operator !=(const EnableRequest &other) const
+    {
+        return (enabled != other.enabled)
+            || (debug_enables != other.debug_enables);
+    }
+
     bool enabled;
     std::vector<std::string> debug_enables;
 

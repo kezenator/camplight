@@ -90,6 +90,44 @@ std::string Struct::GenerateCppHeader() const
 	stream << "    void FromBinary(bbox::enc::FromBinary &m);" << std::endl;
 	stream << "    void ToTextFormat(bbox::enc::ToTextFormat &m) const;" << std::endl;
 	stream << "    void FromTextFormat(bbox::enc::FromTextFormat &m);" << std::endl;
+    stream << std::endl;
+    stream << "    bool operator ==(const " << name << " &other) const" << std::endl;
+    stream << "    {" << std::endl;
+
+    if (m_fields.empty())
+        stream << "        return true;" << std::endl;
+    else
+    {
+        const char *header = "        return ";
+
+        for (const Field &field : m_fields)
+        {
+            stream << header << '(' << field.name.GetContents() << " == other." << field.name.GetContents() << ')';
+            header = "\n            && ";
+        }
+        stream << ';' << std::endl;
+    }
+
+    stream << "    }" << std::endl;
+    stream << std::endl;
+    stream << "    bool operator !=(const " << name << " &other) const" << std::endl;
+    stream << "    {" << std::endl;
+
+    if (m_fields.empty())
+        stream << "        return false;" << std::endl;
+    else
+    {
+        const char *header = "        return ";
+
+        for (const Field &field : m_fields)
+        {
+            stream << header << '(' << field.name.GetContents() << " != other." << field.name.GetContents() << ')';
+            header = "\n            || ";
+        }
+        stream << ';' << std::endl;
+    }
+
+    stream << "    }" << std::endl;
 
 	if (!m_fields.empty())
 	{

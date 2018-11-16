@@ -55,7 +55,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxRt;$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\UnitTest\common;$(ProjectDir)\..\UnitTest\windows;$(ProjectDir)\..\ThirdParty\boost\boost_1_68_0;$(VCInstallDir)UnitTest\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxEnc;$(ProjectDir)\..\BBoxRt;$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\ThirdParty\TinyXml2;$(ProjectDir)\..\UnitTest\common;$(ProjectDir)\..\UnitTest\windows;$(ProjectDir)\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\ThirdParty\json;$(VCInstallDir)UnitTest\include</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -78,7 +78,7 @@
       <PreprocessorDefinitions>WIN32;NTDDI_VERSION=0x06030000;_WIN32_WINNT=0x0602;WINVER=0x0602;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);BOOST_NO_ANSI_APIS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_THREAD_BUILD_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxRt;$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\UnitTest\common;$(ProjectDir)\..\UnitTest\windows;$(ProjectDir)\..\ThirdParty\boost\boost_1_68_0;$(VCInstallDir)UnitTest\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\BBoxEnc;$(ProjectDir)\..\BBoxRt;$(ProjectDir)\..\BBoxUtils;$(ProjectDir)\..\ThirdParty\TinyXml2;$(ProjectDir)\..\UnitTest\common;$(ProjectDir)\..\UnitTest\windows;$(ProjectDir)\..\ThirdParty\boost\boost_1_68_0;$(ProjectDir)\..\ThirdParty\json;$(VCInstallDir)UnitTest\include</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalOptions>/wd4267 /wd4503 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -98,17 +98,26 @@
     <ClCompile Include="BboxRtTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BBoxEnc\BBoxEnc.vcxproj">
+      <Project>{FD7C126F-E433-5228-B563-110342C677E8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\BBoxRt\BBoxRt.vcxproj">
       <Project>{F6D25D50-21C7-5DFC-A148-444BAC7B011E}</Project>
     </ProjectReference>
     <ProjectReference Include="..\BBoxUtils\BBoxUtils.vcxproj">
       <Project>{20DD0248-AD74-5731-8E99-0786A8D4A61E}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\TinyXml2\TinyXml2.vcxproj">
+      <Project>{BB30376C-3E29-569C-93A6-4982CAF78C9D}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\UnitTest\UnitTest.vcxproj">
       <Project>{935245CA-3A4E-52A2-A269-2C388A93606E}</Project>
     </ProjectReference>
     <ProjectReference Include="..\ThirdParty\boost\boost.vcxproj">
       <Project>{0CB72908-1FF3-5AB9-952F-59DA60B7B782}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\json\json.vcxproj">
+      <Project>{4F72EBAD-7B47-5980-B03C-E9690122F135}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

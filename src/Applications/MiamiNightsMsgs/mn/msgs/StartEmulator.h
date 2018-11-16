@@ -34,6 +34,16 @@ public:
     void ToTextFormat(bbox::enc::ToTextFormat &m) const;
     void FromTextFormat(bbox::enc::FromTextFormat &m);
 
+    bool operator ==(const StartEmulator &other) const
+    {
+        return (game == other.game);
+    }
+
+    bool operator !=(const StartEmulator &other) const
+    {
+        return (game != other.game);
+    }
+
     std::string game;
 
     static bbox::enc::MsgTypeLibrary::Registration<StartEmulator> g_msg_registration;

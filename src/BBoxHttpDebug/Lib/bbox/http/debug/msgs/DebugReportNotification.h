@@ -36,6 +36,16 @@ public:
     void ToTextFormat(bbox::enc::ToTextFormat &m) const;
     void FromTextFormat(bbox::enc::FromTextFormat &m);
 
+    bool operator ==(const DebugReportNotification &other) const
+    {
+        return (contents_html == other.contents_html);
+    }
+
+    bool operator !=(const DebugReportNotification &other) const
+    {
+        return (contents_html != other.contents_html);
+    }
+
     std::string contents_html;
 
     static bbox::enc::MsgTypeLibrary::Registration<DebugReportNotification> g_msg_registration;

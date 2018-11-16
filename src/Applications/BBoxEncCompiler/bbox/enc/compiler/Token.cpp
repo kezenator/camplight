@@ -49,7 +49,9 @@ const char *Token::c_str(E_TYPE type)
 		return "keyword \"message\"";
 	case KEYWORD_ENUM:
 		return "keyword \"enum\"";
-	case UNEXPECTED_CHARACTER:
+    case KEYWORD_EXTERN:
+        return "keyword \"extern\"";
+    case UNEXPECTED_CHARACTER:
 		return "unexpected character";
 	case UNTERMINATED_STRING_LITERAL:
 		return "unterminated string literal";
@@ -74,8 +76,9 @@ std::string Token::GetDescription() const
 	case KEYWORD_NAMESPACE:
 	case KEYWORD_STRUCT:
 	case KEYWORD_MESSAGE:
-	case KEYWORD_ENUM:
-	case UNTERMINATED_STRING_LITERAL:
+    case KEYWORD_ENUM:
+    case KEYWORD_EXTERN:
+    case UNTERMINATED_STRING_LITERAL:
 		// Just the type describes the contents
 		return c_str(m_type);
 

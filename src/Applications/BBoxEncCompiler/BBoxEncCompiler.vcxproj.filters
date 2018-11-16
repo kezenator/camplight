@@ -21,6 +21,9 @@
     <ClCompile Include="bbox\enc\compiler\Enum.cpp">
       <Filter>bbox\enc\compiler</Filter>
     </ClCompile>
+    <ClCompile Include="bbox\enc\compiler\Extern.cpp">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClCompile>
     <ClCompile Include="bbox\enc\compiler\Namespace.cpp">
       <Filter>bbox\enc\compiler</Filter>
     </ClCompile>
@@ -51,6 +54,9 @@
       <Filter>bbox\enc\compiler</Filter>
     </ClInclude>
     <ClInclude Include="bbox\enc\compiler\ErrorList.h">
+      <Filter>bbox\enc\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\enc\compiler\Extern.h">
       <Filter>bbox\enc\compiler</Filter>
     </ClInclude>
     <ClInclude Include="bbox\enc\compiler\File.h">

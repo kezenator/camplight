@@ -3,6 +3,7 @@ project("BBoxRt", "StaticLibrary");
 
 reference("boost");
 reference("BBoxUtils");
+reference("BBoxEnc");
 
 include(".");
 

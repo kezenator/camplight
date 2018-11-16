@@ -74,6 +74,15 @@ Enum::ptr Compiler::Builder::CreateEnum(const Namespace::ptr &ns, const Token &n
 	return new_ptr;
 }
 
+Extern::ptr Compiler::Builder::CreateExtern(const Namespace::ptr &ns, const Token &name)
+{
+    Extern::ptr new_ptr = Extern::ptr(new Extern(ns, name));
+
+    m_pimpl->RegisterType(new_ptr);
+
+    return new_ptr;
+}
+
 bool Compiler::CompileSources(
 	std::vector<File::ptr> &&sources,
 	std::map<std::string, std::string> &outputs, 

@@ -34,6 +34,16 @@ public:
     void ToTextFormat(bbox::enc::ToTextFormat &m) const;
     void FromTextFormat(bbox::enc::FromTextFormat &m);
 
+    bool operator ==(const EmulatorCompleted &other) const
+    {
+        return true;
+    }
+
+    bool operator !=(const EmulatorCompleted &other) const
+    {
+        return false;
+    }
+
     static bbox::enc::MsgTypeLibrary::Registration<EmulatorCompleted> g_msg_registration;
 };
 

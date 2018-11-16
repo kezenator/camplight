@@ -12,6 +12,7 @@
 #include <bbox/enc/compiler/Namespace.h>
 #include <bbox/enc/compiler/Struct.h>
 #include <bbox/enc/compiler/Enum.h>
+#include <bbox/enc/compiler/Extern.h>
 
 namespace bbox {
 namespace enc {
@@ -39,6 +40,7 @@ public:
 		Namespace::ptr CreateNamespace(TypeNameList &&name_list);
 		Struct::ptr CreateStruct(const Namespace::ptr &ns, const Token &name, bool is_message);
 		Enum::ptr CreateEnum(const Namespace::ptr &ns, const Token &name);
+        Extern::ptr CreateExtern(const Namespace::ptr &ns, const Token &name);
 
 	private:
 		Builder() = delete;

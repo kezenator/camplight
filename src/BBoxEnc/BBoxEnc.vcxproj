@@ -110,6 +110,7 @@
     <ClInclude Include="bbox\enc\MsgType.h" />
     <ClInclude Include="bbox\enc\MsgTypeLibrary.h" />
     <ClInclude Include="bbox\enc\ToBinary.h" />
+    <ClInclude Include="bbox\enc\ToDebugOutput.h" />
     <ClInclude Include="bbox\enc\ToDebugString.h" />
     <ClInclude Include="bbox\enc\ToJson.h" />
     <ClInclude Include="bbox\enc\ToTextFormat.h" />

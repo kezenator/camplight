@@ -36,6 +36,20 @@ public:
     void ToTextFormat(bbox::enc::ToTextFormat &m) const;
     void FromTextFormat(bbox::enc::FromTextFormat &m);
 
+    bool operator ==(const QueryResponseChild &other) const
+    {
+        return (name == other.name)
+            && (path == other.path)
+            && (short_description == other.short_description);
+    }
+
+    bool operator !=(const QueryResponseChild &other) const
+    {
+        return (name != other.name)
+            || (path != other.path)
+            || (short_description != other.short_description);
+    }
+
     std::string name;
     std::string path;
     std::string short_description;

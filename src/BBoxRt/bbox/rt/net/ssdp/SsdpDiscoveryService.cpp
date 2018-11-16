@@ -98,14 +98,12 @@ void SsdpDiscoveryService::OnCheckNetwork()
 
     for (const auto &entry : m_network_change_handler.GetCurrentAdapterInfo())
     {
-        for (const std::string &addr_str : entry.second.ip_addresses)
+        for (const auto &addr_info : entry.second.ip_addresses)
         {
-            IpAddress addr;
-            if (IpAddress::FromString(addr_str, addr)
-                && addr.is_v4()
-                && !addr.is_loopback())
+            if (addr_info.address.is_v4()
+                && !addr_info.address.is_loopback())
             {
-                cur_addresses.push_back(addr);
+                cur_addresses.push_back(addr_info.address);
             }
         }
     }

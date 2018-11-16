@@ -142,9 +142,11 @@ Token Tokenizer::NextToken()
 				type = Token::KEYWORD_STRUCT;
 			else if (strv == "message")
 				type = Token::KEYWORD_MESSAGE;
-			else if (strv == "enum")
-				type = Token::KEYWORD_ENUM;
-		}
+            else if (strv == "enum")
+                type = Token::KEYWORD_ENUM;
+            else if (strv == "extern")
+                type = Token::KEYWORD_EXTERN;
+        }
 		else if (start_ch == '\"')
 		{
 			type = Token::UNTERMINATED_STRING_LITERAL;

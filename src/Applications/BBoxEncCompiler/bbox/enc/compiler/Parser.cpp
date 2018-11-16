@@ -244,7 +244,8 @@ struct Parser::Pimpl
 			if (!Expect(tok, { Token::CLOSE_CURLY_BRACE,
 							   Token::KEYWORD_STRUCT,
 							   Token::KEYWORD_MESSAGE,
-							   Token::KEYWORD_ENUM }))
+							   Token::KEYWORD_ENUM,
+                               Token::KEYWORD_EXTERN }))
 			{
 				return false;
 			}
@@ -259,7 +260,8 @@ struct Parser::Pimpl
 				Token name_tok;
 				if (!Expect(name_tok, Token::IDENTIFIER))
 					return false;
-				if (!Expect(Token::OPEN_CURLY_BRACE))
+
+                if (!Expect(Token::OPEN_CURLY_BRACE))
 					return false;
 
 				Struct::ptr struct_ptr = m_builder.CreateStruct(
@@ -315,6 +317,16 @@ struct Parser::Pimpl
 
 				m_builder.CreateEnum(namespace_ptr, name_tok);
 			}
+            else if (tok.Matches(Token::KEYWORD_EXTERN))
+            {
+                Token name_tok;
+                if (!Expect(name_tok, Token::IDENTIFIER))
+                    return false;
+                if (!Expect(Token::SEMICOLON))
+                    return false;
+
+                m_builder.CreateExtern(namespace_ptr, name_tok);
+            }
 		}
 
 		if (!Expect(Token::END_OF_FILE))
