@@ -1,2 +1,2 @@
 ../../external/fadecandy/bin/fcserver-rpi config.json &
-../../src/build/ledsigns casadelshade 127.0.0.1:8080 127.0.0.1:7890 &
+../../src/build/ledsigns casadelshade 0.0.0.0:8080 127.0.0.1:7890 &
