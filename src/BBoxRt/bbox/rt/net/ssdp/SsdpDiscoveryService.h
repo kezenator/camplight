@@ -33,7 +33,7 @@ class SsdpDiscoveryService : public Service
 
 public:
 
-    static inline const char * const SERVICE_NAME = "SSDPDiscoveryService";
+    static constexpr const char *SERVICE_NAME = "SSDPDiscoveryService";
 
     SsdpDiscoveryService(const std::string &name, Service &parent);
     ~SsdpDiscoveryService();
