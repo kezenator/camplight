@@ -40,7 +40,7 @@ public:
 	~WebSocketClient();
 
 	bool IsOpen() const;
-	void Open(const std::string &host, const std::string &resource, const std::string &protocol);
+	void Open(const std::string &uri, const std::string &protocol);
 	void CloseConnection();
 
 	void Send(const std::string &str);

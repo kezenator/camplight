@@ -24,6 +24,9 @@ namespace ledsigns
                 parent,
                 std::bind(&ButtonBoxPattern::HandleWebSocketState, this, std::placeholders::_1),
                 std::bind(&ButtonBoxPattern::HandleWebSocketReceive, this, std::placeholders::_1))
+            , m_ssdp_search("ssdp-search", parent,
+                "buttonbox-target.kezenator.com",
+                std::bind(&ButtonBoxPattern::HandleSsdpSearchResultsChanged, this))
             , m_dispatcher()
             , m_socket_error(std::errc::not_connected)
             , m_button_colors()
@@ -34,8 +37,6 @@ namespace ledsigns
 
             m_dispatcher.Register(&ButtonBoxPattern::HandleRetransmitRequired, this);
             m_dispatcher.Register(&ButtonBoxPattern::HandleButtonColors, this);
-
-            m_web_socket_client.Open("192.168.0.20", "/ws/buttons", "12.09.2018.buttons.miami-nights.kezenator.com");
         }
 
         ButtonBoxPattern::~ButtonBoxPattern()
@@ -91,6 +92,21 @@ namespace ledsigns
             fill(39, 36, m_button_colors.wash_color);
 
             return result;
+        }
+
+        void ButtonBoxPattern::HandleSsdpSearchResultsChanged()
+        {
+            std::string uri;
+
+            for (const auto &entry : m_ssdp_search.GetCurrentDeviceMap())
+            {
+                if (!entry.second.location.empty())
+                {
+                    uri = entry.second.location;
+                }
+            }
+
+            m_web_socket_client.Open(uri, "12.09.2018.buttons.miami-nights.kezenator.com");
         }
 
         void ButtonBoxPattern::HandleWebSocketState(const bbox::Error &error)

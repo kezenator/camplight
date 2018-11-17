@@ -15,13 +15,14 @@ namespace rt {
 namespace net {
 namespace ssdp {
 
-SsdpSearch::SsdpSearch(const std::string &name, Service &parent, std::string &&service_type)
+SsdpSearch::SsdpSearch(const std::string &name, Service &parent, std::string &&service_type, ChangeHandler &&handler)
     : Service(name, parent)
     , m_discovery_service_ref("discovery-service-ref", *this, SsdpDiscoveryService::SERVICE_NAME)
     , m_timer("timer", *this, std::bind(&SsdpSearch::HandleTimerExpired, this))
     , m_change_work("change-work", *this, std::bind(&SsdpSearch::HandleDevicesChanged, this))
     , m_uuid(Uuid::NewRandom())
     , m_service_type(std::move(service_type))
+    , m_handler(std::move(handler))
     , m_search_duration(60)
     , m_announce_count(0)
     , m_search_counter(0)
@@ -93,7 +94,8 @@ void SsdpSearch::HandleTimerExpired()
 
 void SsdpSearch::HandleDevicesChanged()
 {
-    // TODO - notify user
+    if (m_handler)
+        m_handler();
 }
 
 void SsdpSearch::RemoveDevice(const std::string &usn)

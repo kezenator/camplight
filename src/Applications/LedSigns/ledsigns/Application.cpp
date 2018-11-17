@@ -14,7 +14,6 @@
 #include <bbox/rt/ConsoleShutdownService.h>
 #include <bbox/rt/net/NetworkChangeService.h>
 #include <bbox/rt/net/ssdp/SsdpDiscoveryService.h>
-#include <bbox/rt/net/ssdp/SsdpSearch.h>
 #include <bbox/http/server/HttpServer.h>
 #include <bbox/http/Response.h>
 #include <bbox/http/debug/HttpDebugWebsite.h>
@@ -43,7 +42,6 @@ public:
         , m_console_shutdown_service("console-shutdown-service", *this)
 		, m_network_change_service("network-change-service", *this)
 		, m_ssdp_discovery_service("ssdp-discovery-service", *this)
-        , m_ssdp_search("ssdp-search", *this, "ssdp:all")//"buttonbox-target.kezenator.com")
 		, m_http_server("http-server", *this)
         , m_http_debug_website("http-debug-website", *this, m_http_server)
         , m_fadecandy_client("fadecandy-client", *this, fadecandy_remote_endpoint)
@@ -78,7 +76,6 @@ public:
 	bbox::rt::ConsoleShutdownService m_console_shutdown_service;
 	bbox::rt::net::NetworkChangeService::Impl m_network_change_service;
     bbox::rt::net::ssdp::SsdpDiscoveryService m_ssdp_discovery_service;
-    bbox::rt::net::ssdp::SsdpSearch m_ssdp_search;
     bbox::http::server::HttpServer m_http_server;
     bbox::http::debug::HttpDebugWebsite m_http_debug_website;
     leds::FadecandyClient m_fadecandy_client;

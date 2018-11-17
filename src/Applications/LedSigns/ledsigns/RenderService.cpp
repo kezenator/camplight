@@ -46,10 +46,7 @@ namespace ledsigns
 
         SetThisDependantOn(fadecandy_client);
         SetThisDependantOn(gpio_client);
-    }
 
-    void RenderService::HandleStarting()
-    {
         if (m_mode == "gaysign")
         {
             m_render_state_ptr = std::make_unique<common::RenderState>(
@@ -60,17 +57,17 @@ namespace ledsigns
                 m_gpio_client,
                 *m_render_state_ptr);
         }
-		else if (m_mode == "buttonbox")
-		{
-			m_render_state_ptr = std::make_unique<common::RenderState>(
-				buttonbox::ButtonBoxLayout,
-				0);
+        else if (m_mode == "buttonbox")
+        {
+            m_render_state_ptr = std::make_unique<common::RenderState>(
+                buttonbox::ButtonBoxLayout,
+                0);
 
-			m_pattern_ptr = std::make_unique<buttonbox::ButtonBoxPattern>(
-				*this,
-				m_gpio_client,
-				*m_render_state_ptr);
-		}
+            m_pattern_ptr = std::make_unique<buttonbox::ButtonBoxPattern>(
+                *this,
+                m_gpio_client,
+                *m_render_state_ptr);
+        }
         else // casadelshade
         {
             m_render_state_ptr = std::make_unique<common::RenderState>(
@@ -87,14 +84,17 @@ namespace ledsigns
                     //common::WavePattern::Factory(3000, 3.0, common::Gradient::FullRainbow()),
                     common::NoisePattern::Factory(common::Gradient::GreensAndBlues(), 0.13, 750.0),
                     common::NoisePattern::Factory(common::Gradient::FullRainbow(), 0.5, 1000.0),
-            }),
-                std::vector<common::Transition::Factory>({
-                    common::FadeTransition::Factory(500),
-                    common::SwipeTransition::Factory(500),
-                }),
-                5 * 60 * 1000);
+                    }),
+                    std::vector<common::Transition::Factory>({
+                        common::FadeTransition::Factory(500),
+                        common::SwipeTransition::Factory(500),
+                        }),
+                        5 * 60 * 1000);
         }
-        
+    }
+
+    void RenderService::HandleStarting()
+    {
         m_frame_timer.StartPeriodic(
             bbox::rt::TimeSpan::Milliseconds(30),
             bbox::rt::TimeSpan::Milliseconds(30));

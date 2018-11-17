@@ -33,8 +33,15 @@ class SsdpSearch : public Service
 
 public:
 
-    SsdpSearch(const std::string &name, Service &parent, std::string &&service_type);
+    using ChangeHandler = std::function<void()>;
+
+    SsdpSearch(const std::string &name, Service &parent, std::string &&service_type, ChangeHandler &&handler);
     ~SsdpSearch();
+
+    const std::map<std::string, DeviceInfo> &GetCurrentDeviceMap() const
+    {
+        return m_devices;
+    }
 
 private:
     void HandleStarting() override;
@@ -54,6 +61,7 @@ private:
     OneShotWork m_change_work;
     const Uuid m_uuid;
     const std::string m_service_type;
+    const ChangeHandler m_handler;
     const size_t m_search_duration;
     size_t m_announce_count;
     size_t m_search_counter;

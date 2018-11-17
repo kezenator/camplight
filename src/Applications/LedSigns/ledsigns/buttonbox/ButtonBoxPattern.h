@@ -10,6 +10,7 @@
 #include <ledsigns/common/Pattern.h>
 #include <leds/GpioClient.h>
 
+#include <bbox/rt/net/ssdp/SsdpSearch.h>
 #include <bbox/http/client/WebSocketClient.h>
 
 #include <bbox/enc/Dispatcher.h>
@@ -40,6 +41,7 @@ namespace ledsigns
 
         private:
 
+            void HandleSsdpSearchResultsChanged();
             void HandleWebSocketState(const bbox::Error &error);
             void HandleWebSocketReceive(const std::string &msg);
 
@@ -55,6 +57,7 @@ namespace ledsigns
 
             leds::GpioClient &m_gpio_client;
             bbox::http::client::WebSocketClient m_web_socket_client;
+            bbox::rt::net::ssdp::SsdpSearch m_ssdp_search;
             bbox::enc::Dispatcher m_dispatcher;
             bbox::Error m_socket_error;
             mn::msgs::ButtonColors m_button_colors;

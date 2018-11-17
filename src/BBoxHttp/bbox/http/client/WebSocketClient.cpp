@@ -6,6 +6,7 @@
 
 #include <bbox/http/client/WebSocketClient.h>
 #include <bbox/Assert.h>
+#include <bbox/ScopedDebugIndent.h>
 #include <bbox/rt/Timer.h>
 
 #include <boost/beast/core.hpp>
@@ -44,6 +45,7 @@ struct WebSocketClient::Pimpl
 	bool m_reading;
 	bool m_sending;
 	std::list<std::string> m_pending_sends;
+    std::string m_uri;
 	std::string m_host;
 	std::string m_port;
 	std::string m_resource;
@@ -53,17 +55,48 @@ struct WebSocketClient::Pimpl
 	boost::beast::websocket::stream<boost::asio::ip::tcp::socket> m_socket;
 	boost::beast::multi_buffer m_rx_buffer;
 
-	void Open(const std::string &host, const std::string &resource, const std::string &protocol)
+	void Open(const std::string &uri, const std::string &protocol)
 	{
 		BBOX_ASSERT(m_parent.GetLocalRunLevel() == rt::RunLevel::RUNNING);
-		BBOX_ASSERT(!m_opened); // Currently don't support re-opening
+
+        if (m_opened)
+            CloseConnection();
+        else
+            m_retry_timer.StartSingleShot(rt::TimeSpan::Milliseconds(10));
 
 		m_opened = true;
-		m_host = host;
-		m_port = "8080";
-		m_resource = resource;
+        m_uri = uri;
+		m_host = "";
+		m_port = "80";
+		m_resource = "";
 		m_protocol = protocol;
-		m_retry_timer.StartSingleShot(rt::TimeSpan::Milliseconds(10));
+
+        {
+            if ((m_uri.size() > 5)
+                && (m_uri.substr(0, 5) == "ws://"))
+            {
+                auto resource_pos = m_uri.find('/', 5);
+
+                if (resource_pos == std::string::npos)
+                {
+                    m_host = m_uri.substr(5);
+                    m_resource = "/";
+                }
+                else
+                {
+                    m_host = m_uri.substr(5, resource_pos - 5);
+                    m_resource = m_uri.substr(resource_pos);
+                }
+
+                auto colon_pos = m_host.rfind(':');
+                if (colon_pos != std::string::npos)
+                {
+                    m_port = m_host.substr(colon_pos + 1);
+                    m_host = m_host.substr(0, colon_pos);
+                }
+            }
+        }
+
 	}
 
 	void CloseConnection()
@@ -94,6 +127,18 @@ struct WebSocketClient::Pimpl
 
 	void PrintState(DebugOutput &out) const
 	{
+        out.Format("Opened: %s\n", m_opened);
+
+        if (m_opened)
+        {
+            bbox::ScopedDebugIndent indent(out, 4);
+            out.Format("URI:      %s\n", m_uri);
+            out.Format("Host:     %s\n", m_host);
+            out.Format("Port:     %s\n", m_port);
+            out.Format("Resource: %s\n", m_resource);
+            out.Format("Protocol: %s\n", m_protocol);
+        }
+
 		out.Format("Connected: %s\n", m_connected);
 	}
 
@@ -350,9 +395,9 @@ bool WebSocketClient::IsOpen() const
 	return m_pimpl->m_connected;
 }
 
-void WebSocketClient::Open(const std::string &host, const std::string &resource, const std::string &protocol)
+void WebSocketClient::Open(const std::string &uri, const std::string &protocol)
 {
-	m_pimpl->Open(host, resource, protocol);
+	m_pimpl->Open(uri, protocol);
 }
 
 void WebSocketClient::CloseConnection()
