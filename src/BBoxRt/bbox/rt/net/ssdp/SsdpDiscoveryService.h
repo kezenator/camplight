@@ -18,13 +18,23 @@ namespace rt {
 namespace net {
 namespace ssdp {
 
+// Forward declaration
+class SsdpAdvert;
+class SsdpSearch;
+
 /**
  * A class that advertises a service via Upnp, and discovers
  * other services.
  */
 class SsdpDiscoveryService : public Service
 {
+    friend class SsdpAdvert;
+    friend class SsdpSearch;
+
 public:
+
+    static inline const char * const SERVICE_NAME = "SSDPDiscoveryService";
+
     SsdpDiscoveryService(const std::string &name, Service &parent);
     ~SsdpDiscoveryService();
 
@@ -38,11 +48,22 @@ private:
 
     struct NetworkInterface;
 
+    void SendNotifies(SsdpAdvert *advert_ptr, bool alive);
+    void SendSearches(SsdpSearch *search_ptr, size_t count);
+
+    void SendNotify(NetworkInterface *iface_ptr, SsdpAdvert *advert_ptr, bool alive);
+    void SendSearch(NetworkInterface *iface_ptr, SsdpSearch *search_ptr, size_t count);
+    void SendSearchResponse(NetworkInterface *iface_ptr, const UdpEndpoint &dest, const std::string &search_id, SsdpAdvert *advert_ptr);
+    void SendPacket(NetworkInterface *iface_ptr, const UdpEndpoint &dest, const std::string &packet);
+
     void HandleReceivedPacket(NetworkInterface *iface_ptr, const Error &err, const void *data, size_t num_bytes, const UdpEndpoint &from);
 
     NetworkChangeHandler m_network_change_handler;
     OneShotWork m_check_network_work;
     std::vector<std::unique_ptr<NetworkInterface>> m_interfaces;
+    std::set<SsdpAdvert *> m_advert_ptrs;
+    std::set<SsdpSearch *> m_search_ptrs;
+    UdpEndpoint m_ssdp_multicast_endpoint;
 };
 
 } // namespace bbox::rt::net::ssdp

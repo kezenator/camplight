@@ -7,28 +7,28 @@
 #include <bbox/rt/Timer.h>
 #include <bbox/Assert.h>
 
-#include <boost/bind.hpp>
-
 namespace bbox {
     namespace rt {
 
-        Timer::Timer(const std::string &name, Service &parent)
+        Timer::Timer(const std::string &name, Service &parent, std::function<void()> &&handler)
             : Resource(name, parent)
             , m_timer(GetProactor().GetIoService())
             , m_pending_timeouts(0)
             , m_cur_seq(1)
             , m_wait_seq(0)
+            , m_callback(std::move(handler))
 			, m_times_expired(0)
         {
         }
 
-        Timer::Timer(const std::string &name, Resource &parent)
+        Timer::Timer(const std::string &name, Resource &parent, std::function<void()> &&handler)
             : Resource(name, parent)
             , m_timer(GetProactor().GetIoService())
             , m_pending_timeouts(0)
             , m_cur_seq(1)
             , m_wait_seq(0)
-			, m_times_expired(0)
+            , m_callback(std::move(handler))
+            , m_times_expired(0)
         {
         }
         
@@ -36,7 +36,7 @@ namespace bbox {
         {
         }
 
-        void Timer::SetHandler(boost::function<void()> callback)
+        void Timer::SetHandler(std::function<void()> &&callback)
         {
             BBOX_ASSERT(m_cur_seq > m_wait_seq);
 
@@ -53,11 +53,11 @@ namespace bbox {
 
             m_timer.expires_from_now(delay.m_duration);
 
-            m_timer.async_wait(boost::bind(
+            m_timer.async_wait(std::bind(
                 &Timer::HandleTimeout,
                 this,
                 m_wait_seq,
-                _1));
+                std::placeholders::_1));
         }
 
         void Timer::StartPeriodic(const TimeSpan &first, const TimeSpan &period, uint64_t num_times)
@@ -119,11 +119,11 @@ namespace bbox {
 
                     m_timer.expires_from_now(m_period.m_duration);
 
-                    m_timer.async_wait(boost::bind(
+                    m_timer.async_wait(std::bind(
                         &Timer::HandleTimeout,
                         this,
                         m_wait_seq,
-                        _1));
+                        std::placeholders::_1));
                 }
 
                 // Notify the caller of the expiry

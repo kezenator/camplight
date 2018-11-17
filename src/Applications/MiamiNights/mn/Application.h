@@ -16,6 +16,7 @@
 #include <bbox/rt/ConsoleShutdownService.h>
 #include <bbox/rt/net/NetworkChangeService.h>
 #include <bbox/rt/net/ssdp/SsdpDiscoveryService.h>
+#include <bbox/rt/net/ssdp/SsdpAdvert.h>
 #include <bbox/http/server/HttpServer.h>
 #include <bbox/http/debug/HttpDebugWebsite.h>
 #include <bbox/audio/AudioService.h>
@@ -46,6 +47,8 @@ private:
 	void HandleStopping() override;
 	void PrintState(bbox::DebugOutput &out) const override;
 
+    void SsdpAdvertCallback(const bbox::rt::net::IpAddress &interface_addr, bool &out_should_send, std::string &out_location);
+
 	void HttpRequestHandler(bbox::http::Request &request);
 
 	void HandleWebSocketStateChanged();
@@ -62,7 +65,8 @@ private:
     bbox::rt::ConsoleShutdownService m_console_shutdown_service;
     bbox::rt::net::NetworkChangeService::Impl m_network_change_service;
     bbox::rt::net::ssdp::SsdpDiscoveryService m_ssdp_discovery_service;
-	bbox::http::server::HttpServer m_http_server;
+    bbox::rt::net::ssdp::SsdpAdvert m_ssdp_advert;
+    bbox::http::server::HttpServer m_http_server;
 	bbox::http::debug::HttpDebugWebsite m_http_debug_website;
 	bbox::audio::AudioService m_audio_service;
 

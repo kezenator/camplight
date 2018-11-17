@@ -108,7 +108,10 @@
     <ClCompile Include="bbox\rt\net\TcpEndpoint.cpp" />
     <ClCompile Include="bbox\rt\net\UdpEndpoint.cpp" />
     <ClCompile Include="bbox\rt\net\UdpSocket.cpp" />
+    <ClCompile Include="bbox\rt\net\ssdp\DeviceInfo.cpp" />
+    <ClCompile Include="bbox\rt\net\ssdp\SsdpAdvert.cpp" />
     <ClCompile Include="bbox\rt\net\ssdp\SsdpDiscoveryService.cpp" />
+    <ClCompile Include="bbox\rt\net\ssdp\SsdpSearch.cpp" />
     <ClCompile Include="bbox\rt\win32\IpHelperAccess.cpp" />
     <ClCompile Include="bbox\rt\win32\Win32NetworkChangeService.cpp" />
   </ItemGroup>
@@ -138,7 +141,10 @@
     <ClInclude Include="bbox\rt\net\TcpEndpoint.h" />
     <ClInclude Include="bbox\rt\net\UdpEndpoint.h" />
     <ClInclude Include="bbox\rt\net\UdpSocket.h" />
+    <ClInclude Include="bbox\rt\net\ssdp\DeviceInfo.h" />
+    <ClInclude Include="bbox\rt\net\ssdp\SsdpAdvert.h" />
     <ClInclude Include="bbox\rt\net\ssdp\SsdpDiscoveryService.h" />
+    <ClInclude Include="bbox\rt\net\ssdp\SsdpSearch.h" />
     <ClInclude Include="bbox\rt\win32\IpHelperAccess.h" />
     <ClInclude Include="bbox\rt\win32\Win32NetworkChangeService.h" />
   </ItemGroup>

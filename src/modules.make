@@ -597,7 +597,10 @@ SRCS_DIRECT_BBoxRt := $(sort \
         BBoxRt/bbox/rt/net/TcpEndpoint.cpp \
         BBoxRt/bbox/rt/net/UdpEndpoint.cpp \
         BBoxRt/bbox/rt/net/UdpSocket.cpp \
+        BBoxRt/bbox/rt/net/ssdp/DeviceInfo.cpp \
+        BBoxRt/bbox/rt/net/ssdp/SsdpAdvert.cpp \
         BBoxRt/bbox/rt/net/ssdp/SsdpDiscoveryService.cpp \
+        BBoxRt/bbox/rt/net/ssdp/SsdpSearch.cpp \
         BBoxRt/bbox/rt/win32/IpHelperAccess.cpp \
         BBoxRt/bbox/rt/win32/Win32NetworkChangeService.cpp \
     )

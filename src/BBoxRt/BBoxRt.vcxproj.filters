@@ -96,7 +96,16 @@
     <ClCompile Include="bbox\rt\net\UdpSocket.cpp">
       <Filter>bbox\rt\net</Filter>
     </ClCompile>
+    <ClCompile Include="bbox\rt\net\ssdp\DeviceInfo.cpp">
+      <Filter>bbox\rt\net\ssdp</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\net\ssdp\SsdpAdvert.cpp">
+      <Filter>bbox\rt\net\ssdp</Filter>
+    </ClCompile>
     <ClCompile Include="bbox\rt\net\ssdp\SsdpDiscoveryService.cpp">
+      <Filter>bbox\rt\net\ssdp</Filter>
+    </ClCompile>
+    <ClCompile Include="bbox\rt\net\ssdp\SsdpSearch.cpp">
       <Filter>bbox\rt\net\ssdp</Filter>
     </ClCompile>
     <ClCompile Include="bbox\rt\win32\IpHelperAccess.cpp">
@@ -182,7 +191,16 @@
     <ClInclude Include="bbox\rt\net\UdpSocket.h">
       <Filter>bbox\rt\net</Filter>
     </ClInclude>
+    <ClInclude Include="bbox\rt\net\ssdp\DeviceInfo.h">
+      <Filter>bbox\rt\net\ssdp</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\net\ssdp\SsdpAdvert.h">
+      <Filter>bbox\rt\net\ssdp</Filter>
+    </ClInclude>
     <ClInclude Include="bbox\rt\net\ssdp\SsdpDiscoveryService.h">
+      <Filter>bbox\rt\net\ssdp</Filter>
+    </ClInclude>
+    <ClInclude Include="bbox\rt\net\ssdp\SsdpSearch.h">
       <Filter>bbox\rt\net\ssdp</Filter>
     </ClInclude>
     <ClInclude Include="bbox\rt\win32\IpHelperAccess.h">

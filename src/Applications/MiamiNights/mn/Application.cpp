@@ -27,6 +27,8 @@ ApplicationService::ApplicationService(const std::string &name,
     , m_console_shutdown_service("console-shutdown-service", *this)
     , m_network_change_service("network-change-service", *this)
     , m_ssdp_discovery_service("ssdp-discovery-service", *this)
+    , m_ssdp_advert("ssdp-advert", *this, "buttonbox-target.kezenator.com",
+        std::bind(&ApplicationService::SsdpAdvertCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
     , m_http_server("http-server", *this)
     , m_http_debug_website("http-debug-website", *this, m_http_server)
 	, m_audio_service("audio service", *this)
@@ -82,6 +84,18 @@ void ApplicationService::PrintState(bbox::DebugOutput &out) const
 		out.Format("%s\n", bbox::enc::ToXml::ConvertToPretty("button-colors", m_button_colors));
 		out.DecIndent(4);
 	}
+}
+
+void ApplicationService::SsdpAdvertCallback(const bbox::rt::net::IpAddress &interface_addr, bool &out_should_send, std::string &out_location)
+{
+    if (m_http_listen_endpoint.GetAddress().is_unspecified()
+        || (m_http_listen_endpoint.GetAddress() == interface_addr))
+    {
+        out_should_send = true;
+        out_location = bbox::Format(
+            "ws://%s/ws/buttons",
+            bbox::rt::net::TcpEndpoint(interface_addr, m_http_listen_endpoint.GetPort()).ToString());
+    }
 }
 
 void ApplicationService::HttpRequestHandler(bbox::http::Request &request)

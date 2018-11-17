@@ -1,0 +1,12 @@
+namespace bbox::rt::net::ssdp
+    [generate cpp "BBoxRt/bbox/rt/net/ssdp"]
+{
+    struct DeviceInfo
+    {
+        std::string usn;
+        IpAddress local_address;
+        IpAddress device_address;
+        std::string service_type;
+        std::string location;
+    };
+}
