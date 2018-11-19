@@ -22,6 +22,8 @@ namespace net {
  */
 class NetworkChangeHandler : public Service
 {
+    friend class NetworkChangeService;
+
 public:
 	NetworkChangeHandler(const std::string &name, Service &parent, std::function<void()> &&change_handler);
 	~NetworkChangeHandler();
