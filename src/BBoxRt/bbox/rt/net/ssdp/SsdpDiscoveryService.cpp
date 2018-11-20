@@ -63,6 +63,8 @@ SsdpDiscoveryService::SsdpDiscoveryService(const std::string &name, Service &par
     , m_interfaces()
     , m_advert_ptrs()
     , m_ssdp_multicast_endpoint()
+    , m_data_debug("data-debug", *this)
+    , m_event_debug("event-debug", *this)
 {
     RegisterService(SERVICE_NAME, this);
 
@@ -173,7 +175,7 @@ void SsdpDiscoveryService::OnCheckNetwork()
         }
     }
 
-    bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Never);
+    bbox::DebugOutput out(BBOX_FUNC, m_event_debug);
     if (out)
         out.Format("SsdpDiscoveryService::OnCheckNetwork\n");
 
@@ -237,9 +239,12 @@ void SsdpDiscoveryService::OnCheckNetwork()
 
     // Restart the adverts if there were any new interfaces created
 
-    for (SsdpAdvert *advert_ptr : m_advert_ptrs)
+    if (!to_create.empty())
     {
-        advert_ptr->RestartAdvertTimeOnNetworkChange();
+        for (SsdpAdvert *advert_ptr : m_advert_ptrs)
+        {
+            advert_ptr->RestartAdvertTimeOnNetworkChange();
+        }
     }
 
     // Shutdown
@@ -279,6 +284,15 @@ void SsdpDiscoveryService::SendNotify(NetworkInterface *iface_ptr, SsdpAdvert *a
 
     if (should_send)
     {
+        DebugOutput event_out(BBOX_FUNC, m_event_debug);
+        if (event_out)
+        {
+            event_out.Format("SSDP Notify: iface=%s, search_type=%s, advert=",
+                iface_ptr->m_address.ToString(), advert_ptr->m_service_type);
+            advert_ptr->PrintResourcePathLink(event_out);
+            event_out.Format(", alive=%s\n", alive);
+        }
+
         std::stringstream stream;
 
         stream << "NOTIFY * HTTP/1.1\r\n";
@@ -299,6 +313,15 @@ void SsdpDiscoveryService::SendNotify(NetworkInterface *iface_ptr, SsdpAdvert *a
 
 void SsdpDiscoveryService::SendSearch(NetworkInterface *iface_ptr, SsdpSearch *search_ptr, size_t count)
 {
+    DebugOutput event_out(BBOX_FUNC, m_event_debug);
+    if (event_out)
+    {
+        event_out.Format("SSDP Search: iface=%s, search_type=%s, search=",
+            iface_ptr->m_address.ToString(), search_ptr->m_service_type);
+        search_ptr->PrintResourcePathLink(event_out);
+        event_out.Format("\n");
+    }
+
     std::stringstream stream;
 
     stream << "M-SEARCH * HTTP/1.1\r\n";
@@ -339,7 +362,7 @@ void SsdpDiscoveryService::SendSearchResponse(NetworkInterface *iface_ptr, const
 
 void SsdpDiscoveryService::SendPacket(NetworkInterface *iface_ptr, const UdpEndpoint &dest, const std::string &packet)
 {
-    bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Testing);
+    bbox::DebugOutput out(BBOX_FUNC, m_data_debug);
 
     bbox::Error err = iface_ptr->m_socket.SendTo(
         packet.c_str(),
@@ -361,17 +384,17 @@ void SsdpDiscoveryService::SendPacket(NetworkInterface *iface_ptr, const UdpEndp
 
 void SsdpDiscoveryService::HandleReceivedPacket(NetworkInterface *iface_ptr, const Error &err, const void *data, size_t num_bytes, const UdpEndpoint &from)
 {
-    bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Testing);
-    if (out)
+    bbox::DebugOutput data_out(BBOX_FUNC, m_data_debug);
+    if (data_out)
     {
-        out.Format("SSDP Rx: iface=%s, err=%s, num_bytes=%d, from=%s\n",
+        data_out.Format("SSDP Rx: iface=%s, err=%s, num_bytes=%d, from=%s\n",
             iface_ptr->m_address.ToString(),
             err.ToString(),
             num_bytes,
             from.ToString());
 
         if (!err)
-            out.PrintData(data, num_bytes);
+            data_out.PrintData(data, num_bytes);
     }
 
     // Decode the message
@@ -412,12 +435,21 @@ void SsdpDiscoveryService::HandleReceivedPacket(NetworkInterface *iface_ptr, con
                         if ((search_type == "ssdp:all")
                             || (search_type == advert_ptr->m_service_type))
                         {
+                            DebugOutput event_out(BBOX_FUNC, m_event_debug);
+                            if (event_out)
+                            {
+                                event_out.Format("SSDP Discover: %s => %s, search_type=%s, advert=",
+                                    from.ToString(), iface_ptr->m_address.ToString(), search_type);
+                                advert_ptr->PrintResourcePathLink(event_out);
+                                event_out.Format("\n");
+                            }
+
                             SendSearchResponse(iface_ptr, from, search_id, advert_ptr);
                         }
                     }
                 }
             }
-            if ((request.method() == boost::beast::http::verb::notify)
+            else if ((request.method() == boost::beast::http::verb::notify)
                 && (request.find("NT") != request.end())
                 && (request.find("NTS") != request.end())
                 && (request.find("USN") != request.end()))
@@ -439,6 +471,15 @@ void SsdpDiscoveryService::HandleReceivedPacket(NetworkInterface *iface_ptr, con
                         if ((search_type == search_ptr->m_service_type)
                             || (search_ptr->m_service_type == "ssdp:all"))
                         {
+                            DebugOutput event_out(BBOX_FUNC, m_event_debug);
+                            if (event_out)
+                            {
+                                event_out.Format("SSDP ByeBye: %s => %s, usn=%s, search_type=%s, search=",
+                                    from.ToString(), iface_ptr->m_address.ToString(), usn, search_type);
+                                search_ptr->PrintResourcePathLink(event_out);
+                                event_out.Format("\n");
+                            }
+
                             search_ptr->RemoveDevice(usn);
                         }
                     }
@@ -450,6 +491,15 @@ void SsdpDiscoveryService::HandleReceivedPacket(NetworkInterface *iface_ptr, con
                         if ((search_type == search_ptr->m_service_type)
                             || (search_ptr->m_service_type == "ssdp:all"))
                         {
+                            DebugOutput event_out(BBOX_FUNC, m_event_debug);
+                            if (event_out)
+                            {
+                                event_out.Format("SSDP Alive: %s => %s, usn=%s, search_type=%s, location=%s, search=",
+                                    from.ToString(), iface_ptr->m_address.ToString(), usn, search_type, location);
+                                search_ptr->PrintResourcePathLink(event_out);
+                                event_out.Format("\n");
+                            }
+
                             search_ptr->HandleNotification(iface_ptr->m_address, from.GetAddress(), usn, search_type, location);
                         }
                     }
@@ -488,6 +538,15 @@ void SsdpDiscoveryService::HandleReceivedPacket(NetworkInterface *iface_ptr, con
                     if ((search_type == search_ptr->m_service_type)
                         || (search_ptr->m_service_type == "ssdp:all"))
                     {
+                        DebugOutput event_out(BBOX_FUNC, m_event_debug);
+                        if (event_out)
+                        {
+                            event_out.Format("SSDP Response: %s => %s, usn=%s, search_type=%s, location=%s, search=",
+                                from.ToString(), iface_ptr->m_address.ToString(), usn, search_type, location);
+                            search_ptr->PrintResourcePathLink(event_out);
+                            event_out.Format("\n");
+                        }
+
                         search_ptr->HandleNotification(iface_ptr->m_address, from.GetAddress(), usn, search_type, location);
                     }
                 }

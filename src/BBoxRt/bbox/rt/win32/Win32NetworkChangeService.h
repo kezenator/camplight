@@ -37,7 +37,6 @@ namespace bbox {
             private:
                 void HandleStarting() override;
                 void HandleStopping() override;
-				void PrintState(bbox::DebugOutput &out) const override;
 
                 void CheckShutdown();
                 void HandleUpdateRequired();

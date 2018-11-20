@@ -9,6 +9,7 @@
 
 #include <bbox/rt/Service.h>
 #include <bbox/rt/net/NetworkChangeHandler.h>
+#include <bbox/rt/DebugEnable.h>
 #include <bbox/rt/OneShotWork.h>
 #include <bbox/rt/net/UdpEndpoint.h>
 #include <bbox/Error.h>
@@ -64,6 +65,9 @@ private:
     std::set<SsdpAdvert *> m_advert_ptrs;
     std::set<SsdpSearch *> m_search_ptrs;
     UdpEndpoint m_ssdp_multicast_endpoint;
+
+    DebugEnable m_data_debug;
+    DebugEnable m_event_debug;
 };
 
 } // namespace bbox::rt::net::ssdp

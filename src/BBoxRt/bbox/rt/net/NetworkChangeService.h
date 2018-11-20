@@ -11,6 +11,7 @@
 
 #include <map>
 #include <bbox/rt/Service.h>
+#include <bbox/rt/DebugEnable.h>
 #include <bbox/rt/net/AdapterInfo.h>
 
 namespace bbox {
@@ -61,11 +62,14 @@ protected:
 	NetworkChangeService(const std::string &name, Service &parent);
 	virtual ~NetworkChangeService();
 
+    void PrintState(bbox::DebugOutput &out) const override;
+
 	void ReportChange(std::map<std::string, net::AdapterInfo> &&new_adapters);
 
 private:
 	std::map<std::string, net::AdapterInfo> m_current_adapters;
 	std::set<NetworkChangeHandler *, std::less<NetworkChangeHandler *>> m_handlers;
+    DebugEnable m_debug_enable;
 };
 
 } // namespae bbox::rt::net

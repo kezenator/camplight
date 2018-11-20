@@ -8,8 +8,6 @@
 
 #include <bbox/rt/lin/LinuxNetworkChangeService.h>
 #include <bbox/Assert.h>
-#include <bbox/ScopedDebugIndent.h>
-#include <bbox/enc/ToDebugOutput.h>
 
 #include <sys/types.h>
 #include <ifaddrs.h>
@@ -70,14 +68,6 @@ namespace bbox {
                     NotifyStopped();
                     RequestStopAllChildren();
                 }
-            }
-
-            void LinuxNetworkChangeService::PrintState(bbox::DebugOutput &out) const
-            {
-                out.Format("Current adapters: %d\n", GetCurrentAdapterInfo().size());
-
-                ScopedDebugIndent indent(out, 4);
-                bbox::enc::ToDebugOutput(out, GetCurrentAdapterInfo());
             }
 
             void LinuxNetworkChangeService::HandleDetectionTimerExpired()
@@ -159,29 +149,11 @@ namespace bbox {
 
                 m_detection_timer.StartSingleShot(TimeSpan::Seconds(10));
 
-                if ((m_detecting_adapters != GetCurrentAdapterInfo())
-                    || (GetLocalRunLevel() == RunLevel::STARTING))
+                ReportChange(std::move(m_detecting_adapters));
+
+                if (GetLocalRunLevel() == RunLevel::STARTING)
                 {
-                    // We've got new settings - save them, and either
-                    // mark us as started or post a change notification
-
-                    bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Activity);
-                    if (out)
-                    {
-                        out << "Network Adapters - "
-                             << ((GetLocalRunLevel() == RunLevel::STARTING) ? "Initial State" : "Updated")
-                             << std::endl;
-
-                        ScopedDebugIndent indent(out, 4);
-                        bbox::enc::ToDebugOutput(out, m_detecting_adapters);
-                    }
-
-                    ReportChange(std::move(m_detecting_adapters));
-
-                    if (GetLocalRunLevel() == RunLevel::STARTING)
-                    {
-                        NotifyStarted();
-                    }
+                    NotifyStarted();
                 }
 
                 CheckShutdown();
