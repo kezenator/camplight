@@ -18,6 +18,7 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/algorithm/string/replace.hpp>
 
 #include <bbox/Exception.h>
 #include <bbox/FileUtils.h>
@@ -33,22 +34,22 @@ void UpdateFile(const std::string &name, const std::string &contents)
 
 #ifdef WIN32
 
-	// When building on Windows, Visual Studio knows about all of the dependencies
-	// correctly - so this tool only gets run if something really has changed.
-	// If we don't update the time-stamp on the files, the Visual Studio keeps
-	// running this build step because the output files are STILL older than
-	// the changed input file.
-	//
-	// As such - we always write the files to update their time stamp.
+    // When building on Windows, Visual Studio knows about all of the dependencies
+    // correctly - so this tool only gets run if something really has changed.
+    // If we don't update the time-stamp on the files, the Visual Studio keeps
+    // running this build step because the output files are STILL older than
+    // the changed input file.
+    //
+    // As such - we always write the files to update their time stamp.
 
-	needs_write = true;
+    needs_write = true;
 
 #else
 
-	// When building using make, I don't have the dependencies fully working
-	// yet. So this step is run on every make.
-	// We don't want to update source/header files that haven't changed
-	// as it prevents make re-building these files on every make.
+    // When building using make, I don't have the dependencies fully working
+    // yet. So this step is run on every make.
+    // We don't want to update source/header files that haven't changed
+    // as it prevents make re-building these files on every make.
 
     try
     {
@@ -146,15 +147,16 @@ int resource_builder_main(int argc, char *argv[])
         // -o "output.cpp;output.h"
         // -n "name::space"
         // -r "remove\\path"
-		// -a "add\\path"
+        // -a "add\\path"
 
         bool args_valid = false;
         std::set<std::string> inputs;
         std::string output_cpp;
         std::string output_h;
+        std::string output_rc;
         std::vector<std::string> namespace_path;
         std::string path_remove;
-		std::string path_add;
+        std::string path_add;
 
         if ((argc >= 9) && (argc <= 11))
         {
@@ -171,12 +173,14 @@ int resource_builder_main(int argc, char *argv[])
                     std::vector<std::string> outputs;
                     boost::algorithm::split(outputs, output_str, boost::algorithm::is_any_of(";"));
 
-                    if ((outputs.size() == 2)
+                    if ((outputs.size() == 3)
                         && boost::algorithm::ends_with(outputs[0], ".cpp")
-                        && boost::algorithm::ends_with(outputs[1], ".h"))
+                        && boost::algorithm::ends_with(outputs[1], ".h")
+                        && boost::algorithm::ends_with(outputs[2], ".rc"))
                     {
                         output_cpp = outputs[0];
                         output_h = outputs[1];
+                        output_rc = outputs[2];
 
                         // Finally, split the namespace by double-colons
                         std::string ns(argv[6]);
@@ -210,17 +214,17 @@ int resource_builder_main(int argc, char *argv[])
                 }
             }
 
-			if (args_valid
-				&& (argc == 11))
-			{
-				args_valid = false;
+            if (args_valid
+                && (argc == 11))
+            {
+                args_valid = false;
 
-				if (strcmp(argv[9], "-a") == 0)
-				{
-					path_add = argv[10];
-					args_valid = true;
-				}
-			}
+                if (strcmp(argv[9], "-a") == 0)
+                {
+                    path_add = argv[10];
+                    args_valid = true;
+                }
+            }
         }
 
         if (!args_valid)
@@ -269,109 +273,109 @@ int resource_builder_main(int argc, char *argv[])
 
             std::vector<size_t> file_lengths(inputs.size());
             std::vector<std::string> file_etags(inputs.size());
-			std::vector<std::string> file_contents(inputs.size());
-			std::vector<std::future<void>> file_futures(inputs.size());
+            std::vector<std::string> file_contents(inputs.size());
+            std::vector<std::future<void>> file_futures(inputs.size());
 
             size_t count = 0;
-			for (const std::string &input : inputs)
-			{
-				size_t index = count;
-				count++;
+            for (const std::string &input : inputs)
+            {
+                size_t index = count;
+                count++;
 
-				file_futures[index] = std::async([input, index, &extension_lookup, &file_lengths, &file_etags, &file_contents]()
-					{
-						bool text_format = false;
+                file_futures[index] = std::async([input, index, &extension_lookup, &file_lengths, &file_etags, &file_contents]()
+                    {
+                        bool text_format = false;
 
-						size_t dot_pos = input.rfind('.');
-						if (dot_pos != std::string::npos)
-						{
-							std::string extension = input.substr(dot_pos);
-							auto it = extension_lookup.find(extension);
-							if (it != extension_lookup.end())
-							{
-								text_format = it->second.text_format;
-							}
-						}
+                        size_t dot_pos = input.rfind('.');
+                        if (dot_pos != std::string::npos)
+                        {
+                            std::string extension = input.substr(dot_pos);
+                            auto it = extension_lookup.find(extension);
+                            if (it != extension_lookup.end())
+                            {
+                                text_format = it->second.text_format;
+                            }
+                        }
 
-						std::vector<uint8_t> contents = bbox::FileUtils::ReadBinaryFileOrThrow(input, 500 * 1024 * 1024);
+                        std::vector<uint8_t> contents = bbox::FileUtils::ReadBinaryFileOrThrow(input, 500 * 1024 * 1024);
 
-						if (text_format
-							&& !contents.empty())
-						{
-							std::string str(reinterpret_cast<const char *>(contents.data()), contents.size());
-							str = bbox::TextCoding::Newlines_DOS_to_UNIX(str);
-							contents.resize(str.size());
-							memcpy(contents.data(), str.c_str(), str.size());
-						}
+                        if (text_format
+                            && !contents.empty())
+                        {
+                            std::string str(reinterpret_cast<const char *>(contents.data()), contents.size());
+                            str = bbox::TextCoding::Newlines_DOS_to_UNIX(str);
+                            contents.resize(str.size());
+                            memcpy(contents.data(), str.c_str(), str.size());
+                        }
 
-						file_lengths[index] = contents.size();
+                        file_lengths[index] = contents.size();
 
-						{
-							bbox::crypto::HashStream hash_stream(bbox::crypto::HashStream::SHA_256);
-							hash_stream.AddBytes(contents.data(), contents.size());
+                        {
+                            bbox::crypto::HashStream hash_stream(bbox::crypto::HashStream::SHA_256);
+                            hash_stream.AddBytes(contents.data(), contents.size());
 
-							file_etags[index] = hash_stream.CompleteHash().ToBase64String();
-						}
+                            file_etags[index] = hash_stream.CompleteHash().ToBase64String();
+                        }
 
-						std::string data_buffer;
-						data_buffer.reserve(100 + (10 + (16 * 6)) * ((contents.size() + 15) / 16));
+                        std::string data_buffer;
+                        data_buffer.reserve(100 + (10 + (16 * 6)) * ((contents.size() + 15) / 16));
 
-						auto bcd = [](uint8_t val) -> char
-						{
-							if (val <= 9)
-								return '0' + val;
-							else
-								return 'A' - 10 + val;
-						};
+                        auto bcd = [](uint8_t val) -> char
+                        {
+                            if (val <= 9)
+                                return '0' + val;
+                            else
+                                return 'A' - 10 + val;
+                        };
 
-						for (size_t i = 0; i < contents.size(); ++i)
-						{
-							if ((i & 0xF) == 0)
-							{
-								if (i != 0)
-								{
-									data_buffer.append(",\n", 2);
-								}
-								data_buffer.append("        ", 8);
-							}
-							else
-								data_buffer.append(", ", 2);
+                        for (size_t i = 0; i < contents.size(); ++i)
+                        {
+                            if ((i & 0xF) == 0)
+                            {
+                                if (i != 0)
+                                {
+                                    data_buffer.append(",\n", 2);
+                                }
+                                data_buffer.append("        ", 8);
+                            }
+                            else
+                                data_buffer.append(", ", 2);
 
-							uint8_t byte = contents[i];
+                            uint8_t byte = contents[i];
 
-							char one_val[4];
+                            char one_val[4];
 
-							one_val[0] = '0';
-							one_val[1] = 'x';
-							one_val[2] = bcd(byte >> 4);
-							one_val[3] = bcd(byte & 0x0F);
+                            one_val[0] = '0';
+                            one_val[1] = 'x';
+                            one_val[2] = bcd(byte >> 4);
+                            one_val[3] = bcd(byte & 0x0F);
 
-							data_buffer.append(one_val, 4);
-						}
+                            data_buffer.append(one_val, 4);
+                        }
 
-						if (!contents.empty())
-							data_buffer.push_back('\n');
+                        if (!contents.empty())
+                            data_buffer.push_back('\n');
 
-						file_contents[index] = std::move(data_buffer);
-					});
-			}
+                        file_contents[index] = std::move(data_buffer);
+                    });
+            }
 
-			for (auto &future : file_futures)
-			{
-				future.get();
-			}
+            for (auto &future : file_futures)
+            {
+                future.get();
+            }
 
-			count = 0;
-			for (const std::string &input : inputs)
-			{
-				size_t index = count;
-				count++;
+            count = 0;
+            for (const std::string &input : inputs)
+            {
+                size_t index = count;
+                count++;
 
-				stream << "    // File #" << count << " - " << FixFileName(input) << std::endl;
+                stream << "    // File #" << count << " - " << FixFileName(input) << std::endl;
                 stream << "    const uint8_t file_contents_" << count << "[" << file_lengths[index] << "] = {" << std::endl;
-				stream << file_contents[index];
+                stream << file_contents[index];
                 stream << "    };" << std::endl;
-			}
+            }
 
             stream << "} // annonymous namespace" << std::endl;
             stream << std::endl;
@@ -412,22 +416,22 @@ int resource_builder_main(int argc, char *argv[])
                 stream << indent << "        \"identity\", // Content Encoding" << std::endl;
                 stream << indent << "        \"" << mime_type << "\", // Mime-type" << std::endl;
                 stream << indent << "        \"\\\"" << file_etags[count - 1] << "\\\"\", // Strong ETag" << std::endl;
-				stream << "#ifdef _DEBUG" << std::endl;
-				stream << indent << "        \"" << bbox::FileUtils::ToUnixPath(bbox::FileUtils::GetCurrentWorkingDir()) << "/" << bbox::FileUtils::ToUnixPath(input) << "\", // Original file name (for debugging)" << std::endl;
-				stream << "#endif" << std::endl;
-				stream << indent << "    }," << std::endl;
+                stream << "#ifdef _DEBUG" << std::endl;
+                stream << indent << "        \"" << bbox::FileUtils::ToUnixPath(bbox::FileUtils::GetCurrentWorkingDir()) << "/" << bbox::FileUtils::ToUnixPath(input) << "\", // Original file name (for debugging)" << std::endl;
+                stream << "#endif" << std::endl;
+                stream << indent << "    }," << std::endl;
             }
 
             stream << indent << "});" << std::endl;
 
             NamespaceClose(stream, namespace_path);
 
-			source = stream.str();
+            source = stream.str();
         }
 
-		// Generate the header
+        // Generate the header
 
-		std::string header;
+        std::string header;
 
         {
             std::stringstream stream;
@@ -450,15 +454,48 @@ int resource_builder_main(int argc, char *argv[])
             header = stream.str();
         }
 
+        // Generate the resource file
+
+        std::string rc;
+
+        {
+            std::stringstream stream;
+
+            auto quote = [](const std::string &input)
+            {
+                return boost::replace_all_copy(input, "\\", "\\\\");
+            };
+
+            size_t count = 0;
+            for (const std::string &input : inputs)
+            {
+                size_t index = count;
+                count++;
+
+                std::string input_resolved;
+                bbox::Error err = bbox::FileUtils::ResolveRelativePath(input, input_resolved);
+                if (err)
+                    throw std::exception("Could not resolve resource path");
+
+                stream << index << " RCDATA \""
+                    << quote(input_resolved)
+                    << "\"" << std::endl;
+            }
+
+            rc = stream.str();
+        }
+
         // Output the files
 
-		auto update_future_source = std::async([&]() { UpdateFile(output_cpp, source); });
-		auto update_future_header = std::async([&]() { UpdateFile(output_h, header); });
+        auto update_future_source = std::async([&]() { UpdateFile(output_cpp, source); });
+        auto update_future_header = std::async([&]() { UpdateFile(output_h, header); });
+        auto update_future_rc = std::async([&]() { UpdateFile(output_rc, rc); });
 
-		update_future_source.get();
-		update_future_header.get();
+        update_future_source.get();
+        update_future_header.get();
+        update_future_rc.get();
 
-		return 0;
+        return 0;
     }
     catch (const std::exception &e)
     {

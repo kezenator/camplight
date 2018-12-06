@@ -15,7 +15,7 @@ if (platform() == "Win32") then
 
   include(".");
 
-  sources(find_recursive("*.cpp"), "mn/Resources.cpp");
+  sources(find_recursive("*.cpp"), "mn/Resources.cpp", "mn/Resources.rc");
   headers(find_recursive("*.h"), "mn/Resources.h");
 
   custom_build(
@@ -26,7 +26,7 @@ if (platform() == "Win32") then
                      "../MiamiNightsWeb/*.png",
                      "../MiamiNightsWeb/*.ttf",
                      "../MiamiNightsWeb/*.ogg"),
-      { "mn/Resources.cpp", "mn/Resources.h" },
+      { "mn/Resources.rc", "mn/Resources.cpp", "mn/Resources.h" },
       { "mn/Application.cpp" },
       "-n \"mn\" -r \"../MiamiNightsWeb\"");
 

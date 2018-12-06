@@ -27,6 +27,9 @@
     <ClCompile Include="camplight\Resources.cpp">
       <Filter>camplight</Filter>
     </ClCompile>
+    <ResourceCompile Include="camplight\Resources.rc">
+      <Filter>camplight</Filter>
+    </ResourceCompile>
     <ClCompile Include="camplight\factory\PatternFactory.cpp">
       <Filter>camplight\factory</Filter>
     </ClCompile>

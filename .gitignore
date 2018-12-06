@@ -6,6 +6,7 @@ bin
 obj
 /src/Applications/CampLight/camplight/Resources.cpp
 /src/Applications/CampLight/camplight/Resources.h
+/src/Applications/CampLight/camplight/Resources.rc
 /src/Applications/CampLightWeb/app.js.map
 /src/Applications/CampLightWeb/app.js
 /src/CampLight.VC.VC.opendb
@@ -13,9 +14,11 @@ obj
 /src/BBoxHttpDebug/Web/app.js.map
 /src/BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp
 /src/BBoxHttpDebug/Lib/bbox/http/debug/Resources.h
+/src/BBoxHttpDebug/Lib/bbox/http/debug/Resources.rc
 *.vcxproj.user
 *.csproj.user
 /src/Applications/MiamiNightsWeb/app.js.map
 /src/Applications/MiamiNightsWeb/app.js
 /src/Applications/MiamiNights/mn/Resources.cpp
 /src/Applications/MiamiNights/mn/Resources.h
+/src/Applications/MiamiNights/mn/Resources.rc

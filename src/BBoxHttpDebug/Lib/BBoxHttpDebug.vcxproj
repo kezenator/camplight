@@ -86,6 +86,7 @@
   <ItemGroup>
     <ClCompile Include="bbox\http\debug\HttpDebugWebsite.cpp" />
     <ClCompile Include="bbox\http\debug\Resources.cpp" />
+    <ResourceCompile Include="bbox\http\debug\Resources.rc" />
     <ClCompile Include="bbox\http\debug\msgs\DebugReportNotification.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\EnableRequest.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\QueryRequest.cpp" />
@@ -108,13 +109,13 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <CustomBuildStep>
-      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i ../Web/app.css;../Web/app.js;../Web/index.html -o bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h -n "bbox::http::debug" -r "../Web" -a "debug/"</Command>
-      <Outputs>bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h</Outputs>
+      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i ../Web/app.css;../Web/app.js;../Web/index.html -o bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h;bbox/http/debug/Resources.rc -n "bbox::http::debug" -r "../Web" -a "debug/"</Command>
+      <Outputs>bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h;bbox/http/debug/Resources.rc</Outputs>
       <Inputs>../Web/app.css;../Web/app.js;../Web/index.html;..\..\x64\$(Configuration)\ResourceBuilder.exe</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <PropertyGroup>
-    <CustomBuildBeforeTargets>ClCompile</CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets>ClCompile;ResourceCompile</CustomBuildBeforeTargets>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

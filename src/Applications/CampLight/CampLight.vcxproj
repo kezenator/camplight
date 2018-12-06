@@ -92,6 +92,7 @@
   <ItemGroup>
     <ClCompile Include="camplight\Application.cpp" />
     <ClCompile Include="camplight\Resources.cpp" />
+    <ResourceCompile Include="camplight\Resources.rc" />
     <ClCompile Include="camplight\factory\PatternFactory.cpp" />
     <ClCompile Include="camplight\factory\SequenceFactory.cpp" />
     <ClCompile Include="camplight\factory\TransitionFactory.cpp" />
@@ -172,13 +173,13 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <CustomBuildStep>
-      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i camplight\resources\app.css;camplight\resources\app.js;camplight\resources\apple-touch-icon-120x120.png;camplight\resources\apple-touch-icon-152x152.png;camplight\resources\apple-touch-icon-180x180.png;camplight\resources\apple-touch-icon-192x192.png;camplight\resources\favicon.ico;camplight\resources\index.html -o camplight/Resources.cpp;camplight/Resources.h -n "camplight" -r "camplight\resources"</Command>
-      <Outputs>camplight/Resources.cpp;camplight/Resources.h</Outputs>
+      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i camplight\resources\app.css;camplight\resources\app.js;camplight\resources\apple-touch-icon-120x120.png;camplight\resources\apple-touch-icon-152x152.png;camplight\resources\apple-touch-icon-180x180.png;camplight\resources\apple-touch-icon-192x192.png;camplight\resources\favicon.ico;camplight\resources\index.html -o camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.rc -n "camplight" -r "camplight\resources"</Command>
+      <Outputs>camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.rc</Outputs>
       <Inputs>camplight\resources\app.css;camplight\resources\app.js;camplight\resources\apple-touch-icon-120x120.png;camplight\resources\apple-touch-icon-152x152.png;camplight\resources\apple-touch-icon-180x180.png;camplight\resources\apple-touch-icon-192x192.png;camplight\resources\favicon.ico;camplight\resources\index.html;..\..\x64\$(Configuration)\ResourceBuilder.exe</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <PropertyGroup>
-    <CustomBuildBeforeTargets>ClCompile</CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets>ClCompile;ResourceCompile</CustomBuildBeforeTargets>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

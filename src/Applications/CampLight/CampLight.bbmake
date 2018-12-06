@@ -15,12 +15,12 @@ tool_reference("ResourceBuilder");
 
 include(".");
 
-sources(find_recursive("*.cpp"), "camplight/Resources.cpp");
+sources(find_recursive("*.cpp"), "camplight/Resources.cpp", "camplight/Resources.rc");
 headers(find_recursive("*.h"), "camplight/Resources.h");
 
 custom_build(
     "ResourceBuilder",
     find_recursive("camplight/resources/*.*"),
-    { "camplight/Resources.cpp", "camplight/Resources.h" },
+    { "camplight/Resources.rc", "camplight/Resources.cpp", "camplight/Resources.h" },
     { "camplight/Application.cpp" },
     "-n \"camplight\" -r \"camplight\\resources\"");

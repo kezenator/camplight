@@ -21,6 +21,9 @@
     <ClCompile Include="bbox\http\debug\Resources.cpp">
       <Filter>bbox\http\debug</Filter>
     </ClCompile>
+    <ResourceCompile Include="bbox\http\debug\Resources.rc">
+      <Filter>bbox\http\debug</Filter>
+    </ResourceCompile>
     <ClCompile Include="bbox\http\debug\msgs\DebugReportNotification.cpp">
       <Filter>bbox\http\debug\msgs</Filter>
     </ClCompile>

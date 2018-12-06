@@ -42,9 +42,9 @@ namespace bbox {
 
                 GenerateProjectGuids();
 
-				// Reset the ISS port base
+                // Reset the ISS port base
 
-				m_iis_port = 54099;
+                m_iis_port = 54099;
 
                 // Generate the overall solution file
 
@@ -75,7 +75,7 @@ namespace bbox {
                   0x08, 0x00, 0x20, 0x0C, 0x9A, 0x66 };
 
                 std::vector<const Project *> projects = GetSolution().GetProjects();
-                                   
+
                 for (auto project_ptr : projects)
                 {
                     if (project_ptr->GetType() != ProjectType::TypeScriptLibrary)
@@ -203,7 +203,7 @@ namespace bbox {
                 // Start the global section
 
                 stream << "Global" << std::endl;
-                stream << "\tGlobalSection(SolutionConfigurationPlatforms) = preSolution" << std::endl;   
+                stream << "\tGlobalSection(SolutionConfigurationPlatforms) = preSolution" << std::endl;
                 stream << "\t\tDebug|Any CPU = Debug|Any CPU" << std::endl;
                 stream << "\t\tDebug|x64 = Debug|x64" << std::endl;
                 stream << "\t\tRelease|Any CPU = Release|Any CPU" << std::endl;
@@ -385,16 +385,16 @@ namespace bbox {
                             doc.SetText("Win32Proj");
                         }
 
-						{
-							DodgyXmlGenerator::Element property_group(doc, "RootNamespace");
-							doc.SetText(name);
-						}
+                        {
+                            DodgyXmlGenerator::Element property_group(doc, "RootNamespace");
+                            doc.SetText(name);
+                        }
 
-						{
-							DodgyXmlGenerator::Element property_group(doc, "WindowsTargetPlatformVersion");
-							doc.SetText("10.0.17134.0");
-						}
-					}
+                        {
+                            DodgyXmlGenerator::Element property_group(doc, "WindowsTargetPlatformVersion");
+                            doc.SetText("10.0.17134.0");
+                        }
+                    }
 
                     // Import default settings
 
@@ -654,8 +654,8 @@ namespace bbox {
                                 doc.SetTextElement("AdditionalOptions", "/wd4267 /wd4503 %(AdditionalOptions)");
                                 doc.SetTextElement("MultiProcessorCompilation", "true");
                                 doc.SetTextElement("MinimalRebuild", "false");
-								doc.SetTextElement("LanguageStandard", "stdcpp17");
-							}
+                                doc.SetTextElement("LanguageStandard", "stdcpp17");
+                            }
 
                             {
                                 DodgyXmlGenerator::Element cl(doc, "Link");
@@ -745,8 +745,17 @@ namespace bbox {
 
                         for (const std::string &source : project_ptr->GetSources())
                         {
-                            DodgyXmlGenerator::Element cl_compile(doc, "ClCompile");
-                            doc.SetAttribute("Include", FileUtils::ToWindowsPath(source));
+                            if ((source.size() > 3)
+                                && (source.substr(source.size() - 3) == ".rc"))
+                            {
+                                DodgyXmlGenerator::Element cl_compile(doc, "ResourceCompile");
+                                doc.SetAttribute("Include", FileUtils::ToWindowsPath(source));
+                            }
+                            else
+                            {
+                                DodgyXmlGenerator::Element cl_compile(doc, "ClCompile");
+                                doc.SetAttribute("Include", FileUtils::ToWindowsPath(source));
+                            }
                         }
                     }
 
@@ -758,7 +767,7 @@ namespace bbox {
                         DodgyXmlGenerator::Element item_group(doc, "ItemGroup");
 
                         std::set<std::string> refs = project_ptr->GetReferencesRecursive();
-                        
+
                         for (const std::string &ref : refs)
                         {
                             const Project *ref_project_ptr = GetSolution().GetProject(ref);
@@ -817,16 +826,16 @@ namespace bbox {
 
                             DodgyXmlGenerator::Element custom_build_element(doc, "CustomBuildStep");
                             doc.SetTextElement("Command", Format("%s -i %s -o %s %s", exe, inputs_joined, outputs_joined, custom_build.extra_args));
-							doc.SetTextElement("Outputs", outputs_joined);
-							doc.SetTextElement("Inputs", bbox::Format("%s;%s", inputs_joined, exe));
+                            doc.SetTextElement("Outputs", outputs_joined);
+                            doc.SetTextElement("Inputs", bbox::Format("%s;%s", inputs_joined, exe));
                         }
                     }
 
-					if (!project_ptr->GetCustomBuilds().empty())
-					{
-						DodgyXmlGenerator::Element custom_build_element(doc, "PropertyGroup");
-						doc.SetTextElement("CustomBuildBeforeTargets", "ClCompile");
-					}
+                    if (!project_ptr->GetCustomBuilds().empty())
+                    {
+                        DodgyXmlGenerator::Element custom_build_element(doc, "PropertyGroup");
+                        doc.SetTextElement("CustomBuildBeforeTargets", "ClCompile;ResourceCompile");
+                    }
 
                     // Last imports
 
@@ -971,7 +980,17 @@ namespace bbox {
                         {
                             std::string source = FileUtils::ToWindowsPath(raw_source);
 
-                            DodgyXmlGenerator::Element cl_compile(doc, "ClCompile");
+                            bool is_resource_file = false;
+
+                            if ((source.size() > 3)
+                                && (source.substr(source.size() - 3) == ".rc"))
+                            {
+                                is_resource_file = true;
+                            }
+
+                            DodgyXmlGenerator::Element cl_compile(doc,
+                                is_resource_file ? "ResourceCompile" : "ClCompile");
+
                             doc.SetAttribute("Include", source);
 
                             size_t pos = source.rfind('\\');
@@ -1111,9 +1130,9 @@ namespace bbox {
                         DodgyXmlGenerator::Element(doc, "IISExpressAnonymousAuthentication");
                         DodgyXmlGenerator::Element(doc, "IISExpressWindowsAuthentication");
                         DodgyXmlGenerator::Element(doc, "IISExpressUseClassicPipelineMode");
-						DodgyXmlGenerator::Element(doc, "UseGlobalApplicationHostFile");
-						DodgyXmlGenerator::Element(doc, "Use64BitIISExpress");
-					}
+                        DodgyXmlGenerator::Element(doc, "UseGlobalApplicationHostFile");
+                        DodgyXmlGenerator::Element(doc, "Use64BitIISExpress");
+                    }
 
                     // Item group - service
 
@@ -1236,9 +1255,9 @@ namespace bbox {
                         doc.SetTextElement("CustomServerUrl", "");
                         doc.SetTextElement("SaveServerSettingsInUserFile", "False");
 
-						// Increment the IIS port for the next project
+                        // Increment the IIS port for the next project
 
-						m_iis_port += 1;
+                        m_iis_port += 1;
                     }
 
                     // Debug/Release properties
@@ -1293,7 +1312,7 @@ namespace bbox {
                 const std::string &relative_path = project_ptr->GetRelativePath();
 
                 // web.config
-                
+
                 {
                     DodgyXmlGenerator doc;
 

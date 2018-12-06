@@ -21,6 +21,9 @@
     <ClCompile Include="mn\Resources.cpp">
       <Filter>mn</Filter>
     </ClCompile>
+    <ResourceCompile Include="mn\Resources.rc">
+      <Filter>mn</Filter>
+    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mn\Application.h">
