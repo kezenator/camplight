@@ -130,6 +130,12 @@ namespace bbox {
         }
 
         void
+        Project::AddRcFile(const std::string &rc_file)
+        {
+            m_rc_files.insert(FileUtils::ToUnixPath(rc_file));
+        }
+
+        void
         Project::AddResource(const std::string &resource)
         {
             m_resources.insert(FileUtils::ToUnixPath(resource));

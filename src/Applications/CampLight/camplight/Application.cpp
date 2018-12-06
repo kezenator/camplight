@@ -157,7 +157,7 @@ private:
 
     void HttpRequestHandler(bbox::http::Request &request)
     {
-        if (request.RespondWithResource(g_resource_files))
+        if (request.RespondWithResource(g_resource_files()))
         {
             return;
         }

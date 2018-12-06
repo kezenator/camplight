@@ -15,8 +15,9 @@ tool_reference("ResourceBuilder");
 
 include(".");
 
-sources(find_recursive("*.cpp"), "camplight/Resources.cpp", "camplight/Resources.rc");
+sources(find_recursive("*.cpp"), "camplight/Resources.cpp");
 headers(find_recursive("*.h"), "camplight/Resources.h");
+rc_files("camplight/Resources.rc");
 
 custom_build(
     "ResourceBuilder",

@@ -86,13 +86,15 @@
   <ItemGroup>
     <ClCompile Include="bbox\http\debug\HttpDebugWebsite.cpp" />
     <ClCompile Include="bbox\http\debug\Resources.cpp" />
-    <ResourceCompile Include="bbox\http\debug\Resources.rc" />
     <ClCompile Include="bbox\http\debug\msgs\DebugReportNotification.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\EnableRequest.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\QueryRequest.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\QueryResponse.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\QueryResponseChild.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\QueryResponseEntry.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="bbox\http\debug\Resources.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bbox\http\debug\HttpDebugWebsite.h" />

@@ -256,6 +256,8 @@ int resource_builder_main(int argc, char *argv[])
 
         std::string source;
 
+        std::vector<uint32_t> file_ids(inputs.size());
+
         {
             std::stringstream stream;
 
@@ -268,12 +270,12 @@ int resource_builder_main(int argc, char *argv[])
             stream << "#include <cstdint>" << std::endl;
             stream << "#include <bbox/http/ResourceFileSet.h>" << std::endl;
             stream << "#include <" << output_h << ">" << std::endl;
+            stream << "#include <Windows.h>" << std::endl;
             stream << std::endl;
             stream << "namespace {" << std::endl;
+            stream << std::endl;
 
-            std::vector<size_t> file_lengths(inputs.size());
             std::vector<std::string> file_etags(inputs.size());
-            std::vector<std::string> file_contents(inputs.size());
             std::vector<std::future<void>> file_futures(inputs.size());
 
             size_t count = 0;
@@ -282,7 +284,7 @@ int resource_builder_main(int argc, char *argv[])
                 size_t index = count;
                 count++;
 
-                file_futures[index] = std::async([input, index, &extension_lookup, &file_lengths, &file_etags, &file_contents]()
+                file_futures[index] = std::async([input, index, &extension_lookup, &file_etags, &file_ids]()
                     {
                         bool text_format = false;
 
@@ -308,8 +310,6 @@ int resource_builder_main(int argc, char *argv[])
                             memcpy(contents.data(), str.c_str(), str.size());
                         }
 
-                        file_lengths[index] = contents.size();
-
                         {
                             bbox::crypto::HashStream hash_stream(bbox::crypto::HashStream::SHA_256);
                             hash_stream.AddBytes(contents.data(), contents.size());
@@ -317,46 +317,20 @@ int resource_builder_main(int argc, char *argv[])
                             file_etags[index] = hash_stream.CompleteHash().ToBase64String();
                         }
 
-                        std::string data_buffer;
-                        data_buffer.reserve(100 + (10 + (16 * 6)) * ((contents.size() + 15) / 16));
-
-                        auto bcd = [](uint8_t val) -> char
                         {
-                            if (val <= 9)
-                                return '0' + val;
-                            else
-                                return 'A' - 10 + val;
-                        };
+                            bbox::crypto::HashStream hash_stream(bbox::crypto::HashStream::SHA_256);
+                            hash_stream.AddBytes(contents.data(), contents.size());
+                            hash_stream.AddBytes(input.data(), input.size());
 
-                        for (size_t i = 0; i < contents.size(); ++i)
-                        {
-                            if ((i & 0xF) == 0)
-                            {
-                                if (i != 0)
-                                {
-                                    data_buffer.append(",\n", 2);
-                                }
-                                data_buffer.append("        ", 8);
-                            }
-                            else
-                                data_buffer.append(", ", 2);
+                            auto hash = hash_stream.CompleteHash();
 
-                            uint8_t byte = contents[i];
+                            const auto &bytes = hash.ToVectorUint8();
 
-                            char one_val[4];
+                            uint32_t id = bytes[0]
+                                | (bytes[1] << 8);
 
-                            one_val[0] = '0';
-                            one_val[1] = 'x';
-                            one_val[2] = bcd(byte >> 4);
-                            one_val[3] = bcd(byte & 0x0F);
-
-                            data_buffer.append(one_val, 4);
+                            file_ids[index] = 0x4000 | (id & 0x7FFF);
                         }
-
-                        if (!contents.empty())
-                            data_buffer.push_back('\n');
-
-                        file_contents[index] = std::move(data_buffer);
                     });
             }
 
@@ -365,24 +339,27 @@ int resource_builder_main(int argc, char *argv[])
                 future.get();
             }
 
-            count = 0;
-            for (const std::string &input : inputs)
-            {
-                size_t index = count;
-                count++;
-
-                stream << "    // File #" << count << " - " << FixFileName(input) << std::endl;
-                stream << "    const uint8_t file_contents_" << count << "[" << file_lengths[index] << "] = {" << std::endl;
-                stream << file_contents[index];
-                stream << "    };" << std::endl;
-            }
-
+            stream << "    const uint8_t *GetResourceContents(size_t num)" << std::endl;
+            stream << "    {" << std::endl;
+            stream << "        HRSRC hRes = FindResource(0, MAKEINTRESOURCE(num), RT_RCDATA);" << std::endl;
+            stream << "        HGLOBAL hMem = LoadResource(0, hRes);" << std::endl;
+            stream << "        return reinterpret_cast<const uint8_t *>(LockResource(hMem));" << std::endl;
+            stream << "    }" << std::endl;
+            stream << std::endl;
+            stream << "    size_t GetResourceLength(size_t num)" << std::endl;
+            stream << "    {" << std::endl;
+            stream << "        HRSRC hRes = FindResource(0, MAKEINTRESOURCE(num), RT_RCDATA);" << std::endl;
+            stream << "        return SizeofResource(0, hRes);" << std::endl;
+            stream << "    }" << std::endl;
+            stream << std::endl;
             stream << "} // annonymous namespace" << std::endl;
             stream << std::endl;
 
             std::string indent = NamespaceOpen(stream, namespace_path);
 
-            stream << indent << "::bbox::http::ResourceFileSet g_resource_files({" << std::endl;
+            stream << indent << "const ::bbox::http::ResourceFileSet &g_resource_files()" << std::endl;
+            stream << indent << "{" << std::endl;
+            stream << indent << "    static ::bbox::http::ResourceFileSet result{" << std::endl;
 
             std::string prefix = path_remove;
             prefix.push_back('\\');
@@ -408,21 +385,24 @@ int resource_builder_main(int argc, char *argv[])
                 if (FixFileName(input.substr(0, prefix.size())) != FixFileName(prefix))
                     throw bbox::Exception(bbox::Format("Filename \"%s\" does not begin with expected prefix \"%s\"", input, prefix));
 
-                stream << indent << "    // File #" << count << " - " << FixFileName(input) << std::endl;
-                stream << indent << "    {" << std::endl;
-                stream << indent << "        \"" << FixFileName(path_add + input.substr(prefix.size())) << "\", // Filename" << std::endl;
-                stream << indent << "        file_contents_" << count << ", // Contents" << std::endl;
-                stream << indent << "        " << file_lengths[count-1] << ", // Length" << std::endl;
-                stream << indent << "        \"identity\", // Content Encoding" << std::endl;
-                stream << indent << "        \"" << mime_type << "\", // Mime-type" << std::endl;
-                stream << indent << "        \"\\\"" << file_etags[count - 1] << "\\\"\", // Strong ETag" << std::endl;
+                stream << indent << "        // File #" << count << " - " << FixFileName(input) << std::endl;
+                stream << indent << "        ::bbox::http::ResourceFileSet::InitEntry{" << std::endl;
+                stream << indent << "            \"" << FixFileName(path_add + input.substr(prefix.size())) << "\", // Filename" << std::endl;
+                stream << indent << "            GetResourceContents(" << file_ids[count - 1] << ")," << std::endl;
+                stream << indent << "            GetResourceLength(" << file_ids[count - 1] << ")," << std::endl;
+                stream << indent << "            \"identity\", // Content Encoding" << std::endl;
+                stream << indent << "            \"" << mime_type << "\", // Mime-type" << std::endl;
+                stream << indent << "            \"\\\"" << file_etags[count - 1] << "\\\"\", // Strong ETag" << std::endl;
                 stream << "#ifdef _DEBUG" << std::endl;
-                stream << indent << "        \"" << bbox::FileUtils::ToUnixPath(bbox::FileUtils::GetCurrentWorkingDir()) << "/" << bbox::FileUtils::ToUnixPath(input) << "\", // Original file name (for debugging)" << std::endl;
+                stream << indent << "            \"" << bbox::FileUtils::ToUnixPath(bbox::FileUtils::GetCurrentWorkingDir()) << "/" << bbox::FileUtils::ToUnixPath(input) << "\", // Original file name (for debugging)" << std::endl;
                 stream << "#endif" << std::endl;
-                stream << indent << "    }," << std::endl;
+                stream << indent << "        }," << std::endl;
             }
 
-            stream << indent << "});" << std::endl;
+            stream << indent << "    };" << std::endl;
+            stream << std::endl;
+            stream << indent << "    return result;" << std::endl;
+            stream << indent << "}" << std::endl;
 
             NamespaceClose(stream, namespace_path);
 
@@ -447,7 +427,7 @@ int resource_builder_main(int argc, char *argv[])
 
             std::string indent = NamespaceOpen(stream, namespace_path);
 
-            stream << indent << "extern ::bbox::http::ResourceFileSet g_resource_files;" << std::endl;
+            stream << indent << "extern const ::bbox::http::ResourceFileSet &g_resource_files();" << std::endl;
 
             NamespaceClose(stream, namespace_path);
 
@@ -469,7 +449,6 @@ int resource_builder_main(int argc, char *argv[])
             size_t count = 0;
             for (const std::string &input : inputs)
             {
-                size_t index = count;
                 count++;
 
                 std::string input_resolved;
@@ -477,7 +456,7 @@ int resource_builder_main(int argc, char *argv[])
                 if (err)
                     throw std::exception("Could not resolve resource path");
 
-                stream << index << " RCDATA \""
+                stream << file_ids[count - 1] << " RCDATA \""
                     << quote(input_resolved)
                     << "\"" << std::endl;
             }

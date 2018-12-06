@@ -100,7 +100,7 @@ void ApplicationService::SsdpAdvertCallback(const bbox::rt::net::IpAddress &inte
 
 void ApplicationService::HttpRequestHandler(bbox::http::Request &request)
 {
-    if (request.RespondWithResource(g_resource_files))
+    if (request.RespondWithResource(g_resource_files()))
     {
         return;
     }

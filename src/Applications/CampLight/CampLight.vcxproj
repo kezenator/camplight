@@ -92,7 +92,6 @@
   <ItemGroup>
     <ClCompile Include="camplight\Application.cpp" />
     <ClCompile Include="camplight\Resources.cpp" />
-    <ResourceCompile Include="camplight\Resources.rc" />
     <ClCompile Include="camplight\factory\PatternFactory.cpp" />
     <ClCompile Include="camplight\factory\SequenceFactory.cpp" />
     <ClCompile Include="camplight\factory\TransitionFactory.cpp" />
@@ -114,6 +113,9 @@
     <ClCompile Include="camplight\transition\LinearFade.cpp" />
     <ClCompile Include="camplight\transition\RandomDither.cpp" />
     <ClCompile Include="camplight\transition\Swipe.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="camplight\Resources.rc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BBoxEnc\BBoxEnc.vcxproj">

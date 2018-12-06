@@ -15,8 +15,9 @@ if (platform() == "Win32") then
 
   include(".");
 
-  sources(find_recursive("*.cpp"), "mn/Resources.cpp", "mn/Resources.rc");
+  sources(find_recursive("*.cpp"), "mn/Resources.cpp");
   headers(find_recursive("*.h"), "mn/Resources.h");
+  rc_files("mn/Resources.rc");
 
   custom_build(
       "ResourceBuilder",

@@ -101,6 +101,8 @@
     <ClCompile Include="mn\EmulatorRunner.cpp" />
     <ClCompile Include="mn\MessageWebSocket.cpp" />
     <ClCompile Include="mn\Resources.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ResourceCompile Include="mn\Resources.rc" />
   </ItemGroup>
   <ItemGroup>

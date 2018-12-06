@@ -105,11 +105,11 @@ void HttpDebugWebsite::HandleResourceRequest(http::Request &request)
 	else if ((resource == "/debug/")
 		|| (resource.substr(0, 13) == "/debug/state/"))
 	{
-		request.RespondWithResourceOrNotFoundError(g_resource_files, "/debug/index.html");
+		request.RespondWithResourceOrNotFoundError(g_resource_files(), "/debug/index.html");
 	}
 	else
 	{
-		request.RespondWithResourceOrNotFoundError(g_resource_files);
+		request.RespondWithResourceOrNotFoundError(g_resource_files());
 	}
 }
 

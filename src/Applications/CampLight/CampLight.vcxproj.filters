@@ -27,9 +27,6 @@
     <ClCompile Include="camplight\Resources.cpp">
       <Filter>camplight</Filter>
     </ClCompile>
-    <ResourceCompile Include="camplight\Resources.rc">
-      <Filter>camplight</Filter>
-    </ResourceCompile>
     <ClCompile Include="camplight\factory\PatternFactory.cpp">
       <Filter>camplight\factory</Filter>
     </ClCompile>
@@ -93,6 +90,11 @@
     <ClCompile Include="camplight\transition\Swipe.cpp">
       <Filter>camplight\transition</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="camplight\Resources.rc">
+      <Filter>camplight</Filter>
+    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camplight\Resources.h">

@@ -745,17 +745,21 @@ namespace bbox {
 
                         for (const std::string &source : project_ptr->GetSources())
                         {
-                            if ((source.size() > 3)
-                                && (source.substr(source.size() - 3) == ".rc"))
-                            {
-                                DodgyXmlGenerator::Element cl_compile(doc, "ResourceCompile");
-                                doc.SetAttribute("Include", FileUtils::ToWindowsPath(source));
-                            }
-                            else
-                            {
-                                DodgyXmlGenerator::Element cl_compile(doc, "ClCompile");
-                                doc.SetAttribute("Include", FileUtils::ToWindowsPath(source));
-                            }
+                            DodgyXmlGenerator::Element cl_compile(doc, "ClCompile");
+                            doc.SetAttribute("Include", FileUtils::ToWindowsPath(source));
+                        }
+                    }
+
+                    // RC files
+
+                    if (!project_ptr->GetRcFiles().empty())
+                    {
+                        DodgyXmlGenerator::Element item_group(doc, "ItemGroup");
+
+                        for (const std::string &rc_file : project_ptr->GetRcFiles())
+                        {
+                            DodgyXmlGenerator::Element cl_compile(doc, "ResourceCompile");
+                            doc.SetAttribute("Include", FileUtils::ToWindowsPath(rc_file));
                         }
                     }
 
@@ -980,16 +984,7 @@ namespace bbox {
                         {
                             std::string source = FileUtils::ToWindowsPath(raw_source);
 
-                            bool is_resource_file = false;
-
-                            if ((source.size() > 3)
-                                && (source.substr(source.size() - 3) == ".rc"))
-                            {
-                                is_resource_file = true;
-                            }
-
-                            DodgyXmlGenerator::Element cl_compile(doc,
-                                is_resource_file ? "ResourceCompile" : "ClCompile");
+                            DodgyXmlGenerator::Element cl_compile(doc, "ClCompile");
 
                             doc.SetAttribute("Include", source);
 
@@ -997,6 +992,28 @@ namespace bbox {
                             if (pos != std::string::npos)
                             {
                                 doc.SetTextElement("Filter", source.substr(0, pos));
+                            }
+                        }
+                    }
+
+                    // Resources
+
+                    if (!project_ptr->GetRcFiles().empty())
+                    {
+                        DodgyXmlGenerator::Element item_group(doc, "ItemGroup");
+
+                        for (const std::string &raw_rc_file : project_ptr->GetRcFiles())
+                        {
+                            std::string rc_file = FileUtils::ToWindowsPath(raw_rc_file);
+
+                            DodgyXmlGenerator::Element cl_compile(doc, "ResourceCompile");
+
+                            doc.SetAttribute("Include", rc_file);
+
+                            size_t pos = rc_file.rfind('\\');
+                            if (pos != std::string::npos)
+                            {
+                                doc.SetTextElement("Filter", rc_file.substr(0, pos));
                             }
                         }
                     }

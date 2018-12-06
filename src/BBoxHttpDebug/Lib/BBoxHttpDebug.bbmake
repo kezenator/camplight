@@ -12,8 +12,9 @@ end
 
 include(".");
 
-sources(find_recursive("*.cpp"), "bbox/http/debug/Resources.rc", "bbox/http/debug/Resources.cpp");
+sources(find_recursive("*.cpp"), "bbox/http/debug/Resources.cpp");
 headers(find_recursive("*.h"), "bbox/http/debug/Resources.h");
+rc_files("bbox/http/debug/Resources.rc");
 
 resources(
     "../Web/app.js",

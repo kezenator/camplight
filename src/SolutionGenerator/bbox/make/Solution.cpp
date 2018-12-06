@@ -356,6 +356,15 @@ namespace bbox {
                     HEADER));
 
             state.RegisterGlobalFunction(
+                "rc_files",
+                boost::bind(
+                    &Solution::LuaFunc_File_List,
+                    this,
+                    _1,
+                    project_ptr,
+                    RC_FILE));
+
+            state.RegisterGlobalFunction(
                 "resources",
                 boost::bind(
                     &Solution::LuaFunc_File_List,
@@ -460,6 +469,7 @@ namespace bbox {
                 {
                 case SOURCE:    project_ptr->AddSource(entry_str); break;
                 case HEADER:    project_ptr->AddHeader(entry_str); break;
+                case RC_FILE:   project_ptr->AddRcFile(entry_str); break;
                 case RESOURCE:  project_ptr->AddResource(entry_str); break;
                 }
             };

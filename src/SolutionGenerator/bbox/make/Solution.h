@@ -58,6 +58,7 @@ namespace bbox {
             {
                 SOURCE,
                 HEADER,
+                RC_FILE,
                 RESOURCE
             };
 

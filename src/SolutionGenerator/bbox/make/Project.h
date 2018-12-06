@@ -75,6 +75,7 @@ namespace bbox {
             const std::set<std::string> &GetToolReferences() const { return m_tool_references; }
             const std::set<std::string> &GetSources() const { return m_sources; }
             const std::set<std::string> &GetHeaders() const { return m_headers; }
+            const std::set<std::string> &GetRcFiles() const { return m_rc_files; }
             const std::set<std::string> &GetResources() const { return m_resources; }
             const std::set<std::string> &GetIncludes() const { return m_includes; }
             const std::map<std::string, Define> &GetDefines() const { return m_defines; }
@@ -93,6 +94,7 @@ namespace bbox {
             void AddToolReference(const std::string &tool_reference);
             void AddSource(const std::string &source);
             void AddHeader(const std::string &header);
+            void AddRcFile(const std::string &rc_file);
             void AddResource(const std::string &resource);
             void AddInclude(const std::string &include);
             void AddDefine(const std::string &define, const std::string &value, const std::string &condition);
@@ -118,6 +120,7 @@ namespace bbox {
             std::set<std::string> m_tool_references;
             std::set<std::string> m_sources;
             std::set<std::string> m_headers;
+            std::set<std::string> m_rc_files;
             std::set<std::string> m_resources;
             std::set<std::string> m_includes;
             std::map<std::string, Define> m_defines;

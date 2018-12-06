@@ -773,7 +773,6 @@ MODULES += BBoxHttpDebug
 SRCS_DIRECT_BBoxHttpDebug := $(sort \
         BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugWebsite.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp \
-        BBoxHttpDebug/Lib/bbox/http/debug/Resources.rc \
         BBoxHttpDebug/Lib/bbox/http/debug/msgs/DebugReportNotification.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/msgs/EnableRequest.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/msgs/QueryRequest.cpp \
@@ -814,7 +813,6 @@ MODULES += CampLight
 SRCS_DIRECT_CampLight := $(sort \
         Applications/CampLight/camplight/Application.cpp \
         Applications/CampLight/camplight/Resources.cpp \
-        Applications/CampLight/camplight/Resources.rc \
         Applications/CampLight/camplight/factory/PatternFactory.cpp \
         Applications/CampLight/camplight/factory/SequenceFactory.cpp \
         Applications/CampLight/camplight/factory/TransitionFactory.cpp \
