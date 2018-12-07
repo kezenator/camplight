@@ -30,6 +30,7 @@ namespace bbox {
             private:
                 void PrintIncludes(std::ostream &stream, const Project *proj);
                 void PrintSources(std::ostream &stream, const Project *proj);
+                void PrintResources(std::ostream &stream, const Project *proj);
                 void PrintLibs(std::ostream &stream, const Project *proj);
                 void PrintCustomBuildSteps(std::ostream &stream, const Project *proj);
                 std::string UnixPath(std::string path);

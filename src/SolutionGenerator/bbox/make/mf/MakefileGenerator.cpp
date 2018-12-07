@@ -90,6 +90,7 @@ namespace bbox {
                     case ProjectType::Application:
                         {
                             PrintSources(stream, proj);
+                            PrintResources(stream, proj);
                             PrintIncludes(stream, proj);
                             PrintLibs(stream, proj);
                             PrintCustomBuildSteps(stream, proj);
@@ -108,6 +109,7 @@ namespace bbox {
                     case ProjectType::StaticLibrary:
                         {
                             PrintSources(stream, proj);
+                            PrintResources(stream, proj);
                             PrintIncludes(stream, proj);
                             PrintCustomBuildSteps(stream, proj);
                     }
@@ -115,6 +117,7 @@ namespace bbox {
                     case ProjectType::UnitTests:
                         {
                             PrintSources(stream, proj);
+                            PrintResources(stream, proj);
                             PrintIncludes(stream, proj);
                             PrintLibs(stream, proj);
                             PrintCustomBuildSteps(stream, proj);
@@ -154,6 +157,36 @@ namespace bbox {
 
                 stream << "    )" << std::endl;
                 stream << "    # End SRCS_RECURSIVE_" << proj->GetName() << std::endl;
+                stream << std::endl;
+            }
+
+            void MakefileGenerator::PrintResources(std::ostream &stream, const Project *proj)
+            {
+                stream << "RESOURCES_DIRECT_" << proj->GetName() << " := " << std::endl;
+                stream << std::endl;
+
+                for (const std::string &rc_file: proj->GetRcFiles())
+                {
+                    stream << "include "
+                        << UnixPath(Format("%s/%s", proj->GetRelativePath(), rc_file))
+                        << std::endl;
+                }
+                if (!proj->GetRcFiles().empty())
+                    stream << std::endl;
+
+                stream << "    # End RESOURCES_DIRECT_" << proj->GetName() << std::endl;
+                stream << std::endl;
+
+                stream << "RESOURCES_RECURSIVE_" << proj->GetName() << " := $(sort \\" << std::endl;
+                stream << "        $(RESOURCES_DIRECT_" << proj->GetName() << ") \\" << std::endl;
+
+                for (const std::string &ref_name : proj->GetReferences())
+                {
+                    stream << "        $(RESOURCES_RECURSIVE_" << ref_name << ") \\" << std::endl;
+                }
+
+                stream << "    )" << std::endl;
+                stream << "    # End RESOURCES_RECURSIVE_" << proj->GetName() << std::endl;
                 stream << std::endl;
             }
 

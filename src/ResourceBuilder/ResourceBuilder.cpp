@@ -138,15 +138,42 @@ std::string FixFileName(const std::string &file_name)
     return result;
 }
 
+#ifndef WIN32
+std::string InputToSymbol(const std::string &project_path, const std::string &input)
+{
+    std::string result = bbox::FileUtils::ToUnixPath(bbox::Format("_binary_%s/%s", project_path, input));
+
+    for (char &ch : result)
+    {
+        if (((ch >= 'a') && (ch <= 'z'))
+            || ((ch >= 'A') && (ch <= 'Z'))
+            || ((ch >= '0') && (ch <= '9')))
+        {
+            // OK - valid C symbol
+        }
+        else
+        {
+            // Replace other characters with underscores
+            ch = '_';
+        }
+    }
+
+    return result;
+}
+#endif // not WIN32
+
 int resource_builder_main(int argc, char *argv[])
 {
     try
     {
-        // We expect 8 to 10 extra arguments - they must be
+        // We expect 14 to 16 extra arguments - they must be
         // -i "inputs;files"
         // -o "output.cpp;output.h"
+        // -p "project_name"
+        // -d "project_path"
         // -n "name::space"
         // -r "remove\\path"
+        // -b base_resource_id
         // -a "add\\path"
 
         bool args_valid = false;
@@ -154,18 +181,22 @@ int resource_builder_main(int argc, char *argv[])
         std::string output_cpp;
         std::string output_h;
         std::string output_rc;
+        std::string project_name;
+        std::string project_path;
         std::vector<std::string> namespace_path;
         std::string path_remove;
         std::string path_add;
         uint16_t base_resource_id;
 
-        if ((argc >= 11) && (argc <= 13))
+        if ((argc >= 15) && (argc <= 17))
         {
             if ((strcmp(argv[1], "-i") == 0)
                 && (strcmp(argv[3], "-o") == 0)
-                && (strcmp(argv[5], "-n") == 0)
-                && (strcmp(argv[7], "-r") == 0)
-                && (strcmp(argv[9], "-b") == 0))
+                && (strcmp(argv[5], "-p") == 0)
+                && (strcmp(argv[7], "-d") == 0)
+                && (strcmp(argv[9], "-n") == 0)
+                && (strcmp(argv[11], "-r") == 0)
+                && (strcmp(argv[13], "-b") == 0))
             {
                 std::string input_str(argv[2]);
                 boost::algorithm::split(inputs, input_str, boost::algorithm::is_any_of(";"));
@@ -184,8 +215,11 @@ int resource_builder_main(int argc, char *argv[])
                         output_h = outputs[1];
                         output_rc = outputs[2];
 
+                        project_name = argv[6];
+                        project_path = argv[8];
+
                         // Finally, split the namespace by double-colons
-                        std::string ns(argv[6]);
+                        std::string ns(argv[10]);
                         if (!ns.empty())
                         {
                             size_t pos = 0;
@@ -210,21 +244,21 @@ int resource_builder_main(int argc, char *argv[])
                             }
                         }
 
-                        path_remove = argv[8];
-                        base_resource_id = atoi(argv[10]);
+                        path_remove = argv[12];
+                        base_resource_id = atoi(argv[14]);
                         args_valid = true;
                     }
                 }
             }
 
             if (args_valid
-                && (argc == 13))
+                && (argc == 17))
             {
                 args_valid = false;
 
-                if (strcmp(argv[11], "-a") == 0)
+                if (strcmp(argv[15], "-a") == 0)
                 {
-                    path_add = argv[12];
+                    path_add = argv[16];
                     args_valid = true;
                 }
             }
@@ -271,9 +305,9 @@ int resource_builder_main(int argc, char *argv[])
             stream << "#include <cstdint>" << std::endl;
             stream << "#include <bbox/http/ResourceFileSet.h>" << std::endl;
             stream << "#include <" << output_h << ">" << std::endl;
+#ifdef WIN32
             stream << "#include <Windows.h>" << std::endl;
-            stream << std::endl;
-            stream << "namespace {" << std::endl;
+#endif // WIN32
             stream << std::endl;
 
             std::vector<std::string> file_etags(inputs.size());
@@ -325,6 +359,9 @@ int resource_builder_main(int argc, char *argv[])
                 future.get();
             }
 
+#ifdef WIN32
+            stream << "namespace {" << std::endl;
+            stream << std::endl;
             stream << "    const uint8_t *GetResourceContents(size_t num)" << std::endl;
             stream << "    {" << std::endl;
             stream << "        HRSRC hRes = FindResource(0, MAKEINTRESOURCE(num), RT_RCDATA);" << std::endl;
@@ -340,6 +377,23 @@ int resource_builder_main(int argc, char *argv[])
             stream << std::endl;
             stream << "} // annonymous namespace" << std::endl;
             stream << std::endl;
+#else // if not WIN32
+
+            // The base resource ID is not used in non-Windows environments
+            (void)base_resource_id;
+
+            stream << "extern \"C\"" << std::endl;
+            stream << "{" << std::endl;
+
+            for (const std::string &input: inputs)
+            {
+                stream << "    extern uint8_t " << InputToSymbol(project_path, input) << "_start[]; " << std::endl;
+                stream << "    extern uint8_t " << InputToSymbol(project_path, input) << "_size; " << std::endl;
+            }
+
+            stream << "}" << std::endl;
+            stream << std::endl;
+#endif // not WIN32
 
             std::string indent = NamespaceOpen(stream, namespace_path);
 
@@ -374,8 +428,13 @@ int resource_builder_main(int argc, char *argv[])
                 stream << indent << "        // File #" << count << " - " << FixFileName(input) << std::endl;
                 stream << indent << "        ::bbox::http::ResourceFileSet::InitEntry{" << std::endl;
                 stream << indent << "            \"" << FixFileName(path_add + input.substr(prefix.size())) << "\", // Filename" << std::endl;
+#ifdef WIN32
                 stream << indent << "            GetResourceContents(" << (base_resource_id + count - 1) << ")," << std::endl;
                 stream << indent << "            GetResourceLength(" << (base_resource_id + count - 1) << ")," << std::endl;
+#else // if not WIN32
+                stream << indent << "            " << InputToSymbol(project_path, input) << "_start," << std::endl;
+                stream << indent << "            size_t(&" << InputToSymbol(project_path, input) << "_size)," << std::endl;
+#endif // not WIN32
                 stream << indent << "            \"identity\", // Content Encoding" << std::endl;
                 stream << indent << "            \"" << mime_type << "\", // Mime-type" << std::endl;
                 stream << indent << "            \"\\\"" << file_etags[count - 1] << "\\\"\", // Strong ETag" << std::endl;
@@ -427,6 +486,7 @@ int resource_builder_main(int argc, char *argv[])
         {
             std::stringstream stream;
 
+#ifdef WIN32
             auto quote = [](const std::string &input)
             {
                 return boost::replace_all_copy(input, "\\", "\\\\");
@@ -440,13 +500,52 @@ int resource_builder_main(int argc, char *argv[])
                 std::string input_resolved;
                 bbox::Error err = bbox::FileUtils::ResolveRelativePath(input, input_resolved);
                 if (err)
-                    throw std::exception("Could not resolve resource path");
+                    throw std::ios_base::failure("Could not resolve resource path");
 
                 stream << (base_resource_id + count - 1)
                     << " RCDATA \""
                     << quote(input_resolved)
                     << "\"" << std::endl;
             }
+#else // if not WIN32
+
+            std::string project_path_unix = bbox::FileUtils::ToUnixPath(project_path);
+
+            size_t count = 0;
+            for (const std::string &input : inputs)
+            {
+                count++;
+
+                std::string input_unix = bbox::FileUtils::ToUnixPath(input);
+
+                std::string input_dir;
+                {
+                    size_t slash_pos = input_unix.rfind('/');
+                    if (slash_pos != std::string::npos)
+                        input_dir = input_unix.substr(0, slash_pos);
+                }
+
+                stream << "$(OUTPUT_DIR)/" << project_path_unix << "/" << input_unix << ".o: "
+                    << project_path_unix << "/" << input_unix
+                    << " Makefile modules.make " << project_path_unix << "/" << output_rc
+                    << std::endl;
+                stream << "\tmkdir -p $(OUTPUT_DIR)/" << project_path_unix << "/" << input_dir << std::endl;
+                stream << "\tobjcopy -I binary -O $(OBJCOPY_OUTPUT_TARGET) -B $(OBJCOPY_BINARY_ARCHITECTURE)"
+                    << " " << project_path_unix << "/" << input_unix
+                    << " " << "$(OUTPUT_DIR)/" << project_path_unix << "/" << input_unix << ".o"
+                    << std::endl;
+                stream << std::endl;
+
+            }
+
+            stream << "RESOURCES_DIRECT_" << project_name << " += $(sort \\" << std::endl;
+            for (const std::string &input : inputs)
+            {
+                stream << "    " << project_path_unix << "/" << bbox::FileUtils::ToUnixPath(input) << " \\" << std::endl;
+            }
+            stream << "    )" << std::endl;
+            stream << std::endl;
+#endif // not WIN32
 
             rc = stream.str();
         }

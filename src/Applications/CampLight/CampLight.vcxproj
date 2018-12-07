@@ -176,7 +176,7 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <CustomBuildStep>
-      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i camplight\resources\app.css;camplight\resources\app.js;camplight\resources\apple-touch-icon-120x120.png;camplight\resources\apple-touch-icon-152x152.png;camplight\resources\apple-touch-icon-180x180.png;camplight\resources\apple-touch-icon-192x192.png;camplight\resources\favicon.ico;camplight\resources\index.html -o camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.rc -n "camplight" -r "camplight\resources" -b 1</Command>
+      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i camplight\resources\app.css;camplight\resources\app.js;camplight\resources\apple-touch-icon-120x120.png;camplight\resources\apple-touch-icon-152x152.png;camplight\resources\apple-touch-icon-180x180.png;camplight\resources\apple-touch-icon-192x192.png;camplight\resources\favicon.ico;camplight\resources\index.html -o camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.rc -p CampLight -d Applications/CampLight -n "camplight" -r "camplight\resources" -b 1</Command>
       <Outputs>camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.rc</Outputs>
       <Inputs>camplight\resources\app.css;camplight\resources\app.js;camplight\resources\apple-touch-icon-120x120.png;camplight\resources\apple-touch-icon-152x152.png;camplight\resources\apple-touch-icon-180x180.png;camplight\resources\apple-touch-icon-192x192.png;camplight\resources\favicon.ico;camplight\resources\index.html;..\..\x64\$(Configuration)\ResourceBuilder.exe</Inputs>
     </CustomBuildStep>

@@ -24,4 +24,4 @@ custom_build(
     find_recursive("camplight/resources/*.*"),
     { "camplight/Resources.rc", "camplight/Resources.cpp", "camplight/Resources.h" },
     { "camplight/Application.cpp" },
-    "-n \"camplight\" -r \"camplight\\resources\" -b 1");
+    "-p CampLight -d Applications/CampLight -n \"camplight\" -r \"camplight\\resources\" -b 1");

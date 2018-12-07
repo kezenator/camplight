@@ -12,6 +12,15 @@ SRCS_RECURSIVE_FastNoise := $(sort \
     )
     # End SRCS_RECURSIVE_FastNoise
 
+RESOURCES_DIRECT_FastNoise := 
+
+    # End RESOURCES_DIRECT_FastNoise
+
+RESOURCES_RECURSIVE_FastNoise := $(sort \
+        $(RESOURCES_DIRECT_FastNoise) \
+    )
+    # End RESOURCES_RECURSIVE_FastNoise
+
 INCS_DIRECT_FastNoise := $(sort \
         ThirdParty/FastNoise/../../../external/FastNoise \
     )
@@ -39,6 +48,15 @@ SRCS_RECURSIVE_LibWS281x := $(sort \
         $(SRCS_DIRECT_LibWS281x) \
     )
     # End SRCS_RECURSIVE_LibWS281x
+
+RESOURCES_DIRECT_LibWS281x := 
+
+    # End RESOURCES_DIRECT_LibWS281x
+
+RESOURCES_RECURSIVE_LibWS281x := $(sort \
+        $(RESOURCES_DIRECT_LibWS281x) \
+    )
+    # End RESOURCES_RECURSIVE_LibWS281x
 
 INCS_DIRECT_LibWS281x := $(sort \
         ThirdParty/WS281x/Lib/src \
@@ -95,6 +113,15 @@ SRCS_RECURSIVE_Lua := $(sort \
     )
     # End SRCS_RECURSIVE_Lua
 
+RESOURCES_DIRECT_Lua := 
+
+    # End RESOURCES_DIRECT_Lua
+
+RESOURCES_RECURSIVE_Lua := $(sort \
+        $(RESOURCES_DIRECT_Lua) \
+    )
+    # End RESOURCES_RECURSIVE_Lua
+
 INCS_DIRECT_Lua := $(sort \
         ThirdParty/Lua/src \
     )
@@ -120,6 +147,15 @@ SRCS_RECURSIVE_Snappy := $(sort \
         $(SRCS_DIRECT_Snappy) \
     )
     # End SRCS_RECURSIVE_Snappy
+
+RESOURCES_DIRECT_Snappy := 
+
+    # End RESOURCES_DIRECT_Snappy
+
+RESOURCES_RECURSIVE_Snappy := $(sort \
+        $(RESOURCES_DIRECT_Snappy) \
+    )
+    # End RESOURCES_RECURSIVE_Snappy
 
 INCS_DIRECT_Snappy := $(sort \
         ThirdParty/Snappy/. \
@@ -169,6 +205,15 @@ SRCS_RECURSIVE_boost := $(sort \
     )
     # End SRCS_RECURSIVE_boost
 
+RESOURCES_DIRECT_boost := 
+
+    # End RESOURCES_DIRECT_boost
+
+RESOURCES_RECURSIVE_boost := $(sort \
+        $(RESOURCES_DIRECT_boost) \
+    )
+    # End RESOURCES_RECURSIVE_boost
+
 INCS_DIRECT_boost := $(sort \
         ThirdParty/boost/boost_1_68_0 \
     )
@@ -192,6 +237,15 @@ SRCS_RECURSIVE_json := $(sort \
         $(SRCS_DIRECT_json) \
     )
     # End SRCS_RECURSIVE_json
+
+RESOURCES_DIRECT_json := 
+
+    # End RESOURCES_DIRECT_json
+
+RESOURCES_RECURSIVE_json := $(sort \
+        $(RESOURCES_DIRECT_json) \
+    )
+    # End RESOURCES_RECURSIVE_json
 
 INCS_DIRECT_json := $(sort \
         ThirdParty/json/. \
@@ -237,6 +291,16 @@ SRCS_RECURSIVE_BBoxUtils := $(sort \
     )
     # End SRCS_RECURSIVE_BBoxUtils
 
+RESOURCES_DIRECT_BBoxUtils := 
+
+    # End RESOURCES_DIRECT_BBoxUtils
+
+RESOURCES_RECURSIVE_BBoxUtils := $(sort \
+        $(RESOURCES_DIRECT_BBoxUtils) \
+        $(RESOURCES_RECURSIVE_boost) \
+    )
+    # End RESOURCES_RECURSIVE_BBoxUtils
+
 INCS_DIRECT_BBoxUtils := $(sort \
         BBoxUtils/. \
     )
@@ -262,6 +326,16 @@ SRCS_RECURSIVE_PiLightTest := $(sort \
         $(SRCS_RECURSIVE_LibWS281x) \
     )
     # End SRCS_RECURSIVE_PiLightTest
+
+RESOURCES_DIRECT_PiLightTest := 
+
+    # End RESOURCES_DIRECT_PiLightTest
+
+RESOURCES_RECURSIVE_PiLightTest := $(sort \
+        $(RESOURCES_DIRECT_PiLightTest) \
+        $(RESOURCES_RECURSIVE_LibWS281x) \
+    )
+    # End RESOURCES_RECURSIVE_PiLightTest
 
 INCS_DIRECT_PiLightTest := $(sort \
         Applications/PiLightTest/. \
@@ -296,6 +370,18 @@ SRCS_RECURSIVE_LuaCpp := $(sort \
     )
     # End SRCS_RECURSIVE_LuaCpp
 
+RESOURCES_DIRECT_LuaCpp := 
+
+    # End RESOURCES_DIRECT_LuaCpp
+
+RESOURCES_RECURSIVE_LuaCpp := $(sort \
+        $(RESOURCES_DIRECT_LuaCpp) \
+        $(RESOURCES_RECURSIVE_BBoxUtils) \
+        $(RESOURCES_RECURSIVE_Lua) \
+        $(RESOURCES_RECURSIVE_boost) \
+    )
+    # End RESOURCES_RECURSIVE_LuaCpp
+
 INCS_DIRECT_LuaCpp := $(sort \
         LuaCpp/. \
     )
@@ -323,6 +409,16 @@ SRCS_RECURSIVE_ResourceBuilder := $(sort \
         $(SRCS_RECURSIVE_BBoxUtils) \
     )
     # End SRCS_RECURSIVE_ResourceBuilder
+
+RESOURCES_DIRECT_ResourceBuilder := 
+
+    # End RESOURCES_DIRECT_ResourceBuilder
+
+RESOURCES_RECURSIVE_ResourceBuilder := $(sort \
+        $(RESOURCES_DIRECT_ResourceBuilder) \
+        $(RESOURCES_RECURSIVE_BBoxUtils) \
+    )
+    # End RESOURCES_RECURSIVE_ResourceBuilder
 
 INCS_DIRECT_ResourceBuilder := $(sort \
         ResourceBuilder/. \
@@ -362,6 +458,16 @@ SRCS_RECURSIVE_TinyXml2 := $(sort \
     )
     # End SRCS_RECURSIVE_TinyXml2
 
+RESOURCES_DIRECT_TinyXml2 := 
+
+    # End RESOURCES_DIRECT_TinyXml2
+
+RESOURCES_RECURSIVE_TinyXml2 := $(sort \
+        $(RESOURCES_DIRECT_TinyXml2) \
+        $(RESOURCES_RECURSIVE_BBoxUtils) \
+    )
+    # End RESOURCES_RECURSIVE_TinyXml2
+
 INCS_DIRECT_TinyXml2 := $(sort \
         ThirdParty/TinyXml2/. \
     )
@@ -388,6 +494,17 @@ SRCS_RECURSIVE_UnitTest := $(sort \
         $(SRCS_RECURSIVE_boost) \
     )
     # End SRCS_RECURSIVE_UnitTest
+
+RESOURCES_DIRECT_UnitTest := 
+
+    # End RESOURCES_DIRECT_UnitTest
+
+RESOURCES_RECURSIVE_UnitTest := $(sort \
+        $(RESOURCES_DIRECT_UnitTest) \
+        $(RESOURCES_RECURSIVE_BBoxUtils) \
+        $(RESOURCES_RECURSIVE_boost) \
+    )
+    # End RESOURCES_RECURSIVE_UnitTest
 
 INCS_DIRECT_UnitTest := $(sort \
         UnitTest/common \
@@ -433,6 +550,19 @@ SRCS_RECURSIVE_BBoxEnc := $(sort \
     )
     # End SRCS_RECURSIVE_BBoxEnc
 
+RESOURCES_DIRECT_BBoxEnc := 
+
+    # End RESOURCES_DIRECT_BBoxEnc
+
+RESOURCES_RECURSIVE_BBoxEnc := $(sort \
+        $(RESOURCES_DIRECT_BBoxEnc) \
+        $(RESOURCES_RECURSIVE_BBoxUtils) \
+        $(RESOURCES_RECURSIVE_TinyXml2) \
+        $(RESOURCES_RECURSIVE_boost) \
+        $(RESOURCES_RECURSIVE_json) \
+    )
+    # End RESOURCES_RECURSIVE_BBoxEnc
+
 INCS_DIRECT_BBoxEnc := $(sort \
         BBoxEnc/. \
     )
@@ -465,6 +595,17 @@ SRCS_RECURSIVE_BBoxUtils_UnitTests := $(sort \
         $(SRCS_RECURSIVE_UnitTest) \
     )
     # End SRCS_RECURSIVE_BBoxUtils_UnitTests
+
+RESOURCES_DIRECT_BBoxUtils_UnitTests := 
+
+    # End RESOURCES_DIRECT_BBoxUtils_UnitTests
+
+RESOURCES_RECURSIVE_BBoxUtils_UnitTests := $(sort \
+        $(RESOURCES_DIRECT_BBoxUtils_UnitTests) \
+        $(RESOURCES_RECURSIVE_BBoxUtils) \
+        $(RESOURCES_RECURSIVE_UnitTest) \
+    )
+    # End RESOURCES_RECURSIVE_BBoxUtils_UnitTests
 
 INCS_DIRECT_BBoxUtils_UnitTests := $(sort \
         BBoxUtils_UnitTests/. \
@@ -510,6 +651,17 @@ SRCS_RECURSIVE_SolutionGenerator := $(sort \
     )
     # End SRCS_RECURSIVE_SolutionGenerator
 
+RESOURCES_DIRECT_SolutionGenerator := 
+
+    # End RESOURCES_DIRECT_SolutionGenerator
+
+RESOURCES_RECURSIVE_SolutionGenerator := $(sort \
+        $(RESOURCES_DIRECT_SolutionGenerator) \
+        $(RESOURCES_RECURSIVE_BBoxUtils) \
+        $(RESOURCES_RECURSIVE_LuaCpp) \
+    )
+    # End RESOURCES_RECURSIVE_SolutionGenerator
+
 INCS_DIRECT_SolutionGenerator := $(sort \
         SolutionGenerator/. \
     )
@@ -546,6 +698,17 @@ SRCS_RECURSIVE_BBoxEnc_UnitTests := $(sort \
         $(SRCS_RECURSIVE_UnitTest) \
     )
     # End SRCS_RECURSIVE_BBoxEnc_UnitTests
+
+RESOURCES_DIRECT_BBoxEnc_UnitTests := 
+
+    # End RESOURCES_DIRECT_BBoxEnc_UnitTests
+
+RESOURCES_RECURSIVE_BBoxEnc_UnitTests := $(sort \
+        $(RESOURCES_DIRECT_BBoxEnc_UnitTests) \
+        $(RESOURCES_RECURSIVE_BBoxEnc) \
+        $(RESOURCES_RECURSIVE_UnitTest) \
+    )
+    # End RESOURCES_RECURSIVE_BBoxEnc_UnitTests
 
 INCS_DIRECT_BBoxEnc_UnitTests := $(sort \
         BBoxEnc_UnitTests/. \
@@ -614,6 +777,18 @@ SRCS_RECURSIVE_BBoxRt := $(sort \
     )
     # End SRCS_RECURSIVE_BBoxRt
 
+RESOURCES_DIRECT_BBoxRt := 
+
+    # End RESOURCES_DIRECT_BBoxRt
+
+RESOURCES_RECURSIVE_BBoxRt := $(sort \
+        $(RESOURCES_DIRECT_BBoxRt) \
+        $(RESOURCES_RECURSIVE_BBoxEnc) \
+        $(RESOURCES_RECURSIVE_BBoxUtils) \
+        $(RESOURCES_RECURSIVE_boost) \
+    )
+    # End RESOURCES_RECURSIVE_BBoxRt
+
 INCS_DIRECT_BBoxRt := $(sort \
         BBoxRt/. \
     )
@@ -645,6 +820,16 @@ SRCS_RECURSIVE_MiamiNightsMsgs := $(sort \
         $(SRCS_RECURSIVE_BBoxEnc) \
     )
     # End SRCS_RECURSIVE_MiamiNightsMsgs
+
+RESOURCES_DIRECT_MiamiNightsMsgs := 
+
+    # End RESOURCES_DIRECT_MiamiNightsMsgs
+
+RESOURCES_RECURSIVE_MiamiNightsMsgs := $(sort \
+        $(RESOURCES_DIRECT_MiamiNightsMsgs) \
+        $(RESOURCES_RECURSIVE_BBoxEnc) \
+    )
+    # End RESOURCES_RECURSIVE_MiamiNightsMsgs
 
 INCS_DIRECT_MiamiNightsMsgs := $(sort \
         Applications/MiamiNightsMsgs/. \
@@ -684,6 +869,16 @@ SRCS_RECURSIVE_BBoxHttp := $(sort \
     )
     # End SRCS_RECURSIVE_BBoxHttp
 
+RESOURCES_DIRECT_BBoxHttp := 
+
+    # End RESOURCES_DIRECT_BBoxHttp
+
+RESOURCES_RECURSIVE_BBoxHttp := $(sort \
+        $(RESOURCES_DIRECT_BBoxHttp) \
+        $(RESOURCES_RECURSIVE_BBoxRt) \
+    )
+    # End RESOURCES_RECURSIVE_BBoxHttp
+
 INCS_DIRECT_BBoxHttp := $(sort \
         BBoxHttp/. \
     )
@@ -711,6 +906,17 @@ SRCS_RECURSIVE_BBoxRt_UnitTests := $(sort \
         $(SRCS_RECURSIVE_UnitTest) \
     )
     # End SRCS_RECURSIVE_BBoxRt_UnitTests
+
+RESOURCES_DIRECT_BBoxRt_UnitTests := 
+
+    # End RESOURCES_DIRECT_BBoxRt_UnitTests
+
+RESOURCES_RECURSIVE_BBoxRt_UnitTests := $(sort \
+        $(RESOURCES_DIRECT_BBoxRt_UnitTests) \
+        $(RESOURCES_RECURSIVE_BBoxRt) \
+        $(RESOURCES_RECURSIVE_UnitTest) \
+    )
+    # End RESOURCES_RECURSIVE_BBoxRt_UnitTests
 
 INCS_DIRECT_BBoxRt_UnitTests := $(sort \
         BBoxRt_UnitTests/. \
@@ -753,6 +959,18 @@ SRCS_RECURSIVE_LibLeds := $(sort \
     )
     # End SRCS_RECURSIVE_LibLeds
 
+RESOURCES_DIRECT_LibLeds := 
+
+    # End RESOURCES_DIRECT_LibLeds
+
+RESOURCES_RECURSIVE_LibLeds := $(sort \
+        $(RESOURCES_DIRECT_LibLeds) \
+        $(RESOURCES_RECURSIVE_BBoxEnc) \
+        $(RESOURCES_RECURSIVE_BBoxRt) \
+        $(RESOURCES_RECURSIVE_LibWS281x) \
+    )
+    # End RESOURCES_RECURSIVE_LibLeds
+
 INCS_DIRECT_LibLeds := $(sort \
         Applications/LibLeds/. \
     )
@@ -789,6 +1007,19 @@ SRCS_RECURSIVE_BBoxHttpDebug := $(sort \
     )
     # End SRCS_RECURSIVE_BBoxHttpDebug
 
+RESOURCES_DIRECT_BBoxHttpDebug := 
+
+include BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.rc
+
+    # End RESOURCES_DIRECT_BBoxHttpDebug
+
+RESOURCES_RECURSIVE_BBoxHttpDebug := $(sort \
+        $(RESOURCES_DIRECT_BBoxHttpDebug) \
+        $(RESOURCES_RECURSIVE_BBoxEnc) \
+        $(RESOURCES_RECURSIVE_BBoxHttp) \
+    )
+    # End RESOURCES_RECURSIVE_BBoxHttpDebug
+
 INCS_DIRECT_BBoxHttpDebug := $(sort \
         BBoxHttpDebug/Lib/. \
     )
@@ -802,7 +1033,7 @@ INCS_RECURSIVE_BBoxHttpDebug := $(sort \
     # End INCS_RECURSIVE_BBoxHttpDebug
 
 BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.cpp BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.h BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.rc: build/resourcebuilder BBoxHttpDebug/Lib/../Web/app.css BBoxHttpDebug/Lib/../Web/app.js BBoxHttpDebug/Lib/../Web/index.html
-	cd BBoxHttpDebug/Lib && ../../build/resourcebuilder -i "../Web/app.css;../Web/app.js;../Web/index.html" -o "bbox/http/debug/HttpDebugResources.cpp;bbox/http/debug/HttpDebugResources.h;bbox/http/debug/HttpDebugResources.rc" -n "bbox::http::debug" -r "../Web" -b 16000 -a "debug/"
+	cd BBoxHttpDebug/Lib && ../../build/resourcebuilder -i "../Web/app.css;../Web/app.js;../Web/index.html" -o "bbox/http/debug/HttpDebugResources.cpp;bbox/http/debug/HttpDebugResources.h;bbox/http/debug/HttpDebugResources.rc" -p BBoxHttpDebug -d BBoxHttpDebug/Lib -n "bbox::http::debug" -r "../Web" -b 16000 -a "debug/"
 
 build/BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugWebsite.o: BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.cpp BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.h BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.rc
 
@@ -847,6 +1078,22 @@ SRCS_RECURSIVE_CampLight := $(sort \
     )
     # End SRCS_RECURSIVE_CampLight
 
+RESOURCES_DIRECT_CampLight := 
+
+include Applications/CampLight/camplight/Resources.rc
+
+    # End RESOURCES_DIRECT_CampLight
+
+RESOURCES_RECURSIVE_CampLight := $(sort \
+        $(RESOURCES_DIRECT_CampLight) \
+        $(RESOURCES_RECURSIVE_BBoxEnc) \
+        $(RESOURCES_RECURSIVE_BBoxHttp) \
+        $(RESOURCES_RECURSIVE_BBoxHttpDebug) \
+        $(RESOURCES_RECURSIVE_LibWS281x) \
+        $(RESOURCES_RECURSIVE_MiamiNightsMsgs) \
+    )
+    # End RESOURCES_RECURSIVE_CampLight
+
 INCS_DIRECT_CampLight := $(sort \
         Applications/CampLight/. \
     )
@@ -870,7 +1117,7 @@ LIBS_RECURSIVE_CampLight := \
     # End LIBS_RECURSIVE_CampLight
 
 Applications/CampLight/camplight/Resources.cpp Applications/CampLight/camplight/Resources.h Applications/CampLight/camplight/Resources.rc: build/resourcebuilder Applications/CampLight/camplight/resources/app.css Applications/CampLight/camplight/resources/app.js Applications/CampLight/camplight/resources/apple-touch-icon-120x120.png Applications/CampLight/camplight/resources/apple-touch-icon-152x152.png Applications/CampLight/camplight/resources/apple-touch-icon-180x180.png Applications/CampLight/camplight/resources/apple-touch-icon-192x192.png Applications/CampLight/camplight/resources/favicon.ico Applications/CampLight/camplight/resources/index.html
-	cd Applications/CampLight && ../../build/resourcebuilder -i "camplight/resources/app.css;camplight/resources/app.js;camplight/resources/apple-touch-icon-120x120.png;camplight/resources/apple-touch-icon-152x152.png;camplight/resources/apple-touch-icon-180x180.png;camplight/resources/apple-touch-icon-192x192.png;camplight/resources/favicon.ico;camplight/resources/index.html" -o "camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.rc" -n "camplight" -r "camplight\resources" -b 1
+	cd Applications/CampLight && ../../build/resourcebuilder -i "camplight/resources/app.css;camplight/resources/app.js;camplight/resources/apple-touch-icon-120x120.png;camplight/resources/apple-touch-icon-152x152.png;camplight/resources/apple-touch-icon-180x180.png;camplight/resources/apple-touch-icon-192x192.png;camplight/resources/favicon.ico;camplight/resources/index.html" -o "camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.rc" -p CampLight -d Applications/CampLight -n "camplight" -r "camplight\resources" -b 1
 
 build/Applications/CampLight/camplight/Application.o: Applications/CampLight/camplight/Resources.cpp Applications/CampLight/camplight/Resources.h Applications/CampLight/camplight/Resources.rc
 
@@ -917,6 +1164,20 @@ SRCS_RECURSIVE_LedSigns := $(sort \
         $(SRCS_RECURSIVE_MiamiNightsMsgs) \
     )
     # End SRCS_RECURSIVE_LedSigns
+
+RESOURCES_DIRECT_LedSigns := 
+
+    # End RESOURCES_DIRECT_LedSigns
+
+RESOURCES_RECURSIVE_LedSigns := $(sort \
+        $(RESOURCES_DIRECT_LedSigns) \
+        $(RESOURCES_RECURSIVE_BBoxHttp) \
+        $(RESOURCES_RECURSIVE_BBoxHttpDebug) \
+        $(RESOURCES_RECURSIVE_FastNoise) \
+        $(RESOURCES_RECURSIVE_LibLeds) \
+        $(RESOURCES_RECURSIVE_MiamiNightsMsgs) \
+    )
+    # End RESOURCES_RECURSIVE_LedSigns
 
 INCS_DIRECT_LedSigns := $(sort \
         Applications/LedSigns/. \

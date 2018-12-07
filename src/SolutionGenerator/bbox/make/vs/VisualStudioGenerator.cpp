@@ -773,8 +773,8 @@ namespace bbox {
                             {
                                 resource_files.insert(Format(
                                     "%s\\%s\\%s",
-                                    path_to_solution_folder,
-                                    ref_project_ptr->GetRelativePath(),
+                                    FileUtils::ToWindowsPath(path_to_solution_folder),
+                                    FileUtils::ToWindowsPath(ref_project_ptr->GetRelativePath()),
                                     FileUtils::ToWindowsPath(rc_file)));
                             }
                         }
@@ -1054,8 +1054,8 @@ namespace bbox {
                             {
                                 resource_files.insert(Format(
                                     "%s\\%s\\%s",
-                                    path_to_solution_folder,
-                                    ref_project_ptr->GetRelativePath(),
+                                    FileUtils::ToWindowsPath(path_to_solution_folder),
+                                    FileUtils::ToWindowsPath(ref_project_ptr->GetRelativePath()),
                                     FileUtils::ToWindowsPath(rc_file)));
                             }
                         }

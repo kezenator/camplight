@@ -8,6 +8,12 @@
 
 all:
 
+# Setup critical variables that modules.make uses
+
+OUTPUT_DIR := build
+OBJCOPY_OUTPUT_TARGET := elf64-x86-64
+OBJCOPY_BINARY_ARCHITECTURE := i386
+
 # Setup for and include the modules file
 
 APPS :=
@@ -20,7 +26,6 @@ include modules.make
 
 CFLAGS := 
 CXXFLAGS := -std=gnu++17 -Werror -Wall -Wpedantic -Wno-error=unused-local-typedefs -Wno-unused-local-typedefs -Wno-psabi
-OUTPUT_DIR := build
 
 ###################################################
 ## TODO - put these in the .bbmake files
@@ -82,6 +87,10 @@ define SRC_TO_OBJ
 $(filter %.o,$(patsubst %.c,$(OUTPUT_DIR)/%.o,$(1)) $(patsubst %.cpp,$(OUTPUT_DIR)/%.o,$(1)) $(patsubst %.cc,$(OUTPUT_DIR)/%.o,$(1)))
 endef
 
+define RESOURCE_TO_OBJ
+$(patsubst %,$(OUTPUT_DIR)/%.o,$(1))
+endef
+
 define GENERATE_MODULE
 
 -include $$(patsubst %.o,%.d,$$(call SRC_TO_OBJ,$$(SRCS_DIRECT_$(1))))
@@ -97,7 +106,7 @@ define GENERATE_APP
 .PHONY: $(1)
 $(1) : $(OUTPUT_DIR)/$$(shell echo $(1) | tr [:upper:] [:lower:])
 
-$(OUTPUT_DIR)/$$(shell echo $(1) | tr [:upper:] [:lower:]): $$(call SRC_TO_OBJ,$$(SRCS_RECURSIVE_$(1))) | $(OUTPUT_DIR)
+$(OUTPUT_DIR)/$$(shell echo $(1) | tr [:upper:] [:lower:]): $$(call SRC_TO_OBJ,$$(SRCS_RECURSIVE_$(1))) $$(call RESOURCE_TO_OBJ,$$(RESOURCES_RECURSIVE_$(1))) | $(OUTPUT_DIR)
 	@echo "Linking $$@"
 	g++ -o $$@ $$^ $$(patsubst %,-l%,$$(LIBS_RECURSIVE_$(1)))
 
@@ -111,7 +120,7 @@ $(1) : $(OUTPUT_DIR)/$$(shell echo $(1) | tr [:upper:] [:lower:])
 run_$(1): $(1)
 	$(OUTPUT_DIR)/$$(shell echo $(1) | tr [:upper:] [:lower:])
 
-$(OUTPUT_DIR)/$$(shell echo $(1) | tr [:upper:] [:lower:]): $$(call SRC_TO_OBJ,$$(SRCS_RECURSIVE_$(1))) | $(OUTPUT_DIR)
+$(OUTPUT_DIR)/$$(shell echo $(1) | tr [:upper:] [:lower:]): $$(call SRC_TO_OBJ,$$(SRCS_RECURSIVE_$(1))) $$(call RESOURCE_TO_OBJ,$$(RESOURCES_RECURSIVE_$(1))) | $(OUTPUT_DIR)
 	@echo "Linking $$@"
 	g++ -o $$@ $$^ $$(patsubst %,-l%,$$(LIBS_RECURSIVE_$(1)))
 

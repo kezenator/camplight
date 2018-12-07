@@ -26,4 +26,4 @@ custom_build(
     { "../Web/app.js", "../Web/app.css", "../Web/index.html"},
     { "bbox/http/debug/HttpDebugResources.rc", "bbox/http/debug/HttpDebugResources.cpp", "bbox/http/debug/HttpDebugResources.h" },
     { "bbox/http/debug/HttpDebugWebsite.cpp" },
-    "-n \"bbox::http::debug\" -r \"../Web\" -b 16000 -a \"debug/\"");
+    "-p BBoxHttpDebug -d BBoxHttpDebug/Lib -n \"bbox::http::debug\" -r \"../Web\" -b 16000 -a \"debug/\"");

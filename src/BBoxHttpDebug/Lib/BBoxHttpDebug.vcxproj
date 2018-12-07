@@ -108,7 +108,7 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <CustomBuildStep>
-      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i ../Web/app.css;../Web/app.js;../Web/index.html -o bbox/http/debug/HttpDebugResources.cpp;bbox/http/debug/HttpDebugResources.h;bbox/http/debug/HttpDebugResources.rc -n "bbox::http::debug" -r "../Web" -b 16000 -a "debug/"</Command>
+      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i ../Web/app.css;../Web/app.js;../Web/index.html -o bbox/http/debug/HttpDebugResources.cpp;bbox/http/debug/HttpDebugResources.h;bbox/http/debug/HttpDebugResources.rc -p BBoxHttpDebug -d BBoxHttpDebug/Lib -n "bbox::http::debug" -r "../Web" -b 16000 -a "debug/"</Command>
       <Outputs>bbox/http/debug/HttpDebugResources.cpp;bbox/http/debug/HttpDebugResources.h;bbox/http/debug/HttpDebugResources.rc</Outputs>
       <Inputs>../Web/app.css;../Web/app.js;../Web/index.html;..\..\x64\$(Configuration)\ResourceBuilder.exe</Inputs>
     </CustomBuildStep>
