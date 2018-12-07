@@ -525,7 +525,7 @@ namespace bbox {
                     }
 
                     // Work out the path to the solution folder which is required
-                    // by both the include settings and the project references.
+                    // by  the include settings, the project references and the RC files section.
 
                     const std::string path_to_solution_folder = CalcPathToSolution(project_ptr);
 
@@ -752,14 +752,44 @@ namespace bbox {
 
                     // RC files
 
-                    if (!project_ptr->GetRcFiles().empty())
+                    if (project_ptr->GetType() == ProjectType::Application)
                     {
-                        DodgyXmlGenerator::Element item_group(doc, "ItemGroup");
+                        std::set<std::string> resource_files;
+
+                        // RC files in this project
 
                         for (const std::string &rc_file : project_ptr->GetRcFiles())
                         {
-                            DodgyXmlGenerator::Element cl_compile(doc, "ResourceCompile");
-                            doc.SetAttribute("Include", FileUtils::ToWindowsPath(rc_file));
+                            resource_files.insert(FileUtils::ToWindowsPath(rc_file));
+                        }
+
+                        // RC files in referenced projects
+
+                        for (const std::string &ref_project_name : project_ptr->GetReferencesRecursive())
+                        {
+                            const Project *ref_project_ptr = GetSolution().GetProject(ref_project_name);
+
+                            for (const std::string &rc_file : ref_project_ptr->GetRcFiles())
+                            {
+                                resource_files.insert(Format(
+                                    "%s\\%s\\%s",
+                                    path_to_solution_folder,
+                                    ref_project_ptr->GetRelativePath(),
+                                    FileUtils::ToWindowsPath(rc_file)));
+                            }
+                        }
+
+                        // If any, compile them all
+
+                        if (!resource_files.empty())
+                        {
+                            DodgyXmlGenerator::Element item_group(doc, "ItemGroup");
+
+                            for (const std::string &rc_file : resource_files)
+                            {
+                                DodgyXmlGenerator::Element cl_compile(doc, "ResourceCompile");
+                                doc.SetAttribute("Include", rc_file);
+                            }
                         }
                     }
 
@@ -881,6 +911,11 @@ namespace bbox {
                     doc.SetAttribute("ToolsVersion", "4.0");
                     doc.SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
 
+                    // Work out the path to the solution folder which is required
+                    // by the RC files section.
+
+                    const std::string path_to_solution_folder = CalcPathToSolution(project_ptr);
+
                     // First, search through all the source and headers and generate
                     // the set of filters
 
@@ -998,22 +1033,50 @@ namespace bbox {
 
                     // Resources
 
-                    if (!project_ptr->GetRcFiles().empty())
+                    if (project_ptr->GetType() == ProjectType::Application)
                     {
-                        DodgyXmlGenerator::Element item_group(doc, "ItemGroup");
+                        std::set<std::string> resource_files;
 
-                        for (const std::string &raw_rc_file : project_ptr->GetRcFiles())
+                        // RC files in this project
+
+                        for (const std::string &rc_file : project_ptr->GetRcFiles())
                         {
-                            std::string rc_file = FileUtils::ToWindowsPath(raw_rc_file);
+                            resource_files.insert(FileUtils::ToWindowsPath(rc_file));
+                        }
 
-                            DodgyXmlGenerator::Element cl_compile(doc, "ResourceCompile");
+                        // RC files in referenced projects
 
-                            doc.SetAttribute("Include", rc_file);
+                        for (const std::string &ref_project_name : project_ptr->GetReferencesRecursive())
+                        {
+                            const Project *ref_project_ptr = GetSolution().GetProject(ref_project_name);
 
-                            size_t pos = rc_file.rfind('\\');
-                            if (pos != std::string::npos)
+                            for (const std::string &rc_file : ref_project_ptr->GetRcFiles())
                             {
-                                doc.SetTextElement("Filter", rc_file.substr(0, pos));
+                                resource_files.insert(Format(
+                                    "%s\\%s\\%s",
+                                    path_to_solution_folder,
+                                    ref_project_ptr->GetRelativePath(),
+                                    FileUtils::ToWindowsPath(rc_file)));
+                            }
+                        }
+
+                        // If any, compile them all
+
+                        if (!resource_files.empty())
+                        {
+                            DodgyXmlGenerator::Element item_group(doc, "ItemGroup");
+
+                            for (const std::string &rc_file : resource_files)
+                            {
+                                DodgyXmlGenerator::Element cl_compile(doc, "ResourceCompile");
+
+                                doc.SetAttribute("Include", rc_file);
+
+                                size_t pos = rc_file.rfind('\\');
+                                if (pos != std::string::npos)
+                                {
+                                    doc.SetTextElement("Filter", rc_file.substr(0, pos));
+                                }
                             }
                         }
                     }

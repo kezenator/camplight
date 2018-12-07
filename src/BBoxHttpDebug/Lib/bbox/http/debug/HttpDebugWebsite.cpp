@@ -5,7 +5,7 @@
  */
 
 #include <bbox/http/debug/HttpDebugWebsite.h>
-#include <bbox/http/debug/Resources.h>
+#include <bbox/http/debug/HttpDebugResources.h>
 
 #include <bbox/debug/DebugQuery.h>
 #include <bbox/debug/DebugReport.h>

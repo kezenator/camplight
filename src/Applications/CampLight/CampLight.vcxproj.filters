@@ -92,6 +92,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="..\..\BBoxHttpDebug\Lib\bbox\http\debug\HttpDebugResources.rc">
+      <Filter>..\..\BBoxHttpDebug\Lib\bbox\http\debug</Filter>
+    </ResourceCompile>
     <ResourceCompile Include="camplight\Resources.rc">
       <Filter>camplight</Filter>
     </ResourceCompile>

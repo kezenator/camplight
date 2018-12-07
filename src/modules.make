@@ -771,8 +771,8 @@ INCS_RECURSIVE_LibLeds := $(sort \
 MODULES += BBoxHttpDebug
 
 SRCS_DIRECT_BBoxHttpDebug := $(sort \
+        BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugWebsite.cpp \
-        BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/msgs/DebugReportNotification.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/msgs/EnableRequest.cpp \
         BBoxHttpDebug/Lib/bbox/http/debug/msgs/QueryRequest.cpp \
@@ -801,10 +801,10 @@ INCS_RECURSIVE_BBoxHttpDebug := $(sort \
     )
     # End INCS_RECURSIVE_BBoxHttpDebug
 
-BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp BBoxHttpDebug/Lib/bbox/http/debug/Resources.h BBoxHttpDebug/Lib/bbox/http/debug/Resources.rc: build/resourcebuilder BBoxHttpDebug/Lib/../Web/app.css BBoxHttpDebug/Lib/../Web/app.js BBoxHttpDebug/Lib/../Web/index.html
-	cd BBoxHttpDebug/Lib && ../../build/resourcebuilder -i "../Web/app.css;../Web/app.js;../Web/index.html" -o "bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h;bbox/http/debug/Resources.rc" -n "bbox::http::debug" -r "../Web" -a "debug/"
+BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.cpp BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.h BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.rc: build/resourcebuilder BBoxHttpDebug/Lib/../Web/app.css BBoxHttpDebug/Lib/../Web/app.js BBoxHttpDebug/Lib/../Web/index.html
+	cd BBoxHttpDebug/Lib && ../../build/resourcebuilder -i "../Web/app.css;../Web/app.js;../Web/index.html" -o "bbox/http/debug/HttpDebugResources.cpp;bbox/http/debug/HttpDebugResources.h;bbox/http/debug/HttpDebugResources.rc" -n "bbox::http::debug" -r "../Web" -b 16000 -a "debug/"
 
-build/BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugWebsite.o: BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp BBoxHttpDebug/Lib/bbox/http/debug/Resources.h BBoxHttpDebug/Lib/bbox/http/debug/Resources.rc
+build/BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugWebsite.o: BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.cpp BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.h BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.rc
 
 # Project CampLight (type Application)
 
@@ -870,7 +870,7 @@ LIBS_RECURSIVE_CampLight := \
     # End LIBS_RECURSIVE_CampLight
 
 Applications/CampLight/camplight/Resources.cpp Applications/CampLight/camplight/Resources.h Applications/CampLight/camplight/Resources.rc: build/resourcebuilder Applications/CampLight/camplight/resources/app.css Applications/CampLight/camplight/resources/app.js Applications/CampLight/camplight/resources/apple-touch-icon-120x120.png Applications/CampLight/camplight/resources/apple-touch-icon-152x152.png Applications/CampLight/camplight/resources/apple-touch-icon-180x180.png Applications/CampLight/camplight/resources/apple-touch-icon-192x192.png Applications/CampLight/camplight/resources/favicon.ico Applications/CampLight/camplight/resources/index.html
-	cd Applications/CampLight && ../../build/resourcebuilder -i "camplight/resources/app.css;camplight/resources/app.js;camplight/resources/apple-touch-icon-120x120.png;camplight/resources/apple-touch-icon-152x152.png;camplight/resources/apple-touch-icon-180x180.png;camplight/resources/apple-touch-icon-192x192.png;camplight/resources/favicon.ico;camplight/resources/index.html" -o "camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.rc" -n "camplight" -r "camplight\resources"
+	cd Applications/CampLight && ../../build/resourcebuilder -i "camplight/resources/app.css;camplight/resources/app.js;camplight/resources/apple-touch-icon-120x120.png;camplight/resources/apple-touch-icon-152x152.png;camplight/resources/apple-touch-icon-180x180.png;camplight/resources/apple-touch-icon-192x192.png;camplight/resources/favicon.ico;camplight/resources/index.html" -o "camplight/Resources.cpp;camplight/Resources.h;camplight/Resources.rc" -n "camplight" -r "camplight\resources" -b 1
 
 build/Applications/CampLight/camplight/Application.o: Applications/CampLight/camplight/Resources.cpp Applications/CampLight/camplight/Resources.h Applications/CampLight/camplight/Resources.rc
 

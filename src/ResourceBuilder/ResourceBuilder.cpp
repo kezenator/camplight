@@ -157,13 +157,15 @@ int resource_builder_main(int argc, char *argv[])
         std::vector<std::string> namespace_path;
         std::string path_remove;
         std::string path_add;
+        uint16_t base_resource_id;
 
-        if ((argc >= 9) && (argc <= 11))
+        if ((argc >= 11) && (argc <= 13))
         {
             if ((strcmp(argv[1], "-i") == 0)
                 && (strcmp(argv[3], "-o") == 0)
                 && (strcmp(argv[5], "-n") == 0)
-                && (strcmp(argv[7], "-r") == 0))
+                && (strcmp(argv[7], "-r") == 0)
+                && (strcmp(argv[9], "-b") == 0))
             {
                 std::string input_str(argv[2]);
                 boost::algorithm::split(inputs, input_str, boost::algorithm::is_any_of(";"));
@@ -209,19 +211,20 @@ int resource_builder_main(int argc, char *argv[])
                         }
 
                         path_remove = argv[8];
+                        base_resource_id = atoi(argv[10]);
                         args_valid = true;
                     }
                 }
             }
 
             if (args_valid
-                && (argc == 11))
+                && (argc == 13))
             {
                 args_valid = false;
 
-                if (strcmp(argv[9], "-a") == 0)
+                if (strcmp(argv[11], "-a") == 0)
                 {
-                    path_add = argv[10];
+                    path_add = argv[12];
                     args_valid = true;
                 }
             }
@@ -256,8 +259,6 @@ int resource_builder_main(int argc, char *argv[])
 
         std::string source;
 
-        std::vector<uint32_t> file_ids(inputs.size());
-
         {
             std::stringstream stream;
 
@@ -284,7 +285,7 @@ int resource_builder_main(int argc, char *argv[])
                 size_t index = count;
                 count++;
 
-                file_futures[index] = std::async([input, index, &extension_lookup, &file_etags, &file_ids]()
+                file_futures[index] = std::async([input, index, &extension_lookup, &file_etags]()
                     {
                         bool text_format = false;
 
@@ -315,21 +316,6 @@ int resource_builder_main(int argc, char *argv[])
                             hash_stream.AddBytes(contents.data(), contents.size());
 
                             file_etags[index] = hash_stream.CompleteHash().ToBase64String();
-                        }
-
-                        {
-                            bbox::crypto::HashStream hash_stream(bbox::crypto::HashStream::SHA_256);
-                            hash_stream.AddBytes(contents.data(), contents.size());
-                            hash_stream.AddBytes(input.data(), input.size());
-
-                            auto hash = hash_stream.CompleteHash();
-
-                            const auto &bytes = hash.ToVectorUint8();
-
-                            uint32_t id = bytes[0]
-                                | (bytes[1] << 8);
-
-                            file_ids[index] = 0x4000 | (id & 0x7FFF);
                         }
                     });
             }
@@ -388,8 +374,8 @@ int resource_builder_main(int argc, char *argv[])
                 stream << indent << "        // File #" << count << " - " << FixFileName(input) << std::endl;
                 stream << indent << "        ::bbox::http::ResourceFileSet::InitEntry{" << std::endl;
                 stream << indent << "            \"" << FixFileName(path_add + input.substr(prefix.size())) << "\", // Filename" << std::endl;
-                stream << indent << "            GetResourceContents(" << file_ids[count - 1] << ")," << std::endl;
-                stream << indent << "            GetResourceLength(" << file_ids[count - 1] << ")," << std::endl;
+                stream << indent << "            GetResourceContents(" << (base_resource_id + count - 1) << ")," << std::endl;
+                stream << indent << "            GetResourceLength(" << (base_resource_id + count - 1) << ")," << std::endl;
                 stream << indent << "            \"identity\", // Content Encoding" << std::endl;
                 stream << indent << "            \"" << mime_type << "\", // Mime-type" << std::endl;
                 stream << indent << "            \"\\\"" << file_etags[count - 1] << "\\\"\", // Strong ETag" << std::endl;
@@ -456,7 +442,8 @@ int resource_builder_main(int argc, char *argv[])
                 if (err)
                     throw std::exception("Could not resolve resource path");
 
-                stream << file_ids[count - 1] << " RCDATA \""
+                stream << (base_resource_id + count - 1)
+                    << " RCDATA \""
                     << quote(input_resolved)
                     << "\"" << std::endl;
             }

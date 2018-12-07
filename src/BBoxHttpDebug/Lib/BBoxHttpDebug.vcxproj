@@ -84,8 +84,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bbox\http\debug\HttpDebugResources.cpp" />
     <ClCompile Include="bbox\http\debug\HttpDebugWebsite.cpp" />
-    <ClCompile Include="bbox\http\debug\Resources.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\DebugReportNotification.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\EnableRequest.cpp" />
     <ClCompile Include="bbox\http\debug\msgs\QueryRequest.cpp" />
@@ -94,11 +94,8 @@
     <ClCompile Include="bbox\http\debug\msgs\QueryResponseEntry.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="bbox\http\debug\Resources.rc" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="bbox\http\debug\HttpDebugResources.h" />
     <ClInclude Include="bbox\http\debug\HttpDebugWebsite.h" />
-    <ClInclude Include="bbox\http\debug\Resources.h" />
     <ClInclude Include="bbox\http\debug\msgs\DebugReportNotification.h" />
     <ClInclude Include="bbox\http\debug\msgs\EnableRequest.h" />
     <ClInclude Include="bbox\http\debug\msgs\QueryRequest.h" />
@@ -111,8 +108,8 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <CustomBuildStep>
-      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i ../Web/app.css;../Web/app.js;../Web/index.html -o bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h;bbox/http/debug/Resources.rc -n "bbox::http::debug" -r "../Web" -a "debug/"</Command>
-      <Outputs>bbox/http/debug/Resources.cpp;bbox/http/debug/Resources.h;bbox/http/debug/Resources.rc</Outputs>
+      <Command>..\..\x64\$(Configuration)\ResourceBuilder.exe -i ../Web/app.css;../Web/app.js;../Web/index.html -o bbox/http/debug/HttpDebugResources.cpp;bbox/http/debug/HttpDebugResources.h;bbox/http/debug/HttpDebugResources.rc -n "bbox::http::debug" -r "../Web" -b 16000 -a "debug/"</Command>
+      <Outputs>bbox/http/debug/HttpDebugResources.cpp;bbox/http/debug/HttpDebugResources.h;bbox/http/debug/HttpDebugResources.rc</Outputs>
       <Inputs>../Web/app.css;../Web/app.js;../Web/index.html;..\..\x64\$(Configuration)\ResourceBuilder.exe</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>

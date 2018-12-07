@@ -92,6 +92,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="..\..\BBoxHttpDebug\Lib\bbox\http\debug\HttpDebugResources.rc">
+      <Filter>..\..\BBoxHttpDebug\Lib\bbox\http\debug</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="ledsigns\RenderService.h">
       <Filter>ledsigns</Filter>
     </ClInclude>

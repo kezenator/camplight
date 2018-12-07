@@ -116,6 +116,9 @@
     <ClCompile Include="ledsigns\gaysign\GaySignPattern.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="..\..\BBoxHttpDebug\Lib\bbox\http\debug\HttpDebugResources.rc" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\BBoxEnc\BBoxEnc.vcxproj">
       <Project>{FD7C126F-E433-5228-B563-110342C677E8}</Project>
     </ProjectReference>

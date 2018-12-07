@@ -12,9 +12,9 @@ obj
 /src/CampLight.VC.VC.opendb
 /src/CampLight.VC.db
 /src/BBoxHttpDebug/Web/app.js.map
-/src/BBoxHttpDebug/Lib/bbox/http/debug/Resources.cpp
-/src/BBoxHttpDebug/Lib/bbox/http/debug/Resources.h
-/src/BBoxHttpDebug/Lib/bbox/http/debug/Resources.rc
+/src/BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.cpp
+/src/BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.h
+/src/BBoxHttpDebug/Lib/bbox/http/debug/HttpDebugResources.rc
 *.vcxproj.user
 *.csproj.user
 /src/Applications/MiamiNightsWeb/app.js.map

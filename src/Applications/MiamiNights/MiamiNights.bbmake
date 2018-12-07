@@ -29,6 +29,6 @@ if (platform() == "Win32") then
                      "../MiamiNightsWeb/*.ogg"),
       { "mn/Resources.rc", "mn/Resources.cpp", "mn/Resources.h" },
       { "mn/Application.cpp" },
-      "-n \"mn\" -r \"../MiamiNightsWeb\"");
+      "-n \"mn\" -r \"../MiamiNightsWeb\" -b 1");
 
 end

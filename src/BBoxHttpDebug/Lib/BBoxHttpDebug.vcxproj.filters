@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bbox\http\debug\HttpDebugWebsite.cpp">
+    <ClCompile Include="bbox\http\debug\HttpDebugResources.cpp">
       <Filter>bbox\http\debug</Filter>
     </ClCompile>
-    <ClCompile Include="bbox\http\debug\Resources.cpp">
+    <ClCompile Include="bbox\http\debug\HttpDebugWebsite.cpp">
       <Filter>bbox\http\debug</Filter>
     </ClCompile>
     <ClCompile Include="bbox\http\debug\msgs\DebugReportNotification.cpp">
@@ -41,15 +41,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="bbox\http\debug\Resources.rc">
-      <Filter>bbox\http\debug</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="bbox\http\debug\HttpDebugWebsite.h">
+    <ClInclude Include="bbox\http\debug\HttpDebugResources.h">
       <Filter>bbox\http\debug</Filter>
     </ClInclude>
-    <ClInclude Include="bbox\http\debug\Resources.h">
+    <ClInclude Include="bbox\http\debug\HttpDebugWebsite.h">
       <Filter>bbox\http\debug</Filter>
     </ClInclude>
     <ClInclude Include="bbox\http\debug\msgs\DebugReportNotification.h">
