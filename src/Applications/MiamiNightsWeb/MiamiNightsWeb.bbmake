@@ -8,6 +8,7 @@ if (platform() == "Win32") then
     sources(find_recursive("*.ts"));
     resources(find_recursive("*.css"));
     resources(find_recursive("*.html"));
+    resources(find_recursive("*.mp4"));
     resources(find_recursive("*.ttf"));
     resources(find_recursive("*.png"));
     resources(find_recursive("*.ogg"));

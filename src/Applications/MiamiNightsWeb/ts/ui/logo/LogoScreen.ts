@@ -1,5 +1,6 @@
 /// <reference path="../CanvasScreen.ts" />
 /// <reference path="../../util/Math.ts" />
+/// <reference path="LogoCommon.ts" />
 
 namespace ui.logo
 {
@@ -13,11 +14,9 @@ namespace ui.logo
         private static DURATION_SUNSET: number = 12000;
 
         private static PERIOD_CASA_HIGHLIGHT: number = 2000;
-        private static PERIOD_REFLECTION: number = 3000;
-        private static PERIOD_WASH: number = 10000;
+        private static PERIOD_REFLECTION: number = 3000; 
 
-        private static DURATION_LOOP: number = 30000;
-        private static DURATION_FADE: number = 1500;
+        private static DURATION_LOOP: number = 30000; 
 
         private static HORIZON: number = 700;
 
@@ -95,17 +94,24 @@ namespace ui.logo
 
             if (this.fading)
             {
-                if ((ms - this.fade_start_time) > LogoScreen.DURATION_FADE)
+                if ((ms - this.fade_start_time) > LogoCommon.DURATION_FADE)
                 {
                     if (this.button_pressed)
                         this.getApp().showScreen(App.MENU);
                     else
-                        this.getApp().showScreen(App.LOGO);
+                        this.getApp().showScreen(App.VIDEO);
                     return;
                 }
-            }                                   
+            }
 
-            this.colorWaveButtons(ms);
+            var alpha = 0;
+
+            if (this.fading)
+            {
+                alpha = util.lerp((ms - this.fade_start_time) / LogoCommon.DURATION_FADE, 0, 1);
+            }
+
+            LogoCommon.colorWaveButtons(ms, alpha, buttons);
 
             this.drawSky(ctx, ms);
             this.drawSea(ctx, ms);
@@ -116,18 +122,16 @@ namespace ui.logo
 
             if (this.fading)
             {
-                var alpha = util.lerp((ms - this.fade_start_time) / LogoScreen.DURATION_FADE, 0, 1);
-
                 ctx.fillStyle = 'rgba(0,0,0,' + alpha + ')';
                 ctx.fillRect(0, 0, 1920, 1080);
             }
             else
             {
-                this.drawPressStart(ctx, ms);
+                LogoCommon.drawPressStart(ctx, ms, buttons);
 
-                if (ms < LogoScreen.DURATION_FADE)
+                if (ms < LogoCommon.DURATION_FADE)
                 {
-                    var alpha = util.lerp(ms / LogoScreen.DURATION_FADE, 1, 0);
+                    var alpha = util.lerp(ms / LogoCommon.DURATION_FADE, 1, 0);
 
                     ctx.fillStyle = 'rgba(0,0,0,' + alpha + ')';
                     ctx.fillRect(0, 0, 1920, 1080);
@@ -448,72 +452,6 @@ namespace ui.logo
             drawWithShadow(1480, 500, t2, "Nights"); 
 
             ctx.restore();
-        }
-
-        private drawPressStart(ctx: CanvasRenderingContext2D, ms: number)
-        {
-            var buttons = this.getButtons();
-            var on = (ms % 1000) >= 500;
-
-            if (on)
-            {
-                var text = 'PRESS PLAY';
-
-                ctx.font = '65px "KarmaticArcade"';
-
-                var metrics = ctx.measureText(text);
-
-                var x = 960 - 0.5 * metrics.width;
-                var y = 1050;
-
-                var grad = ctx.createLinearGradient(x, y, x + metrics.width, y);
-                grad.addColorStop(0, 'hsl(0,100%,50%)');
-                grad.addColorStop(1/5, 'hsl(30,100%,50%)');
-                grad.addColorStop(2/5, 'hsl(60,100%,50%)');
-                grad.addColorStop(3/5, 'hsl(120,100%,50%)');
-                grad.addColorStop(4/5, 'hsl(180,100%,50%)');
-                grad.addColorStop(1, 'hsl(240,100%,50%)');
-
-                ctx.fillStyle = grad;
-                ctx.strokeStyle = 'black';
-                ctx.lineWidth = 6;
-
-                ctx.strokeText(text, x, y);
-                ctx.fillText(text, x, y);
-
-                buttons.setPlayColor('#ffffff');
-            }
-            else
-            {
-                buttons.setPlayColor('#000000');
-            }
-        }
-
-        private colorWaveButtons(ms: number)
-        {
-            var buttons = this.getButtons();
-
-            var lightness = 50;
-
-            if (this.fading)
-            {
-                var alpha = util.lerp((ms - this.fade_start_time) / LogoScreen.DURATION_FADE, 0, 1);
-
-                lightness = (1 - alpha) * lightness;
-            }
-
-            for (var i = 0; i < Buttons.NUMBER; ++i)
-            {
-                var base = 360 * ((ms % 4000) / 4000);
-                var offset = i * 60;
-                var hue = Math.floor((base + offset) % 360);
-
-                buttons.setButtonColor(i, 'hsl(' + hue + ',100%,' + lightness + '%)');
-            }
-
-            var wash_hue = 360 * (ms % LogoScreen.PERIOD_WASH) / LogoScreen.PERIOD_WASH;
-
-            buttons.setWashColor('hsl(' + wash_hue + ',100%,' + lightness + '%)');
         }
     }
 }

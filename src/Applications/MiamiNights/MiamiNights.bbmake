@@ -24,6 +24,7 @@ if (platform() == "Win32") then
       find_recursive("../MiamiNightsWeb/*.css",
                      "../MiamiNightsWeb/*.html",
                      "../MiamiNightsWeb/*.js",
+                     "../MiamiNightsWeb/*.mp4",
                      "../MiamiNightsWeb/*.png",
                      "../MiamiNightsWeb/*.ttf",
                      "../MiamiNightsWeb/*.ogg"),

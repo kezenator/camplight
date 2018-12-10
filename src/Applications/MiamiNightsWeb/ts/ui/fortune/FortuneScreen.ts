@@ -195,12 +195,25 @@ namespace ui.fortune
 
         private writeMessage(): string
         {
-            var strings = [
-                "YOUR GRANDMOTHER WAS RIGHT - YOU NEED TO GET MORE DICK",
-                "ROSÉ IS THE SOLUTION TO ALL OF LIFE'S PROBLEMS",
-                "WHY ARE YOU ASKING ME? SORT YOUR LIFE OUT YOURSELF!",
-                "BIG DICKS AND VODKA!",
-            ];
+            var strings: string[];
+
+            if (this.getApp().isSafeMode())
+            {
+                strings = [
+                    "HAPPY NEW YEAR",
+                    "MERRY CHRISTMAS AND A HAPPY NEW YEAR",
+                    "HAVE FUN AND STAY SAFE",
+                ];
+            }
+            else
+            {
+                strings = [
+                    "YOUR GRANDMOTHER WAS RIGHT - YOU NEED TO GET MORE DICK",
+                    "ROSÉ IS THE SOLUTION TO ALL OF LIFE'S PROBLEMS",
+                    "WHY ARE YOU ASKING ME? SORT YOUR LIFE OUT YOURSELF!",
+                    "BIG DICKS AND VODKA!",
+                ];
+            }
 
             return strings[Math.floor(strings.length * Math.random())];
         }

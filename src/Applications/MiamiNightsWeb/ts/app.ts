@@ -2,8 +2,8 @@
 
 /// <reference path="mn\msgs\ButtonColors.ts" />
 
-
 /// <reference path="ui/logo/LogoScreen.ts" />
+/// <reference path="ui/logo/VideoScreen.ts" />
 /// <reference path="ui/fortune/FortuneScreen.ts" />
 /// <reference path="ui/menu/Background.ts"/>
 /// <reference path="ui/menu/MenuScreen.ts" />
@@ -14,6 +14,7 @@
 class App
 {
     static LOGO: string = 'logo';
+    static VIDEO: string = 'video';
     static MENU: string = 'menu';
     static PONG: string = 'pomg';
     static FORTUNE: string = 'fortune';
@@ -89,6 +90,7 @@ class App
             var menu_background = new ui.menu.Background();
 
             this.screens[App.LOGO] = new ui.logo.LogoScreen(this);
+            this.screens[App.VIDEO] = new ui.logo.VideoScreen(this);
             this.screens[App.MENU] = new ui.menu.MenuScreen(this, menu_background);
             this.screens[App.PONG] = new ui.pong.PongScreen(this);
             this.screens[App.FORTUNE] = new ui.fortune.FortuneScreen(this);

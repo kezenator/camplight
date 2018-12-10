@@ -20,7 +20,9 @@
 
 /// <reference path="ui\fortune\FortuneScreen.ts" />
 
+/// <reference path="ui\logo\LogoCommon.ts" />
 /// <reference path="ui\logo\LogoScreen.ts" />
+/// <reference path="ui\logo\VideoScreen.ts" />
 
 /// <reference path="ui\menu\Background.ts" />
 /// <reference path="ui\menu\ButtonEntry.ts" />

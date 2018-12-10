@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <PropertyGroup>
@@ -54,9 +54,12 @@
     <Content Include="res/still_time.ttf" />
     <Content Include="res/timeburnerbold.ttf" />
     <Content Include="res/timeburnernormal.ttf" />
+    <Content Include="res/video/MiamiNights1984-Accelerated.mp4" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="ts\ui\logo\LogoCommon.ts" />
+    <TypeScriptCompile Include="ts\ui\logo\VideoScreen.ts" />
     <TypeScriptCompile Include="ts\_references.ts" />
     <TypeScriptCompile Include="ts\app.ts" />
     <TypeScriptCompile Include="ts\mn\audio\AudioManager.ts" />
@@ -142,7 +145,8 @@
           <IISUrl>http://localhost:54101/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl></CustomServerUrl>
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

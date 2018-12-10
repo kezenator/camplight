@@ -42,6 +42,7 @@ html {
 body {
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 div.screen {
@@ -94,4 +95,11 @@ div.button_row span {
 div.buttons span.pressed {
     border: 5px solid red;
     color: red;
+}
+
+div.screen .video {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: -1;
 }
