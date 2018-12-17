@@ -18,6 +18,9 @@ namespace ui.logo
         private button_pressed: boolean;
         private fade_start_time: number;
 
+        private fade_in_started: boolean;
+        private fade_in_start_time: number;
+
         public constructor(app: App)
         {
             super(app);
@@ -25,8 +28,8 @@ namespace ui.logo
             this.video = document.createElement('video');
             this.video.classList.add('video');
             this.video.volume = 0;
-            this.video.width = 1920;
-            this.video.height = 1080;
+            this.video.width = 1920 * app.getScale();
+            this.video.height = 1080 * app.getScale();
 
             this.getDiv().appendChild(this.video);
 
@@ -43,6 +46,8 @@ namespace ui.logo
             this.fading = false;
             this.button_pressed = false;
             this.fade_start_time = 0;
+            this.fade_in_started = false;
+            this.fade_in_start_time = 0;
         }
 
         public show()
@@ -92,6 +97,9 @@ namespace ui.logo
             }
 
             this.duration = this.duration * 1000;
+            this.fade_in_start_time = 0;
+            this.fade_in_started = false;
+            this.video.oncanplay = () => { this.fade_in_started = true; };
             this.video.play();
 
             this.fading = false;
@@ -150,15 +158,25 @@ namespace ui.logo
                 }
             }
 
+            if (this.fade_in_started)
+            {
+                if (this.fade_in_start_time == 0)
+                    this.fade_in_start_time = ms;
+            }
+
             var alpha = 0;
 
-            if (this.fading)
+            if (!this.fade_in_started)
+            {
+                alpha = 1;
+            }
+            else if (this.fading)
             {
                 alpha = util.lerp((ms - this.fade_start_time) / LogoCommon.DURATION_FADE, 0, 1);
             }
-            else if (ms < LogoCommon.DURATION_FADE)
+            else if (ms < (this.fade_in_start_time + LogoCommon.DURATION_FADE))
             {
-                alpha = 1 - (ms / LogoCommon.DURATION_FADE);
+                alpha = 1 - ((ms - this.fade_in_start_time) / LogoCommon.DURATION_FADE);
             }
 
             ctx.clearRect(0, 0, 1920, 1080);

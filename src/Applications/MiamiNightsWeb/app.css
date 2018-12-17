@@ -57,6 +57,9 @@ div.buttons {
     margin: 10px;
     padding: 10px;
     font: 48pt sans-serif;
+    position: absolute;
+    z-index: -2;
+    margin-top: 600px;
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;

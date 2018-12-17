@@ -84,6 +84,7 @@ namespace ui.tetris
         private pieceFactory: PieceFactory;
         private nextPiece: Piece;
         private curPiece: Piece;
+        private shadowPiece: Piece | null;
         private lastMoveMs: number;
         private gameOver: boolean;
         private gameOverTime: number;
@@ -102,6 +103,7 @@ namespace ui.tetris
 
             this.curPiece = this.pieceFactory.newPiece();
             this.nextPiece = this.pieceFactory.newPiece();
+            this.shadowPiece = null;
 
             this.lastMoveMs = 0;
             this.gameOver = false;
@@ -131,6 +133,8 @@ namespace ui.tetris
             this.right_btn.update(ms, right_clicked, right_pressed);
             this.other_btn.update(ms, other_clicked, other_pressed);
 
+            var need_new_shadow = false;
+
             while (!this.gameOver)
             {
                 var need_lock = false;
@@ -157,7 +161,10 @@ namespace ui.tetris
                         this.curPiece.move(offset, 0);
 
                         if (this.curPiece.fits(this.gameBoard))
+                        {
                             this.lastMoveMs = ms;
+                            need_new_shadow = true;
+                        }
                         else
                             this.curPiece.move(-offset, 0);
                     }
@@ -192,6 +199,7 @@ namespace ui.tetris
                     {
                         this.lastMoveMs = ms;
                         this.other_btn.clearClicked();
+                        need_new_shadow = true;
                     }
                     else // revert
                     {
@@ -211,6 +219,7 @@ namespace ui.tetris
                     // Move down automatically
 
                     this.lastMoveMs += speed;
+                    need_new_shadow = true;
 
                     this.curPiece.move(0, 1);
 
@@ -229,6 +238,7 @@ namespace ui.tetris
 
                     this.curPiece = this.nextPiece;
                     this.nextPiece = this.pieceFactory.newPiece();
+                    need_new_shadow = true;
 
                     if (!this.curPiece.fits(this.gameBoard))
                     {
@@ -259,6 +269,23 @@ namespace ui.tetris
                 if (need_break)
                 {
                     break;
+                }
+            }
+
+            if ((this.shadowPiece == null)
+                || need_new_shadow)
+            {
+                this.shadowPiece = this.curPiece.clone();
+
+                while (true)
+                {
+                    this.shadowPiece.move(0, 1);
+
+                    if (!this.shadowPiece.fits(this.gameBoard))
+                    {
+                        this.shadowPiece.move(0, -1);
+                        break;
+                    }
                 }
             }
         }
@@ -358,8 +385,12 @@ namespace ui.tetris
             this.gameBoard.draw(ctx, x, y);
 
             // Draw the current piece
+            // and it's shadow
 
-            this.curPiece.draw(ctx, x, y);
+            if (this.shadowPiece != null)
+                this.shadowPiece.draw(ctx, x, y, true);
+
+            this.curPiece.draw(ctx, x, y, false);
         }
 
         private drawInfo(ctx: CanvasRenderingContext2D): void

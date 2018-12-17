@@ -178,6 +178,17 @@ namespace ui.tetris
             this.createParts();
         }
 
+        public clone(): Piece
+        {
+            var result = new Piece(this.pieces_img, this.num);
+            result.x = this.x;
+            result.y = this.y;
+            result.rotation = this.rotation;
+            result.createParts();
+
+            return result;
+        }
+
         public move(x: number, y: number)
         {
             this.x += x;
@@ -243,7 +254,7 @@ namespace ui.tetris
             this.parts = null;
         }
 
-        public draw(ctx: CanvasRenderingContext2D, game_x: number, game_y: number)
+        public draw(ctx: CanvasRenderingContext2D, game_x: number, game_y: number, as_shadow: boolean)
         {
             var tile_size = Cell.TILE_SIZE;
             var hidden_rows = GameBoard.HIDDEN_ROWS;
@@ -260,7 +271,8 @@ namespace ui.tetris
                     part.cell.draw(
                         ctx,
                         game_x + tile_size * part_x,
-                        game_y + tile_size * (part_y - hidden_rows));
+                        game_y + tile_size * (part_y - hidden_rows),
+                        as_shadow);
                 }
             } 
         }
@@ -287,7 +299,8 @@ namespace ui.tetris
                 part.cell.draw(
                     ctx,
                     x + tile_size * part_x,
-                    y + tile_size * part_y);
+                    y + tile_size * part_y,
+                    false);
             } 
         }
 

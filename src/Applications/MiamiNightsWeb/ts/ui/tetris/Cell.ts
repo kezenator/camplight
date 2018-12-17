@@ -19,11 +19,20 @@ namespace ui.tetris
             this.rotate = rotate;
         }
 
-        public draw(ctx: CanvasRenderingContext2D, x: number, y: number)
+        public draw(ctx: CanvasRenderingContext2D, x: number, y: number, as_shadow: boolean)
         {
             var tile_size = Cell.TILE_SIZE;
 
-            if (this.index < 3)
+            if (as_shadow)
+            {
+                ctx.fillStyle = 'hsla(' + this.hue + ',100%,50%,0.3)';
+                ctx.fillRect(x, y, tile_size, tile_size);
+
+                ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(x, y, tile_size, tile_size);
+            }
+            else if (this.index < 3)
             {
                 ctx.drawImage(
                     this.pieces_img,

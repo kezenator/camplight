@@ -88,7 +88,7 @@ namespace ui.tetris
 
                     if (cell)
                     {
-                        cell.draw(ctx, game_x + i * tile_size, game_y + (j - hidden_rows) * tile_size);
+                        cell.draw(ctx, game_x + i * tile_size, game_y + (j - hidden_rows) * tile_size, false);
                     }
                 }
             }
