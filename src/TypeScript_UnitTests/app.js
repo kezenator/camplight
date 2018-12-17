@@ -15,7 +15,7 @@ var bbox;
 (function (bbox) {
     var ds;
     (function (ds) {
-        var Map = /** @class */ (function () {
+        var Map = (function () {
             function Map() {
                 this.map = {};
             }
@@ -49,7 +49,7 @@ var bbox;
 (function (bbox) {
     var ds;
     (function (ds) {
-        var Deque = /** @class */ (function () {
+        var Deque = (function () {
             function Deque() {
                 this.array = [];
             }
@@ -105,7 +105,7 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Timer = /** @class */ (function () {
+        var Timer = (function () {
             function Timer(handler) {
                 this.handler = handler;
                 this.is_started = false;
@@ -158,7 +158,7 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Control = /** @class */ (function () {
+        var Control = (function () {
             function Control(element) {
                 this.m_control_element = element;
             }
@@ -176,13 +176,11 @@ var bbox;
         ui.Control = Control;
     })(ui = bbox.ui || (bbox.ui = {}));
 })(bbox || (bbox = {}));
-/// <reference path="./Control.ts"/>
 var bbox;
-/// <reference path="./Control.ts"/>
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Container = /** @class */ (function (_super) {
+        var Container = (function (_super) {
             __extends(Container, _super);
             function Container(element) {
                 var _this = _super.call(this, element) || this;
@@ -198,20 +196,18 @@ var bbox;
         ui.Container = Container;
     })(ui = bbox.ui || (bbox.ui = {}));
 })(bbox || (bbox = {}));
-/// <reference path="./Container.ts"/>
 var bbox;
-/// <reference path="./Container.ts"/>
 (function (bbox) {
     var ui;
     (function (ui) {
-        var BodyContainer = /** @class */ (function (_super) {
+        var BodyContainer = (function (_super) {
             __extends(BodyContainer, _super);
             function BodyContainer() {
                 return _super.call(this, window.document.body) || this;
             }
             return BodyContainer;
         }(ui.Container));
-        var Application = /** @class */ (function () {
+        var Application = (function () {
             function Application(state_prototype) {
                 var _this = this;
                 this.m_type_prototype = state_prototype;
@@ -292,13 +288,11 @@ var bbox;
         ui.Application = Application;
     })(ui = bbox.ui || (bbox.ui = {}));
 })(bbox || (bbox = {}));
-/// <reference path="./Control.ts"/>
 var bbox;
-/// <reference path="./Control.ts"/>
 (function (bbox) {
     var ui;
     (function (ui) {
-        var TextControl = /** @class */ (function (_super) {
+        var TextControl = (function (_super) {
             __extends(TextControl, _super);
             function TextControl(element) {
                 return _super.call(this, element) || this;
@@ -316,7 +310,7 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var EditBox = /** @class */ (function (_super) {
+        var EditBox = (function (_super) {
             __extends(EditBox, _super);
             function EditBox(text) {
                 var _this = this;
@@ -351,13 +345,11 @@ var bbox;
         ui.EditBox = EditBox;
     })(ui = bbox.ui || (bbox.ui = {}));
 })(bbox || (bbox = {}));
-/// <reference path="./TextControl.ts"/>
 var bbox;
-/// <reference path="./TextControl.ts"/>
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Button = /** @class */ (function (_super) {
+        var Button = (function (_super) {
             __extends(Button, _super);
             function Button(text) {
                 var _this = this;
@@ -389,7 +381,7 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Span = /** @class */ (function (_super) {
+        var Span = (function (_super) {
             __extends(Span, _super);
             function Span(text) {
                 var _this = this;
@@ -408,7 +400,7 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Div = /** @class */ (function (_super) {
+        var Div = (function (_super) {
             __extends(Div, _super);
             function Div() {
                 var _this = this;
@@ -426,7 +418,7 @@ var bbox;
 (function (bbox) {
     var ui;
     (function (ui) {
-        var Pre = /** @class */ (function (_super) {
+        var Pre = (function (_super) {
             __extends(Pre, _super);
             function Pre(text) {
                 var _this = this;
@@ -448,7 +440,7 @@ var bbox;
 (function (bbox) {
     var net;
     (function (net) {
-        var AjaxRequest = /** @class */ (function () {
+        var AjaxRequest = (function () {
             function AjaxRequest(method, url, handler) {
                 var _this = this;
                 this.m_sent = false;
@@ -530,7 +522,7 @@ var bbox;
 (function (bbox) {
     var net;
     (function (net) {
-        var BboxRpcRequest = /** @class */ (function () {
+        var BboxRpcRequest = (function () {
             function BboxRpcRequest(url, method, input_type, output_type, handler) {
                 var _this = this;
                 this.m_url = url;
@@ -609,7 +601,7 @@ var bbox;
 (function (bbox) {
     var net;
     (function (net) {
-        var MessageWebSocket = /** @class */ (function () {
+        var MessageWebSocket = (function () {
             function MessageWebSocket(url, protocol, state_handler) {
                 var _this = this;
                 this.url = url;
@@ -665,7 +657,6 @@ var bbox;
             };
             MessageWebSocket.prototype.handleMessage = function (evt) {
                 if (typeof (evt.data) !== 'string') {
-                    // We only handle string messages
                     this.updateState(false, "Received binary message");
                     this.websocket.close();
                 }
@@ -707,7 +698,7 @@ var bbox;
 (function (bbox) {
     var enc;
     (function (enc) {
-        var Type = /** @class */ (function () {
+        var Type = (function () {
             function Type(lib, name) {
                 this.type_lib = lib;
                 this.type_name = name;
@@ -727,7 +718,7 @@ var bbox;
 (function (bbox) {
     var enc;
     (function (enc) {
-        var MsgAnyPtr = /** @class */ (function () {
+        var MsgAnyPtr = (function () {
             function MsgAnyPtr(type) {
                 this.type = type;
             }
@@ -744,7 +735,7 @@ var bbox;
 (function (bbox) {
     var enc;
     (function (enc) {
-        var ToString = /** @class */ (function () {
+        var ToString = (function () {
             function ToString() {
                 this.result = "";
                 this.has_error = false;
@@ -777,7 +768,7 @@ var bbox;
 (function (bbox) {
     var enc;
     (function (enc) {
-        var ToXml = /** @class */ (function () {
+        var ToXml = (function () {
             function ToXml(root_node_name) {
                 this.result = document.implementation.createDocument(null, root_node_name, null);
                 this.cur_element = this.result.documentElement;
@@ -803,7 +794,6 @@ var bbox;
             };
             ToXml.prototype.setValue = function (val) {
                 if (this.has_error) {
-                    // No-op
                 }
                 else {
                     if (val === null) {
@@ -827,7 +817,6 @@ var bbox;
             };
             ToXml.prototype.encodeTypedValue = function (val, type_name) {
                 if (this.has_error) {
-                    // No-op
                 }
                 else {
                     var type = enc.TypeLibrary.instance().findType(type_name);
@@ -841,7 +830,6 @@ var bbox;
             };
             ToXml.prototype.startObject = function () {
                 if (this.has_error) {
-                    // No-op
                 }
                 else if (this.state == "Constructed") {
                     this.state = "Started-Single-Object";
@@ -855,7 +843,6 @@ var bbox;
             };
             ToXml.prototype.endObject = function () {
                 if (this.has_error) {
-                    // No-op
                 }
                 else if (this.state == "Started-Single-Object") {
                     this.state = "Completed-Single-Value";
@@ -869,7 +856,6 @@ var bbox;
             };
             ToXml.prototype.startNamedValue = function (name) {
                 if (this.has_error) {
-                    // No-op
                 }
                 else if ((this.state == "Started-Single-Object")
                     || (this.state == "Started-Named-Object")) {
@@ -885,7 +871,6 @@ var bbox;
             };
             ToXml.prototype.endNamedValue = function () {
                 if (this.has_error) {
-                    // No-op
                 }
                 else if (this.state == "Completed-Named-Value") {
                     this.cur_element = this.element_stack.pop();
@@ -909,7 +894,7 @@ var bbox;
 (function (bbox) {
     var enc;
     (function (enc) {
-        var FromXml_ObjectProgress = /** @class */ (function () {
+        var FromXml_ObjectProgress = (function () {
             function FromXml_ObjectProgress(element) {
                 this.element = element;
                 this.at_start = true;
@@ -939,7 +924,7 @@ var bbox;
             return FromXml_ObjectProgress;
         }());
         ;
-        var FromXml = /** @class */ (function () {
+        var FromXml = (function () {
             function FromXml(json_str, root_element_name) {
                 this.document = null;
                 this.root_element = null;
@@ -976,7 +961,6 @@ var bbox;
             };
             FromXml.prototype.checkComplete = function () {
                 if (this.has_error) {
-                    // No-op
                 }
                 else if (this.state != "Complete") {
                     this.raiseError("checkComplete called but in state " + this.state);
@@ -984,7 +968,6 @@ var bbox;
             };
             FromXml.prototype.decodeTypedValue = function (type_name) {
                 if (this.has_error) {
-                    // No-op
                     return undefined;
                 }
                 else {
@@ -1042,8 +1025,6 @@ var bbox;
                     return undefined;
                 }
                 else if (typeof result == "number") {
-                    // Javascript automatically converts strings which are valid numbers -
-                    // just convert back to a string
                     return (result).toString();
                 }
                 else if (typeof result != "string") {
@@ -1057,7 +1038,6 @@ var bbox;
             FromXml.prototype.startObject = function () {
                 var cur_progress;
                 if (this.has_error) {
-                    // No-op
                     return;
                 }
                 else if (this.state == "Constructed") {
@@ -1076,7 +1056,6 @@ var bbox;
             };
             FromXml.prototype.endObject = function () {
                 if (this.has_error) {
-                    // No-op
                 }
                 else if (this.state == "In-Object") {
                     var obj_element = this.cur_obj_progress.element;
@@ -1087,11 +1066,9 @@ var bbox;
                         return;
                     }
                     if (this.parent_stack.empty()) {
-                        // Finished root object
                         this.state = "Complete";
                     }
                     else {
-                        // Finished sub-object
                         this.cur_obj_progress = this.parent_stack.pop_back();
                         this.state = "Completed-Named-Value";
                     }
@@ -1103,7 +1080,6 @@ var bbox;
             };
             FromXml.prototype.startNamedValue = function (name) {
                 if (this.has_error) {
-                    // No-op
                 }
                 else if (this.state == "In-Object") {
                     var parent = this.cur_obj_progress.element;
@@ -1127,7 +1103,6 @@ var bbox;
             };
             FromXml.prototype.endNamedValue = function () {
                 if (this.has_error) {
-                    // No-op
                 }
                 else if (this.state == "Completed-Named-Value") {
                     this.state = "In-Object";
@@ -1142,15 +1117,13 @@ var bbox;
         enc.FromXml = FromXml;
     })(enc = bbox.enc || (bbox.enc = {}));
 })(bbox || (bbox = {}));
-/// <reference path="../Type.ts"/>
 var bbox;
-/// <reference path="../Type.ts"/>
 (function (bbox) {
     var enc;
     (function (enc) {
         var details;
         (function (details) {
-            var BooleanType = /** @class */ (function (_super) {
+            var BooleanType = (function (_super) {
                 __extends(BooleanType, _super);
                 function BooleanType(lib) {
                     return _super.call(this, lib, "bool") || this;
@@ -1203,7 +1176,7 @@ var bbox;
     (function (enc) {
         var details;
         (function (details) {
-            var IntType = /** @class */ (function (_super) {
+            var IntType = (function (_super) {
                 __extends(IntType, _super);
                 function IntType(lib, name, min, max) {
                     var _this = _super.call(this, lib, name) || this;
@@ -1269,7 +1242,7 @@ var bbox;
     (function (enc) {
         var details;
         (function (details) {
-            var StringType = /** @class */ (function (_super) {
+            var StringType = (function (_super) {
                 __extends(StringType, _super);
                 function StringType(lib) {
                     return _super.call(this, lib, "std::string") || this;
@@ -1313,7 +1286,7 @@ var bbox;
     (function (enc) {
         var details;
         (function (details) {
-            var SimpleStructureType = /** @class */ (function (_super) {
+            var SimpleStructureType = (function (_super) {
                 __extends(SimpleStructureType, _super);
                 function SimpleStructureType(lib, name) {
                     var _this = _super.call(this, lib, name) || this;
@@ -1405,7 +1378,7 @@ var bbox;
                 return SimpleStructureType;
             }(enc.Type));
             details.SimpleStructureType = SimpleStructureType;
-            var GenericSimpleStructureType = /** @class */ (function (_super) {
+            var GenericSimpleStructureType = (function (_super) {
                 __extends(GenericSimpleStructureType, _super);
                 function GenericSimpleStructureType(lib, name, default_constructor) {
                     var _this = _super.call(this, lib, name) || this;
@@ -1427,7 +1400,7 @@ var bbox;
     (function (enc) {
         var details;
         (function (details) {
-            var DequeType = /** @class */ (function (_super) {
+            var DequeType = (function (_super) {
                 __extends(DequeType, _super);
                 function DequeType(lib, name, member_type) {
                     var _this = _super.call(this, lib, name) || this;
@@ -1497,7 +1470,7 @@ var bbox;
 (function (bbox) {
     var enc;
     (function (enc) {
-        var TypeLibrary = /** @class */ (function () {
+        var TypeLibrary = (function () {
             function TypeLibrary() {
                 this.by_name = new bbox.ds.Map();
                 this.addType(new enc.details.StringType(this));
@@ -1541,8 +1514,6 @@ var bbox;
                 var type_name = "std::vector<" + member_type_name + ">";
                 if (this.by_name.has(type_name))
                     return this.by_name.get(type_name);
-                // First time it was called - create and
-                // add a new type for this vector type
                 var result = new enc.details.DequeType(this, type_name, this.findType(member_type_name));
                 this.addType(result);
                 return result;
@@ -1565,34 +1536,7 @@ var bbox;
         enc.TypeLibrary = TypeLibrary;
     })(enc = bbox.enc || (bbox.enc = {}));
 })(bbox || (bbox = {}));
-/// <reference path="bbox/ds/Map.ts" />
-/// <reference path="bbox/ds/Deque.ts" />
-/// <reference path="bbox/ui/Timer.ts" />
-/// <reference path="bbox/ui/Control.ts" />
-/// <reference path="bbox/ui/Container.ts" />
-/// <reference path="bbox/ui/Application.ts" />
-/// <reference path="bbox/ui/TextControl.ts" />
-/// <reference path="bbox/ui/EditBox.ts" />
-/// <reference path="bbox/ui/Button.ts" />
-/// <reference path="bbox/ui/Span.ts" />
-/// <reference path="bbox/ui/Div.ts" />
-/// <reference path="bbox/ui/Pre.ts" />
-/// <reference path="bbox/net/AjaxRequest.ts" />
-/// <reference path="bbox/net/BboxRpcRequest.ts" />
-/// <reference path="bbox/net/MessageWebSocket.ts" />
-/// <reference path="bbox/enc/Type.ts" />
-/// <reference path="bbox/enc/TypePrototype.ts" />
-/// <reference path="bbox/enc/MsgAnyPtr.ts" />
-/// <reference path="bbox/enc/ToString.ts" />
-/// <reference path="bbox/enc/ToXml.ts" />
-/// <reference path="bbox/enc/FromXml.ts" />
-/// <reference path="bbox/enc/details/BooleanType.ts" />
-/// <reference path="bbox/enc/details/IntType.ts" />
-/// <reference path="bbox/enc/details/StringType.ts" />
-/// <reference path="bbox/enc/details/SimpleStructureType.ts" />
-/// <reference path="bbox/enc/details/DequeType.ts" />
-/// <reference path="bbox/enc/TypeLibrary.ts" />
-var SimpleType = /** @class */ (function () {
+var SimpleType = (function () {
     function SimpleType() {
         this.name = "";
         this.id = 0;
@@ -1604,7 +1548,7 @@ var SimpleType = /** @class */ (function () {
         .addMember("list", bbox.enc.TypeLibrary.stdVectorAsDeque("std::string"));
     return SimpleType;
 }());
-var MyApplication = /** @class */ (function (_super) {
+var MyApplication = (function (_super) {
     __extends(MyApplication, _super);
     function MyApplication() {
         var _this = _super.call(this, SimpleType) || this;
@@ -1636,7 +1580,6 @@ var MyApplication = /** @class */ (function (_super) {
             this.body().add(div);
             this.cur_test_success = true;
             this.cur_test_pre = pre;
-            // Run the test
             try {
                 this[name](this);
             }
@@ -1755,6 +1698,4 @@ var MyApplication = /** @class */ (function (_super) {
     };
     return MyApplication;
 }(bbox.ui.Application));
-/// <reference path="../TypeScriptClientLib/lib_references.ts" />
-/// <reference path="app.ts" />
 //# sourceMappingURL=app.js.map

@@ -37,17 +37,20 @@ html {
     margin: 0;
     padding: 0;
     background-color: black;
+    cursor: none;
 }
 
 body {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    cursor: none;
 }
 
 div.screen {
     margin: 0;
     padding: 0;
+    cursor: none;
 }
 
 div.buttons {

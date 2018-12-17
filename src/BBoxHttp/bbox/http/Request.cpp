@@ -247,7 +247,7 @@ namespace bbox {
                 {
 #ifdef _DEBUG
                     std::vector<uint8_t> data;
-                    bbox::Error error = bbox::FileUtils::ReadBinaryFile(file_ptr->GetOrigFileName(), data, 100 * 1024 * 1024);
+                    bbox::Error error = bbox::FileUtils::ReadBinaryFile(file_ptr->GetOrigFileName(), data, 250 * 1024 * 1024);
 
                     if (error)
                     {

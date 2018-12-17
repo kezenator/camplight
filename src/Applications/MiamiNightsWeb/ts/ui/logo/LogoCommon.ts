@@ -4,7 +4,8 @@ namespace ui.logo
 {
     export class LogoCommon
     {         
-        public static PERIOD_WASH: number = 10000;    
+        public static PERIOD_CASA_HIGHLIGHT: number = 2000;
+        public static PERIOD_WASH: number = 10000;
         public static DURATION_FADE: number = 1500;  
 
         public static drawPressStart(ctx: CanvasRenderingContext2D, ms: number, buttons: ui.Buttons)
@@ -20,7 +21,7 @@ namespace ui.logo
                 var metrics = ctx.measureText(text);
 
                 var x = 960 - 0.5 * metrics.width;
-                var y = 1050;
+                var y = 1032;
 
                 var grad = ctx.createLinearGradient(x, y, x + metrics.width, y);
                 grad.addColorStop(0, 'hsl(0,100%,50%)');

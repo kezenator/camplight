@@ -13,7 +13,6 @@ namespace ui.logo
 
         private static DURATION_SUNSET: number = 12000;
 
-        private static PERIOD_CASA_HIGHLIGHT: number = 2000;
         private static PERIOD_REFLECTION: number = 3000; 
 
         private static DURATION_LOOP: number = 30000; 
@@ -392,7 +391,7 @@ namespace ui.logo
             ctx.fillStyle = 'rgb(255,0,255)';
             ctx.fillText(text, 0, 0);
 
-            var hightlight_offset = 200 * (ms % LogoScreen.PERIOD_CASA_HIGHLIGHT) / LogoScreen.PERIOD_CASA_HIGHLIGHT;
+            var hightlight_offset = 200 * (ms % LogoCommon.PERIOD_CASA_HIGHLIGHT) / LogoCommon.PERIOD_CASA_HIGHLIGHT;
             var grad = ctx.createLinearGradient(0, -400 + hightlight_offset, 0, 0 + hightlight_offset);
             var c1 = 'rgb(255,255,0)';
             var c2 = 'rgb(255,128,0)';
