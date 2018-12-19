@@ -11,8 +11,16 @@ all:
 # Setup critical variables that modules.make uses
 
 OUTPUT_DIR := build
+
+ifeq ($(shell uname -m | grep arm),)
+# Assume x86-64
 OBJCOPY_OUTPUT_TARGET := elf64-x86-64
 OBJCOPY_BINARY_ARCHITECTURE := i386
+else
+# Assume Raspberry Pi
+OBJCOPY_OUTPUT_TARGET := elf32-littlearm 
+OBJCOPY_BINARY_ARCHITECTURE := arm
+endif
 
 # Setup for and include the modules file
 
