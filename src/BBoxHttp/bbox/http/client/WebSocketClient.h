@@ -50,6 +50,7 @@ protected:
 	void HandleStopping() override;
 
 private:
+    struct UriDecode;
 	struct Pimpl;
 	std::unique_ptr<Pimpl> m_pimpl;
 };

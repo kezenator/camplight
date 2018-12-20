@@ -8,6 +8,7 @@
 #include <bbox/Assert.h>
 #include <bbox/Exception.h>
 
+#include <deque>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
