@@ -17,44 +17,48 @@ namespace server {
 
 ServerWebSocket ServerWebSocket::Upgrade(Request &request, const std::string &protocol, StateHandler &&state_handler, ReceiveHandler &&rx_handler)
 {
-	BBOX_ASSERT(details::WebSocketConnection::IsUpgrade(request));
+    BBOX_ASSERT(details::WebSocketConnection::IsUpgrade(request));
 
-	return ServerWebSocket(new details::WebSocketConnection(request, protocol, std::move(state_handler), std::move(rx_handler)));
+    ServerWebSocket result;
+    result.m_connection = new details::WebSocketConnection(&result, request, protocol, std::move(state_handler), std::move(rx_handler));
+
+    return result;
 }
 
 ServerWebSocket::~ServerWebSocket()
 {
-	Close();
+    Close();
 }
 
 bool ServerWebSocket::IsOpen() const
 {
-	bool result = false;
+    bool result = false;
 
-	if (m_connection)
-	{
-		result = m_connection->IsOpen();
-	}
+    if (m_connection)
+    {
+        result = m_connection->IsOpen();
+    }
 
-	return result;
+    return result;
 }
 
 
 void ServerWebSocket::Close()
 {
-	if (m_connection)
-	{
-		m_connection->Close();
-		m_connection = nullptr;
-	}
+    if (m_connection)
+    {
+        m_connection->Close();
+        m_connection->UpdateOwner(nullptr);
+        m_connection = nullptr;
+    }
 }
 
 void ServerWebSocket::Send(const std::string &str)
 {
-	if (m_connection)
-	{
-		m_connection->Send(str);
-	}
+    if (m_connection)
+    {
+        m_connection->Send(str);
+    }
 }
 
 } // namespace bbox::http::server

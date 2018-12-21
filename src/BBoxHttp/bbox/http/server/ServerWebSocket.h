@@ -9,6 +9,7 @@
 
 #include <bbox/http/Request.h>
 #include <bbox/Error.h>
+#include <bbox/http/server/details/WebSocketConnection.h>
 
 #include <functional>
 
@@ -28,46 +29,51 @@ class ServerWebSocket
 {
 public:
 
-	using StateHandler = std::function<void (const bbox::Error &error)>;
-	using ReceiveHandler = std::function<void (const std::string &message)>;
+    using StateHandler = std::function<void (const bbox::Error &error)>;
+    using ReceiveHandler = std::function<void (const std::string &message)>;
 
-	ServerWebSocket()
-		: m_connection(nullptr)
-	{
-	}
+    ServerWebSocket()
+        : m_connection(nullptr)
+    {
+    }
 
-	~ServerWebSocket();
+    ~ServerWebSocket();
 
-	ServerWebSocket(const ServerWebSocket &) = delete;
-	ServerWebSocket &operator =(const ServerWebSocket &) = delete;
+    ServerWebSocket(const ServerWebSocket &) = delete;
+    ServerWebSocket &operator =(const ServerWebSocket &) = delete;
 
-	ServerWebSocket(ServerWebSocket &&other)
-		: m_connection(other.m_connection)
-	{
-		other.m_connection = nullptr;
-	}
+    ServerWebSocket(ServerWebSocket &&other)
+        : m_connection(other.m_connection)
+    {
+        other.m_connection = nullptr;
 
-	ServerWebSocket &operator =(ServerWebSocket &&other)
-	{
-		std::swap(m_connection, other.m_connection);
-		return *this;
-	}
+        if (m_connection)
+            m_connection->UpdateOwner(this);
+    }
 
-	static ServerWebSocket Upgrade(Request &request, const std::string &protocol, StateHandler &&state_handler, ReceiveHandler &&rx_handler);
+    ServerWebSocket &operator =(ServerWebSocket &&other)
+    {
+        std::swap(m_connection, other.m_connection);
 
-	bool IsOpen() const;
-	void Close();
+        if (m_connection)
+            m_connection->UpdateOwner(this);
 
-	void Send(const std::string &str);
+        if (other.m_connection)
+            other.m_connection->UpdateOwner(&other);
+
+        return *this;
+    }
+
+    static ServerWebSocket Upgrade(Request &request, const std::string &protocol, StateHandler &&state_handler, ReceiveHandler &&rx_handler);
+
+    bool IsOpen() const;
+    void Close();
+
+    void Send(const std::string &str);
 
 private:
 
-	explicit ServerWebSocket(details::WebSocketConnection *connection)
-		: m_connection(connection)
-	{
-	}
-
-	details::WebSocketConnection *m_connection;
+    details::WebSocketConnection *m_connection;
 };
 
 } // namespace bbox::http::server
