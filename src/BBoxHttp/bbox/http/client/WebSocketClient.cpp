@@ -42,7 +42,7 @@ struct WebSocketClient::UriDecode
         , uri(_uri)
         , protocol(_protocol)
         , host()
-        , port(0)
+        , port()
         , resource()
     {
         if ((uri.size() > 5)
@@ -102,6 +102,7 @@ struct WebSocketClient::Pimpl
         , m_state_handler(std::move(state_handler))
         , m_receive_handler(std::move(receive_handler))
         , m_stage_str("constructed")
+        , m_outstanding_ops(0)
         , m_opened(false)
         , m_connected(false)
         , m_reading(false)
@@ -115,11 +116,17 @@ struct WebSocketClient::Pimpl
 		m_retry_timer.SetHandler(std::bind(&Pimpl::HandleRetryTimerExpired, this));
 	}
 
+	~Pimpl()
+	{
+	    BBOX_ASSERT(m_outstanding_ops == 0);
+	}
+
 	WebSocketClient &m_parent;
 	rt::Timer m_retry_timer;
 	StateHandler m_state_handler;
 	ReceiveHandler m_receive_handler;
     std::string m_stage_str;
+    size_t m_outstanding_ops;
 	bool m_opened;
 	bool m_connected;
 	bool m_reading;
@@ -160,6 +167,7 @@ struct WebSocketClient::Pimpl
 			if (!m_sending)
 			{
 				m_sending = true;
+				m_outstanding_ops += 1;
 				m_socket.async_write(
 					boost::asio::buffer(m_pending_sends.front()),
 					std::bind(
@@ -173,11 +181,12 @@ struct WebSocketClient::Pimpl
 
 	void PrintState(DebugOutput &out) const
 	{
-        out.Format("Stage Str:     %s\n", m_stage_str);
-        out.Format("Opened:        %s\n", m_opened);
-        out.Format("Requested URI: %s\n", m_requested_uri.ToString());
-        out.Format("Current URI:   %s\n", m_cur_uri.ToString());
-        out.Format("Connected:     %s\n", m_connected);
+        out.Format("Stage Str:      %s\n", m_stage_str);
+        out.Format("Oustanding Ops: %s\n", m_outstanding_ops);
+        out.Format("Opened:         %s\n", m_opened);
+        out.Format("Requested URI:  %s\n", m_requested_uri.ToString());
+        out.Format("Current URI:    %s\n", m_cur_uri.ToString());
+        out.Format("Connected:      %s\n", m_connected);
 	}
 
 	void HandleStopping()
@@ -188,18 +197,8 @@ struct WebSocketClient::Pimpl
 
 	void CheckStopping()
 	{
-		bool stopped = false;
-
-		if (m_parent.GetLocalRunLevel() == rt::RunLevel::STOPPING)
-		{
-			if (m_retry_timer.IsRunning())
-			{
-				// Waiting for retry - we can stop immeidately
-				stopped = true;
-			}
-		}
-
-		if (stopped)
+		if ((m_parent.GetLocalRunLevel() == rt::RunLevel::STOPPING)
+		    && (m_outstanding_ops == 0))
 		{
 			m_retry_timer.Cancel();
 
@@ -215,6 +214,7 @@ struct WebSocketClient::Pimpl
 
         m_cur_uri = m_requested_uri;
         m_stage_str = "resolving";
+        m_outstanding_ops += 1;
 
 		m_resolver.async_resolve(
 			m_cur_uri.host,
@@ -228,6 +228,9 @@ struct WebSocketClient::Pimpl
 
 	void HandleResolved(boost::system::error_code ec, boost::asio::ip::tcp::resolver::results_type results)
 	{
+		BBOX_ASSERT(m_outstanding_ops > 0);
+		m_outstanding_ops -= 1;
+
 		if (!ec
 			&& (m_parent.GetLocalRunLevel() != rt::RunLevel::RUNNING))
 		{
@@ -241,6 +244,7 @@ struct WebSocketClient::Pimpl
 		else
 		{
             m_stage_str = "connecting";
+            m_outstanding_ops += 1;
 
 			boost::asio::async_connect(
 				m_socket.next_layer(),
@@ -255,6 +259,9 @@ struct WebSocketClient::Pimpl
 
 	void HandleConnect(boost::system::error_code ec)
 	{
+		BBOX_ASSERT(m_outstanding_ops > 0);
+		m_outstanding_ops -= 1;
+
 		if (!ec
 			&& (m_parent.GetLocalRunLevel() != rt::RunLevel::RUNNING))
 		{
@@ -268,6 +275,7 @@ struct WebSocketClient::Pimpl
 		else
 		{
             m_stage_str = "handshaking";
+            m_outstanding_ops += 1;
 
 			m_socket.async_handshake_ex(
 				m_cur_uri.host,
@@ -285,6 +293,9 @@ struct WebSocketClient::Pimpl
 
 	void HandleHandshake(boost::system::error_code ec)
 	{
+		BBOX_ASSERT(m_outstanding_ops > 0);
+		m_outstanding_ops -= 1;
+
 		if (!ec
 			&& (m_parent.GetLocalRunLevel() != rt::RunLevel::RUNNING))
 		{
@@ -311,6 +322,7 @@ struct WebSocketClient::Pimpl
 		BBOX_ASSERT(!m_reading);
 
 		m_reading = true;
+		m_outstanding_ops += 1;
 
 		m_socket.async_read(
 			m_rx_buffer,
@@ -326,6 +338,8 @@ struct WebSocketClient::Pimpl
 		std::size_t /*bytes_transferred*/)
 	{
 		BBOX_ASSERT(m_reading);
+		BBOX_ASSERT(m_outstanding_ops > 0);
+		m_outstanding_ops -= 1;
 		m_reading = false;
 
 		if (ec)
@@ -370,6 +384,8 @@ struct WebSocketClient::Pimpl
 		std::size_t /*bytes_transferred*/)
 	{
 		BBOX_ASSERT(m_sending);
+		BBOX_ASSERT(m_outstanding_ops > 0);
+		m_outstanding_ops -= 1;
 		m_sending = false;
 		m_pending_sends.pop_front();
 
@@ -380,6 +396,7 @@ struct WebSocketClient::Pimpl
 		else if (!m_pending_sends.empty())
 		{
 			m_sending = true;
+			m_outstanding_ops += 1;
 			m_socket.async_write(
 				boost::asio::buffer(m_pending_sends.front()),
 				std::bind(

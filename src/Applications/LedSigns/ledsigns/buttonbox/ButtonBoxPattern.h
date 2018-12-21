@@ -59,6 +59,7 @@ namespace ledsigns
             bbox::http::client::WebSocketClient m_web_socket_client;
             bbox::rt::net::ssdp::SsdpSearch m_ssdp_search;
             bbox::enc::Dispatcher m_dispatcher;
+            std::string m_discovered_uri;
             bbox::Error m_socket_error;
             mn::msgs::ButtonColors m_button_colors;
             mn::msgs::ButtonStates m_button_states;

@@ -28,6 +28,7 @@ namespace ledsigns
                 "buttonbox-target.kezenator.com",
                 std::bind(&ButtonBoxPattern::HandleSsdpSearchResultsChanged, this))
             , m_dispatcher()
+            , m_discovered_uri()
             , m_socket_error(std::errc::not_connected)
             , m_button_colors()
             , m_button_states()
@@ -50,9 +51,10 @@ namespace ledsigns
 
         void ButtonBoxPattern::PrintInformation(bbox::DebugOutput &out) const
         {
-            out.Format("Socket Error: %s\n", m_socket_error.ToString());
+            out.Format("Discovered URI: %s\n", m_discovered_uri);
+            out.Format("Socket Error:   %s\n", m_socket_error.ToString());
             out.Format("Button Colours: %s\n", bbox::enc::ToDebugString(m_button_colors));
-            out.Format("Button States: %s\n", bbox::enc::ToDebugString(m_button_states));
+            out.Format("Button States:  %s\n", bbox::enc::ToDebugString(m_button_states));
         }
 
         std::vector<leds::Color> ButtonBoxPattern::Render(const common::RenderState &render)
@@ -106,7 +108,18 @@ namespace ledsigns
                 }
             }
 
-            m_web_socket_client.Open(uri, "12.09.2018.buttons.miami-nights.kezenator.com");
+            if (uri != m_discovered_uri)
+            {
+                m_discovered_uri = std::move(uri);
+
+                bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Activity);
+                if (out)
+                {
+                    out.Format("Discovered ButtonBox Target: %s\n", m_discovered_uri);
+                }
+
+                m_web_socket_client.Open(m_discovered_uri, "12.09.2018.buttons.miami-nights.kezenator.com");
+            }
         }
 
         void ButtonBoxPattern::HandleWebSocketState(const bbox::Error &error)
