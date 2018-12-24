@@ -5,15 +5,24 @@ namespace ui.tetris
 {
     class TetrisButton
     {
+        static HOLD_TIME: number = 500;
+        static RECLICK_TIME: number = 250;
+
+        want_held: boolean;
         click: boolean;
         pressed: boolean;
+        held: boolean;
+        down_time: number;
         last_click_ms: number;
         waiting: boolean;
 
-        constructor()
+        constructor(want_held: boolean)
         {
+            this.want_held = want_held;
             this.click = false;
             this.pressed = false;
+            this.held = false;
+            this.down_time = 0;
             this.last_click_ms = 0;
             this.waiting = false;
         }
@@ -27,6 +36,8 @@ namespace ui.tetris
                 && pressed)
             {
                 this.click = false;
+                this.pressed = false;
+                this.held = false;
                 return;
             }
 
@@ -41,20 +52,54 @@ namespace ui.tetris
                 pressed = true;
             }
 
-            // Save start time
-
             if (pressed
                 && !this.pressed)
             {
+                // Just pressed down
+
+                this.down_time = ms;
                 this.last_click_ms = ms;
-                this.click = true;
+                this.click = !this.want_held;
+                this.held = false;
             }
             else if (pressed
-                && this.pressed
-                && ((ms - this.last_click_ms) >= 125))
+                && this.pressed)
             {
-                this.last_click_ms += 125;
-                this.click = true;
+                // Continuing to be pressed
+
+                if (!this.held
+                    && (ms - this.down_time) >= TetrisButton.HOLD_TIME)
+                {
+                    this.click = true;
+                    this.held = true;
+                    this.last_click_ms += TetrisButton.HOLD_TIME;
+                }
+                else if (this.held
+                    && ((ms - this.last_click_ms) >= TetrisButton.RECLICK_TIME))
+                {
+                    this.click = true;
+                    this.last_click_ms += TetrisButton.RECLICK_TIME;
+                }
+                else
+                {
+                    this.click = false;
+                }
+            }
+            else
+            {
+                // Not pressed
+
+                if (this.want_held
+                    && this.pressed)
+                {
+                    this.click = true;
+                    this.held = false;
+                }
+                else
+                {
+                    this.click = false;
+                    this.held = false;
+                }
             }
 
             this.pressed = pressed;
@@ -65,6 +110,11 @@ namespace ui.tetris
             return this.click;
         }
 
+        is_held(): boolean
+        {
+            return this.held;
+        }
+
         clearClicked(): void
         {
             this.click = false;
@@ -73,6 +123,8 @@ namespace ui.tetris
         waitForRepress(): void
         {
             this.waiting = true;
+            this.click = false;
+            this.held = false;
         }
     };
 
@@ -110,9 +162,9 @@ namespace ui.tetris
             this.gameOverTime = 0;
             this.level = 1;
             this.score = 0;
-            this.left_btn = new TetrisButton();
-            this.right_btn = new TetrisButton();
-            this.other_btn = new TetrisButton();
+            this.left_btn = new TetrisButton(false);
+            this.right_btn = new TetrisButton(false);
+            this.other_btn = new TetrisButton(true);
         }       
 
         public isTimedOut(ms: number): boolean
@@ -173,7 +225,17 @@ namespace ui.tetris
                     this.right_btn.clearClicked();
                 }
 
-                if (this.other_btn.clicked())
+                if (this.other_btn.is_held())
+                {
+                    // Replace the current piece with the
+                    // shadow piece, lock it, and
+                    // ignore the other button until re-pressed
+
+                    this.curPiece = this.shadowPiece;
+                    need_lock = true;
+                    this.other_btn.waitForRepress();
+                }
+                else if (this.other_btn.clicked())
                 {
                     this.curPiece.rotate(1);
 
@@ -216,17 +278,23 @@ namespace ui.tetris
                 }
                 else
                 {
-                    // Move down automatically
+                    // Update time
 
                     this.lastMoveMs += speed;
-                    need_new_shadow = true;
 
-                    this.curPiece.move(0, 1);
+                    // Move down automatically
 
-                    if (!this.curPiece.fits(this.gameBoard))
+                    if (!need_lock)
                     {
-                        this.curPiece.move(0, -1);
-                        need_lock = true;
+                        need_new_shadow = true;
+
+                        this.curPiece.move(0, 1);
+
+                        if (!this.curPiece.fits(this.gameBoard))
+                        {
+                            this.curPiece.move(0, -1);
+                            need_lock = true;
+                        }
                     }
                 }
 

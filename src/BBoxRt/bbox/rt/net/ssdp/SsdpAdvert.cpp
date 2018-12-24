@@ -12,14 +12,14 @@ namespace rt {
 namespace net {
 namespace ssdp {
 
-SsdpAdvert::SsdpAdvert(const std::string &name, Service &parent, std::string &&service_type, InfoCallback &&info_callback)
+SsdpAdvert::SsdpAdvert(const std::string &name, Service &parent, std::string &&service_type, size_t expires_seconds, InfoCallback &&info_callback)
     : Service(name, parent)
     , m_discovery_service_ref("discovery-service-ref", *this, SsdpDiscoveryService::SERVICE_NAME)
     , m_timer("timer", *this, std::bind(&SsdpAdvert::HandleTimerExpired, this))
     , m_uuid(Uuid::NewRandom())
     , m_service_type(std::move(service_type))
     , m_info_callback(std::move(info_callback))
-    , m_expires_seconds(3600)
+    , m_expires_seconds(expires_seconds)
     , m_announce_count(0)
 {
 }

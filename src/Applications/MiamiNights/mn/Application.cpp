@@ -16,6 +16,10 @@
 
 #include <mn/Resources.h>
 
+#include <bbox/TextCoding.h>
+#include <shellapi.h>
+
+
 namespace mn {
 
 ApplicationService::ApplicationService(const std::string &name,
@@ -27,11 +31,11 @@ ApplicationService::ApplicationService(const std::string &name,
     , m_console_shutdown_service("console-shutdown-service", *this)
     , m_network_change_service("network-change-service", *this)
     , m_ssdp_discovery_service("ssdp-discovery-service", *this)
-    , m_ssdp_advert("ssdp-advert", *this, "buttonbox-target.kezenator.com",
+    , m_ssdp_advert("ssdp-advert", *this, "buttonbox-target.kezenator.com", 60,
         std::bind(&ApplicationService::SsdpAdvertCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
     , m_http_server("http-server", *this)
     , m_http_debug_website("http-debug-website", *this, m_http_server)
-	, m_audio_service("audio service", *this)
+	//, m_audio_service("audio service", *this)
 	, m_buttons_web_socket("buttons-web-socket", *this,
 		m_http_server,
 		"/ws/buttons",
@@ -58,7 +62,30 @@ void ApplicationService::HandleStarting()
     m_http_server.AddServer(m_http_listen_endpoint,
         std::bind(&ApplicationService::HttpRequestHandler, this, std::placeholders::_1));
 
-	m_http_server.TryAndOpenWebBrowserToServer("/index.html?debug");
+    std::string url = bbox::Format("http://127.0.0.1:%d/index.html?safe", m_http_listen_endpoint.GetPort());
+
+    std::string application = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
+
+    PROCESS_INFORMATION pi;
+    STARTUPINFO si;
+
+    memset(&pi, 0, sizeof(pi));
+    memset(&si, 0, sizeof(si));
+
+    ::CreateProcessW(
+        bbox::TextCoding::Win32_UTF8_to_UTF16(application).c_str(),
+        const_cast<wchar_t *>(bbox::TextCoding::Win32_UTF8_to_UTF16(bbox::Format(
+            "\"%s\" --kiosk %s",
+            application,
+            url)).c_str()),
+        nullptr,
+        nullptr,
+        FALSE,
+        0,
+        nullptr,
+        nullptr,
+        &si,
+        &pi);
 
     NotifyStarted();
 }
@@ -157,6 +184,7 @@ void ApplicationService::HandleAppRxStartEmulator(const msgs::StartEmulator &msg
 	m_app_web_socket.Send(new_message<msgs::ButtonStates>(DefaultStates()));
 
 	m_emulator_runner.Start(msg.game);
+    m_emulator_joystick.SetEmulatorRunning(true);
 	m_emulator_joystick.SetStates(m_button_states);
 }
 
@@ -166,7 +194,8 @@ void ApplicationService::HandleEmulatorCompleted()
 	// tell the Website we're finished,
 	// and forward it the current button states
 
-	m_emulator_joystick.SetStates(DefaultStates());
+    m_emulator_joystick.SetEmulatorRunning(false);
+    m_emulator_joystick.SetStates(DefaultStates());
 
 	m_app_web_socket.Send(new_message<msgs::EmulatorCompleted>());
 	m_app_web_socket.Send(new_message<msgs::ButtonStates>(m_button_states));

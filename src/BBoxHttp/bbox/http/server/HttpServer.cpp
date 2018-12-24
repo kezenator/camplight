@@ -195,6 +195,8 @@ namespace bbox {
 
 				for (auto &entry : m_listeners)
 					entry.first->AsyncStop();
+                for (auto &entry : m_web_socket_connections)
+                    entry->Close();
 
                 m_check_shutdown_work.Schedule();
             }

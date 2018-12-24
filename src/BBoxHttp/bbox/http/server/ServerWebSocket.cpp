@@ -47,9 +47,12 @@ void ServerWebSocket::Close()
 {
     if (m_connection)
     {
-        m_connection->Close();
+        details::WebSocketConnection *old_conn = m_connection;
+
         m_connection->UpdateOwner(nullptr);
         m_connection = nullptr;
+
+        old_conn->Close();
     }
 }
 

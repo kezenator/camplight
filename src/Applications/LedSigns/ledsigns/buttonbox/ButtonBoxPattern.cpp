@@ -192,11 +192,11 @@ namespace ledsigns
                 bool new_state = !m_gpio_client.GetInput(input);
                 if (new_state != saved_state)
                 {
-                    bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Testing);
+                    /*bbox::DebugOutput out(BBOX_FUNC, bbox::DebugOutput::Testing);
                     if (out)
                     {
                         out.Format("GPIO: Input %d \"%s\" changed to %s\n", input, name, new_state);
-                    }
+                    }*/
 
                     changed = true;
                 }
@@ -227,17 +227,17 @@ namespace ledsigns
                 return bbox::Format("hsl(%d,100%c,50%c)", hue, '%', '%');
             };
 
-            m_button_colors.button_colors[0] = hue_offset_to_color(0);
-            m_button_colors.button_colors[1] = hue_offset_to_color(30);
-            m_button_colors.button_colors[2] = hue_offset_to_color(60);
-            m_button_colors.button_colors[3] = hue_offset_to_color(120);
-            m_button_colors.button_colors[4] = hue_offset_to_color(180);
-            m_button_colors.button_colors[5] = hue_offset_to_color(240);
+            m_button_colors.wash_color = hue_offset_to_color(0);
 
-            m_button_colors.wash_color = hue_offset_to_color(300);
+            m_button_colors.button_colors[0] = "black";
+            m_button_colors.button_colors[1] = "black";
+            m_button_colors.button_colors[2] = "black";
+            m_button_colors.button_colors[3] = "black";
+            m_button_colors.button_colors[4] = "black";
+            m_button_colors.button_colors[5] = "black";
 
-            m_button_colors.play_color = hue_offset_to_color(45);
-            m_button_colors.back_color = hue_offset_to_color(150);
+            m_button_colors.play_color = "black";
+            m_button_colors.back_color = "black";
         }
 
         void ButtonBoxPattern::Send(const bbox::enc::MsgAnyPtr &msg)

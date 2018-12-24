@@ -24,6 +24,7 @@ namespace ui.pong
         private static BALL_SIZE: number = 50;
 
         private static VOL_X: number = 0.55;
+        private static VOL_X_SCALE: number = 0.00002;
         private static MAX_VOL_Y: number = 0.3;
 
         private state: PongState;
@@ -198,6 +199,11 @@ namespace ui.pong
         {
             this.ballx += this.volx * span_ms;
             this.bally += this.voly * span_ms;
+
+            if (this.volx < 0)
+                this.volx -= (PongScreen.VOL_X_SCALE * span_ms);
+            else
+                this.volx += (PongScreen.VOL_X_SCALE * span_ms);
 
             var minx = PongScreen.FRAMEX + PongScreen.PADDLE_OFFSET + PongScreen.BALL_SIZE;
             var maxx = PongScreen.FRAMEX + PongScreen.FRAMEW - PongScreen.PADDLE_OFFSET - PongScreen.BALL_SIZE;

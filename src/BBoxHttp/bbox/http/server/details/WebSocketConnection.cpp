@@ -6,6 +6,7 @@
 
 #include <bbox/http/server/details/WebSocketConnection.h>
 #include <bbox/http/server/details/Connection.h>
+#include <bbox/http/server/ServerWebSocket.h>
 #include <bbox/http/server/HttpServer.h>
 #include <bbox/Assert.h>
 
@@ -68,7 +69,7 @@ void WebSocketConnection::UpdateOwner(ServerWebSocket *new_owner)
 
     if (m_owner == nullptr)
     {
-        CheckClose();
+        Close();
     }
 }
 
@@ -100,12 +101,17 @@ void WebSocketConnection::Send(const std::string &str)
 
 void WebSocketConnection::CheckClose()
 {
-    if ((m_owner == nullptr)
-        && m_close_requested
+    if (m_close_requested
         && !m_close_reported
         && (m_outstanding_async_ops == 0)
         && !m_write_pending)
-    {
+    {                
+        if (m_owner != nullptr)
+        {
+            m_owner->m_connection = nullptr;
+            m_owner = nullptr;
+        }
+
         m_close_reported = true;
         m_server.WebSocketClosed(this);
     }

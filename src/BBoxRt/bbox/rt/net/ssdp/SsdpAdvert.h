@@ -33,7 +33,7 @@ public:
 
     using InfoCallback = std::function<void(const bbox::rt::net::IpAddress &interface_addr, bool &out_should_send, std::string &out_location)>;
 
-    SsdpAdvert(const std::string &name, Service &parent, std::string &&service_type, InfoCallback &&info_callback);
+    SsdpAdvert(const std::string &name, Service &parent, std::string &&service_type, size_t expires_seconds, InfoCallback &&info_callback);
     ~SsdpAdvert();
 
 private:

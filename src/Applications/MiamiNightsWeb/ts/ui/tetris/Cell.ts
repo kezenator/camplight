@@ -32,7 +32,7 @@ namespace ui.tetris
                 ctx.lineWidth = 3;
                 ctx.strokeRect(x, y, tile_size, tile_size);
             }
-            else if (this.index < 3)
+            /*else if (this.index < 3)
             {
                 ctx.drawImage(
                     this.pieces_img,
@@ -40,7 +40,7 @@ namespace ui.tetris
                     tile_size, tile_size,
                     x, y,
                     tile_size, tile_size);
-            }
+            }*/
             else
             {
                 ctx.fillStyle = 'hsl(' + this.hue + ',100%,50%)';

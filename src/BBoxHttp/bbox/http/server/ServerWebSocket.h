@@ -27,6 +27,8 @@ class WebSocketConnection;
  */
 class ServerWebSocket
 {
+    friend details::WebSocketConnection;
+
 public:
 
     using StateHandler = std::function<void (const bbox::Error &error)>;

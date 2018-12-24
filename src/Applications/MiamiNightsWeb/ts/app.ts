@@ -96,7 +96,7 @@ class App
             this.screens[App.FORTUNE] = new ui.fortune.FortuneScreen(this);
             this.screens[App.TETRIS] = new ui.tetris.TetrisScreen(this);
 
-            this.curScreen = this.screens[App.TETRIS];
+            this.curScreen = this.screens[App.LOGO];
             this.startTime = Date.now();
             window.requestAnimationFrame(() => this._doFrame());
             this.curScreen.show();

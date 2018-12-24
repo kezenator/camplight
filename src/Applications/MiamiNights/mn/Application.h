@@ -19,7 +19,7 @@
 #include <bbox/rt/net/ssdp/SsdpAdvert.h>
 #include <bbox/http/server/HttpServer.h>
 #include <bbox/http/debug/HttpDebugWebsite.h>
-#include <bbox/audio/AudioService.h>
+//#include <bbox/audio/AudioService.h>
 
 #include <mn/MessageWebSocket.h>
 #include <mn/EmulatorRunner.h>
@@ -68,7 +68,7 @@ private:
     bbox::rt::net::ssdp::SsdpAdvert m_ssdp_advert;
     bbox::http::server::HttpServer m_http_server;
 	bbox::http::debug::HttpDebugWebsite m_http_debug_website;
-	bbox::audio::AudioService m_audio_service;
+	//bbox::audio::AudioService m_audio_service;
 
 	mn::MessageWebSocket m_buttons_web_socket;
 	mn::MessageWebSocket m_app_web_socket;

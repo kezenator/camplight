@@ -121,6 +121,7 @@ void EmulatorRunner::ThreadProc()
 void EmulatorRunner::ProcessCompleted()
 {
 	m_thread.join();
+    m_thread = std::thread();
 	m_running = false;
 
 	m_on_complete_handler();
