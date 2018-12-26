@@ -75,7 +75,7 @@ void ApplicationService::HandleStarting()
     ::CreateProcessW(
         bbox::TextCoding::Win32_UTF8_to_UTF16(application).c_str(),
         const_cast<wchar_t *>(bbox::TextCoding::Win32_UTF8_to_UTF16(bbox::Format(
-            "\"%s\" --kiosk %s",
+            "\"%s\" --kiosk --disable-session-crashed-bubble --incognito --disable-infobars %s",
             application,
             url)).c_str()),
         nullptr,
