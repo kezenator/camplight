@@ -62,19 +62,19 @@ namespace ui.tetris
 
             this.games[0].handleButtons(
                 ms,
-                buttons.isButtonClicked(0),
-                buttons.isButtonPressed(0),
                 buttons.isButtonClicked(1),
                 buttons.isButtonPressed(1),
+                buttons.isButtonClicked(0),
+                buttons.isButtonPressed(0),
                 buttons.isButtonClicked(2),
                 buttons.isButtonPressed(2));
 
             this.games[1].handleButtons(
                 ms,
-                buttons.isButtonClicked(3),
-                buttons.isButtonPressed(3),
                 buttons.isButtonClicked(4),
                 buttons.isButtonPressed(4),
+                buttons.isButtonClicked(3),
+                buttons.isButtonPressed(3),
                 buttons.isButtonClicked(5),
                 buttons.isButtonPressed(5));
 

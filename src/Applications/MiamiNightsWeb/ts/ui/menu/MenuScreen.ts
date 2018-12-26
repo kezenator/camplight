@@ -289,7 +289,7 @@ namespace ui.menu
 
             if (!this.selected)
             {
-                this.getButtons().setButtonColor(i, 'hsl(' + entry.hue + ',100%,' + util.lerp(fade, 15, 50) + '%)');
+                this.getButtons().setButtonColor(i, 'hsl(' + entry.hue + ',100%,' + util.lerp(fade, 25, 50) + '%)');
             }
         }
 

@@ -59,14 +59,14 @@ namespace ui.menu
                 this.selected_y = marginy + (1 * (height + marginy));
                 this.help_y = 0;
 
-                this.buttons[0] = new ButtonEntry('#7F7F7F', 'ROLL', 'AGAIN');
-                this.buttons[1] = new ButtonEntry('#7F7F7F', 'ROLL', 'AGAIN');
-                this.buttons[2] = new ButtonEntry('#7F7F7F', 'ROLL', 'AGAIN');
-                this.buttons[3] = new ButtonEntry('#7F7F7F', 'ROLL', 'AGAIN');
-                this.buttons[4] = new ButtonEntry('#7F7F7F', 'ROLL', 'AGAIN');
-                this.buttons[5] = new ButtonEntry('#7F7F7F', 'ROLL', 'AGAIN');
+                this.buttons[0] = new ButtonEntry('#FF7F00', 'ATTACK', 'A');
+                this.buttons[1] = new ButtonEntry('#7F00FF', 'CROUCH', 'DOWN');
+                this.buttons[2] = new ButtonEntry('#7F00FF', 'JUMP', 'UP');
+                this.buttons[3] = new ButtonEntry('#FF7F00', 'ATTACK', 'C');
+                this.buttons[4] = new ButtonEntry('#0000FF', 'LEFT', '');
+                this.buttons[5] = new ButtonEntry('#0000FF', 'RIGHT', '');
                 this.buttons[6] = new ButtonEntry('#FF0000', 'MENU', '');
-                this.buttons[7] = new ButtonEntry('#FFFFFF', 'ROLL', 'AGAIN');
+                this.buttons[7] = new ButtonEntry('#00FF00', 'START', 'TGL ATK');
             }
             else if (_screen == App.PONG)
             {
@@ -116,11 +116,11 @@ namespace ui.menu
                 this.selected_y = marginy + (0 * (height + marginy));
                 this.help_y = 540;
 
-                this.buttons[0] = new ButtonEntry('#0000FF', 'P1', 'LEFT');
-                this.buttons[1] = new ButtonEntry('#7F00FF', 'SPIN', '');
+                this.buttons[0] = new ButtonEntry('#7F00FF', 'SPIN', 'DROP');
+                this.buttons[1] = new ButtonEntry('#0000FF', 'P1', 'LEFT');
                 this.buttons[2] = new ButtonEntry('#0000FF', 'P1', 'RIGHT');
-                this.buttons[3] = new ButtonEntry('#FF0000', 'P2', 'LEFT');
-                this.buttons[4] = new ButtonEntry('#FF7F00', 'SPIN', '');
+                this.buttons[3] = new ButtonEntry('#FF7F00', 'SPIN', 'DROP');
+                this.buttons[4] = new ButtonEntry('#FF0000', 'P2', 'LEFT');
                 this.buttons[5] = new ButtonEntry('#FF0000', 'P2', 'RIGHT');
                 this.buttons[6] = new ButtonEntry('#FF0000', 'MENU', '');
                 this.buttons[7] = new ButtonEntry('#000000', '', '');

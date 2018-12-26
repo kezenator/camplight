@@ -62,7 +62,7 @@ void ApplicationService::HandleStarting()
     m_http_server.AddServer(m_http_listen_endpoint,
         std::bind(&ApplicationService::HttpRequestHandler, this, std::placeholders::_1));
 
-    std::string url = bbox::Format("http://127.0.0.1:%d/index.html?safe", m_http_listen_endpoint.GetPort());
+    std::string url = bbox::Format("http://127.0.0.1:%d/index.html", m_http_listen_endpoint.GetPort());
 
     std::string application = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
 
