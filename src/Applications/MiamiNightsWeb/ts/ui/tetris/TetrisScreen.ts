@@ -38,8 +38,8 @@ namespace ui.tetris
                 () => { this.handleMusicCompleted(); });
 
             this.games = new Array(2);
-            this.games[0] = new TetrisGame(0, this.pieces_img);
-            this.games[1] = new TetrisGame(960, this.pieces_img);
+            this.games[0] = new TetrisGame(0, this.pieces_img, this.getApp().isSafeMode());
+            this.games[1] = new TetrisGame(960, this.pieces_img, this.getApp().isSafeMode());
         }
 
         public draw(ctx: CanvasRenderingContext2D, ms: number): void

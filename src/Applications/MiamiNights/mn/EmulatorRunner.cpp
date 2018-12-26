@@ -66,7 +66,11 @@ void EmulatorRunner::ThreadProc()
 	{
 		cmd = L"C:\\mame\\mame64.exe snes -cart .\\roms\\super_mario_world.smc";
 	}
-	else // default to Sonic
+    else if (m_game == "street-fighter-ii")
+    {
+        cmd = L"C:\\mame\\mame64.exe genesis -cart .\\roms\\streetfighterii-usa.md";
+    }
+    else // default to Sonic
 	{
 		cmd = L"C:\\mame\\mame64.exe genesis -cart .\\roms\\sonic3.smd";
 	}

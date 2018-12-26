@@ -22,6 +22,7 @@ class App
     static SONIC: string = 'sonic';
     static ALTERED_BEAST: string = 'altered-beast';
     static SUPER_MARIO_WORLD: string = 'super-mario-world';
+    static STREET_FIGHTER_II: string = 'street-fighter-ii';
 
     private curScreen: ui.Screen;
     private appWebSocket: bbox.net.MessageWebSocket;

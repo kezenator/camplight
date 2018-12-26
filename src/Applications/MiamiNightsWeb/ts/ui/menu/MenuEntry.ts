@@ -47,6 +47,27 @@ namespace ui.menu
                 this.buttons[6] = new ButtonEntry('#FF0000',   'MENU', '');
                 this.buttons[7] = new ButtonEntry('#FFFFFF', 'ROLL', 'AGAIN');
             }
+            else if (_screen == App.STREET_FIGHTER_II)
+            {
+                // Alternative for FORTUNE for the first position
+
+                this.hue = 0;
+                this.imageUri = 'res/imgs/menu_street_fighter.png';
+                this.x = marginx + (0 * (width + marginx));
+                this.y = marginy + (0 * (height + marginy));
+                this.selected_x = marginx + (1 * (width + marginx));
+                this.selected_y = marginy + (1 * (height + marginy));
+                this.help_y = 0;
+
+                this.buttons[0] = new ButtonEntry('#7F7F7F', 'ROLL', 'AGAIN');
+                this.buttons[1] = new ButtonEntry('#7F7F7F', 'ROLL', 'AGAIN');
+                this.buttons[2] = new ButtonEntry('#7F7F7F', 'ROLL', 'AGAIN');
+                this.buttons[3] = new ButtonEntry('#7F7F7F', 'ROLL', 'AGAIN');
+                this.buttons[4] = new ButtonEntry('#7F7F7F', 'ROLL', 'AGAIN');
+                this.buttons[5] = new ButtonEntry('#7F7F7F', 'ROLL', 'AGAIN');
+                this.buttons[6] = new ButtonEntry('#FF0000', 'MENU', '');
+                this.buttons[7] = new ButtonEntry('#FFFFFF', 'ROLL', 'AGAIN');
+            }
             else if (_screen == App.PONG)
             {
                 this.hue = 30;

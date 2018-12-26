@@ -165,8 +165,9 @@ namespace ui.tetris
         private rotation: number;
         private parts: Part[];
         private pieces_img: HTMLImageElement;
+        private safe: boolean;
 
-        public constructor(pieces_img: HTMLImageElement, num: number)
+        public constructor(pieces_img: HTMLImageElement, safe: boolean, num: number)
         {
             this.num = num;
             this.x = Math.floor(0.5 * GameBoard.NUM_COLS);
@@ -174,13 +175,14 @@ namespace ui.tetris
             this.rotation = 0;
             this.parts = new Array(4);
             this.pieces_img = pieces_img;
+            this.safe = safe;
 
             this.createParts();
         }
 
         public clone(): Piece
         {
-            var result = new Piece(this.pieces_img, this.num);
+            var result = new Piece(this.pieces_img, this.safe, this.num);
             result.x = this.x;
             result.y = this.y;
             result.rotation = this.rotation;
@@ -306,15 +308,27 @@ namespace ui.tetris
 
         private createParts()
         {
-            // Hues - Cyan, Yellow, Purple, Green, Red, Blue, Orange
-            var hue = [180, 60, 300, 120, 0, 240, 30][this.num];
+            var hue = 0;
 
+            if (this.safe)
+            {
+                // Hues - Cyan, Yellow, Purple, Green, Red, Blue, Orange
+                hue = [180, 60, 300, 120, 0, 240, 30][this.num];
+            }
+            else
+            {
+                // Match hues in the images:
+                // Cyan, Yellow, Purple, Red, Green, Pink/Magenta, Orange
+                hue = [180, 60, 270, 0, 120, 300, 30][this.num];
+            }
+
+            var orig_offsets = Piece.PART_OFFSETS[this.num][0];
             var offsets = Piece.PART_OFFSETS[this.num][this.rotation];
 
-            this.parts[0] = new Part(new Cell(this.pieces_img, this.num, 0, hue, this.rotation), offsets[0], offsets[1]);
-            this.parts[1] = new Part(new Cell(this.pieces_img, this.num, 1, hue, this.rotation), offsets[2], offsets[3]);
-            this.parts[2] = new Part(new Cell(this.pieces_img, this.num, 2, hue, this.rotation), offsets[4], offsets[5]);
-            this.parts[3] = new Part(new Cell(this.pieces_img, this.num, 3, hue, this.rotation), offsets[6], offsets[7]);
+            this.parts[0] = new Part(new Cell(this.pieces_img, this.safe, this.num, 0, hue, this.rotation, orig_offsets[0], orig_offsets[1]), offsets[0], offsets[1]);
+            this.parts[1] = new Part(new Cell(this.pieces_img, this.safe, this.num, 1, hue, this.rotation, orig_offsets[2], orig_offsets[3]), offsets[2], offsets[3]);
+            this.parts[2] = new Part(new Cell(this.pieces_img, this.safe, this.num, 2, hue, this.rotation, orig_offsets[4], orig_offsets[5]), offsets[4], offsets[5]);
+            this.parts[3] = new Part(new Cell(this.pieces_img, this.safe, this.num, 3, hue, this.rotation, orig_offsets[6], orig_offsets[7]), offsets[6], offsets[7]);
         }
     }
 }

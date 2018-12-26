@@ -5,6 +5,7 @@ namespace ui.tetris
 {
     class TetrisButton
     {
+        static SPEED: number = 250;
         static HOLD_TIME: number = 500;
         static RECLICK_TIME: number = 250;
 
@@ -146,12 +147,12 @@ namespace ui.tetris
         private right_btn: TetrisButton;
         private other_btn: TetrisButton;
 
-        public constructor(x: number, pieces_img: HTMLImageElement)
+        public constructor(x: number, pieces_img: HTMLImageElement, safe: boolean)
         {
             this.x = x;
 
             this.gameBoard = new GameBoard();
-            this.pieceFactory = new PieceFactory(pieces_img);
+            this.pieceFactory = new PieceFactory(pieces_img, safe);
 
             this.curPiece = this.pieceFactory.newPiece();
             this.nextPiece = this.pieceFactory.newPiece();
@@ -269,7 +270,7 @@ namespace ui.tetris
                     }
                 }
 
-                var speed = 250;
+                var speed = TetrisButton.SPEED;
                 var delay = ms - this.lastMoveMs;
 
                 if (delay < speed)

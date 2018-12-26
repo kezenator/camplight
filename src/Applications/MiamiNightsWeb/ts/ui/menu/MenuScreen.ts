@@ -26,7 +26,7 @@ namespace ui.menu
             this.background = background;
 
             this.entries = [
-                new MenuEntry(App.FORTUNE),
+                new MenuEntry(App.STREET_FIGHTER_II),
                 new MenuEntry(App.PONG),
                 new MenuEntry(App.SUPER_MARIO_WORLD),
                 new MenuEntry(App.TETRIS),
