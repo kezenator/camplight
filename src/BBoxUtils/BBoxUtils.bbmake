@@ -13,4 +13,5 @@ if (platform() ~= "Win32") then
   library_reference("uuid");
   library_reference("pthread");
   library_reference("rt");
+  library_reference("atomic");
 end

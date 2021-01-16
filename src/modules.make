@@ -436,6 +436,7 @@ LIBS_RECURSIVE_ResourceBuilder := \
         rt \
         pthread \
         crypto \
+        atomic \
     # End LIBS_RECURSIVE_ResourceBuilder
 
 APPS += ResourceBuilder
@@ -624,6 +625,7 @@ LIBS_RECURSIVE_BBoxUtils_UnitTests := \
         rt \
         pthread \
         crypto \
+        atomic \
     # End LIBS_RECURSIVE_BBoxUtils_UnitTests
 
 TESTS += BBoxUtils_UnitTests
@@ -679,6 +681,7 @@ LIBS_RECURSIVE_SolutionGenerator := \
         rt \
         pthread \
         crypto \
+        atomic \
     # End LIBS_RECURSIVE_SolutionGenerator
 
 APPS += SolutionGenerator
@@ -727,6 +730,7 @@ LIBS_RECURSIVE_BBoxEnc_UnitTests := \
         rt \
         pthread \
         crypto \
+        atomic \
     # End LIBS_RECURSIVE_BBoxEnc_UnitTests
 
 TESTS += BBoxEnc_UnitTests
@@ -935,6 +939,7 @@ LIBS_RECURSIVE_BBoxRt_UnitTests := \
         rt \
         pthread \
         crypto \
+        atomic \
     # End LIBS_RECURSIVE_BBoxRt_UnitTests
 
 TESTS += BBoxRt_UnitTests
@@ -1114,6 +1119,7 @@ LIBS_RECURSIVE_CampLight := \
         rt \
         pthread \
         crypto \
+        atomic \
     # End LIBS_RECURSIVE_CampLight
 
 Applications/CampLight/camplight/Resources.cpp Applications/CampLight/camplight/Resources.h Applications/CampLight/camplight/Resources.rc: build/resourcebuilder Applications/CampLight/camplight/resources/app.css Applications/CampLight/camplight/resources/app.js Applications/CampLight/camplight/resources/apple-touch-icon-120x120.png Applications/CampLight/camplight/resources/apple-touch-icon-152x152.png Applications/CampLight/camplight/resources/apple-touch-icon-180x180.png Applications/CampLight/camplight/resources/apple-touch-icon-192x192.png Applications/CampLight/camplight/resources/favicon.ico Applications/CampLight/camplight/resources/index.html
@@ -1199,6 +1205,7 @@ LIBS_RECURSIVE_LedSigns := \
         rt \
         pthread \
         crypto \
+        atomic \
     # End LIBS_RECURSIVE_LedSigns
 
 APPS += LedSigns
