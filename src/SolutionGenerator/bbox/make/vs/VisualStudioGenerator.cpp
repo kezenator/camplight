@@ -1201,7 +1201,7 @@ namespace bbox {
                             "true");
                         doc.SetTextElement(
                             "TypeScriptToolsVersion",
-                            "3.8");
+                            "4.0");
                         doc.SetTextElement(
                             "UseIISExpress",
                             "true");
