@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.8</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -56,12 +56,6 @@
     <Content Include="res/still_time.ttf" />
     <Content Include="res/timeburnerbold.ttf" />
     <Content Include="res/timeburnernormal.ttf" />
-    <Content Include="res/video/MiamiNights1984-Accelerated.mp4" />
-    <Content Include="res/video/MiamiNights1984-EarlySummer.mp4" />
-    <Content Include="res/video/MiamiNights1984-OceanDrive.mp4" />
-    <Content Include="res/video/MiamibyDronein4K-DJIMavic2Pro_1.mp4" />
-    <Content Include="res/video/MiamibyDronein4K-DJIMavic2Pro_2.mp4" />
-    <Content Include="res/video/SOUTHBEACHMIAMIDRONEPHANTOM4PRO4KFLORIDA-CANON1DXII-TRAVELOGFLORIDALIFESTYLE.mp4" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>

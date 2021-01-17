@@ -392,7 +392,7 @@ namespace bbox {
 
                         {
                             DodgyXmlGenerator::Element property_group(doc, "WindowsTargetPlatformVersion");
-                            doc.SetText("10.0.17134.0");
+                            doc.SetText("10.0.18362.0");
                         }
                     }
 
@@ -436,7 +436,7 @@ namespace bbox {
                                 (mode == "Debug") ? "true" : "false");
                             doc.SetTextElement(
                                 "PlatformToolset",
-                                "v141");
+                                "v142");
 
                             if (mode == "Release")
                             {
@@ -1201,7 +1201,7 @@ namespace bbox {
                             "true");
                         doc.SetTextElement(
                             "TypeScriptToolsVersion",
-                            "3.0");
+                            "3.8");
                         doc.SetTextElement(
                             "UseIISExpress",
                             "true");
