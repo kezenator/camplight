@@ -29,7 +29,7 @@ namespace ledsigns
 
             struct Entry
             {
-                int symbol_num;
+                size_t symbol_num;
                 double x;
                 double y;
             };
