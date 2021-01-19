@@ -22,7 +22,7 @@ namespace ledsigns
         {
         public:
 
-            explicit GaySignPattern(leds::GpioClient &gpio_client, const common::RenderState &render);
+            explicit GaySignPattern(leds::GpioClient &gpio_client, const common::RenderState &render, size_t delay_time, size_t fade_time);
             ~GaySignPattern();
 
             std::string GetName() const override;
@@ -32,6 +32,8 @@ namespace ledsigns
 
         private:
             leds::GpioClient &m_gpio_client;
+            size_t m_delay_time;
+            size_t m_fade_time;
         };
 
     } // namespace ledsigns::gaysign

@@ -6,6 +6,7 @@
 
 #include <ledsigns/common/Gradient.h>
 #include <ledsigns/common/VectorGradient.h>
+#include <ledsigns/common/ColorSets.h>
 
 namespace ledsigns
 {
@@ -22,43 +23,29 @@ namespace ledsigns
 
         Gradient::Ptr Gradient::FullRainbow()
         {
-            return std::make_unique<VectorGradient>(
-                "Full-Rainbow",
-                VectorGradient::Map({
-                    { 0.0 / 8.0, leds::Color(255, 0, 0) },
-                    { 1.0 / 8.0, leds::Color(255, 128, 0) },
-                    { 2.0 / 8.0, leds::Color(255, 255, 0) },
-                    { 3.0 / 8.0, leds::Color(0, 255, 0) },
-                    { 4.0 / 8.0, leds::Color(0, 255, 255) },
-                    { 5.0 / 8.0, leds::Color(0, 0, 255) },
-                    { 6.0 / 8.0, leds::Color(128, 0, 255) },
-                    { 7.0 / 8.0, leds::Color(255, 0, 255) },
-            }));
+            return VectorGradient::EqualRing("Full-Rainbow", ColorSets::FullRainbow());
         }
 
         Gradient::Ptr Gradient::GreensAndBlues()
         {
-            return std::make_unique<VectorGradient>(
-                "Greens-and-Blues",
-                VectorGradient::Map({
-                    { 0.0 / 4.0, leds::Color(0, 196, 64) },
-                    { 1.0 / 4.0, leds::Color(0, 255, 255) },
-                    { 2.0 / 4.0, leds::Color(0, 0, 255) },
-                    { 3.0 / 4.0, leds::Color(96, 0, 128) },
-            }));
+            return VectorGradient::EqualRing("Greens-and-Blues", ColorSets::GreensAndBlues());
         }
 
         Gradient::Ptr Gradient::RedsAndPurples()
         {
+            return VectorGradient::EqualRing("Reds-and-Purples", ColorSets::RedsAndPurples());
+        }
+
+        Gradient::Ptr Gradient::CasaDelShadePulseReds()
+        {
             return std::make_unique<VectorGradient>(
-                "Reds-and-Purples",
-                VectorGradient::Map({
-                    { 0.0 / 5.0, leds::Color(0, 255, 255) },
-                    { 1.0 / 5.0, leds::Color(0, 0, 255) },
-                    { 2.0 / 5.0, leds::Color(128, 0, 255) },
-                    { 3.0 / 5.0, leds::Color(255, 0, 255) },
-                    { 4.0 / 5.0, leds::Color(255, 0, 0) },
-            }));
+                "Pulse-Reds",
+                common::VectorGradient::Map({
+                    { 0.0, leds::Color(64, 0, 0) },
+                    { 0.3, leds::Color(255, 0, 0) },
+                    { 0.8, leds::Color(255, 128, 0) },
+                    { 1.0, leds::Color(200, 200, 200) },
+                }));
         }
 
     } // namespace ledsigns::common

@@ -1,23 +1,23 @@
 /**
 * @file
 *
-* Implementation file for the ledsigns::casadelshade::PulsePattern class.
+* Implementation file for the ledsigns::common::PulsePattern class.
 */
 
-#include <ledsigns/casadelshade/PulsePattern.h>
+#include <ledsigns/common/PulsePattern.h>
 #include <ledsigns/common/VectorGradient.h>
 #include <ledsigns/common/NoisePattern.h>
 
 namespace ledsigns
 {
-    namespace casadelshade
+    namespace common
     {
 
-        PulsePattern::PulsePattern(const common::RenderState & render)
+        PulsePattern::PulsePattern(const common::RenderState & render, common::Pattern::Ptr&& color_pattern)
             : m_cycle_start_time(render.time_ms)
             , m_pulse_period(3000)
             , m_pulse_gradient()
-            , m_noise_pattern()
+            , m_color_pattern(std::move(color_pattern))
         {
             m_pulse_gradient = std::make_shared<common::VectorGradient>(
                 "Pulse",
@@ -27,20 +27,6 @@ namespace ledsigns
                     { 0.2, leds::Color(64, 64, 64) },
                     { 0.3, leds::Color(255, 255, 255) },
                 }));
-
-            common::Gradient::Ptr noise_grad = std::make_shared<common::VectorGradient>(
-                "Reds-and-Oranges",
-                common::VectorGradient::Map({
-                    { 0.0, leds::Color(64, 0, 0) },
-                    { 0.3, leds::Color(255, 0, 0) },
-                    { 0.8, leds::Color(255, 128, 0) },
-                    { 1.0, leds::Color(200, 200, 200) },
-            }));
-
-            m_noise_pattern = common::NoisePattern::Factory(
-                noise_grad,
-                0.2,
-                350.0)(render);
         }
 
         PulsePattern::~PulsePattern()
@@ -59,8 +45,8 @@ namespace ledsigns
             out.Format("Pulse Gradient:        %s\n", m_pulse_gradient->GetName());
             m_pulse_gradient->PrintInformation(out);
             out.Format("\n");
-            out.Format("Noise Pattern: %s\n", m_noise_pattern->GetName());
-            m_noise_pattern->PrintInformation(out);
+            out.Format("Color Pattern: %s\n", m_color_pattern->GetName());
+            m_color_pattern->PrintInformation(out);
         }
 
         std::vector<leds::Color> PulsePattern::Render(const common::RenderState &render)
@@ -69,7 +55,7 @@ namespace ledsigns
 
             leds::Color pulse = m_pulse_gradient->Convert(pulse_progress);
 
-            std::vector<leds::Color> result = m_noise_pattern->Render(render);
+            std::vector<leds::Color> result = m_color_pattern->Render(render);
 
             for (size_t i = 0; i < render.layout.num_leds; ++i)
             {
@@ -79,5 +65,5 @@ namespace ledsigns
             return result;
         }
 
-    } // namespace ledsigns::casadelshade
+    } // namespace ledsigns::common
 } // namespace ledsigns

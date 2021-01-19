@@ -1,22 +1,21 @@
 /**
 * @file
 *
-* Header file for the ledsigns::casadelshade::StaggerPattern class.
+* Header file for the ledsigns::common::StaggerPattern class.
 */
 
-#ifndef __LEDSIGNS__CASADELSHADE__STAGGER_PATTERN_H__
-#define __LEDSIGNS__CASADELSHADE__STAGGER_PATTERN_H__
+#ifndef __LEDSIGNS__COMMON__STAGGER_PATTERN_H__
+#define __LEDSIGNS__COMMON__STAGGER_PATTERN_H__
 
 #include <ledsigns/common/Pattern.h>
 
 namespace ledsigns
 {
-    namespace casadelshade
+    namespace common
     {
 
         /**
-         * Pattern that turns on the three segments in order that is
-         * specific to the "Casa Del Shade" sign.
+         * Pattern that turns on segments of a sign on in order.
          */
         class StaggerPattern : public common::Pattern
         {
@@ -37,9 +36,12 @@ namespace ledsigns
             void PrintInformation(bbox::DebugOutput &out) const override;
 
             std::vector<leds::Color> Render(const common::RenderState &render) override;
+
+        private:
+            size_t m_num_segments;
         };
 
-    } // namespace ledsigns::casadelshade
+    } // namespace ledsigns::common
 } // namespace ledsigns
 
-#endif // __LEDSIGNS__CASADELSHADE__STAGGER_PATTERN_H__
+#endif // __LEDSIGNS__COMMON__STAGGER_PATTERN_H__

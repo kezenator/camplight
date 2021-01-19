@@ -11,6 +11,34 @@ namespace ledsigns
     namespace common
     {
 
+        Gradient::Ptr VectorGradient::EqualRing(std::string&& name, std::vector<leds::Color>&& colors)
+        {
+            return BandedRing(std::move(name), std::move(colors), 0, 1);
+        }
+        
+        Gradient::Ptr VectorGradient::BandedRing(std::string &&name, std::vector<leds::Color>&& colors, size_t band_width, size_t transition_width)
+        {
+            Map map;
+
+            double denom = double(colors.size() * (band_width + transition_width));
+            size_t count = 0;
+
+            for (size_t i = 0; i < colors.size(); ++i)
+            {
+                map[count / denom] = colors[i];
+
+                if (band_width != 0)
+                {
+                    count += band_width;
+                    map[count / denom] = colors[i];
+                }
+
+                count += transition_width;
+            }
+
+            return std::make_unique<VectorGradient>(std::move(name), std::move(map));
+        }
+
         VectorGradient::VectorGradient(std::string &&name,
                                        std::map<double, leds::Color> &&color_map)
             : m_name(std::move(name))

@@ -5,14 +5,17 @@
  */
 
 #include <ledsigns/gaysign/GaySignPattern.h>
+#include <ledsigns/common/ColorSets.h>
 
 namespace ledsigns
 {
     namespace gaysign
     {
 
-        GaySignPattern::GaySignPattern(leds::GpioClient &gpio_client, const common::RenderState & /*render*/)
+        GaySignPattern::GaySignPattern(leds::GpioClient &gpio_client, const common::RenderState & /*render*/, size_t delay_time, size_t fade_time)
             : m_gpio_client(gpio_client)
+            , m_delay_time(delay_time)
+            , m_fade_time(fade_time)
         {
         }
 
@@ -27,7 +30,8 @@ namespace ledsigns
         
         void GaySignPattern::PrintInformation(bbox::DebugOutput &out) const
         {
-            out.Format("No state");
+            out.Format("Delay Time: %d", m_delay_time);
+            out.Format("Fade Time: %d", m_fade_time);
         }
 
         std::vector<leds::Color> GaySignPattern::Render(const common::RenderState &render)
@@ -37,26 +41,18 @@ namespace ledsigns
 
             m_gpio_client.SetOutput(BUTTON_OUTPUT, !m_gpio_client.GetInput(BUTTON_INPUT));
 
-            static std::vector<leds::Color> colors = {
-                leds::Color(255, 0, 0),
-                leds::Color(255, 128, 0),
-                leds::Color(255, 255, 0),
-                leds::Color(0, 255, 0),
-                leds::Color(0, 255, 255),
-                leds::Color(0, 0, 255),
-                leds::Color(255, 0, 255),
-            };
+            static std::vector<leds::Color> colors = common::ColorSets::FullRainbow();
 
             std::vector<leds::Color> result(render.layout.num_leds);
 
-            constexpr uint64_t DELAY_TIME = 10 * 1000;
-            constexpr uint64_t FADE_TIME = 2 * 1000;
-            constexpr uint64_t COLOR_TIME = DELAY_TIME + 2 * FADE_TIME;
-            const uint64_t PERIOD_TIME = colors.size() * COLOR_TIME;
+            const size_t DELAY_TIME = m_delay_time;
+            const size_t FADE_TIME = m_fade_time;
+            const size_t COLOR_TIME = DELAY_TIME + 2 * FADE_TIME;
+            const size_t PERIOD_TIME = colors.size() * COLOR_TIME;
 
-            uint64_t mod_period = render.time_ms % PERIOD_TIME;
-            uint64_t color_index = mod_period / COLOR_TIME;
-            uint64_t color_time = mod_period % COLOR_TIME;
+            size_t mod_period = render.time_ms % PERIOD_TIME;
+            size_t color_index = mod_period / COLOR_TIME;
+            size_t color_time = mod_period % COLOR_TIME;
 
             leds::Color prev = colors[color_index];
             leds::Color cur = colors[(color_index + 1) % colors.size()];

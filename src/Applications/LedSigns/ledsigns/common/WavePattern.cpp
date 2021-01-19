@@ -13,17 +13,22 @@ namespace ledsigns
     namespace common
     {
 
-        WavePattern::WavePattern(const common::RenderState &render, uint64_t period_ms, double width, Gradient::Ptr gradient)
+        WavePattern::WavePattern(const common::RenderState &render, uint64_t period_ms, double width, double angle_degrees, Gradient::Ptr gradient)
             : m_start_time_ms(render.time_ms)
             , m_period_ms(period_ms)
             , m_width(width)
             , m_gradient(std::move(gradient))
-            , m_angle((rand() % 360) * 6.283185307179586476925286766559 / 360.0)
+            , m_angle(angle_degrees * 6.283185307179586476925286766559 / 360.0)
         {
         }
 
         WavePattern::~WavePattern()
         {
+        }
+
+        double WavePattern::RandomAngleDegrees()
+        {
+            return rand() % 360;
         }
 
         std::string WavePattern::GetName() const

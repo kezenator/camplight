@@ -35,6 +35,7 @@ namespace ledsigns
             static Ptr FullRainbow();
             static Ptr GreensAndBlues();
             static Ptr RedsAndPurples();
+            static Ptr CasaDelShadePulseReds();
 
             Gradient();
             virtual ~Gradient();

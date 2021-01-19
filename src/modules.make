@@ -1140,8 +1140,7 @@ SRCS_DIRECT_LedSigns := $(sort \
         Applications/LedSigns/ledsigns/buttonbox/ButtonBoxPattern.cpp \
         Applications/LedSigns/ledsigns/casadelshade/CasaDelShadeLayout.cpp \
         Applications/LedSigns/ledsigns/casadelshade/FlickeringNeonPattern.cpp \
-        Applications/LedSigns/ledsigns/casadelshade/PulsePattern.cpp \
-        Applications/LedSigns/ledsigns/casadelshade/StaggerPattern.cpp \
+        Applications/LedSigns/ledsigns/common/ColorSets.cpp \
         Applications/LedSigns/ledsigns/common/CountPattern.cpp \
         Applications/LedSigns/ledsigns/common/CyclePattern.cpp \
         Applications/LedSigns/ledsigns/common/FadeTransition.cpp \
@@ -1150,7 +1149,9 @@ SRCS_DIRECT_LedSigns := $(sort \
         Applications/LedSigns/ledsigns/common/Layout.cpp \
         Applications/LedSigns/ledsigns/common/NoisePattern.cpp \
         Applications/LedSigns/ledsigns/common/Pattern.cpp \
+        Applications/LedSigns/ledsigns/common/PulsePattern.cpp \
         Applications/LedSigns/ledsigns/common/SolidPattern.cpp \
+        Applications/LedSigns/ledsigns/common/StaggerPattern.cpp \
         Applications/LedSigns/ledsigns/common/SwipeTestPattern.cpp \
         Applications/LedSigns/ledsigns/common/SwipeTransition.cpp \
         Applications/LedSigns/ledsigns/common/TransitionPattern.cpp \

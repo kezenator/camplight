@@ -24,6 +24,9 @@ namespace ledsigns
 
             using Map = std::map<double, leds::Color>;
 
+            static Gradient::Ptr EqualRing(std::string&& name, std::vector<leds::Color>&& colors);
+            static Gradient::Ptr BandedRing(std::string&& name, std::vector<leds::Color>&& colors, size_t band_width, size_t transition_width);
+
             VectorGradient(
                 std::string &&name,
                 Map &&color_map);

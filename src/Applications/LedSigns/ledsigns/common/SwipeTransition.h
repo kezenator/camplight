@@ -24,7 +24,7 @@ namespace ledsigns
             explicit SwipeTransition(const common::RenderState &render, uint64_t swipe_time_ms);
             ~SwipeTransition();
 
-            static common::Transition::Factory Factory(uint64_t swipe_time_ms)
+            static common::Transition::Factory RandomDirectionFactory(uint64_t swipe_time_ms)
             {
                 return [=](const common::RenderState &render)
                 {

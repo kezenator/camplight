@@ -101,6 +101,7 @@ int gaysign_main(int argc, char *argv[])
         || fadecandy_remote_endpoint.GetAddress().is_multicast()
         || (fadecandy_remote_endpoint.GetPort() == 0)
         || ((0 != strcmp(argv[1], "gaysign"))
+            && (0 != strcmp(argv[1], "gaysign-party"))
 			&& (0 != strcmp(argv[1], "casadelshade"))
 			&& (0 != strcmp(argv[1], "buttonbox"))))
     {
@@ -109,6 +110,7 @@ int gaysign_main(int argc, char *argv[])
         std::cerr << std::endl;
         std::cerr << "Mode can be one of:" << std::endl;
         std::cerr << "    gaysign" << std::endl;
+        std::cerr << "    gaysign-party" << std::endl;
         std::cerr << "    casadelshade" << std::endl;
 		std::cerr << "    buttonbox" << std::endl;
         return 1;

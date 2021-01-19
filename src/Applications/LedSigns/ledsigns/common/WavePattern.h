@@ -23,14 +23,23 @@ namespace ledsigns
         {
         public:
 
-            WavePattern(const common::RenderState &render, uint64_t period_ms, double width, Gradient::Ptr gradient);
+            WavePattern(const common::RenderState &render, uint64_t period_ms, double width, double angle_degrees, Gradient::Ptr gradient);
             ~WavePattern();
 
-            static common::Pattern::Factory Factory(uint64_t period_ms, double width, Gradient::Ptr gradient)
+            static common::Pattern::Factory Factory(uint64_t period_ms, double width, double angle_degrees, Gradient::Ptr gradient)
+            {
+                return [=](const common::RenderState& render)
+                {
+                    return std::make_unique<WavePattern>(render, period_ms, width, angle_degrees, gradient);
+                };
+            }
+
+
+            static common::Pattern::Factory RandomDirectionFactory(uint64_t period_ms, double width, Gradient::Ptr gradient)
             {
                 return [=](const common::RenderState &render)
                 {
-                    return std::make_unique<WavePattern>(render, period_ms, width, gradient);
+                    return std::make_unique<WavePattern>(render, period_ms, width, RandomAngleDegrees(), gradient);
                 };
             }
 
@@ -40,6 +49,8 @@ namespace ledsigns
             std::vector<leds::Color> Render(const common::RenderState &render) override;
 
         private:
+            static double RandomAngleDegrees();
+
             const uint64_t m_start_time_ms;
             const uint64_t m_period_ms;
             const double m_width;

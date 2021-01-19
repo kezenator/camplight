@@ -36,11 +36,8 @@
     <ClCompile Include="ledsigns\casadelshade\FlickeringNeonPattern.cpp">
       <Filter>ledsigns\casadelshade</Filter>
     </ClCompile>
-    <ClCompile Include="ledsigns\casadelshade\PulsePattern.cpp">
-      <Filter>ledsigns\casadelshade</Filter>
-    </ClCompile>
-    <ClCompile Include="ledsigns\casadelshade\StaggerPattern.cpp">
-      <Filter>ledsigns\casadelshade</Filter>
+    <ClCompile Include="ledsigns\common\ColorSets.cpp">
+      <Filter>ledsigns\common</Filter>
     </ClCompile>
     <ClCompile Include="ledsigns\common\CountPattern.cpp">
       <Filter>ledsigns\common</Filter>
@@ -66,7 +63,13 @@
     <ClCompile Include="ledsigns\common\Pattern.cpp">
       <Filter>ledsigns\common</Filter>
     </ClCompile>
+    <ClCompile Include="ledsigns\common\PulsePattern.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
     <ClCompile Include="ledsigns\common\SolidPattern.cpp">
+      <Filter>ledsigns\common</Filter>
+    </ClCompile>
+    <ClCompile Include="ledsigns\common\StaggerPattern.cpp">
       <Filter>ledsigns\common</Filter>
     </ClCompile>
     <ClCompile Include="ledsigns\common\SwipeTestPattern.cpp">
@@ -112,11 +115,8 @@
     <ClInclude Include="ledsigns\casadelshade\FlickeringNeonPattern.h">
       <Filter>ledsigns\casadelshade</Filter>
     </ClInclude>
-    <ClInclude Include="ledsigns\casadelshade\PulsePattern.h">
-      <Filter>ledsigns\casadelshade</Filter>
-    </ClInclude>
-    <ClInclude Include="ledsigns\casadelshade\StaggerPattern.h">
-      <Filter>ledsigns\casadelshade</Filter>
+    <ClInclude Include="ledsigns\common\ColorSets.h">
+      <Filter>ledsigns\common</Filter>
     </ClInclude>
     <ClInclude Include="ledsigns\common\CountPattern.h">
       <Filter>ledsigns\common</Filter>
@@ -142,10 +142,16 @@
     <ClInclude Include="ledsigns\common\Pattern.h">
       <Filter>ledsigns\common</Filter>
     </ClInclude>
+    <ClInclude Include="ledsigns\common\PulsePattern.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
     <ClInclude Include="ledsigns\common\RenderState.h">
       <Filter>ledsigns\common</Filter>
     </ClInclude>
     <ClInclude Include="ledsigns\common\SolidPattern.h">
+      <Filter>ledsigns\common</Filter>
+    </ClInclude>
+    <ClInclude Include="ledsigns\common\StaggerPattern.h">
       <Filter>ledsigns\common</Filter>
     </ClInclude>
     <ClInclude Include="ledsigns\common\SwipeTestPattern.h">

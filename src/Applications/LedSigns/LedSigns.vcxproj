@@ -96,8 +96,7 @@
     <ClCompile Include="ledsigns\buttonbox\ButtonBoxPattern.cpp" />
     <ClCompile Include="ledsigns\casadelshade\CasaDelShadeLayout.cpp" />
     <ClCompile Include="ledsigns\casadelshade\FlickeringNeonPattern.cpp" />
-    <ClCompile Include="ledsigns\casadelshade\PulsePattern.cpp" />
-    <ClCompile Include="ledsigns\casadelshade\StaggerPattern.cpp" />
+    <ClCompile Include="ledsigns\common\ColorSets.cpp" />
     <ClCompile Include="ledsigns\common\CountPattern.cpp" />
     <ClCompile Include="ledsigns\common\CyclePattern.cpp" />
     <ClCompile Include="ledsigns\common\FadeTransition.cpp" />
@@ -106,7 +105,9 @@
     <ClCompile Include="ledsigns\common\Layout.cpp" />
     <ClCompile Include="ledsigns\common\NoisePattern.cpp" />
     <ClCompile Include="ledsigns\common\Pattern.cpp" />
+    <ClCompile Include="ledsigns\common\PulsePattern.cpp" />
     <ClCompile Include="ledsigns\common\SolidPattern.cpp" />
+    <ClCompile Include="ledsigns\common\StaggerPattern.cpp" />
     <ClCompile Include="ledsigns\common\SwipeTestPattern.cpp" />
     <ClCompile Include="ledsigns\common\SwipeTransition.cpp" />
     <ClCompile Include="ledsigns\common\TransitionPattern.cpp" />
@@ -159,8 +160,7 @@
     <ClInclude Include="ledsigns\buttonbox\ButtonBoxPattern.h" />
     <ClInclude Include="ledsigns\casadelshade\CasaDelShadeLayout.h" />
     <ClInclude Include="ledsigns\casadelshade\FlickeringNeonPattern.h" />
-    <ClInclude Include="ledsigns\casadelshade\PulsePattern.h" />
-    <ClInclude Include="ledsigns\casadelshade\StaggerPattern.h" />
+    <ClInclude Include="ledsigns\common\ColorSets.h" />
     <ClInclude Include="ledsigns\common\CountPattern.h" />
     <ClInclude Include="ledsigns\common\CyclePattern.h" />
     <ClInclude Include="ledsigns\common\FadeTransition.h" />
@@ -169,8 +169,10 @@
     <ClInclude Include="ledsigns\common\Layout.h" />
     <ClInclude Include="ledsigns\common\NoisePattern.h" />
     <ClInclude Include="ledsigns\common\Pattern.h" />
+    <ClInclude Include="ledsigns\common\PulsePattern.h" />
     <ClInclude Include="ledsigns\common\RenderState.h" />
     <ClInclude Include="ledsigns\common\SolidPattern.h" />
+    <ClInclude Include="ledsigns\common\StaggerPattern.h" />
     <ClInclude Include="ledsigns\common\SwipeTestPattern.h" />
     <ClInclude Include="ledsigns\common\SwipeTransition.h" />
     <ClInclude Include="ledsigns\common\Transition.h" />
